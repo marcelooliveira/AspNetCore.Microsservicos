@@ -1,0 +1,107 @@
+﻿@{
+    ViewData["Title"] = "Carrinho";
+}
+@model CarrinhoViewModel;
+
+<h3>Meu Carrinho</h3>
+
+<form method="post" asp-action="carrinho">
+</form>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+
+        <div class="row">
+            <div class="col-md-6">
+                Item
+            </div>
+            <div class="col-md-2 text-center">
+                Preço Unitário
+            </div>
+            <div class="col-md-2 text-center">
+                Quantidade
+            </div>
+            <div class="col-md-2">
+                <span class="pull-right">
+                    Subtotal
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+
+        @foreach (var item in Model.Itens)
+        {
+            
+            <div class="row row-center linha-produto" item-id="@item.Id">
+                <div class="col-md-3">
+                    <img class="img-produto-carrinho" src="/images/produtos/large_@(item.Produto.Codigo).jpg" />
+                </div>
+                <div class="col-md-3">@(item.Produto.Nome)</div>
+                <div class="col-md-2 text-center">R$ @(item.PrecoUnitario)</div>
+                <div class="col-md-2 text-center">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default"
+                                    onclick="carrinho.clickDecremento(this)">
+                                <span class="glyphicon-minus"></span>
+                            </button>
+                        </span>
+                        <input type="text" value="@(item.Quantidade)"
+                               class="form-control text-center" 
+                               onblur="carrinho.updateQuantidade(this)"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default"
+                                    onclick="carrinho.clickIncremento(this)">
+                                <span class="glyphicon-plus"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    R$ <span class="pull-right" subtotal>
+                        @(item.Quantidade * item.PrecoUnitario)
+                    </span>
+                </div>
+            </div>
+
+        }
+
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-10">
+                <span numero-itens>
+                    Total: @(Model.Itens.Count())
+                    itens
+                </span>
+            </div>
+            <div class="col-md-2">
+                Total: R$ <span class="pull-right" total>
+                    @(Model.Total)
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right">
+            <a class="btn btn-success" asp-action="carrossel">
+                Adicionar Produtos
+            </a>
+            <a class="btn btn-success" asp-action="cadastro">
+                Preencher Cadastro
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/carrinho.js">
+
+    </script>
+}

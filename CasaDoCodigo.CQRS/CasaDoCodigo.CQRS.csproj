@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>CasaDoCodigo</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="middlewares.png" />
+    <None Remove="pipeline.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\..\_Recursos\produtos\livros.txt" Link="wwwroot\images\produtos\livros.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\produtos\" />
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="dotnet restore" />
+  </Target>
+
+</Project>
