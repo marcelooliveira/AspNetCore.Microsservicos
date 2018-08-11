@@ -22,10 +22,13 @@ namespace CasaDoCodigo.Models
         }
 
         [Required]
+        [DataMember]
         public string Codigo { get; private set; }
         [Required]
+        [DataMember]
         public string Nome { get; private set; }
         [Required]
+        [DataMember]
         public decimal Preco { get; private set; }
 
         public Produto(string codigo, string nome, decimal preco)

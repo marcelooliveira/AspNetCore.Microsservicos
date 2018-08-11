@@ -2,31 +2,44 @@
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Controllers
 {
+    class ApiUris
+    {
+        public static string GetProdutos => "api/produto";
+    }
+
     public class PedidoController : Controller
     {
         private readonly IProdutoRepository produtoRepository;
         private readonly IPedidoRepository pedidoRepository;
         private readonly IItemPedidoRepository itemPedidoRepository;
+        private readonly HttpClient httpClient;
 
         public PedidoController(IProdutoRepository produtoRepository,
             IPedidoRepository pedidoRepository,
-            IItemPedidoRepository itemPedidoRepository)
+            IItemPedidoRepository itemPedidoRepository,
+            HttpClient httpClient)
         {
             this.produtoRepository = produtoRepository;
             this.pedidoRepository = pedidoRepository;
             this.itemPedidoRepository = itemPedidoRepository;
+            this.httpClient = httpClient;
         }
 
         public async Task<IActionResult> Carrossel()
         {
-            return View(await produtoRepository.GetProdutos());
+            var json = await httpClient.GetStringAsync(ApiUris.GetProdutos);
+            var produtos = JsonConvert.DeserializeObject<IList<Produto>>(json);
+
+            return View(produtos);
         }
 
         public async Task<IActionResult> Carrinho(string codigo)

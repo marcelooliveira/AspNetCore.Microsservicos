@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using CasaDoCodigo.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +16,8 @@ namespace CasaDoCodigo
 {
     public class Startup
     {
+        private const string API_BASE_URI = "https://localhost:44339";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -35,6 +38,13 @@ namespace CasaDoCodigo
                 options.UseSqlServer(connectionString)
             );
 
+            var uri = new Uri(API_BASE_URI);
+            HttpClient httpClient = new HttpClient()
+            {
+                BaseAddress = uri
+            };
+
+            services.AddSingleton(typeof(HttpClient), httpClient);
             services.AddTransient<IDataService, DataService>();
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<IPedidoRepository, PedidoRepository>();
