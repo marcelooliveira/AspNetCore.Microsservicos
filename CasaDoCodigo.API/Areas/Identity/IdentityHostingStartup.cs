@@ -18,7 +18,7 @@ namespace CasaDoCodigo.API.Areas.Identity
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<CasaDoCodigoAPIContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("CasaDoCodigoAPIContextConnection")));
+                        context.Configuration.GetConnectionString("Default")));
 
                 services.AddDefaultIdentity<CasaDoCodigoAPIUser>()
                     .AddEntityFrameworkStores<CasaDoCodigoAPIContext>();
