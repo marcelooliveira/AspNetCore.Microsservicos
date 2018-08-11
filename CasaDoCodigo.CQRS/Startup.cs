@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using CasaDoCodigo.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace CasaDoCodigo
 {
@@ -38,11 +40,8 @@ namespace CasaDoCodigo
             services.AddTransient<IPedidoRepository, PedidoRepository>();
             services.AddTransient<ICadastroRepository, CadastroRepository>();
             services.AddTransient<IItemPedidoRepository, ItemPedidoRepository>();
-
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
-
-
-
 
 
         // Este método é chamado pelo runtime.
