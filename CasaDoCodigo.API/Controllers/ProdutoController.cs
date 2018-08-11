@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CasaDoCodigo.API.Queries;
 using CasaDoCodigo.Models;
 using CasaDoCodigo.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -14,17 +15,19 @@ namespace CasaDoCodigo.API.Controllers
     public class ProdutoController : ControllerBase
     {
         private readonly IProdutoRepository produtoRepository;
+        private readonly IProdutoQueries produtoQueries;
 
-        public ProdutoController(IProdutoRepository produtoRepository)
+        public ProdutoController(IProdutoRepository produtoRepository, IProdutoQueries produtoQueries)
         {
             this.produtoRepository = produtoRepository;
+            this.produtoQueries = produtoQueries;
         }
 
         // GET: api/Produto
         [HttpGet]
-        public async Task<IList<Produto>> Get()
+        public async Task<IEnumerable<Produto>> Get()
         {
-            return await produtoRepository.GetProdutos();
+            return await produtoQueries.GetProdutosAsync();
         }
 
         // GET: api/Produto/5

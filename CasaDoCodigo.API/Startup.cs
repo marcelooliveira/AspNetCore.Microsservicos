@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using CasaDoCodigo.API.Queries;
 
 namespace CasaDoCodigo.API
 {
@@ -37,6 +38,7 @@ namespace CasaDoCodigo.API
                 options.UseSqlServer(connectionString)
             );
 
+            services.AddTransient<IProdutoQueries, ProdutoQueries>();
             services.AddTransient<IDataService, DataService>();
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<IPedidoRepository, PedidoRepository>();
