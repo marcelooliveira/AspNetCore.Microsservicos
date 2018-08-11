@@ -36,10 +36,14 @@ namespace CasaDoCodigo.Controllers
 
         public async Task<IActionResult> Carrossel()
         {
-            var json = await httpClient.GetStringAsync(ApiUris.GetProdutos);
-            var produtos = JsonConvert.DeserializeObject<IList<Produto>>(json);
+            return View(await GetAsync<IList<Produto>>());
+        }
 
-            return View(produtos);
+        private async Task<T> GetAsync<T>()
+        {
+            string uri = ApiUris.GetProdutos;
+            var json = await httpClient.GetStringAsync(uri);
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
         public async Task<IActionResult> Carrinho(string codigo)
@@ -51,8 +55,7 @@ namespace CasaDoCodigo.Controllers
 
             Pedido pedido = await pedidoRepository.GetPedido();
             List<ItemPedido> itens = pedido.Itens;
-            CarrinhoViewModel carrinhoViewModel = new CarrinhoViewModel(itens);
-            return base.View(carrinhoViewModel);
+            return base.View(new CarrinhoViewModel(itens));
         }
 
         public async Task<IActionResult> Cadastro()
