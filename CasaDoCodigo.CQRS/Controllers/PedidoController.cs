@@ -17,6 +17,7 @@ namespace CasaDoCodigo.Controllers
     {
         public static string GetProdutos => "api/produto";
         public static string GetCarrinho => "api/carrinho";
+        public static string GetPedido => "api/pedido";
         public static string UpdateQuantidade => "api/carrinho";
     }
 
@@ -69,14 +70,22 @@ namespace CasaDoCodigo.Controllers
 
         public async Task<IActionResult> Cadastro()
         {
-            var pedido = await pedidoRepository.GetPedido();
-
-            if (pedido == null)
+            try
             {
-                return RedirectToAction("Carrossel");
-            }
+                Pedido pedido = await GetAsync<Pedido>(ApiUris.GetPedido);
 
-            return View(pedido.Cadastro);
+                if (pedido == null)
+                {
+                    return RedirectToAction("Carrossel");
+                }
+
+                return View(pedido.Cadastro);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message, "Cadastro");
+                throw;
+            }
         }
 
         [HttpPost]
