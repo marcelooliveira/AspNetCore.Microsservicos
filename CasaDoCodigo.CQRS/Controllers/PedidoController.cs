@@ -2,6 +2,7 @@
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,20 +15,24 @@ namespace CasaDoCodigo.Controllers
     class ApiUris
     {
         public static string GetProdutos => "api/produto";
+        public static string GetCarrinho => "api/carrinho";
     }
 
     public class PedidoController : Controller
     {
+        private readonly ILogger logger;
         private readonly IProdutoRepository produtoRepository;
         private readonly IPedidoRepository pedidoRepository;
         private readonly IItemPedidoRepository itemPedidoRepository;
         private readonly HttpClient httpClient;
 
-        public PedidoController(IProdutoRepository produtoRepository,
+        public PedidoController(ILogger<PedidoController> logger,
+            IProdutoRepository produtoRepository,
             IPedidoRepository pedidoRepository,
             IItemPedidoRepository itemPedidoRepository,
             HttpClient httpClient)
         {
+            this.logger = logger;
             this.produtoRepository = produtoRepository;
             this.pedidoRepository = pedidoRepository;
             this.itemPedidoRepository = itemPedidoRepository;
@@ -36,26 +41,42 @@ namespace CasaDoCodigo.Controllers
 
         public async Task<IActionResult> Carrossel()
         {
-            return View(await GetAsync<IList<Produto>>());
+            return View(await GetAsync<IList<Produto>>(ApiUris.GetProdutos));
         }
 
-        private async Task<T> GetAsync<T>()
+        private async Task<T> GetAsync<T>(string uri, params object[] param)
         {
-            string uri = ApiUris.GetProdutos;
-            var json = await httpClient.GetStringAsync(uri);
+            string requestUri = string.Format(uri, param);
+
+            foreach (var par in param)
+            {
+                requestUri += string.Format($"/{par}");
+            }
+
+            var json = await httpClient.GetStringAsync(requestUri);
             return JsonConvert.DeserializeObject<T>(json);
         }
 
         public async Task<IActionResult> Carrinho(string codigo)
         {
-            if (!string.IsNullOrEmpty(codigo))
+            try
             {
-                await pedidoRepository.AddItem(codigo);
+                return View(await GetAsync<CarrinhoViewModel>(ApiUris.GetCarrinho, codigo));
+            }
+            catch (Exception exc)
+            {
+                logger.LogError(exc, exc.Message, "Carrinho");
+                throw;
             }
 
-            Pedido pedido = await pedidoRepository.GetPedido();
-            List<ItemPedido> itens = pedido.Itens;
-            return base.View(new CarrinhoViewModel(itens));
+            //if (!string.IsNullOrEmpty(codigo))
+            //{
+            //    await pedidoRepository.AddItem(codigo);
+            //}
+
+            //Pedido pedido = await pedidoRepository.GetPedido();
+            //List<ItemPedido> itens = pedido.Itens;
+            //return base.View(new CarrinhoViewModel(itens));
         }
 
         public async Task<IActionResult> Cadastro()

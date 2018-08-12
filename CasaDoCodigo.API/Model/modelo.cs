@@ -45,7 +45,6 @@ namespace CasaDoCodigo.Models
         {
         }
 
-        public int PedidoId { get; set; }
         public virtual Pedido Pedido { get; set; }
         [MinLength(5, ErrorMessage = "Nome deve ter no mínimo 5 caracteres")]
         [MaxLength(50, ErrorMessage = "Nome deve ter no máximo 50 caracteres")]
@@ -132,6 +131,8 @@ namespace CasaDoCodigo.Models
         }
 
         public List<ItemPedido> Itens { get; private set; } = new List<ItemPedido>();
+        [Required]
+        public int CadastroId { get; set; }
         [Required]
         public virtual Cadastro Cadastro { get; private set; }
     }

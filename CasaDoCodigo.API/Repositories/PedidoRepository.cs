@@ -65,6 +65,7 @@ namespace CasaDoCodigo.Repositories
         public async Task<Pedido> GetPedido()
         {
             var pedidoId = GetPedidoId();
+
             var pedido = 
                 await dbSet
                 .Include(p => p.Itens)
