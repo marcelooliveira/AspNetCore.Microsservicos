@@ -45,5 +45,19 @@ namespace CasaDoCodigo.API.Controllers
             }
 
         }
+
+        [HttpPost]
+        public async Task<UpdateQuantidadeOutput> Post([FromBody]UpdateQuantidadeInput input)
+        {
+            try
+            {
+                return await pedidoRepository.UpdateQuantidade(input);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message, "UpdateQuantidade");
+                throw;
+            }
+        }
     }
 }

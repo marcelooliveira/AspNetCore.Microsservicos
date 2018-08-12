@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Controllers
@@ -16,6 +17,7 @@ namespace CasaDoCodigo.Controllers
     {
         public static string GetProdutos => "api/produto";
         public static string GetCarrinho => "api/carrinho";
+        public static string UpdateQuantidade => "api/carrinho";
     }
 
     public class PedidoController : Controller
@@ -41,20 +43,15 @@ namespace CasaDoCodigo.Controllers
 
         public async Task<IActionResult> Carrossel()
         {
-            return View(await GetAsync<IList<Produto>>(ApiUris.GetProdutos));
-        }
-
-        private async Task<T> GetAsync<T>(string uri, params object[] param)
-        {
-            string requestUri = string.Format(uri, param);
-
-            foreach (var par in param)
+            try
             {
-                requestUri += string.Format($"/{par}");
+                return View(await GetAsync<IList<Produto>>(ApiUris.GetProdutos));
             }
-
-            var json = await httpClient.GetStringAsync(requestUri);
-            return JsonConvert.DeserializeObject<T>(json);
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message, "Carrossel");
+                throw;
+            }
         }
 
         public async Task<IActionResult> Carrinho(string codigo)
@@ -63,20 +60,11 @@ namespace CasaDoCodigo.Controllers
             {
                 return View(await GetAsync<CarrinhoViewModel>(ApiUris.GetCarrinho, codigo));
             }
-            catch (Exception exc)
+            catch (Exception ex)
             {
-                logger.LogError(exc, exc.Message, "Carrinho");
+                logger.LogError(ex, ex.Message, "Carrinho");
                 throw;
             }
-
-            //if (!string.IsNullOrEmpty(codigo))
-            //{
-            //    await pedidoRepository.AddItem(codigo);
-            //}
-
-            //Pedido pedido = await pedidoRepository.GetPedido();
-            //List<ItemPedido> itens = pedido.Itens;
-            //return base.View(new CarrinhoViewModel(itens));
         }
 
         public async Task<IActionResult> Cadastro()
@@ -104,9 +92,48 @@ namespace CasaDoCodigo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<UpdateQuantidadeResponse> UpdateQuantidade([FromBody]ItemPedido itemPedido)
+        public async Task<UpdateQuantidadeOutput> UpdateQuantidade([FromBody]ItemPedido itemPedido)
         {
-            return await pedidoRepository.UpdateQuantidade(itemPedido);
+            try
+            {
+                return await PostAsync<UpdateQuantidadeOutput>(
+                    ApiUris.UpdateQuantidade,
+                    new { ItemPedidoId = itemPedido.Id, itemPedido.Quantidade });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message, "UpdateQuantidade");
+                throw;
+            }
+        }
+
+        private async Task<T> GetAsync<T>(string uri, params object[] param)
+        {
+            string requestUri = string.Format(uri, param);
+
+            foreach (var par in param)
+            {
+                requestUri += string.Format($"/{par}");
+            }
+
+            var json = await httpClient.GetStringAsync(requestUri);
+            return JsonConvert.DeserializeObject<T>(json);
+        }
+
+        private async Task<T> PostAsync<T>(string uri, object content)
+        {
+            var jsonIn = JsonConvert.SerializeObject(content);
+            var stringContent = new StringContent(jsonIn, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage httpResponse = await httpClient.PostAsync(uri, stringContent);
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                var error = new { httpResponse.StatusCode, httpResponse.ReasonPhrase };
+                var errorJson = JsonConvert.SerializeObject(error);
+                throw new HttpRequestException(errorJson);
+            }
+            var jsonOut = await httpResponse.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(jsonOut);
         }
     }
 }

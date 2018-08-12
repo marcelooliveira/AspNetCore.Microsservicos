@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Models
 {
-    public class UpdateQuantidadeResponse
+    public class UpdateQuantidadeOutput
     {
-        public UpdateQuantidadeResponse(ItemPedido itemPedido, CarrinhoViewModel carrinhoViewModel)
+        public UpdateQuantidadeOutput(ItemPedido itemPedido, CarrinhoViewModel carrinhoViewModel)
         {
             ItemPedido = itemPedido;
             CarrinhoViewModel = carrinhoViewModel;

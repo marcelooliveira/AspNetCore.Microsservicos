@@ -13,7 +13,7 @@ namespace CasaDoCodigo.Repositories
     {
         Task<Pedido> GetPedido();
         Task AddItem(string codigo);
-        Task<UpdateQuantidadeResponse> UpdateQuantidade(ItemPedido itemPedido);
+        Task<UpdateQuantidadeOutput> UpdateQuantidade(ItemPedido itemPedido);
         Task<Pedido> UpdateCadastro(Cadastro cadastro);
     }
 
@@ -94,7 +94,7 @@ namespace CasaDoCodigo.Repositories
             contextAccessor.HttpContext.Session.SetInt32("pedidoId", pedidoId);
         }
 
-        public async Task<UpdateQuantidadeResponse> UpdateQuantidade(ItemPedido itemPedido)
+        public async Task<UpdateQuantidadeOutput> UpdateQuantidade(ItemPedido itemPedido)
         {
             var itemPedidoDB = await itemPedidoRepository.GetItemPedido(itemPedido.Id);
 
@@ -112,7 +112,7 @@ namespace CasaDoCodigo.Repositories
                 var pedido = await GetPedido();
                 var carrinhoViewModel = new CarrinhoViewModel(pedido.Itens);
 
-                return new UpdateQuantidadeResponse(itemPedidoDB, carrinhoViewModel);
+                return new UpdateQuantidadeOutput(itemPedidoDB, carrinhoViewModel);
             }
 
             throw new ArgumentException("ItemPedido não encontrado");
