@@ -13,15 +13,13 @@ namespace CasaDoCodigo.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CarrinhoController : ControllerBase
+    public class CarrinhoController : BaseApiController
     {
         private readonly IPedidoRepository pedidoRepository;
-        private readonly ILogger logger;
 
         public CarrinhoController(ILogger<CarrinhoController> logger,
-            IPedidoRepository pedidoRepository)
+            IPedidoRepository pedidoRepository): base(logger)
         {
-            this.logger = logger;
             this.pedidoRepository = pedidoRepository;
         }
 
@@ -36,7 +34,7 @@ namespace CasaDoCodigo.API.Controllers
                 }
 
                 Pedido pedido = await pedidoRepository.GetPedido();
-                return new CarrinhoViewModel(pedido.Itens);
+                return new CarrinhoViewModel(pedido.Id, pedido.Itens);
             }
             catch (Exception ex)
             {

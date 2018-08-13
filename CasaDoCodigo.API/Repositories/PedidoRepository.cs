@@ -111,7 +111,7 @@ namespace CasaDoCodigo.Repositories
                 await contexto.SaveChangesAsync();
 
                 var pedido = await GetPedido();
-                var carrinhoViewModel = new CarrinhoViewModel(pedido.Itens);
+                var carrinhoViewModel = new CarrinhoViewModel(pedido.Id, pedido.Itens);
 
                 return new UpdateQuantidadeOutput(itemPedidoDB, carrinhoViewModel);
             }

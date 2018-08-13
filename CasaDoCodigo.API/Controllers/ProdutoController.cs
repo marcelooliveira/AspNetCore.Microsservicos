@@ -8,17 +8,19 @@ using CasaDoCodigo.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CasaDoCodigo.API.Queries;
+using Microsoft.Extensions.Logging;
 
 namespace CasaDoCodigo.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProdutoController : ControllerBase
+    public class ProdutoController : BaseApiController
     {
         private readonly IProdutoRepository produtoRepository;
         private readonly IProdutoQueries produtoQueries;
 
-        public ProdutoController(IProdutoRepository produtoRepository, IProdutoQueries produtoQueries)
+        public ProdutoController(ILogger<CarrinhoController> logger,
+            IProdutoRepository produtoRepository, IProdutoQueries produtoQueries) : base(logger)
         {
             this.produtoRepository = produtoRepository;
             this.produtoQueries = produtoQueries;

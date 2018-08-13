@@ -1,6 +1,7 @@
 ﻿using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -24,18 +25,21 @@ namespace CasaDoCodigo.Controllers
     public class PedidoController : Controller
     {
         private readonly ILogger logger;
+        private readonly IHttpContextAccessor contextAccessor;
         private readonly IProdutoRepository produtoRepository;
         private readonly IPedidoRepository pedidoRepository;
         private readonly IItemPedidoRepository itemPedidoRepository;
         private readonly HttpClient httpClient;
 
         public PedidoController(ILogger<PedidoController> logger,
+            IHttpContextAccessor contextAccessor,
             IProdutoRepository produtoRepository,
             IPedidoRepository pedidoRepository,
             IItemPedidoRepository itemPedidoRepository,
             HttpClient httpClient)
         {
             this.logger = logger;
+            this.contextAccessor = contextAccessor;
             this.produtoRepository = produtoRepository;
             this.pedidoRepository = pedidoRepository;
             this.itemPedidoRepository = itemPedidoRepository;
@@ -59,7 +63,9 @@ namespace CasaDoCodigo.Controllers
         {
             try
             {
-                return View(await GetAsync<CarrinhoViewModel>(ApiUris.GetCarrinho, codigo));
+                CarrinhoViewModel carrinho = await GetAsync<CarrinhoViewModel>(ApiUris.GetCarrinho, codigo);
+                SetPedidoId(carrinho.PedidoId);
+                return base.View(carrinho);
             }
             catch (Exception ex)
             {
@@ -72,7 +78,8 @@ namespace CasaDoCodigo.Controllers
         {
             try
             {
-                Pedido pedido = await GetAsync<Pedido>(ApiUris.GetPedido);
+                int pedidoId = GetPedidoId() ?? throw new ArgumentNullException("pedidoId");
+                PedidoViewModel pedido = await GetAsync<PedidoViewModel>(ApiUris.GetPedido, pedidoId);
 
                 if (pedido == null)
                 {
@@ -143,6 +150,16 @@ namespace CasaDoCodigo.Controllers
             }
             var jsonOut = await httpResponse.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(jsonOut);
+        }
+
+        private int? GetPedidoId()
+        {
+            return contextAccessor.HttpContext.Session.GetInt32("pedidoId");
+        }
+
+        private void SetPedidoId(int pedidoId)
+        {
+            contextAccessor.HttpContext.Session.SetInt32("pedidoId", pedidoId);
         }
     }
 }
