@@ -57,9 +57,15 @@ namespace CasaDoCodigo.API.Model
 
     public class CadastroViewModel : BaseViewModel
     {
+        public CadastroViewModel()
+        {
+
+        }
+
         public CadastroViewModel(Cadastro cadastro)
         {
             Id = cadastro.Id;
+            PedidoId = cadastro.Pedido.Id;
             Nome = cadastro.Nome;
             Email = cadastro.Email;
             Telefone = cadastro.Telefone;
@@ -71,6 +77,8 @@ namespace CasaDoCodigo.API.Model
             CEP = cadastro.CEP;
         }
 
+        [DataMember]
+        public int PedidoId { get; set; }
         [DataMember]
         public string Nome { get; set; }
         [DataMember]

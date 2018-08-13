@@ -27,6 +27,8 @@ namespace CasaDoCodigo.Models
 
     public class CadastroViewModel
     {
+        public int Id { get; set; }
+        public int PedidoId { get; set; }
         [MinLength(5, ErrorMessage = "Nome deve ter no mínimo 5 caracteres")]
         [MaxLength(50, ErrorMessage = "Nome deve ter no máximo 50 caracteres")]
         [Required(ErrorMessage = "Nome é obrigatório")]
@@ -47,7 +49,25 @@ namespace CasaDoCodigo.Models
         public string UF { get; set; } = "";
         [Required(ErrorMessage = "CEP é obrigatório")]
         public string CEP { get; set; } = "";
-        public int Id { get; set; }
+
+        public CadastroViewModel()
+        {
+
+        }
+
+        public CadastroViewModel(Cadastro cadastro)
+        {
+            this.Id = cadastro.Id;
+            this.Bairro = cadastro.Bairro;
+            this.CEP = cadastro.CEP;
+            this.Complemento = cadastro.Complemento;
+            this.Email = cadastro.Email;
+            this.Endereco = cadastro.Endereco;
+            this.Municipio = cadastro.Municipio;
+            this.Nome = cadastro.Nome;
+            this.Telefone = cadastro.Telefone;
+            this.UF = cadastro.UF;
+        }
     }
 
     public class PedidoViewModel

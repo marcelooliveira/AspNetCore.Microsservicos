@@ -23,17 +23,19 @@ namespace CasaDoCodigo.API.Controllers
             this.pedidoRepository = pedidoRepository;
         }
 
-        [HttpGet("{codigo}", Name = "GetCarrinho")]
-        public async Task<CarrinhoViewModel> GetCarrinho(string codigo)
+        [HttpGet("{pedidoId}/{codigo}", Name = "GetCarrinho")]
+        public async Task<CarrinhoViewModel> GetCarrinho(int pedidoId, string codigo)
         {
             try
             {
+                Pedido pedido = await pedidoRepository.GetPedido(pedidoId);
+
                 if (!string.IsNullOrEmpty(codigo))
                 {
-                    await pedidoRepository.AddItem(codigo);
+                    await pedidoRepository.AddItem(pedido.Id, codigo);
                 }
 
-                Pedido pedido = await pedidoRepository.GetPedido();
+                pedido = await pedidoRepository.GetPedido(pedido.Id);
                 return new CarrinhoViewModel(pedido.Id, pedido.Itens);
             }
             catch (Exception ex)

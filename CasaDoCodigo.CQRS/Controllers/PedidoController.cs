@@ -20,15 +20,13 @@ namespace CasaDoCodigo.Controllers
         public static string GetCarrinho => "api/carrinho";
         public static string GetPedido => "api/pedido";
         public static string UpdateQuantidade => "api/carrinho";
+        public static string UpdateCadastro => "api/cadastro";
     }
 
     public class PedidoController : Controller
     {
         private readonly ILogger logger;
         private readonly IHttpContextAccessor contextAccessor;
-        private readonly IProdutoRepository produtoRepository;
-        private readonly IPedidoRepository pedidoRepository;
-        private readonly IItemPedidoRepository itemPedidoRepository;
         private readonly HttpClient httpClient;
 
         public PedidoController(ILogger<PedidoController> logger,
@@ -40,9 +38,6 @@ namespace CasaDoCodigo.Controllers
         {
             this.logger = logger;
             this.contextAccessor = contextAccessor;
-            this.produtoRepository = produtoRepository;
-            this.pedidoRepository = pedidoRepository;
-            this.itemPedidoRepository = itemPedidoRepository;
             this.httpClient = httpClient;
         }
 
@@ -63,7 +58,8 @@ namespace CasaDoCodigo.Controllers
         {
             try
             {
-                CarrinhoViewModel carrinho = await GetAsync<CarrinhoViewModel>(ApiUris.GetCarrinho, codigo);
+                int pedidoId = GetPedidoId() ?? 0;
+                CarrinhoViewModel carrinho = await GetAsync<CarrinhoViewModel>(ApiUris.GetCarrinho, pedidoId, codigo);
                 SetPedidoId(carrinho.PedidoId);
                 return base.View(carrinho);
             }
@@ -99,11 +95,22 @@ namespace CasaDoCodigo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Resumo(Cadastro cadastro)
         {
-            if (ModelState.IsValid)
+            try
             {
-                return View(await pedidoRepository.UpdateCadastro(cadastro));
+                if (ModelState.IsValid)
+                {
+                    var viewModel = new CadastroViewModel(cadastro);
+                    viewModel.PedidoId = GetPedidoId().Value;
+                    var pedidoViewModel = await PostAsync<PedidoViewModel>(ApiUris.UpdateCadastro, viewModel);
+                    return base.View(pedidoViewModel);
+                }
+                return RedirectToAction("Cadastro");
             }
-            return RedirectToAction("Cadastro");
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message, "Resumo");
+                throw;
+            }
         }
 
         [HttpPost]

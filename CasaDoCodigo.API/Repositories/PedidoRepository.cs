@@ -12,9 +12,10 @@ namespace CasaDoCodigo.Repositories
     public interface IPedidoRepository
     {
         Task<Pedido> GetPedido();
-        Task AddItem(string codigo);
+        Task AddItem(int pedidoId, string codigo);
         Task<UpdateQuantidadeOutput> UpdateQuantidade(UpdateQuantidadeInput input);
-        Task<Pedido> UpdateCadastro(Cadastro cadastro);
+        Task<Pedido> UpdateCadastro(int pedidoId, Cadastro cadastro);
+        Task<Pedido> GetPedido(int pedidoId);
     }
 
     public class PedidoRepository : BaseRepository<Pedido>, IPedidoRepository
@@ -33,7 +34,7 @@ namespace CasaDoCodigo.Repositories
             this.cadastroRepository = cadastroRepository;
         }
 
-        public async Task AddItem(string codigo)
+        public async Task AddItem(int pedidoId, string codigo)
         {
             var produto = await contexto.Set<Produto>()
                             .Where(p => p.Codigo == codigo)
@@ -44,7 +45,7 @@ namespace CasaDoCodigo.Repositories
                 throw new ArgumentException("Produto não encontrado");
             }
 
-            var pedido = await GetPedido();
+            var pedido = await GetPedido(pedidoId);
 
             var itemPedido = await contexto.Set<ItemPedido>()
                                 .Where(i => i.Produto.Codigo == codigo
@@ -64,8 +65,12 @@ namespace CasaDoCodigo.Repositories
 
         public async Task<Pedido> GetPedido()
         {
-            var pedidoId = GetPedidoId();
+            var pedidoId = GetPedidoId() ?? throw new ArgumentNullException("pedidoId");
+            return await GetPedido(pedidoId);
+        }
 
+        public async Task<Pedido> GetPedido(int pedidoId)
+        {
             var pedido = 
                 await dbSet
                 .Include(p => p.Itens)
@@ -119,11 +124,10 @@ namespace CasaDoCodigo.Repositories
             throw new ArgumentException("ItemPedido não encontrado");
         }
 
-        public async Task<Pedido> UpdateCadastro(Cadastro cadastro)
+        public async Task<Pedido> UpdateCadastro(int pedidoId, Cadastro cadastro)
         {
-            var pedido = await GetPedido();
-            await cadastroRepository.Update(pedido.Cadastro.Id, cadastro);
-            return pedido;
+            await cadastroRepository.Update(pedidoId, cadastro);
+            return await GetPedido(pedidoId);
         }
     }
 }

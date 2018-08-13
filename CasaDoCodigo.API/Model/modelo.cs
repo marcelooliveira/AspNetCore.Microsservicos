@@ -1,3 +1,4 @@
+using CasaDoCodigo.API.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -66,6 +67,20 @@ namespace CasaDoCodigo.Models
         public string UF { get; set; } = "";
         [Required(ErrorMessage = "CEP é obrigatório")]
         public string CEP { get; set; } = "";
+
+        public Cadastro(CadastroViewModel viewModel)
+        {
+            this.Id = viewModel.Id;
+            this.Bairro = viewModel.Bairro;
+            this.CEP = viewModel.CEP;
+            this.Complemento = viewModel.Complemento;
+            this.Email = viewModel.Email;
+            this.Endereco = viewModel.Endereco;
+            this.Municipio = viewModel.Municipio;
+            this.Nome = viewModel.Nome;
+            this.Telefone = viewModel.Telefone;
+            this.UF = viewModel.UF;
+        }
 
         internal void Update(Cadastro novoCadastro)
         {
