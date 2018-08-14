@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using CasaDoCodigo.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -45,11 +44,6 @@ namespace CasaDoCodigo
             };
 
             services.AddSingleton(typeof(HttpClient), httpClient);
-            services.AddTransient<IDataService, DataService>();
-            services.AddTransient<IProdutoRepository, ProdutoRepository>();
-            services.AddTransient<IPedidoRepository, PedidoRepository>();
-            services.AddTransient<ICadastroRepository, CadastroRepository>();
-            services.AddTransient<IItemPedidoRepository, ItemPedidoRepository>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
@@ -79,9 +73,6 @@ namespace CasaDoCodigo
                     name: "default",
                     template: "{controller=Pedido}/{action=Carrossel}/{codigo?}");
             });
-
-            ///<image url="$(ItemDir)\middlewares.png"/>
-            serviceProvider.GetService<IDataService>().InicializaDB().Wait();
         }
     }
 

@@ -1,6 +1,5 @@
 ﻿using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
-using CasaDoCodigo.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,9 +30,6 @@ namespace CasaDoCodigo.Controllers
 
         public PedidoController(ILogger<PedidoController> logger,
             IHttpContextAccessor contextAccessor,
-            IProdutoRepository produtoRepository,
-            IPedidoRepository pedidoRepository,
-            IItemPedidoRepository itemPedidoRepository,
             HttpClient httpClient)
         {
             this.logger = logger;

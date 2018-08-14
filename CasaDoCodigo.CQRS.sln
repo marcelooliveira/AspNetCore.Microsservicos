@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.MVC", "CasaDoCodigo.CQRS\CasaDoCodigo.MVC.csproj", "{616AEE63-21B3-4243-8A2A-D162242F161A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CasaDoCodigo.API", "CasaDoCodigo.API\CasaDoCodigo.API.csproj", "{06D179A9-0730-4029-9C62-E191F053FBC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.API", "CasaDoCodigo.API\CasaDoCodigo.API.csproj", "{06D179A9-0730-4029-9C62-E191F053FBC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
