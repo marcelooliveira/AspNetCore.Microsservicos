@@ -22,7 +22,16 @@ namespace CasaDoCodigo.API.Controllers
             this.pedidoRepository = pedidoRepository;
         }
 
+        /// <summary>
+        /// Cria informações do cadastro do usuário.
+        /// </summary>
+        /// <param name="cadastroViewModel"></param>
+        /// <returns>O pedido com o cadastro atualizado</returns>
+        /// <response code="201">Retorna o pedido atualizado</response>
+        /// <response code="400">Se o cadastro é null</response> 
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<PedidoViewModel> Post([FromBody] CadastroViewModel cadastroViewModel)
         {
             try

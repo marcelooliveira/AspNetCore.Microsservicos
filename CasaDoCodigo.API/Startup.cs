@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using CasaDoCodigo.API.Queries;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Reflection;
+using System.IO;
 
 namespace CasaDoCodigo.API
 {
@@ -33,7 +35,30 @@ namespace CasaDoCodigo.API
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "Casa do Código - Web API",
+                    Description = "Uma API contendo funcionalidades da aplicação de e-Commerce:" +
+                    "catálogo de produtos, cesta de compras, cadastro de cliente e resumo de pedido.",
+                    TermsOfService = "Nenhum",
+                    Contact = new Contact
+                    {
+                        Name = "Marcelo Oliveira",
+                        Email = "mclricardo@gmail.com",
+                        Url = "https://twitter.com/twmoliveira"
+                    },
+                    License = new License
+                    {
+                        Name = "Licença XPTO 4567",
+                        Url = "https://example.com/license"
+                    }
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
             services.ConfigureSwaggerGen(options =>
@@ -83,7 +108,7 @@ namespace CasaDoCodigo.API
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Casa do Código - Web API v1");
             });
 
             app.UseMvc();

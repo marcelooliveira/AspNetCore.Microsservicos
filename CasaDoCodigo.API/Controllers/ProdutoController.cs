@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Queries = CasaDoCodigo.API.Queries;
-using CasaDoCodigo.Models;
 using CasaDoCodigo.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CasaDoCodigo.API.Queries;
 using Microsoft.Extensions.Logging;
@@ -26,7 +21,12 @@ namespace CasaDoCodigo.API.Controllers
             this.produtoQueries = produtoQueries;
         }
 
-        // GET: api/Produto
+        /// <summary>
+        /// Obtém a lista completa de produtos do catálogo.
+        /// </summary>
+        /// <returns>
+        /// A lista completa de produtos do catálogo
+        /// </returns>
         [HttpGet]
         public async Task<IEnumerable<Queries.Produto>> GetProdutos()
         {

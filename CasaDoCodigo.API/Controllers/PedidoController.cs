@@ -23,8 +23,14 @@ namespace CasaDoCodigo.API.Controllers
             this.pedidoRepository = pedidoRepository;
         }
 
-        // GET: api/Pedido/5
+        /// <summary>
+        /// Obtém um pedido.
+        /// </summary>
+        /// <param name="id">O id do pedido</param>
+        /// <returns>Um pedido com o id solicitado</returns>
+        /// <response code="404">Pedido não encontrado</response>
         [HttpGet("{id}", Name = "Get")]
+        [ProducesResponseType(404)]
         public async Task<PedidoViewModel> Get(int id)
         {
             try
