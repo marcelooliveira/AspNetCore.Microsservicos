@@ -23,13 +23,6 @@ namespace CasaDoCodigo.API.Controllers
             this.pedidoRepository = pedidoRepository;
         }
 
-        // GET: api/Pedido
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
         // GET: api/Pedido/5
         [HttpGet("{id}", Name = "Get")]
         public async Task<PedidoViewModel> Get(int id)
@@ -45,24 +38,6 @@ namespace CasaDoCodigo.API.Controllers
                 logger.LogError(ex, ex.Message, "GetPedido");
                 throw;
             }
-        }
-
-        // POST: api/Pedido
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT: api/Pedido/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
