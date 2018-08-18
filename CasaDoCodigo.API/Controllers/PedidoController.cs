@@ -34,6 +34,11 @@ namespace CasaDoCodigo.API.Controllers
         public async Task<IActionResult> Get(int id)
         {
             Pedido pedido = await pedidoRepository.GetPedido();
+            if (pedido == null)
+            {
+                return BadRequest($"Pedido não encontrado com id: {id}");
+            }
+
             PedidoViewModel viewModel = new PedidoViewModel(pedido);
             return Ok(viewModel);
         }

@@ -37,11 +37,17 @@ namespace CasaDoCodigo.API.Controllers
         public async Task<IActionResult> GetCarrinho(int pedidoId, string codigo)
         {
             Pedido pedido = await pedidoRepository.GetPedido(pedidoId);
-
-            if (!string.IsNullOrEmpty(codigo))
+            if (pedido == null)
             {
-                await pedidoRepository.AddItem(pedido.Id, codigo);
+                return BadRequest($"Pedido não encontrado com id: {pedidoId}");
             }
+
+            if (string.IsNullOrWhiteSpace(codigo))
+            {
+                return BadRequest($"Código inválido: {codigo}");
+            }
+
+            await pedidoRepository.AddItem(pedido.Id, codigo);
 
             pedido = await pedidoRepository.GetPedido(pedido.Id);
             return Ok(new CarrinhoViewModel(pedido.Id, pedido.Itens));
@@ -59,6 +65,11 @@ namespace CasaDoCodigo.API.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> Post([FromBody]UpdateQuantidadeInput input)
         {
+            if (input.ItemPedidoId <= 0)
+            {
+                return BadRequest($"Id o item de pedido inválido: {input.ItemPedidoId}");
+            }
+
             return Ok(await pedidoRepository.UpdateQuantidade(input));
         }
     }

@@ -34,6 +34,11 @@ namespace CasaDoCodigo.API.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> Post([FromBody] CadastroViewModel cadastroViewModel)
         {
+            if (cadastroViewModel.PedidoId == 0)
+            {
+                return BadRequest("Id do pedido é inválido");
+            }
+
             var cadastro = new Cadastro(cadastroViewModel);
             var pedido = await pedidoRepository.UpdateCadastro(cadastroViewModel.PedidoId, cadastro);
             PedidoViewModel viewModel = new PedidoViewModel(pedido);
