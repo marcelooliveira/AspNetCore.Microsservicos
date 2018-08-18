@@ -32,20 +32,12 @@ namespace CasaDoCodigo.API.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<PedidoViewModel> Post([FromBody] CadastroViewModel cadastroViewModel)
+        public async Task<IActionResult> Post([FromBody] CadastroViewModel cadastroViewModel)
         {
-            try
-            {
-                var cadastro = new Cadastro(cadastroViewModel);
-                var pedido = await pedidoRepository.UpdateCadastro(cadastroViewModel.PedidoId, cadastro);
-                PedidoViewModel viewModel = new PedidoViewModel(pedido);
-                return viewModel;
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, ex.Message, "PostCadastro");
-                throw;
-            }
+            var cadastro = new Cadastro(cadastroViewModel);
+            var pedido = await pedidoRepository.UpdateCadastro(cadastroViewModel.PedidoId, cadastro);
+            PedidoViewModel viewModel = new PedidoViewModel(pedido);
+            return Ok(viewModel);
         }
     }
 }

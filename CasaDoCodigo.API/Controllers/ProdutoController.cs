@@ -28,9 +28,9 @@ namespace CasaDoCodigo.API.Controllers
         /// A lista completa de produtos do catálogo
         /// </returns>
         [HttpGet]
-        public async Task<IEnumerable<Queries.Produto>> GetProdutos()
+        public async Task<IActionResult> GetProdutos()
         {
-            return await produtoQueries.GetProdutosAsync();
+            return Ok(await produtoQueries.GetProdutosAsync());
         }
     }
 }

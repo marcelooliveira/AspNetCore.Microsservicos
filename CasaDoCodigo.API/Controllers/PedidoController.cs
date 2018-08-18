@@ -31,19 +31,11 @@ namespace CasaDoCodigo.API.Controllers
         /// <response code="404">Pedido não encontrado</response>
         [HttpGet("{id}", Name = "Get")]
         [ProducesResponseType(404)]
-        public async Task<PedidoViewModel> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            try
-            {
-                Pedido pedido = await pedidoRepository.GetPedido();
-                PedidoViewModel viewModel = new PedidoViewModel(pedido);
-                return viewModel;
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, ex.Message, "GetPedido");
-                throw;
-            }
+            Pedido pedido = await pedidoRepository.GetPedido();
+            PedidoViewModel viewModel = new PedidoViewModel(pedido);
+            return Ok(viewModel);
         }
     }
 }

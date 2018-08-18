@@ -18,7 +18,7 @@ namespace CasaDoCodigo.API.Controllers
         private readonly IPedidoRepository pedidoRepository;
 
         public CarrinhoController(ILogger<CarrinhoController> logger,
-            IPedidoRepository pedidoRepository): base(logger)
+            IPedidoRepository pedidoRepository) : base(logger)
         {
             this.pedidoRepository = pedidoRepository;
         }
@@ -34,26 +34,17 @@ namespace CasaDoCodigo.API.Controllers
         [HttpGet("{pedidoId}/{codigo}", Name = "GetCarrinho")]
         [ProducesResponseType(201)]
         [ProducesResponseType(404)]
-        public async Task<CarrinhoViewModel> GetCarrinho(int pedidoId, string codigo)
+        public async Task<IActionResult> GetCarrinho(int pedidoId, string codigo)
         {
-            try
-            {
-                Pedido pedido = await pedidoRepository.GetPedido(pedidoId);
+            Pedido pedido = await pedidoRepository.GetPedido(pedidoId);
 
-                if (!string.IsNullOrEmpty(codigo))
-                {
-                    await pedidoRepository.AddItem(pedido.Id, codigo);
-                }
-
-                pedido = await pedidoRepository.GetPedido(pedido.Id);
-                return new CarrinhoViewModel(pedido.Id, pedido.Itens);
-            }
-            catch (Exception ex)
+            if (!string.IsNullOrEmpty(codigo))
             {
-                logger.LogError(ex, ex.Message, "GetCarrinho");
-                throw;
+                await pedidoRepository.AddItem(pedido.Id, codigo);
             }
 
+            pedido = await pedidoRepository.GetPedido(pedido.Id);
+            return Ok(new CarrinhoViewModel(pedido.Id, pedido.Itens));
         }
 
         /// <summary>
@@ -66,17 +57,9 @@ namespace CasaDoCodigo.API.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(404)]
-        public async Task<UpdateQuantidadeOutput> Post([FromBody]UpdateQuantidadeInput input)
+        public async Task<IActionResult> Post([FromBody]UpdateQuantidadeInput input)
         {
-            try
-            {
-                return await pedidoRepository.UpdateQuantidade(input);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, ex.Message, "UpdateQuantidade");
-                throw;
-            }
+            return Ok(await pedidoRepository.UpdateQuantidade(input));
         }
     }
 }
