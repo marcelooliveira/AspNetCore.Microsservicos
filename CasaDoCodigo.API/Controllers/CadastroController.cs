@@ -27,8 +27,7 @@ namespace CasaDoCodigo.API.Controllers
         /// </summary>
         /// <param name="cadastroViewModel"></param>
         /// <returns>O pedido com o cadastro atualizado</returns>
-        /// <response code="201">Retorna o pedido atualizado</response>
-        /// <response code="400">Se o cadastro é null</response> 
+        /// <response code="400">Id do pedido é inválido</response> 
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]

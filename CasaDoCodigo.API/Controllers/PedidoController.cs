@@ -28,7 +28,7 @@ namespace CasaDoCodigo.API.Controllers
         /// </summary>
         /// <param name="id">O id do pedido</param>
         /// <returns>Um pedido com o id solicitado</returns>
-        /// <response code="404">Pedido não encontrado</response>
+        /// <response code="404">Id do pedido não encontrado</response>
         [HttpGet("{id}", Name = "Get")]
         [ProducesResponseType(404)]
         public async Task<IActionResult> Get(int id)
@@ -36,7 +36,7 @@ namespace CasaDoCodigo.API.Controllers
             Pedido pedido = await pedidoRepository.GetPedido();
             if (pedido == null)
             {
-                return BadRequest($"Pedido não encontrado com id: {id}");
+                return BadRequest($"Id do pedido não encontrado: {id}");
             }
 
             PedidoViewModel viewModel = new PedidoViewModel(pedido);
