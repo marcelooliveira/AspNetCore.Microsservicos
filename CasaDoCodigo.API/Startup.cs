@@ -13,6 +13,7 @@ using CasaDoCodigo.API.Queries;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Reflection;
 using System.IO;
+using CasaDoCodigo.API.Areas.Identity.Data;
 
 namespace CasaDoCodigo.API
 {

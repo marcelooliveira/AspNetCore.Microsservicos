@@ -1,6 +1,5 @@
 ﻿using System;
 using CasaDoCodigo.API.Areas.Identity.Data;
-using CasaDoCodigo.API.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -16,12 +15,12 @@ namespace CasaDoCodigo.API.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<CasaDoCodigoAPIContext>(options =>
+                services.AddDbContext<ApplicationContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("Default")));
 
                 services.AddDefaultIdentity<CasaDoCodigoAPIUser>()
-                    .AddEntityFrameworkStores<CasaDoCodigoAPIContext>();
+                    .AddEntityFrameworkStores<ApplicationContext>();
             });
         }
     }

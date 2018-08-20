@@ -1,14 +1,15 @@
 ﻿using CasaDoCodigo.Models;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo
+namespace CasaDoCodigo.API.Areas.Identity.Data
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : IdentityDbContext<CasaDoCodigoAPIUser> //DbContext
     {
         public ApplicationContext(DbContextOptions options) : base(options)
         {

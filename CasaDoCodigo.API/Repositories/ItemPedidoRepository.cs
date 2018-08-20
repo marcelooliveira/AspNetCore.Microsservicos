@@ -1,4 +1,5 @@
-﻿using CasaDoCodigo.Models;
+﻿using CasaDoCodigo.API.Areas.Identity.Data;
+using CasaDoCodigo.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
