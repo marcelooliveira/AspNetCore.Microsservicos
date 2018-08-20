@@ -111,6 +111,7 @@ namespace CasaDoCodigo.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Casa do Código - Web API v1");
             });
 
+            app.UseStaticFiles();
             app.UseMvc();
 
             serviceProvider.GetService<IDataService>().InicializaDB().Wait();
