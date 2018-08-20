@@ -30,7 +30,7 @@ namespace CasaDoCodigo.API.Controllers
         /// </returns>
         /// <response code="401">Não autorizado</response> 
         [HttpGet]
-        //[Authorize("Bearer")]
+        [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<Produto>>> GetProdutos()
         {
             return Ok(await produtoQueries.GetProdutosAsync());

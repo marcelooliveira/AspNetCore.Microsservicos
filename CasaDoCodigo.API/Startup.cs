@@ -20,6 +20,9 @@ using CasaDoCodigo.API.Areas.Identity.Services;
 using CasaDoCodigo.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
+using System.Text;
 
 namespace CasaDoCodigo.API
 {
@@ -31,6 +34,7 @@ namespace CasaDoCodigo.API
         }
 
         public IConfiguration Configuration { get; }
+        public TokenConfigurations TokenConfigurations { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -103,11 +107,11 @@ namespace CasaDoCodigo.API
             var signingConfigurations = new SigningConfigurations();
             services.AddSingleton(signingConfigurations);
 
-            var tokenConfigurations = new TokenConfigurations();
+            TokenConfigurations = new TokenConfigurations();
             new ConfigureFromConfigurationOptions<TokenConfigurations>(
                 Configuration.GetSection("TokenConfigurations"))
-                    .Configure(tokenConfigurations);
-            services.AddSingleton(tokenConfigurations);
+                    .Configure(TokenConfigurations);
+            services.AddSingleton(TokenConfigurations);
 
             services.AddAuthentication(authOptions =>
             {
@@ -117,8 +121,8 @@ namespace CasaDoCodigo.API
             {
                 var paramsValidation = bearerOptions.TokenValidationParameters;
                 paramsValidation.IssuerSigningKey = signingConfigurations.Key;
-                paramsValidation.ValidAudience = tokenConfigurations.Audience;
-                paramsValidation.ValidIssuer = tokenConfigurations.Issuer;
+                paramsValidation.ValidAudience = TokenConfigurations.Audience;
+                paramsValidation.ValidIssuer = TokenConfigurations.Issuer;
 
                 // Valida a assinatura de um token recebido
                 paramsValidation.ValidateIssuerSigningKey = true;
@@ -147,19 +151,50 @@ namespace CasaDoCodigo.API
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("SECRET_KEY"));
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                // The signing key must match!
+                ValidateIssuerSigningKey = true,
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                IssuerSigningKeys = new List<SecurityKey> { signingKey },
+
+                // Validate the token expiry
+                ValidateLifetime = true,
+            };
+
             var identityUrl = Configuration.GetValue<string>("IdentityUrl");
+            
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            //services.AddAuthentication(options =>
+            })
+            //.AddJwtBearer(options =>
             //{
-            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-            //}).AddJwtBearer(options =>
-            //{
-            //    options.Authority = identityUrl;
+            //    options.IncludeErrorDetails = true;
+            //    options.TokenValidationParameters = tokenValidationParameters;
+            //    options.Authority = TokenConfigurations.Authority;
             //    options.RequireHttpsMetadata = false;
-            //    options.Audience = "casadocodigo";
-            //});
+            //    options.Audience = TokenConfigurations.Audience;
+            //    options.Events = new JwtBearerEvents()
+            //    {
+            //        OnAuthenticationFailed = c =>
+            //        {
+            //            c.NoResult();
+
+            //            c.Response.StatusCode = 401;
+            //            c.Response.ContentType = "text/plain";
+
+            //            return c.Response.WriteAsync(c.Exception.ToString());
+            //        }
+
+            //    };
+            //})
+            ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,8 @@
 ﻿using CasaDoCodigo.Client.Generated;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Client.Playground
@@ -21,10 +23,11 @@ namespace CasaDoCodigo.Client.Playground
 
     class Relatorio
     {
-        private const string API_BASE_URL = "https://localhost:44339";
-        private const int DELAY_SEGUNDOS = 5;
+        private const string API_BASE_URL = "http://localhost:44339";
+        private const int DELAY_SEGUNDOS = 1;
         private Generated.Client cliente;
         private string accessToken;
+        private HttpClient httpClient;
 
         public async Task Executar()
         {
@@ -34,9 +37,19 @@ namespace CasaDoCodigo.Client.Playground
         private async Task ListarProdutos()
         {
             ImprimirLogo();
-            cliente = new Generated.Client(API_BASE_URL);
-            accessToken = await ObterToken();
-            ImprimirListagem(await ObterProdutos());
+            using (var httpClient = new HttpClient())
+            {
+                cliente = new Generated.Client(API_BASE_URL, httpClient);
+                accessToken = await ObterToken();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                while (true)
+                {
+                    ImprimirListagem(await ObterProdutos());
+                    Console.Clear();
+                    await Task.Delay(DELAY_SEGUNDOS);
+                }
+            }
         }
 
         private void ImprimirLogo()
@@ -67,8 +80,12 @@ Y88b  d88P888  888     X88888  888   Y88b 888Y88..88P   Y88b  d88PY88..88PY88b 8
                     return await cliente.ApiLoginPostAsync(
                         new User
                         {
-                            Id = "eed37679-a43c-4d59-8a27-50fc710834ad",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHVpHiMNMZFTMQ0YAGEYmYz24hdervKcEaQBxIl5XcStRg7azq66UjXNyNVaow3dWA=="
+                            //"eed37679-a43c-4d59-8a27-50fc710834ad",
+                            //"AQAAAAEAACcQAAAAEHVpHiMNMZFTMQ0YAGEYmYz24hdervKcEaQBxIl5XcStRg7azq66UjXNyNVaow3dWA=="
+                            Id =
+                            "5ef851c5-c3e1-46c0-8311-c0521e188bf7",
+                            PasswordHash =
+                            "AQAAAAEAACcQAAAAEGBAFYz4d71CwppE+I4H1XBpLrV9+8TOWh1HpmojIgdvMdEAnpa1JFoPHtUwoG1Odg=="
                         });
                 }
                 catch (Exception ex)

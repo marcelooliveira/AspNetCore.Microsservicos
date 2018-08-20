@@ -70,7 +70,7 @@ namespace CasaDoCodigo.API.Controllers
                 SigningCredentials = signingConfigurations.SigningCredentials,
                 Subject = identity,
                 NotBefore = dataCriacao,
-                Expires = dataExpiracao
+                Expires = dataExpiracao,
             });
             var token = handler.WriteToken(securityToken);
 
