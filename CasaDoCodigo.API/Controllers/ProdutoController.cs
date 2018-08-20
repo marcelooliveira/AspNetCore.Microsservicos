@@ -4,10 +4,12 @@ using CasaDoCodigo.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using CasaDoCodigo.API.Queries;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CasaDoCodigo.API.Controllers
 {
     [Route("api/[controller]")]
+    //[Authorize]
     [ApiController]
     public class ProdutoController : BaseApiController
     {
