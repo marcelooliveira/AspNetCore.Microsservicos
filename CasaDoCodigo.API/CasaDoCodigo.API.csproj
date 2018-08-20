@@ -12,10 +12,6 @@
   <ItemGroup>
     <Compile Remove="Areas\Identity\Data\zzzCasaDoCodigoAPIContext.cs" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Areas\Identity\Services\" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.5" />

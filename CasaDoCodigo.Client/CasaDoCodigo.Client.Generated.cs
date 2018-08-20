@@ -41,7 +41,7 @@ namespace CasaDoCodigo.Client.Generated
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
         /// <summary>Cria informações do cadastro do usuário.</summary>
-        /// <returns>Retorna o pedido atualizado</returns>
+        /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task ApiCadastroPostAsync(CadastroViewModel cadastroViewModel)
         {
@@ -49,7 +49,7 @@ namespace CasaDoCodigo.Client.Generated
         }
 
         /// <summary>Cria informações do cadastro do usuário.</summary>
-        /// <returns>Retorna o pedido atualizado</returns>
+        /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task ApiCadastroPostAsync(CadastroViewModel cadastroViewModel, System.Threading.CancellationToken cancellationToken)
@@ -93,7 +93,7 @@ namespace CasaDoCodigo.Client.Generated
                         if (status_ == "400")
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new SwaggerException("Se o cadastro \u00e9 null", (int)response_.StatusCode, responseData_, headers_, null);
+                            throw new SwaggerException("Id do pedido \u00e9 inv\u00e1lido", (int)response_.StatusCode, responseData_, headers_, null);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -119,7 +119,6 @@ namespace CasaDoCodigo.Client.Generated
         /// <summary>Obtém o carrinho de compras.</summary>
         /// <param name="pedidoId">O id do pedido</param>
         /// <param name="codigo">O código do produto a ser inserido, ou vazio para não inserir nenhum produto</param>
-        /// <returns>Retorna o pedido atualizado</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task ApiCarrinhoByPedidoIdByCodigoGetAsync(int pedidoId, string codigo)
         {
@@ -129,7 +128,6 @@ namespace CasaDoCodigo.Client.Generated
         /// <summary>Obtém o carrinho de compras.</summary>
         /// <param name="pedidoId">O id do pedido</param>
         /// <param name="codigo">O código do produto a ser inserido, ou vazio para não inserir nenhum produto</param>
-        /// <returns>Retorna o pedido atualizado</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task ApiCarrinhoByPedidoIdByCodigoGetAsync(int pedidoId, string codigo, System.Threading.CancellationToken cancellationToken)
@@ -170,15 +168,16 @@ namespace CasaDoCodigo.Client.Generated
                         ProcessResponse(client_, response_);
 
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "201")
+                        if (status_ == "400")
                         {
-                            return;
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new SwaggerException("C\u00f3digo de produto inv\u00e1lido", (int)response_.StatusCode, responseData_, headers_, null);
                         }
                         else
                         if (status_ == "404")
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new SwaggerException("Pedido n\u00e3o encontrado ou produto n\u00e3o encontrado", (int)response_.StatusCode, responseData_, headers_, null);
+                            throw new SwaggerException("Pedido n\u00e3o encontrado", (int)response_.StatusCode, responseData_, headers_, null);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -203,7 +202,6 @@ namespace CasaDoCodigo.Client.Generated
 
         /// <summary>Atualiza a quantidade de produtos de um item do carrinho.</summary>
         /// <param name="input">Os dados do item sendo atualizado</param>
-        /// <returns>O item foi atualizado</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task ApiCarrinhoPostAsync(UpdateQuantidadeInput input)
         {
@@ -212,7 +210,6 @@ namespace CasaDoCodigo.Client.Generated
 
         /// <summary>Atualiza a quantidade de produtos de um item do carrinho.</summary>
         /// <param name="input">Os dados do item sendo atualizado</param>
-        /// <returns>O item foi atualizado</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task ApiCarrinhoPostAsync(UpdateQuantidadeInput input, System.Threading.CancellationToken cancellationToken)
@@ -248,12 +245,7 @@ namespace CasaDoCodigo.Client.Generated
                         ProcessResponse(client_, response_);
 
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "201")
-                        {
-                            return;
-                        }
-                        else
-                        if (status_ == "404")
+                        if (status_ == "400")
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new SwaggerException("O item do carrinho n\u00e3o foi encontrado", (int)response_.StatusCode, responseData_, headers_, null);
@@ -264,6 +256,93 @@ namespace CasaDoCodigo.Client.Generated
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (client_ != null)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<string> ApiLoginPostAsync(User usuario)
+        {
+            return ApiLoginPostAsync(usuario, System.Threading.CancellationToken.None);
+        }
+
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        public async System.Threading.Tasks.Task<string> ApiLoginPostAsync(User usuario, System.Threading.CancellationToken cancellationToken)
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Login");
+
+            var client_ = new System.Net.Http.HttpClient();
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(usuario, _settings.Value));
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var result_ = default(string);
+                            try
+                            {
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_, _settings.Value);
+                                return result_;
+                            }
+                            catch (System.Exception exception_)
+                            {
+                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                            }
+                        }
+                        else
+                        if (status_ == "400")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new SwaggerException("Login inv\u00e1lido", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+
+                        return default(string);
                     }
                     finally
                     {
@@ -328,7 +407,7 @@ namespace CasaDoCodigo.Client.Generated
                         if (status_ == "404")
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new SwaggerException("Pedido n\u00e3o encontrado", (int)response_.StatusCode, responseData_, headers_, null);
+                            throw new SwaggerException("Id do pedido n\u00e3o encontrado", (int)response_.StatusCode, responseData_, headers_, null);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -409,6 +488,12 @@ namespace CasaDoCodigo.Client.Generated
                             }
                         }
                         else
+                        if (status_ == "401")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new SwaggerException("N\u00e3o autorizado", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+                        else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -463,6 +548,8 @@ namespace CasaDoCodigo.Client.Generated
             return System.Convert.ToString(value, cultureInfo);
         }
     }
+
+
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.67.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class CadastroViewModel : System.ComponentModel.INotifyPropertyChanged
@@ -696,6 +783,61 @@ namespace CasaDoCodigo.Client.Generated
         public static UpdateQuantidadeInput FromJson(string data)
         {
             return Newtonsoft.Json.JsonConvert.DeserializeObject<UpdateQuantidadeInput>(data);
+        }
+
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.67.0 (Newtonsoft.Json v9.0.0.0)")]
+    public partial class User : System.ComponentModel.INotifyPropertyChanged
+    {
+        private string _id;
+        private string _passwordHash;
+
+        [Newtonsoft.Json.JsonProperty("Id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Id
+        {
+            get { return _id; }
+            set
+            {
+                if (_id != value)
+                {
+                    _id = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        [Newtonsoft.Json.JsonProperty("PasswordHash", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string PasswordHash
+        {
+            get { return _passwordHash; }
+            set
+            {
+                if (_passwordHash != value)
+                {
+                    _passwordHash = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public string ToJson()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+
+        public static User FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<User>(data);
         }
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;

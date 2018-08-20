@@ -24,6 +24,7 @@ namespace CasaDoCodigo.Client.Playground
         private const string API_BASE_URL = "https://localhost:44339";
         private const int DELAY_SEGUNDOS = 5;
         private Generated.Client cliente;
+        private string accessToken;
 
         public async Task Executar()
         {
@@ -34,6 +35,7 @@ namespace CasaDoCodigo.Client.Playground
         {
             ImprimirLogo();
             cliente = new Generated.Client(API_BASE_URL);
+            accessToken = await ObterToken();
             ImprimirListagem(await ObterProdutos());
         }
 
@@ -53,6 +55,30 @@ Y88b  d88P888  888     X88888  888   Y88b 888Y88..88P   Y88b  d88PY88..88PY88b 8
                                                                                       'Y88P' 
 ");
             Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        private async Task<string> ObterToken()
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Obtendo token...");
+                    return await cliente.ApiLoginPostAsync(
+                        new User
+                        {
+                            Id = "eed37679-a43c-4d59-8a27-50fc710834ad",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHVpHiMNMZFTMQ0YAGEYmYz24hdervKcEaQBxIl5XcStRg7azq66UjXNyNVaow3dWA=="
+                        });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ocorreu um erro ao acessar {API_BASE_URL}:\r\n" +
+                        $"{ex.Message}\r\n" +
+                        $"tentando novamente em 5s");
+                    await Task.Delay(TimeSpan.FromSeconds(DELAY_SEGUNDOS));
+                }
+            }
         }
 
         private async Task<IList<Produto>> ObterProdutos()
@@ -78,6 +104,7 @@ Y88b  d88P888  888     X88888  888   Y88b 888Y88..88P   Y88b  d88PY88..88PY88b 8
 
             return produtos;
         }
+
         private void ImprimirListagem(IList<Produto> produtos)
         {
             Console.WriteLine(new string('=', 50));

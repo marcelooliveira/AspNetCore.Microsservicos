@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace CasaDoCodigo.API.Controllers
 {
     [Route("api/[controller]")]
-    //[Authorize]
     [ApiController]
     public class ProdutoController : BaseApiController
     {
@@ -29,8 +28,10 @@ namespace CasaDoCodigo.API.Controllers
         /// <returns>
         /// A lista completa de produtos do catálogo
         /// </returns>
+        /// <response code="401">Não autorizado</response> 
         [HttpGet]
-        public async Task<IActionResult> GetProdutos()
+        //[Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<Produto>>> GetProdutos()
         {
             return Ok(await produtoQueries.GetProdutosAsync());
         }
