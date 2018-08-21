@@ -13,6 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CasaDoCodigo.Client.Generat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CasaDoCodigo.Client.Playground", "CasaDoCodigo.Client.Playground\CasaDoCodigo.Client.Playground.csproj", "{09BC8448-2914-4C5E-8CCB-1C8CE1BD8FF7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwagStudio", "NSwagStudio", "{A4502ACB-B015-4D9A-9C6A-189D22E9BC93}"
+	ProjectSection(SolutionItems) = preProject
+		CasaDoCodigo.nswag = CasaDoCodigo.nswag
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

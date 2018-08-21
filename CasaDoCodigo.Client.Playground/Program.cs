@@ -1,6 +1,9 @@
 ﻿using CasaDoCodigo.Client.Generated;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -9,11 +12,18 @@ namespace CasaDoCodigo.Client.Playground
 {
     class Program
     {
-
         public static async Task Main(string[] args)
         {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("AppSettings.json");
+
+            var config = builder.Build();
+
+            var configuration = config.GetSection("ApiConfiguration").Get<ApiConfiguration>();
+
             Console.WriteLine("Iniciando...");
-            var relatorio = new Relatorio();
+            var relatorio = new Relatorio(configuration);
             await relatorio.Executar();
             Console.WriteLine("Tecle algo para sair...");
             Console.ReadKey();
@@ -23,11 +33,16 @@ namespace CasaDoCodigo.Client.Playground
 
     class Relatorio
     {
-        private const string API_BASE_URL = "http://localhost:44339";
         private const int DELAY_SEGUNDOS = 1;
         private Generated.Client cliente;
         private string accessToken;
         private HttpClient httpClient;
+        private ApiConfiguration ApiConfiguration { get; set; }
+
+        public Relatorio(ApiConfiguration configuration)
+        {
+            ApiConfiguration = configuration;
+        }
 
         public async Task Executar()
         {
@@ -39,16 +54,20 @@ namespace CasaDoCodigo.Client.Playground
             ImprimirLogo();
             using (var httpClient = new HttpClient())
             {
-                cliente = new Generated.Client(API_BASE_URL, httpClient);
+                cliente = new Generated.Client(ApiConfiguration.BaseUrl, httpClient);
                 accessToken = await ObterToken();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-                while (true)
+                char key;
+                do
                 {
-                    ImprimirListagem(await ObterProdutos());
                     Console.Clear();
-                    await Task.Delay(DELAY_SEGUNDOS);
+                    ImprimirListagem(await ObterProdutos());
+                    //await Task.Delay(DELAY_SEGUNDOS);
+                    Console.WriteLine("Tecle S para sair ou outra teclar para ");
+                    key = Console.ReadKey().KeyChar;
                 }
+                while (key != 'S');
             }
         }
 
@@ -80,19 +99,17 @@ Y88b  d88P888  888     X88888  888   Y88b 888Y88..88P   Y88b  d88PY88..88PY88b 8
                     return await cliente.ApiLoginPostAsync(
                         new User
                         {
-                            //"eed37679-a43c-4d59-8a27-50fc710834ad",
-                            //"AQAAAAEAACcQAAAAEHVpHiMNMZFTMQ0YAGEYmYz24hdervKcEaQBxIl5XcStRg7azq66UjXNyNVaow3dWA=="
-                            Id =
-                            "5ef851c5-c3e1-46c0-8311-c0521e188bf7",
-                            PasswordHash =
-                            "AQAAAAEAACcQAAAAEGBAFYz4d71CwppE+I4H1XBpLrV9+8TOWh1HpmojIgdvMdEAnpa1JFoPHtUwoG1Odg=="
+                            Id = "eed37679-a43c-4d59-8a27-50fc710834ad",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHVpHiMNMZFTMQ0YAGEYmYz24hdervKcEaQBxIl5XcStRg7azq66UjXNyNVaow3dWA=="
+                            //Id = "5ef851c5-c3e1-46c0-8311-c0521e188bf7",
+                            //PasswordHash = "AQAAAAEAACcQAAAAEGBAFYz4d71CwppE+I4H1XBpLrV9+8TOWh1HpmojIgdvMdEAnpa1JFoPHtUwoG1Odg=="
                         });
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Ocorreu um erro ao acessar {API_BASE_URL}:\r\n" +
+                    Console.WriteLine($"Ocorreu um erro ao acessar {ApiConfiguration.BaseUrl}:\r\n" +
                         $"{ex.Message}\r\n" +
-                        $"tentando novamente em 5s");
+                        $"tentando novamente em {DELAY_SEGUNDOS}s");
                     await Task.Delay(TimeSpan.FromSeconds(DELAY_SEGUNDOS));
                 }
             }
@@ -112,7 +129,7 @@ Y88b  d88P888  888     X88888  888   Y88b 888Y88..88P   Y88b  d88PY88..88PY88b 8
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Ocorreu um erro ao acessar {API_BASE_URL}:\r\n" +
+                    Console.WriteLine($"Ocorreu um erro ao obter produtos:\r\n" +
                         $"{ex.Message}\r\n" +
                         $"tentando novamente em 5s");
                     await Task.Delay(TimeSpan.FromSeconds(DELAY_SEGUNDOS));
@@ -135,7 +152,5 @@ Y88b  d88P888  888     X88888  888   Y88b 888Y88..88P   Y88b  d88PY88..88PY88b 8
                 Console.WriteLine(new string('=', 50));
             }
         }
-
-
     }
 }

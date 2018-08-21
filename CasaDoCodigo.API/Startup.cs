@@ -151,22 +151,22 @@ namespace CasaDoCodigo.API
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("SECRET_KEY"));
+            //var signingkey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("SECRET_KEY"));
 
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                // The signing key must match!
-                ValidateIssuerSigningKey = true,
-                ValidateAudience = false,
-                ValidateIssuer = false,
-                IssuerSigningKeys = new List<SecurityKey> { signingKey },
+            //var tokenValidationParameters = new TokenValidationParameters
+            //{
+            //    // The signing key must match!
+            //    ValidateIssuerSigningKey = true,
+            //    ValidateAudience = false,
+            //    ValidateIssuer = false,
+            //    IssuerSigningKeys = new List<SecurityKey> { signingKey },
 
-                // Validate the token expiry
-                ValidateLifetime = true,
-            };
+            //    // Validate the token expiry
+            //    ValidateLifetime = true,
+            //};
 
             var identityUrl = Configuration.GetValue<string>("IdentityUrl");
-            
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
