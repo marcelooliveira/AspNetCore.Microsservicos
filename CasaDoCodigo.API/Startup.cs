@@ -39,13 +39,57 @@ namespace CasaDoCodigo.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            ConfigureAuthentication(services);
+            //var tokenValidationParameters = new TokenValidationParameters
+            //{
+            //    ValidateIssuerSigningKey = true,
+            //    IssuerSigningKey = GetSignInKey(),
+            //    ValidateIssuer = false,
+            //    ValidIssuer = GetIssuer(),
+            //    ValidateAudience = false,
+            //    ValidAudience = GetAudience(),
+            //    ValidateLifetime = true,
+            //    ValidateActor = false,
+            //    ValidateTokenReplay = false,
+            //    RequireExpirationTime = true,
+            //    ClockSkew = TimeSpan.Zero
+            //};
+
+            services.AddAuthentication()
+                //.AddJwtBearer(cfg =>
+                //{
+                //    cfg.RequireHttpsMetadata = false;
+                //    cfg.SaveToken = true;
+
+                //    cfg.TokenValidationParameters = new TokenValidationParameters()
+                //    {
+                //        ValidIssuer = Configuration["Tokens:Issuer"],
+                //        ValidAudience = Configuration["Tokens:Issuer"],
+                //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+                //    };
+
+                //});
+                .AddJwtBearer(bearerOptions =>
+                {
+                    var paramsValidation = bearerOptions.TokenValidationParameters;
+                    paramsValidation.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]));
+                    paramsValidation.ValidAudience = Configuration["Tokens:Issuer"];
+                    paramsValidation.ValidIssuer = Configuration["Tokens:Issuer"];
+
+                    // Valida a assinatura de um token recebido
+                    paramsValidation.ValidateIssuerSigningKey = true;
+
+                    // Verifica se um token recebido ainda é válido
+                    paramsValidation.ValidateLifetime = true;
+
+                    // Tempo de tolerância para a expiração de um token (utilizado
+                    // caso haja problemas de sincronismo de horário entre diferentes
+                    // computadores envolvidos no processo de comunicação)
+                    paramsValidation.ClockSkew = TimeSpan.Zero;
+                });
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-
-            ConfigureAuthService(services);
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -98,103 +142,27 @@ namespace CasaDoCodigo.API
             services.AddTransient<ICadastroRepository, CadastroRepository>();
             services.AddTransient<IItemPedidoRepository, ItemPedidoRepository>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<UsersDAO>();
+            services.AddSingleton<SigningConfigurations>();
+            services.AddSingleton<TokenConfigurations>();
         }
 
-        private void ConfigureAuthentication(IServiceCollection services)
+        static private SymmetricSecurityKey GetSignInKey()
         {
-            services.AddTransient<UsersDAO>();
+            const string secretKey = "very_long_very_secret_secret";
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
-            var signingConfigurations = new SigningConfigurations();
-            services.AddSingleton(signingConfigurations);
-
-            TokenConfigurations = new TokenConfigurations();
-            new ConfigureFromConfigurationOptions<TokenConfigurations>(
-                Configuration.GetSection("TokenConfigurations"))
-                    .Configure(TokenConfigurations);
-            services.AddSingleton(TokenConfigurations);
-
-            services.AddAuthentication(authOptions =>
-            {
-                authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(bearerOptions =>
-            {
-                var paramsValidation = bearerOptions.TokenValidationParameters;
-                paramsValidation.IssuerSigningKey = signingConfigurations.Key;
-                paramsValidation.ValidAudience = TokenConfigurations.Audience;
-                paramsValidation.ValidIssuer = TokenConfigurations.Issuer;
-
-                // Valida a assinatura de um token recebido
-                paramsValidation.ValidateIssuerSigningKey = true;
-
-                // Verifica se um token recebido ainda é válido
-                paramsValidation.ValidateLifetime = true;
-
-                // Tempo de tolerância para a expiração de um token (utilizado
-                // caso haja problemas de sincronismo de horário entre diferentes
-                // computadores envolvidos no processo de comunicação)
-                paramsValidation.ClockSkew = TimeSpan.Zero;
-            });
-
-            // Ativa o uso do token como forma de autorizar o acesso
-            // a recursos deste projeto
-            services.AddAuthorization(auth =>
-            {
-                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
-                    .RequireAuthenticatedUser().Build());
-            });
+            return signingKey;
         }
 
-        private void ConfigureAuthService(IServiceCollection services)
+        static private string GetIssuer()
         {
-            // prevent from mapping "sub" claim to nameidentifier.
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            return "issuer";
+        }
 
-            //var signingkey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("SECRET_KEY"));
-
-            //var tokenValidationParameters = new TokenValidationParameters
-            //{
-            //    // The signing key must match!
-            //    ValidateIssuerSigningKey = true,
-            //    ValidateAudience = false,
-            //    ValidateIssuer = false,
-            //    IssuerSigningKeys = new List<SecurityKey> { signingKey },
-
-            //    // Validate the token expiry
-            //    ValidateLifetime = true,
-            //};
-
-            var identityUrl = Configuration.GetValue<string>("IdentityUrl");
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-            })
-            //.AddJwtBearer(options =>
-            //{
-            //    options.IncludeErrorDetails = true;
-            //    options.TokenValidationParameters = tokenValidationParameters;
-            //    options.Authority = TokenConfigurations.Authority;
-            //    options.RequireHttpsMetadata = false;
-            //    options.Audience = TokenConfigurations.Audience;
-            //    options.Events = new JwtBearerEvents()
-            //    {
-            //        OnAuthenticationFailed = c =>
-            //        {
-            //            c.NoResult();
-
-            //            c.Response.StatusCode = 401;
-            //            c.Response.ContentType = "text/plain";
-
-            //            return c.Response.WriteAsync(c.Exception.ToString());
-            //        }
-
-            //    };
-            //})
-            ;
+        static private string GetAudience()
+        {
+            return "audience";
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -223,6 +191,7 @@ namespace CasaDoCodigo.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Casa do Código - Web API v1");
             });
 
+            app.UseAuthentication();
             app.UseStaticFiles();
             app.UseMvc();
 

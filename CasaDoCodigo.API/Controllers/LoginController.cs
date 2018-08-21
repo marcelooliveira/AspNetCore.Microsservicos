@@ -9,14 +9,19 @@ using CasaDoCodigo.Models;
 using CasaDoCodigo.API.Areas.Identity.Services;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace CasaDoCodigo.API.Controllers
 {
     [Route("api/[controller]")]
     public class LoginController : BaseApiController
     {
-        public LoginController(ILogger<LoginController> logger) : base(logger)
+        private readonly IConfiguration _config;
+
+        public LoginController(ILogger<LoginController> logger, IConfiguration configuration) : base(logger)
         {
+            _config = configuration;
         }
 
         /// <summary>
@@ -50,31 +55,32 @@ namespace CasaDoCodigo.API.Controllers
                 return BadRequest("Login inválido");
             }
 
-            ClaimsIdentity identity = new ClaimsIdentity(
-                new GenericIdentity(usuario.Id, "Login"),
-                new[] {
+            try
+            {
+                var claims = new[]
+                            {
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
                         new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Id)
-                }
-            );
+                    };
 
-            DateTime dataCriacao = DateTime.Now;
-            DateTime dataExpiracao = dataCriacao +
-                TimeSpan.FromSeconds(tokenConfigurations.Seconds);
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var handler = new JwtSecurityTokenHandler();
-            var securityToken = handler.CreateToken(new SecurityTokenDescriptor
+                var token = new JwtSecurityToken(_config["Tokens:Issuer"],
+                _config["Tokens:Issuer"],
+                claims,
+                //expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddSeconds(5),
+                signingCredentials: creds);
+
+                return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+            }
+            catch (Exception ex)
             {
-                Issuer = tokenConfigurations.Issuer,
-                Audience = tokenConfigurations.Audience,
-                SigningCredentials = signingConfigurations.SigningCredentials,
-                Subject = identity,
-                NotBefore = dataCriacao,
-                Expires = dataExpiracao,
-            });
-            var token = handler.WriteToken(securityToken);
 
-            return Ok(token);
+                throw;
+            }
+
         }
     }
 }

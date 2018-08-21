@@ -1,4 +1,5 @@
 ﻿using CasaDoCodigo.Client.Generated;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
@@ -56,7 +57,7 @@ namespace CasaDoCodigo.Client.Playground
             {
                 cliente = new Generated.Client(ApiConfiguration.BaseUrl, httpClient);
                 accessToken = await ObterToken();
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, accessToken);
 
                 char key;
                 do
@@ -99,10 +100,10 @@ Y88b  d88P888  888     X88888  888   Y88b 888Y88..88P   Y88b  d88PY88..88PY88b 8
                     return await cliente.ApiLoginPostAsync(
                         new User
                         {
-                            Id = "eed37679-a43c-4d59-8a27-50fc710834ad",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHVpHiMNMZFTMQ0YAGEYmYz24hdervKcEaQBxIl5XcStRg7azq66UjXNyNVaow3dWA=="
-                            //Id = "5ef851c5-c3e1-46c0-8311-c0521e188bf7",
-                            //PasswordHash = "AQAAAAEAACcQAAAAEGBAFYz4d71CwppE+I4H1XBpLrV9+8TOWh1HpmojIgdvMdEAnpa1JFoPHtUwoG1Odg=="
+                            //Id = "eed37679-a43c-4d59-8a27-50fc710834ad",
+                            //PasswordHash = "AQAAAAEAACcQAAAAEHVpHiMNMZFTMQ0YAGEYmYz24hdervKcEaQBxIl5XcStRg7azq66UjXNyNVaow3dWA=="
+                            Id = "5ef851c5-c3e1-46c0-8311-c0521e188bf7",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGBAFYz4d71CwppE+I4H1XBpLrV9+8TOWh1HpmojIgdvMdEAnpa1JFoPHtUwoG1Odg=="
                         });
                 }
                 catch (Exception ex)

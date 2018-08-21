@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using CasaDoCodigo.API.Queries;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace CasaDoCodigo.API.Controllers
 {
@@ -30,7 +31,7 @@ namespace CasaDoCodigo.API.Controllers
         /// </returns>
         /// <response code="401">Não autorizado</response> 
         [HttpGet]
-        [Authorize("Bearer")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<IEnumerable<Produto>>> GetProdutos()
         {
             return Ok(await produtoQueries.GetProdutosAsync());
