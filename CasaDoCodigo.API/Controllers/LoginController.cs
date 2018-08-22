@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Principal;
 using Microsoft.IdentityModel.Tokens;
 using CasaDoCodigo.Models;
 using CasaDoCodigo.API.Areas.Identity.Services;
@@ -29,17 +28,13 @@ namespace CasaDoCodigo.API.Controllers
         /// </summary>
         /// <param name="usuario"></param>
         /// <param name="usersDAO"></param>
-        /// <param name="signingConfigurations"></param>
-        /// <param name="tokenConfigurations"></param>
         /// <returns></returns>
         /// <response code="400">Login inválido</response> 
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<string>> Post(
             [FromBody]User usuario,
-            [FromServices]UsersDAO usersDAO,
-            [FromServices]SigningConfigurations signingConfigurations,
-            [FromServices]TokenConfigurations tokenConfigurations)
+            [FromServices]UsersDAO usersDAO)
         {
             if (usuario == null || String.IsNullOrWhiteSpace(usuario.Id))
             {
@@ -55,32 +50,22 @@ namespace CasaDoCodigo.API.Controllers
                 return BadRequest("Login inválido");
             }
 
-            try
-            {
-                var claims = new[]
-                            {
+            var claims = new[]
+                {
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
                         new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Id)
                     };
 
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-                var token = new JwtSecurityToken(_config["Tokens:Issuer"],
-                _config["Tokens:Issuer"],
-                claims,
-                //expires: DateTime.Now.AddMinutes(30),
-                expires: DateTime.Now.AddSeconds(5),
-                signingCredentials: creds);
+            var token = new JwtSecurityToken(_config["Tokens:Issuer"],
+            _config["Tokens:Issuer"],
+            claims,
+            expires: DateTime.Now.AddSeconds(int.Parse(_config["Tokens:ExpiresSecs"])),
+            signingCredentials: creds);
 
-                return Ok(new JwtSecurityTokenHandler().WriteToken(token));
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-
+            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
         }
     }
 }
