@@ -269,15 +269,15 @@ namespace CasaDoCodigo.Client.Generated
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<string> ApiLoginPostAsync(User usuario)
+        public System.Threading.Tasks.Task<string> ApiLoginPostAsync(UsuarioInput input)
         {
-            return ApiLoginPostAsync(usuario, System.Threading.CancellationToken.None);
+            return ApiLoginPostAsync(input, System.Threading.CancellationToken.None);
         }
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task<string> ApiLoginPostAsync(User usuario, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<string> ApiLoginPostAsync(UsuarioInput input, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Login");
@@ -287,7 +287,7 @@ namespace CasaDoCodigo.Client.Generated
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(usuario, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(input, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
@@ -787,20 +787,35 @@ namespace CasaDoCodigo.Client.Generated
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.67.0 (Newtonsoft.Json v9.0.0.0)")]
-    public partial class User : System.ComponentModel.INotifyPropertyChanged
+    public partial class UsuarioInput : System.ComponentModel.INotifyPropertyChanged
     {
-        private string _id;
+        private string _usuarioId;
+        private string _password;
         private string _passwordHash;
     
-        [Newtonsoft.Json.JsonProperty("Id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Id
+        [Newtonsoft.Json.JsonProperty("UsuarioId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string UsuarioId
         {
-            get { return _id; }
+            get { return _usuarioId; }
             set 
             {
-                if (_id != value)
+                if (_usuarioId != value)
                 {
-                    _id = value; 
+                    _usuarioId = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("Password", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Password
+        {
+            get { return _password; }
+            set 
+            {
+                if (_password != value)
+                {
+                    _password = value; 
                     RaisePropertyChanged();
                 }
             }
@@ -825,9 +840,9 @@ namespace CasaDoCodigo.Client.Generated
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
         
-        public static User FromJson(string data)
+        public static UsuarioInput FromJson(string data)
         {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<User>(data);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<UsuarioInput>(data);
         }
     
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;

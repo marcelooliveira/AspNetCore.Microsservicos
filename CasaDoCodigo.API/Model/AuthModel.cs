@@ -1,11 +1,13 @@
 ﻿using System.Security.Cryptography;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CasaDoCodigo.Models
 {
-    public class User
+    public class UsuarioInput
     {
-        public string Id { get; set; }
+        public string UsuarioId { get; set; }
+        public string Password { get; set; }
         public string PasswordHash { get; set; }
     }
 

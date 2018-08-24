@@ -23,6 +23,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CasaDoCodigo.API
 {
@@ -131,9 +133,14 @@ namespace CasaDoCodigo.API
 
             string connectionString = Configuration.GetConnectionString("Default");
 
+            services.AddScoped<DbContext, ApplicationContext>();
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connectionString)
             );
+
+            services.AddTransient<IUserStore<CasaDoCodigoAPIUser>, UserStore<CasaDoCodigoAPIUser>>();
+            services.AddTransient<IPasswordHasher<CasaDoCodigoAPIUser>, PasswordHasher<CasaDoCodigoAPIUser>>();
+            services.AddTransient<UserManager<CasaDoCodigoAPIUser>>();
 
             services.AddTransient<IProdutoQueries, ProdutoQueries>();
             services.AddTransient<IDataService, DataService>();

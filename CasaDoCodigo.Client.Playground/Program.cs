@@ -100,10 +100,10 @@ Y88b  d88P888  888     X88888  888   Y88b 888Y88..88P   Y88b  d88PY88..88PY88b 8
                     Console.WriteLine("Obtendo token...");
 
                     return await cliente.ApiLoginPostAsync(
-                        new User
+                        new UsuarioInput
                         {
-                            Id = Environment.GetEnvironmentVariable("CASADOCODIGO_USERID", EnvironmentVariableTarget.User),
-                            PasswordHash = Environment.GetEnvironmentVariable("CASADOCODIGO_PASSWORDHASH", EnvironmentVariableTarget.User),
+                            UsuarioId = Environment.GetEnvironmentVariable("CASADOCODIGO_USERID", EnvironmentVariableTarget.User),
+                            Password = Environment.GetEnvironmentVariable("CASADOCODIGO_PASSWORD", EnvironmentVariableTarget.User),
                         });
                 }
                 catch (Exception ex)

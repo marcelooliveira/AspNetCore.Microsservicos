@@ -18,13 +18,13 @@ namespace CasaDoCodigo.API.Areas.Identity.Services
             _configuration = configuration;
         }
 
-        public async Task<User> Find(string userID)
+        public async Task<UsuarioInput> Find(string userID)
         {
             using (SqlConnection conexao = new SqlConnection(
                 _configuration.GetConnectionString("Default")))
             {
-                return await conexao.QueryFirstOrDefaultAsync<User>(
-                    "SELECT Id, PasswordHash " +
+                return await conexao.QueryFirstOrDefaultAsync<UsuarioInput>(
+                    "SELECT Id as UsuarioId, PasswordHash " +
                     "FROM dbo.AspNetUsers " +
                     "WHERE Id = @UserID", new { UserID = userID });
             }
