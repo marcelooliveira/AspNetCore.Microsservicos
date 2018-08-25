@@ -33,6 +33,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="2.1.1" />
+    <PackageReference Include="Polly" Version="6.1.0" />
+    <PackageReference Include="Polly.Extensions.Http" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Polly;
+using Polly.Extensions.Http;
 
 namespace CasaDoCodigo
 {
@@ -51,7 +53,11 @@ namespace CasaDoCodigo
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 
             services.AddHttpClient<IApiService, ApiService>()
-               .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+               .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+               .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+               .AddPolicyHandler(GetRetryPolicy())
+               .AddPolicyHandler(GetCircuitBreakerPolicy());
+            ;
         }
 
         // Este método é chamado pelo runtime.
@@ -79,6 +85,21 @@ namespace CasaDoCodigo
                     name: "default",
                     template: "{controller=Pedido}/{action=Carrossel}/{codigo?}");
             });
+        }
+
+        static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            return HttpPolicyExtensions
+              .HandleTransientHttpError()
+              .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+              .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+        }
+
+        static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
         }
     }
 
