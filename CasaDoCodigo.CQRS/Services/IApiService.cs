@@ -1,7 +1,6 @@
 ﻿using CasaDoCodigo.Models;
-using System;
+using CasaDoCodigo.Models.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Services
@@ -9,5 +8,6 @@ namespace CasaDoCodigo.Services
     public interface IApiService
     {
         Task<IEnumerable<Produto>> GetProdutos();
+        Task<CarrinhoViewModel> Carrinho(string codigo, int pedidoId);
     }
 }

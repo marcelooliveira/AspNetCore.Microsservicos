@@ -1,5 +1,6 @@
 ﻿using CasaDoCodigo.Client.Generated;
 using CasaDoCodigo.Models;
+using CasaDoCodigo.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Services
@@ -49,6 +51,40 @@ namespace CasaDoCodigo.Services
             var uri = _baseUri + ApiUris.GetProdutos;
             var result = await _httpClient.GetStringAsync(uri);
             return JsonConvert.DeserializeObject<IEnumerable<Models.Produto>>(result);
+        }
+
+        public async Task<CarrinhoViewModel> Carrinho(string codigo, int pedidoId)
+        {
+            return await GetAsync<CarrinhoViewModel>(ApiUris.GetCarrinho, pedidoId, codigo);
+        }
+
+        private async Task<T> GetAsync<T>(string uri, params object[] param)
+        {
+            string requestUri = string.Format(_baseUri + uri, param);
+
+            foreach (var par in param)
+            {
+                requestUri += string.Format($"/{par}");
+            }
+
+            var json = await _httpClient.GetStringAsync(requestUri);
+            return JsonConvert.DeserializeObject<T>(json);
+        }
+
+        private async Task<T> PostAsync<T>(string uri, object content)
+        {
+            var jsonIn = JsonConvert.SerializeObject(content);
+            var stringContent = new StringContent(jsonIn, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage httpResponse = await _httpClient.PostAsync(uri, stringContent);
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                var error = new { httpResponse.StatusCode, httpResponse.ReasonPhrase };
+                var errorJson = JsonConvert.SerializeObject(error);
+                throw new HttpRequestException(errorJson);
+            }
+            var jsonOut = await httpResponse.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(jsonOut);
         }
     }
 }

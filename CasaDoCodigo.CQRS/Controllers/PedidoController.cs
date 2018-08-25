@@ -51,18 +51,10 @@ namespace CasaDoCodigo.Controllers
 
         public async Task<IActionResult> Carrinho(string codigo)
         {
-            try
-            {
-                int pedidoId = GetPedidoId() ?? 0;
-                CarrinhoViewModel carrinho = await GetAsync<CarrinhoViewModel>(ApiUris.GetCarrinho, pedidoId, codigo);
-                SetPedidoId(carrinho.PedidoId);
-                return base.View(carrinho);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, ex.Message, "Carrinho");
-                throw;
-            }
+            int pedidoId = GetPedidoId() ?? 0;
+            CarrinhoViewModel carrinho = await apiService.Carrinho(codigo, pedidoId);
+            SetPedidoId(carrinho.PedidoId);
+            return base.View(carrinho);
         }
 
         public async Task<IActionResult> Cadastro()
