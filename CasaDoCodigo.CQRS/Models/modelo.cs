@@ -37,6 +37,12 @@ namespace CasaDoCodigo.Models
             this.Nome = nome;
             this.Preco = preco;
         }
+
+        public Produto(int id, string codigo, string nome, decimal preco)
+            : this(codigo, nome, preco)
+        {
+            this.Id = id;
+        }
     }
 
     public class Cadastro : BaseModel

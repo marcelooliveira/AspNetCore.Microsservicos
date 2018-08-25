@@ -49,7 +49,6 @@ namespace CasaDoCodigo.API.Controllers
             {
                 return BadRequest("Login inválido");
             }
-
             var user = await _userMgr.FindByIdAsync(input.UsuarioId);
             if (user == null)
             {

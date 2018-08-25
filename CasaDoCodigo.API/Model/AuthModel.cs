@@ -9,6 +9,7 @@ namespace CasaDoCodigo.Models
         public string UsuarioId { get; set; }
         public string Password { get; set; }
         public string PasswordHash { get; set; }
+        public string RedirectUrl { get; set; }
     }
 
     public class TokenConfigurations

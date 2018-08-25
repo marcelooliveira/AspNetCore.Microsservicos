@@ -42,6 +42,10 @@
     <Folder Include="wwwroot\images\produtos\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CasaDoCodigo.Client\CasaDoCodigo.Client.Generated.csproj" />
+  </ItemGroup>
+
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="dotnet restore" />
   </Target>
