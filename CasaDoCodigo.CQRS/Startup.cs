@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using CasaDoCodigo.Infrastructure;
+using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -45,8 +47,12 @@ namespace CasaDoCodigo
 
             services.AddSingleton(typeof(HttpClient), httpClient);
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        }
+            services.AddTransient<IApiService, ApiService>();
+            services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 
+            services.AddHttpClient<IApiService, ApiService>()
+               .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+        }
 
         // Este método é chamado pelo runtime.
         // Use este método para configurar o pipeline de requisições HTTP.

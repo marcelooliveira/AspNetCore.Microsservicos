@@ -1,17 +1,13 @@
-﻿using CasaDoCodigo.Client.Generated;
-using CasaDoCodigo.Models;
+﻿using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,71 +27,26 @@ namespace CasaDoCodigo.Controllers
         private readonly ILogger logger;
         private readonly IHttpContextAccessor contextAccessor;
         private readonly HttpClient httpClient;
-        private CasaDoCodigo.Client.Generated.Client apiCliente;
-        private string accessToken;
+        private readonly IApiService apiService;
 
         public IConfiguration Configuration { get; }
 
         public PedidoController(ILogger<PedidoController> logger,
             IHttpContextAccessor contextAccessor,
             HttpClient httpClient,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IApiService apiService)
         {
             this.logger = logger;
             this.contextAccessor = contextAccessor;
             this.httpClient = httpClient;
             this.Configuration = configuration;
+            this.apiService = apiService;
         }
 
         public async Task<IActionResult> Carrossel()
         {
-            try
-            {
-                //return View(await GetAsync<IList<Produto>>(ApiUris.GetProdutos));
-
-                using (var httpClient = new HttpClient())
-                {
-                    apiCliente = new CasaDoCodigo.Client.Generated.Client(Configuration["ApiUrl"], httpClient);
-                    if (string.IsNullOrWhiteSpace(accessToken))
-                    {
-                        accessToken = await ObterToken();
-                    }
-
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, accessToken);
-                    return View(await ObterProdutos());
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, ex.Message, "Carrossel");
-                throw;
-            }
-        }
-
-        private async Task<string> ObterToken()
-        {
-            var token = contextAccessor.HttpContext.Session.GetString("accessToken");
-
-            if (token == null)
-            {
-                token = await apiCliente.ApiLoginPostAsync(
-                new UsuarioInput
-                {
-                    UsuarioId = Environment.GetEnvironmentVariable("CASADOCODIGO_USERID", EnvironmentVariableTarget.User),
-                    Password = Environment.GetEnvironmentVariable("CASADOCODIGO_PASSWORD", EnvironmentVariableTarget.User),
-                });
-                contextAccessor.HttpContext.Session.SetString("accessToken", token);
-            }
-            return token;
-        }
-
-        private async Task<IList<Models.Produto>> ObterProdutos()
-        {
-            Console.WriteLine("Obtendo produtos...");
-            var resultado = await apiCliente.ApiProdutoGetAsync();
-            return resultado.Select(r =>
-                new Models.Produto(r.Id.Value, r.Codigo, r.Nome, (decimal)(r.Preco.Value)))
-                .ToList();
+            return View(await apiService.GetProdutos());
         }
 
         public async Task<IActionResult> Carrinho(string codigo)
