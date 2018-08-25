@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using CasaDoCodigo.API.Model;
 using CasaDoCodigo.Models;
 using CasaDoCodigo.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -29,6 +31,7 @@ namespace CasaDoCodigo.API.Controllers
         /// <returns>O pedido com o cadastro atualizado</returns>
         /// <response code="400">Id do pedido é inválido</response> 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Post([FromBody] CadastroViewModel cadastroViewModel)

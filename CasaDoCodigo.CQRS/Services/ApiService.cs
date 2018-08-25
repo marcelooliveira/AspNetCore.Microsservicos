@@ -58,6 +58,22 @@ namespace CasaDoCodigo.Services
             return await GetAsync<CarrinhoViewModel>(ApiUris.GetCarrinho, pedidoId, codigo);
         }
 
+        public async Task<PedidoViewModel> GetPedido(int pedidoId)
+        {
+            return await GetAsync<PedidoViewModel>(ApiUris.GetPedido, pedidoId);
+        }
+
+        public async Task<PedidoViewModel> UpdateCadastro(Models.CadastroViewModel viewModel)
+        {
+            return await PostAsync<PedidoViewModel>(ApiUris.UpdateCadastro, viewModel);
+        }
+
+        public async Task<UpdateQuantidadeOutput> UpdateQuantidade(int itemPedidoId, int quantidade)
+        {
+            return await PostAsync<UpdateQuantidadeOutput>(
+                ApiUris.UpdateQuantidade, new { itemPedidoId, quantidade });
+        }
+
         private async Task<T> GetAsync<T>(string uri, params object[] param)
         {
             string requestUri = string.Format(_baseUri + uri, param);
@@ -76,7 +92,7 @@ namespace CasaDoCodigo.Services
             var jsonIn = JsonConvert.SerializeObject(content);
             var stringContent = new StringContent(jsonIn, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage httpResponse = await _httpClient.PostAsync(uri, stringContent);
+            HttpResponseMessage httpResponse = await _httpClient.PostAsync(_baseUri + uri, stringContent);
             if (!httpResponse.IsSuccessStatusCode)
             {
                 var error = new { httpResponse.StatusCode, httpResponse.ReasonPhrase };

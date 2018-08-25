@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using CasaDoCodigo.API.Model;
 using CasaDoCodigo.Models;
 using CasaDoCodigo.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -30,6 +32,7 @@ namespace CasaDoCodigo.API.Controllers
         /// <returns>Um pedido com o id solicitado</returns>
         /// <response code="404">Id do pedido não encontrado</response>
         [HttpGet("{id}", Name = "Get")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> Get(int id)
         {

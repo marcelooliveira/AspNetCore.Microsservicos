@@ -59,91 +59,36 @@ namespace CasaDoCodigo.Controllers
 
         public async Task<IActionResult> Cadastro()
         {
-            try
-            {
-                int pedidoId = GetPedidoId() ?? throw new ArgumentNullException("pedidoId");
-                PedidoViewModel pedido = await GetAsync<PedidoViewModel>(ApiUris.GetPedido, pedidoId);
+            int pedidoId = GetPedidoId() ?? throw new ArgumentNullException("pedidoId");
+            PedidoViewModel pedido = await apiService.GetPedido(pedidoId);
 
-                if (pedido == null)
-                {
-                    return RedirectToAction("Carrossel");
-                }
-
-                return View(pedido.Cadastro);
-            }
-            catch (Exception ex)
+            if (pedido == null)
             {
-                logger.LogError(ex, ex.Message, "Cadastro");
-                throw;
+                return RedirectToAction("Carrossel");
             }
+
+            return View(pedido.Cadastro);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Resumo(Cadastro cadastro)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var viewModel = new CasaDoCodigo.Models.CadastroViewModel(cadastro);
-                    viewModel.PedidoId = GetPedidoId().Value;
-                    var pedidoViewModel = await PostAsync<PedidoViewModel>(ApiUris.UpdateCadastro, viewModel);
-                    return base.View(pedidoViewModel);
-                }
-                return RedirectToAction("Cadastro");
+                var viewModel = new CasaDoCodigo.Models.CadastroViewModel(cadastro);
+                viewModel.PedidoId = GetPedidoId().Value;
+                var pedidoViewModel = await apiService.UpdateCadastro(viewModel);
+                return base.View(pedidoViewModel);
             }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, ex.Message, "Resumo");
-                throw;
-            }
+            return RedirectToAction("Cadastro");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<UpdateQuantidadeOutput> UpdateQuantidade([FromBody]ItemPedido itemPedido)
         {
-            try
-            {
-                return await PostAsync<UpdateQuantidadeOutput>(
-                    ApiUris.UpdateQuantidade,
-                    new { ItemPedidoId = itemPedido.Id, itemPedido.Quantidade });
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, ex.Message, "UpdateQuantidade");
-                throw;
-            }
-        }
-
-        private async Task<T> GetAsync<T>(string uri, params object[] param)
-        {
-            string requestUri = string.Format(uri, param);
-
-            foreach (var par in param)
-            {
-                requestUri += string.Format($"/{par}");
-            }
-
-            var json = await httpClient.GetStringAsync(requestUri);
-            return JsonConvert.DeserializeObject<T>(json);
-        }
-
-        private async Task<T> PostAsync<T>(string uri, object content)
-        {
-            var jsonIn = JsonConvert.SerializeObject(content);
-            var stringContent = new StringContent(jsonIn, Encoding.UTF8, "application/json");
-
-            HttpResponseMessage httpResponse = await httpClient.PostAsync(uri, stringContent);
-            if (!httpResponse.IsSuccessStatusCode)
-            {
-                var error = new { httpResponse.StatusCode, httpResponse.ReasonPhrase };
-                var errorJson = JsonConvert.SerializeObject(error);
-                throw new HttpRequestException(errorJson);
-            }
-            var jsonOut = await httpResponse.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(jsonOut);
+            return await apiService.UpdateQuantidade(itemPedido.Id, itemPedido.Quantidade);
         }
 
         private int? GetPedidoId()

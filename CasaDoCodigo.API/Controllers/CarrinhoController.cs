@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -32,6 +34,7 @@ namespace CasaDoCodigo.API.Controllers
         /// <response code="400">Código de produto inválido</response> 
         /// <response code="404">Pedido não encontrado</response> 
         [HttpGet("{pedidoId}/{codigo}", Name = "GetCarrinho")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetCarrinho(int pedidoId, string codigo)
@@ -60,6 +63,7 @@ namespace CasaDoCodigo.API.Controllers
         /// <returns>O item do carrinho atualizado</returns>
         /// <response code="400">O item do carrinho não foi encontrado</response> 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Post([FromBody]UpdateQuantidadeInput input)
         {
