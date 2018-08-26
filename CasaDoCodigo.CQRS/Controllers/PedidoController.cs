@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Polly.CircuitBreaker;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -46,28 +47,53 @@ namespace CasaDoCodigo.Controllers
 
         public async Task<IActionResult> Carrossel()
         {
-            return View(await apiService.GetProdutos());
+            try
+            {
+                return View(await apiService.GetProdutos());
+            }
+            catch (BrokenCircuitException)
+            {
+                HandleBrokenCircuitException();
+            }
+
+            return View();
         }
 
         public async Task<IActionResult> Carrinho(string codigo)
         {
-            int pedidoId = GetPedidoId() ?? 0;
-            CarrinhoViewModel carrinho = await apiService.Carrinho(codigo, pedidoId);
-            SetPedidoId(carrinho.PedidoId);
-            return base.View(carrinho);
+            try
+            {
+                int pedidoId = GetPedidoId() ?? 0;
+                CarrinhoViewModel carrinho = await apiService.Carrinho(codigo, pedidoId);
+                SetPedidoId(carrinho.PedidoId);
+                return base.View(carrinho);
+            }
+            catch (BrokenCircuitException)
+            {
+                HandleBrokenCircuitException();
+            }
+            return View();
         }
 
         public async Task<IActionResult> Cadastro()
         {
-            int pedidoId = GetPedidoId() ?? throw new ArgumentNullException("pedidoId");
-            PedidoViewModel pedido = await apiService.GetPedido(pedidoId);
-
-            if (pedido == null)
+            try
             {
-                return RedirectToAction("Carrossel");
-            }
+                int pedidoId = GetPedidoId() ?? throw new ArgumentNullException("pedidoId");
+                PedidoViewModel pedido = await apiService.GetPedido(pedidoId);
 
-            return View(pedido.Cadastro);
+                if (pedido == null)
+                {
+                    return RedirectToAction("Carrossel");
+                }
+
+                return View(pedido.Cadastro);
+            }
+            catch (BrokenCircuitException)
+            {
+                HandleBrokenCircuitException();
+            }
+            return View();
         }
 
         [HttpPost]
@@ -99,6 +125,11 @@ namespace CasaDoCodigo.Controllers
         private void SetPedidoId(int pedidoId)
         {
             contextAccessor.HttpContext.Session.SetInt32("pedidoId", pedidoId);
+        }
+
+        private void HandleBrokenCircuitException()
+        {
+            ViewBag.MsgCarrosselIndisponivel = "O serviço de carrossel não está ativo, por favor tente novamente mais tarde.";
         }
     }
 }

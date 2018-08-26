@@ -19,6 +19,7 @@ namespace CasaDoCodigo.API
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseHealthChecks("/hc")
                 .UseStartup<Startup>()
                 .ConfigureLogging((hostingContext, logging) =>
                 {
