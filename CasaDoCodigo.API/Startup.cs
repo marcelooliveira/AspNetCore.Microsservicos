@@ -25,6 +25,8 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.HealthChecks;
+using System.Threading.Tasks;
 
 namespace CasaDoCodigo.API
 {
@@ -152,6 +154,13 @@ namespace CasaDoCodigo.API
             services.AddSingleton<UsersDAO>();
             services.AddSingleton<SigningConfigurations>();
             services.AddSingleton<TokenConfigurations>();
+
+            services.AddHealthChecks(checks =>
+            {
+                checks.AddSqlCheck("CasaDoCodigo", connectionString);
+                checks.AddValueTaskCheck("HTTP Endpoint", () => new
+                    ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
+            });
         }
 
         static private SymmetricSecurityKey GetSignInKey()

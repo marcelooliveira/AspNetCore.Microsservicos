@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Polly;
 using Polly.Extensions.Http;
+using Microsoft.Extensions.HealthChecks;
 
 namespace CasaDoCodigo
 {
@@ -57,7 +58,13 @@ namespace CasaDoCodigo
                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
                .AddPolicyHandler(GetRetryPolicy())
                .AddPolicyHandler(GetCircuitBreakerPolicy());
-            ;
+
+            services.AddHealthChecks(checks =>
+            {
+                checks.AddUrlCheck(Configuration["ApiUrlHC"]);
+                checks.AddValueTaskCheck("HTTP Endpoint", () => new
+                    ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
+            });
         }
 
         // Este método é chamado pelo runtime.
