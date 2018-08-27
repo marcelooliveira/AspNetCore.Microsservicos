@@ -9,14 +9,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.API", "CasaDoC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Identity", "CasaDoCodigo.Identity\CasaDoCodigo.Identity.csproj", "{E31BD4C2-D32D-4F51-AEBE-1E690E4FA605}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CasaDoCodigo.Client.Generated", "CasaDoCodigo.Client\CasaDoCodigo.Client.Generated.csproj", "{F5087414-E404-43E0-BFAB-6008C20C857E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Client.Generated", "CasaDoCodigo.Client\CasaDoCodigo.Client.Generated.csproj", "{F5087414-E404-43E0-BFAB-6008C20C857E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CasaDoCodigo.Client.Playground", "CasaDoCodigo.Client.Playground\CasaDoCodigo.Client.Playground.csproj", "{09BC8448-2914-4C5E-8CCB-1C8CE1BD8FF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Client.Playground", "CasaDoCodigo.Client.Playground\CasaDoCodigo.Client.Playground.csproj", "{09BC8448-2914-4C5E-8CCB-1C8CE1BD8FF7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwagStudio", "NSwagStudio", "{A4502ACB-B015-4D9A-9C6A-189D22E9BC93}"
 	ProjectSection(SolutionItems) = preProject
 		CasaDoCodigo.nswag = CasaDoCodigo.nswag
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CasaDoCodigo.Status", "CasaDoCodigo.Status\CasaDoCodigo.Status.csproj", "{3A00DC21-DEF8-4A18-954F-5C8EE9337249}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{09BC8448-2914-4C5E-8CCB-1C8CE1BD8FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09BC8448-2914-4C5E-8CCB-1C8CE1BD8FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09BC8448-2914-4C5E-8CCB-1C8CE1BD8FF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A00DC21-DEF8-4A18-954F-5C8EE9337249}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A00DC21-DEF8-4A18-954F-5C8EE9337249}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A00DC21-DEF8-4A18-954F-5C8EE9337249}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A00DC21-DEF8-4A18-954F-5C8EE9337249}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
