@@ -20,6 +20,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwagStudio", "NSwagStudio"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CasaDoCodigo.Status", "CasaDoCodigo.Status\CasaDoCodigo.Status.csproj", "{3A00DC21-DEF8-4A18-954F-5C8EE9337249}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CasaDoCodigo.Catalogo", "CasaDoCodigo.Catalogo\CasaDoCodigo.Catalogo.csproj", "{412FC36B-8B56-4B56-9C93-A1B70707C7EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CasaDoCodigo.Carrinho", "CasaDoCodigo.Carrinho\CasaDoCodigo.Carrinho.csproj", "{9AAAC4D2-5C55-4125-8580-13DBCAE8242E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +54,14 @@ Global
 		{3A00DC21-DEF8-4A18-954F-5C8EE9337249}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A00DC21-DEF8-4A18-954F-5C8EE9337249}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A00DC21-DEF8-4A18-954F-5C8EE9337249}.Release|Any CPU.Build.0 = Release|Any CPU
+		{412FC36B-8B56-4B56-9C93-A1B70707C7EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{412FC36B-8B56-4B56-9C93-A1B70707C7EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{412FC36B-8B56-4B56-9C93-A1B70707C7EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{412FC36B-8B56-4B56-9C93-A1B70707C7EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AAAC4D2-5C55-4125-8580-13DBCAE8242E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AAAC4D2-5C55-4125-8580-13DBCAE8242E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AAAC4D2-5C55-4125-8580-13DBCAE8242E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AAAC4D2-5C55-4125-8580-13DBCAE8242E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
