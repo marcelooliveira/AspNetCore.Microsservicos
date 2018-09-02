@@ -44,6 +44,7 @@ namespace CasaDoCodigo.Status
 
                 checks.AddUrlCheckIfNotNull(Configuration["ApiUrlHC"], TimeSpan.FromMinutes(minutes));
                 checks.AddUrlCheckIfNotNull(Configuration["MVCUrlHC"], TimeSpan.FromMinutes(minutes));
+                checks.AddUrlCheckIfNotNull(Configuration["CarrinhoHC"], TimeSpan.FromMinutes(minutes));
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
