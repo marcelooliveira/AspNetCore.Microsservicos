@@ -6,7 +6,7 @@
 
 using Newtonsoft.Json;
 
-namespace CasaDoCodigo.Client.Generated
+namespace CasaDoCodigo.Client.Carrinho.Generated
 {
     #pragma warning disable // Disable all warnings
 

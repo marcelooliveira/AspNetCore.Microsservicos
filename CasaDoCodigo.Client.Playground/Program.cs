@@ -1,17 +1,12 @@
-﻿using CasaDoCodigo.Client.Generated;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
+﻿using CasaDoCodigo.Client.Playground.API;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Client.Playground
 {
+    public delegate Task ItemMenu(ApiConfiguration configuration);
     class Program
     {
         public static async Task Main(string[] args)
@@ -25,55 +20,41 @@ namespace CasaDoCodigo.Client.Playground
             var configuration = config.GetSection("ApiConfiguration").Get<ApiConfiguration>();
 
             Console.WriteLine("Iniciando...");
-            var relatorio = new Relatorio(configuration);
-            await relatorio.Executar();
+
+            ItemMenu[] itensMenu = new ItemMenu[]
+            {
+                ImprimirRelatorioProdutos
+            };
+
+            int opcao;
+            do
+            {
+                ImprimirMenu(itensMenu);
+                var linha = Console.ReadLine();
+                int.TryParse(linha, out opcao);
+                if (opcao > 0)
+                    await itensMenu[opcao - 1](configuration);
+            } while (opcao > 0);
+
             Console.WriteLine("Tecle algo para sair...");
             Console.ReadKey();
         }
 
-    }
-
-    class Relatorio
-    {
-        private const int DELAY_SEGUNDOS = 1;
-        private Generated.Client cliente;
-        private string accessToken;
-        private HttpClient httpClient;
-        private ApiConfiguration ApiConfiguration { get; set; }
-
-        public Relatorio(ApiConfiguration configuration)
+        private static void ImprimirMenu(ItemMenu[] itensMenu)
         {
-            ApiConfiguration = configuration;
-        }
-
-        public async Task Executar()
-        {
-            await ListarProdutos();
-        }
-
-        private async Task ListarProdutos()
-        {
+            Console.Clear();
             ImprimirLogo();
-            using (var httpClient = new HttpClient())
+            Console.WriteLine("Escolha uma opção:");
+            Console.WriteLine();
+            for (int i = 0; i < itensMenu.Length; i++)
             {
-                cliente = new Generated.Client(ApiConfiguration.BaseUrl, httpClient);
-                accessToken = await ObterToken();
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, accessToken);
-
-                char key;
-                do
-                {
-                    Console.Clear();
-                    ImprimirListagem(await ObterProdutos());
-                    //await Task.Delay(DELAY_SEGUNDOS);
-                    Console.WriteLine("Tecle S para sair ou outra teclar para ");
-                    key = Console.ReadKey().KeyChar;
-                }
-                while (key != 'S');
+                ItemMenu itemMenu = itensMenu[i];
+                Console.WriteLine($"{i + 1} - {itemMenu.Method.Name}");
             }
+            Console.WriteLine($"0 - Sair");
         }
 
-        private void ImprimirLogo()
+        private static void ImprimirLogo()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(
@@ -91,67 +72,10 @@ Y88b  d88P888  888     X88888  888   Y88b 888Y88..88P   Y88b  d88PY88..88PY88b 8
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        private async Task<string> ObterToken()
+        private static async Task ImprimirRelatorioProdutos(ApiConfiguration configuration)
         {
-            while (true)
-            {
-                try
-                {
-                    Console.WriteLine("Obtendo token...");
-
-                    return await cliente.ApiLoginPostAsync(
-                        new UsuarioInput
-                        {
-                            UsuarioId = Environment.GetEnvironmentVariable("CASADOCODIGO_USERID", EnvironmentVariableTarget.User),
-                            Password = Environment.GetEnvironmentVariable("CASADOCODIGO_PASSWORD", EnvironmentVariableTarget.User),
-                        });
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Ocorreu um erro ao acessar {ApiConfiguration.BaseUrl}:\r\n" +
-                        $"{ex.Message}\r\n" +
-                        $"tentando novamente em {DELAY_SEGUNDOS}s");
-                    await Task.Delay(TimeSpan.FromSeconds(DELAY_SEGUNDOS));
-                }
-            }
-        }
-
-        private async Task<IList<Produto>> ObterProdutos()
-        {
-            IList<Produto> produtos = null;
-            var sucesso = false;
-            while (!sucesso)
-            {
-                try
-                {
-                    Console.WriteLine("Obtendo produtos...");
-                    produtos = await cliente.ApiProdutoGetAsync();
-                    sucesso = true;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Ocorreu um erro ao obter produtos:\r\n" +
-                        $"{ex.Message}\r\n" +
-                        $"tentando novamente em 5s");
-                    await Task.Delay(TimeSpan.FromSeconds(DELAY_SEGUNDOS));
-                }
-            }
-
-            return produtos;
-        }
-
-        private void ImprimirListagem(IList<Produto> produtos)
-        {
-            Console.WriteLine(new string('=', 50));
-            foreach (var produto in produtos)
-            {
-                Console.WriteLine(
-                    $"Id: {produto.Id}\r\n" +
-                    $"Codigo:{produto.Codigo}\r\n" +
-                    $"Nome:{produto.Nome}\r\n" +
-                    $"Preco:{produto.Preco:C}");
-                Console.WriteLine(new string('=', 50));
-            }
+            var relatorio = new RelatorioProdutos(configuration);
+            await relatorio.Executar();
         }
     }
 }

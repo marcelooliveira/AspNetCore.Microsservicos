@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Client.Playgro
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwagStudio", "NSwagStudio", "{A4502ACB-B015-4D9A-9C6A-189D22E9BC93}"
 	ProjectSection(SolutionItems) = preProject
-		CasaDoCodigo.nswag = CasaDoCodigo.nswag
+		CasaDoCodigo.API.nswag = CasaDoCodigo.API.nswag
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CasaDoCodigo.Status", "CasaDoCodigo.Status\CasaDoCodigo.Status.csproj", "{3A00DC21-DEF8-4A18-954F-5C8EE9337249}"
