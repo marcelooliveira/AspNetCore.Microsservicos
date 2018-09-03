@@ -33,16 +33,10 @@ namespace CasaDoCodigo.Client.Playground.API
                 accessToken = await ObterToken();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, accessToken);
 
-                char key;
-                do
-                {
-                    Console.Clear();
-                    ImprimirListagem(await ObterProdutos());
-                    //await Task.Delay(DELAY_SEGUNDOS);
-                    Console.WriteLine("Tecle S para sair ou outra teclar para ");
-                    key = Console.ReadKey().KeyChar;
-                }
-                while (key != 'S');
+                Console.Clear();
+                ImprimirListagem(await ObterProdutos());
+                Console.WriteLine("Tecle algo para sair");
+                Console.ReadKey();
             }
         }
 

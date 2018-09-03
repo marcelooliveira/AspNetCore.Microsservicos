@@ -35,9 +35,6 @@ namespace CasaDoCodigo.Client.Playground
                 if (opcao > 0)
                     await itensMenu[opcao - 1](configuration);
             } while (opcao > 0);
-
-            Console.WriteLine("Tecle algo para sair...");
-            Console.ReadKey();
         }
 
         private static void ImprimirMenu(ItemMenu[] itensMenu)
