@@ -24,9 +24,9 @@ namespace CasaDoCodigo.Status.Controllers
             var result = await healthCheckService.CheckHealthAsync();
             var data = new HealthStatusViewModel(result.CheckStatus);
 
-            foreach (var item in data.Results)
+            foreach (var item in result.Results)
             {
-                data.AddResult(item.Name, item.Result);
+                data.AddResult(item.Key, item.Value);
             }
 
             return View(data);

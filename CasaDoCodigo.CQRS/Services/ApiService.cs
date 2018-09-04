@@ -1,4 +1,4 @@
-﻿using CasaDoCodigo.Client.Generated;
+﻿using CasaDoCodigo.Client.API.Generated;
 using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

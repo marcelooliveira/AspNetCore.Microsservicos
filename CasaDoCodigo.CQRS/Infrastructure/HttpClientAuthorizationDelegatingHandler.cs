@@ -1,4 +1,4 @@
-﻿using CasaDoCodigo.Client.Generated;
+﻿using CasaDoCodigo.Client.API.Generated;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
@@ -18,7 +18,7 @@ namespace CasaDoCodigo.Infrastructure
     {
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccesor;
-        private CasaDoCodigo.Client.Generated.Client apiCliente;
+        private CasaDoCodigo.Client.API.Generated.Client apiCliente;
 
         public HttpClientAuthorizationDelegatingHandler(IConfiguration configuration,
             IHttpContextAccessor httpContextAccesor)
@@ -48,7 +48,7 @@ namespace CasaDoCodigo.Infrastructure
             {
                 using (HttpClient httpClient = new HttpClient())
                 {
-                    apiCliente = new Client.Generated.Client(_configuration["ApiUrl"], httpClient);
+                    apiCliente = new Client.API.Generated.Client(_configuration["ApiUrl"], httpClient);
                     token = await apiCliente.ApiLoginPostAsync(
                     new UsuarioInput
                     {
