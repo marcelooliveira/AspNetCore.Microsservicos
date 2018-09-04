@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Client.Playground.Services
 {
-    class RelatorioProdutos : BaseService
+    class PlaygroundAPI : BasePlayground
     {
         private Client.API.Generated.Client cliente;
 
-        public RelatorioProdutos(ApiConfiguration configuration) :
+        public PlaygroundAPI(ApiConfiguration configuration) :
             base(configuration)
         {
 

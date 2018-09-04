@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Client.Playground.Services
 {
-    abstract class BaseService
+    abstract class BasePlayground
     {
         protected HttpClient httpClient;
         protected string accessToken;
@@ -15,7 +15,7 @@ namespace CasaDoCodigo.Client.Playground.Services
         protected Client.API.Generated.Client authClient;
         protected ApiConfiguration ApiConfiguration { get; set; }
 
-        public BaseService(ApiConfiguration configuration)
+        public BasePlayground(ApiConfiguration configuration)
         {
             ApiConfiguration = configuration;
             httpClient = new HttpClient();

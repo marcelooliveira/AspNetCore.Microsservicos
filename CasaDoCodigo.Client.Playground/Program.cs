@@ -23,7 +23,8 @@ namespace CasaDoCodigo.Client.Playground
 
             ItemMenu[] itensMenu = new ItemMenu[]
             {
-                MenuRelatorioProdutos
+                MenuPlaygroundAPI,
+                MenuPlaygroundCarrinho
             };
 
             int opcao;
@@ -69,16 +70,16 @@ Y88b  d88P888  888     X88888  888   Y88b 888Y88..88P   Y88b  d88PY88..88PY88b 8
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        private static async Task MenuRelatorioProdutos(ApiConfiguration configuration)
+        private static async Task MenuPlaygroundAPI(ApiConfiguration configuration)
         {
-            var relatorio = new RelatorioProdutos(configuration);
-            await relatorio.Executar();
+            var playground = new PlaygroundAPI(configuration);
+            await playground.Executar();
         }
 
-        //private static async Task TestarCarrinho(ApiConfiguration configuration)
-        //{
-        //    var relatorio = new TestesCRUDCarrinho(configuration);
-        //    await relatorio.Executar();
-        //}
+        private static async Task MenuPlaygroundCarrinho(ApiConfiguration configuration)
+        {
+            var playground = new PlaygroundCarrinho(configuration);
+            await playground.Executar();
+        }
     }
 }
