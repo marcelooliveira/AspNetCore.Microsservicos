@@ -14,17 +14,25 @@ namespace CasaDoCodigo.Client.Playground.Services
         protected const int DELAY_SEGUNDOS = 1;
         protected Client.API.Generated.Client authClient;
         protected ApiConfiguration ApiConfiguration { get; set; }
+        protected readonly UsuarioInput usuarioInput;
 
         public BasePlayground(ApiConfiguration configuration)
         {
             ApiConfiguration = configuration;
             httpClient = new HttpClient();
+            usuarioInput = new UsuarioInput
+            {
+                UsuarioId = Environment.GetEnvironmentVariable("CASADOCODIGO_USERID", EnvironmentVariableTarget.User),
+                Password = Environment.GetEnvironmentVariable("CASADOCODIGO_PASSWORD", EnvironmentVariableTarget.User),
+            };
         }
 
         public async Task Executar()
         {
             await SetupHttpClient();
             await ExecutarPlayground();
+            Console.WriteLine("Tecle algo para voltar ao menu...");
+            Console.ReadKey();
         }
 
         protected abstract Task ExecutarPlayground();
@@ -38,11 +46,7 @@ namespace CasaDoCodigo.Client.Playground.Services
                     Console.WriteLine("Obtendo token...");
 
                     return await authClient.ApiLoginPostAsync(
-                        new UsuarioInput
-                        {
-                            UsuarioId = Environment.GetEnvironmentVariable("CASADOCODIGO_USERID", EnvironmentVariableTarget.User),
-                            Password = Environment.GetEnvironmentVariable("CASADOCODIGO_PASSWORD", EnvironmentVariableTarget.User),
-                        });
+                        usuarioInput);
                 }
                 catch (Exception ex)
                 {

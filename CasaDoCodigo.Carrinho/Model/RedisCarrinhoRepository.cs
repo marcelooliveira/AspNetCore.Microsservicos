@@ -14,7 +14,7 @@ namespace CasaDoCodigo.Carrinho.Model
         private readonly ConnectionMultiplexer _redis;
         private readonly IDatabase _database;
 
-        public RedisCarrinhoRepository(LoggerFactory loggerFactory, ConnectionMultiplexer redis)
+        public RedisCarrinhoRepository(ILoggerFactory loggerFactory, ConnectionMultiplexer redis)
         {
             _logger = loggerFactory.CreateLogger<RedisCarrinhoRepository>();
             _redis = redis;

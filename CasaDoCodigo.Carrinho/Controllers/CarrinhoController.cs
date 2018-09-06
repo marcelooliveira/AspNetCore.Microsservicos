@@ -11,17 +11,18 @@ using NServiceBus;
 namespace CasaDoCodigo.Carrinho.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class CarrinhoController : Controller
     {
         private readonly ICarrinhoRepository _repository;
-        private readonly IEndpointInstance _endpoint;
+        //private readonly IEndpointInstance _endpoint;
 
-        public CarrinhoController(ICarrinhoRepository repository
-            , IEndpointInstance endpoint)
+        //public CarrinhoController(ICarrinhoRepository repository
+        //    , IEndpointInstance endpoint)
+        public CarrinhoController(ICarrinhoRepository repository)
         {
             _repository = repository;
-            _endpoint = endpoint;
+            //_endpoint = endpoint;
         }
 
         //GET /id
@@ -57,7 +58,7 @@ namespace CasaDoCodigo.Carrinho.Controllers
             // Assim que fazemos o checkout, envia um evento de integração para
             // API Pedidos para converter o carrinho em pedido e continuar com
             // processo de criação de pedido
-            await _endpoint.Publish(eventMessage);
+            //await _endpoint.Publish(eventMessage);
 
             var carrinho = await _repository.GetCarrinhoAsync(carrinhoCliente.ClienteId);
 

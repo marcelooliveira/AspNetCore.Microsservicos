@@ -1,7 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using CasaDoCodigo.Carrinho.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using NServiceBus;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -25,8 +30,42 @@ namespace CasaDoCodigo.Carrinho
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        //IServiceProvider
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication()
+                //.AddJwtBearer(cfg =>
+                //{
+                //    cfg.RequireHttpsMetadata = false;
+                //    cfg.SaveToken = true;
+
+                //    cfg.TokenValidationParameters = new TokenValidationParameters()
+                //    {
+                //        ValidIssuer = Configuration["Tokens:Issuer"],
+                //        ValidAudience = Configuration["Tokens:Issuer"],
+                //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+                //    };
+
+                //});
+                .AddJwtBearer(bearerOptions =>
+                {
+                    var paramsValidation = bearerOptions.TokenValidationParameters;
+                    paramsValidation.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]));
+                    paramsValidation.ValidAudience = Configuration["Tokens:Issuer"];
+                    paramsValidation.ValidIssuer = Configuration["Tokens:Issuer"];
+
+                    // Valida a assinatura de um token recebido
+                    paramsValidation.ValidateIssuerSigningKey = true;
+
+                    // Verifica se um token recebido ainda é válido
+                    paramsValidation.ValidateLifetime = true;
+
+                    // Tempo de tolerância para a expiração de um token (utilizado
+                    // caso haja problemas de sincronismo de horário entre diferentes
+                    // computadores envolvidos no processo de comunicação)
+                    paramsValidation.ClockSkew = TimeSpan.Zero;
+                });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -75,7 +114,8 @@ namespace CasaDoCodigo.Carrinho
             services.AddSingleton<ConnectionMultiplexer>(sp =>
             {
                 var settings = sp.GetRequiredService<IOptions<CarrinhoConfig>>().Value;
-                var configuration = ConfigurationOptions.Parse(settings.ConnectionString, true);
+                //var configuration = ConfigurationOptions.Parse(settings.ConnectionString, true);
+                var configuration = ConfigurationOptions.Parse("localhost", true);
 
                 configuration.ResolveDns = true;
 
@@ -89,8 +129,82 @@ namespace CasaDoCodigo.Carrinho
                 checks.AddValueTaskCheck("HTTP Endpoint", () => new
                     ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
             });
+
+
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.Populate(services);
+
+            // NServiceBus
+            var container = RegisterEventBus(containerBuilder);
+
+            //return new AutofacServiceProvider(containerBuilder.Build());
         }
 
+        private IContainer RegisterEventBus(ContainerBuilder containerBuilder)
+        {
+            //EnsureSqlDatabaseExists();
+
+            IEndpointInstance endpoint = null;
+            containerBuilder.Register(c => endpoint)
+                .As<IEndpointInstance>()
+                .SingleInstance();
+
+            var container = containerBuilder.Build();
+
+            var endpointConfiguration = new EndpointConfiguration("Carrinho");
+
+            // Configure RabbitMQ transport
+            var transport = endpointConfiguration.UseTransport<RabbitMQTransport>();
+            transport.UseConventionalRoutingTopology();
+            transport.ConnectionString(GetRabbitConnectionString());
+
+            // Configure persistence
+            //var persistence = endpointConfiguration.UsePersistence<SqlPersistence>();
+            //persistence.SqlDialect<SqlDialect.MsSqlServer>();
+            //persistence.ConnectionBuilder(connectionBuilder:
+            //    () => new SqlConnection(Configuration["SqlConnectionString"]));
+
+            // Use JSON.NET serializer
+            endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
+
+            // Enable the Outbox
+            endpointConfiguration.EnableOutbox();
+
+            // Make sure NServiceBus creates queues in RabbitMQ, tables in SQL Server, etc.
+            // You might want to turn this off in production, so that DevOps can use scripts to create these.
+            endpointConfiguration.EnableInstallers();
+
+            // Turn on auditing.
+            endpointConfiguration.AuditProcessedMessagesTo("audit");
+
+            // Define conventions
+            var conventions = endpointConfiguration.Conventions();
+            conventions.DefiningEventsAs(c => c.Namespace != null && c.Name.EndsWith("IntegrationEvent"));
+
+            // Configure the DI container.
+            endpointConfiguration.UseContainer<AutofacBuilder>(customizations: customizations =>
+            {
+                customizations.ExistingLifetimeScope(container);
+            });
+
+            // Start the endpoint and register it with ASP.NET Core DI
+            //endpoint = Endpoint.Start(endpointConfiguration).GetAwaiter().GetResult();
+
+            return container;
+        }
+
+
+        private string GetRabbitConnectionString()
+        {
+            var host = Configuration["EventBusConnection"];
+            var user = Configuration["EventBusUserName"];
+            var password = Configuration["EventBusPassword"];
+
+            if (string.IsNullOrEmpty(user))
+                return $"host={host}";
+
+            return $"host={host};username={user};password={password};";
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -116,6 +230,7 @@ namespace CasaDoCodigo.Carrinho
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Casa do Código - Carrinho v1");
             });
 
+            app.UseAuthentication();
             app.UseStaticFiles();
             app.UseMvc();
         }
