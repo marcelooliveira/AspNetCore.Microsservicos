@@ -1,4 +1,5 @@
 ﻿using CasaDoCodigo.Client.Carrinho.Generated;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -42,6 +43,10 @@ namespace CasaDoCodigo.Client.Playground.Services
             await carrinhoClient.ApiCarrinhoPostAsync(carrinho);
             carrinhoCliente = await carrinhoClient.ApiCarrinhoByIdGetAsync(usuarioInput.UsuarioId);
             PrintCarrinho(carrinhoCliente);
+
+            System.Console.WriteLine("ApiCarrinhoCheckoutPostAsync...");
+            Guid guid = Guid.NewGuid();
+            await carrinhoClient.ApiCarrinhoCheckoutPostAsync(carrinhoCliente, guid.ToString());
         }
 
         private static void PrintCarrinho(CarrinhoCliente carrinhoCliente)

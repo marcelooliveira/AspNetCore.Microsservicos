@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using CasaDoCodigo.Carrinho.IntegrationEvents;
 using CasaDoCodigo.Carrinho.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +16,13 @@ namespace CasaDoCodigo.Carrinho.Controllers
     public class CarrinhoController : Controller
     {
         private readonly ICarrinhoRepository _repository;
-        //private readonly IEndpointInstance _endpoint;
+        private readonly IEndpointInstance _endpoint;
 
-        //public CarrinhoController(ICarrinhoRepository repository
-        //    , IEndpointInstance endpoint)
-        public CarrinhoController(ICarrinhoRepository repository)
+        public CarrinhoController(ICarrinhoRepository repository
+            , IEndpointInstance endpoint)
         {
             _repository = repository;
-            //_endpoint = endpoint;
+            _endpoint = endpoint;
         }
 
         //GET /id
@@ -53,21 +53,29 @@ namespace CasaDoCodigo.Carrinho.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Checkout([FromBody]CarrinhoCliente carrinhoCliente, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            var eventMessage = carrinhoCliente;
-
-            // Assim que fazemos o checkout, envia um evento de integração para
-            // API Pedidos para converter o carrinho em pedido e continuar com
-            // processo de criação de pedido
-            //await _endpoint.Publish(eventMessage);
-
-            var carrinho = await _repository.GetCarrinhoAsync(carrinhoCliente.ClienteId);
-
-            if (carrinho == null)
+            try
             {
-                return BadRequest();
-            }
+                var eventMessage = new CheckoutIntegrationEvent(carrinhoCliente);
 
-            return Accepted();
+                // Assim que fazemos o checkout, envia um evento de integração para
+                // API Pedidos para converter o carrinho em pedido e continuar com
+                // processo de criação de pedido
+                await _endpoint.Publish(eventMessage);
+
+                var carrinho = await _repository.GetCarrinhoAsync(carrinhoCliente.ClienteId);
+
+                if (carrinho == null)
+                {
+                    return BadRequest();
+                }
+
+                return Accepted();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         [HttpDelete("{id}")]

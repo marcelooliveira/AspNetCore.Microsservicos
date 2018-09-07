@@ -15,6 +15,7 @@ using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NServiceBus;
+using NServiceBus.Features;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -30,8 +31,7 @@ namespace CasaDoCodigo.Carrinho
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        //IServiceProvider
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication()
                 //.AddJwtBearer(cfg =>
@@ -130,14 +130,13 @@ namespace CasaDoCodigo.Carrinho
                     ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
             });
 
-
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
 
             // NServiceBus
             var container = RegisterEventBus(containerBuilder);
 
-            //return new AutofacServiceProvider(containerBuilder.Build());
+            return new AutofacServiceProvider(container);
         }
 
         private IContainer RegisterEventBus(ContainerBuilder containerBuilder)
@@ -167,8 +166,11 @@ namespace CasaDoCodigo.Carrinho
             // Use JSON.NET serializer
             endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
 
-            // Enable the Outbox
-            endpointConfiguration.EnableOutbox();
+            //// Enable the Outbox
+            //endpointConfiguration.EnableOutbox();
+
+            // Disable the Outbox
+            endpointConfiguration.DisableFeature<Outbox>();
 
             // Make sure NServiceBus creates queues in RabbitMQ, tables in SQL Server, etc.
             // You might want to turn this off in production, so that DevOps can use scripts to create these.
@@ -188,11 +190,10 @@ namespace CasaDoCodigo.Carrinho
             });
 
             // Start the endpoint and register it with ASP.NET Core DI
-            //endpoint = Endpoint.Start(endpointConfiguration).GetAwaiter().GetResult();
+            endpoint = Endpoint.Start(endpointConfiguration).GetAwaiter().GetResult();
 
             return container;
         }
-
 
         private string GetRabbitConnectionString()
         {
