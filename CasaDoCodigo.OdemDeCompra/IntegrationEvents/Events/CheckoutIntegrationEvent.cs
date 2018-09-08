@@ -1,10 +1,10 @@
-﻿//using CasaDoCodigo.Carrinho.Model;
+﻿//using CasaDoCodigo.OdemDeCompra.Model;
 //using System;
 //using System.Collections.Generic;
 //using System.Linq;
 //using System.Threading.Tasks;
 
-//namespace CasaDoCodigo.Carrinho.IntegrationEvents
+//namespace CasaDoCodigo.OdemDeCompra.IntegrationEvents.Events
 //{
 //    public class CheckoutIntegrationEvent : IntegrationEvent
 //    {

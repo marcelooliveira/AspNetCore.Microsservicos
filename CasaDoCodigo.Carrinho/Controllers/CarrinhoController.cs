@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using CasaDoCodigo.Carrinho.IntegrationEvents;
 using CasaDoCodigo.Carrinho.Model;
+using CasaDoCodigo.Mensagens;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NServiceBus;
@@ -53,29 +54,31 @@ namespace CasaDoCodigo.Carrinho.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Checkout([FromBody]CarrinhoCliente carrinhoCliente, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            try
+            var eventMessage 
+                = new MensagemCarrinho(carrinhoCliente.ClienteId,
+                    carrinhoCliente.Items.Select(i =>
+                        new MensagemItemCarrinho(
+                            i.Id, 
+                            i.ProdutoId, 
+                            i.ProdutoNome, 
+                            i.PrecoUnitario, 
+                            i.Quantidade, 
+                            i.UrlImagem)).ToList()
+                );
+
+            // Assim que fazemos o checkout, envia um evento de integração para
+            // API Pedidos para converter o carrinho em pedido e continuar com
+            // processo de criação de pedido
+            await _endpoint.Publish(eventMessage);
+
+            var carrinho = await _repository.GetCarrinhoAsync(carrinhoCliente.ClienteId);
+
+            if (carrinho == null)
             {
-                var eventMessage = new CheckoutIntegrationEvent(carrinhoCliente);
-
-                // Assim que fazemos o checkout, envia um evento de integração para
-                // API Pedidos para converter o carrinho em pedido e continuar com
-                // processo de criação de pedido
-                await _endpoint.Publish(eventMessage);
-
-                var carrinho = await _repository.GetCarrinhoAsync(carrinhoCliente.ClienteId);
-
-                if (carrinho == null)
-                {
-                    return BadRequest();
-                }
-
-                return Accepted();
+                return BadRequest();
             }
-            catch (Exception ex)
-            {
 
-                throw;
-            }
+            return Accepted();
         }
 
         [HttpDelete("{id}")]
