@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CasaDoCodigo.API.Model;
+using CasaDoCodigo.API.Model.ViewModels;
 using CasaDoCodigo.Models;
 using CasaDoCodigo.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
