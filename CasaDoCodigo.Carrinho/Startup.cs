@@ -1,11 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using CasaDoCodigo.Carrinho.IntegrationEvents;
 using CasaDoCodigo.Carrinho.Model;
 using CasaDoCodigo.Mensagens;
 using CasaDoCodigo.Mensagens.Adapters.ServiceHost;
@@ -19,13 +13,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using NServiceBus;
-using NServiceBus.Features;
 using Paramore.Brighter;
 using Paramore.Brighter.MessagingGateway.RMQ;
 using Paramore.Brighter.MessagingGateway.RMQ.MessagingGatewayConfiguration;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Carrinho
 {
@@ -42,19 +39,6 @@ namespace CasaDoCodigo.Carrinho
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication()
-                //.AddJwtBearer(cfg =>
-                //{
-                //    cfg.RequireHttpsMetadata = false;
-                //    cfg.SaveToken = true;
-
-                //    cfg.TokenValidationParameters = new TokenValidationParameters()
-                //    {
-                //        ValidIssuer = Configuration["Tokens:Issuer"],
-                //        ValidAudience = Configuration["Tokens:Issuer"],
-                //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
-                //    };
-
-                //});
                 .AddJwtBearer(bearerOptions =>
                 {
                     var paramsValidation = bearerOptions.TokenValidationParameters;
@@ -141,11 +125,6 @@ namespace CasaDoCodigo.Carrinho
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
 
-            //// NServiceBus
-            //var container = RegisterEventBus(containerBuilder);
-
-            //return new AutofacServiceProvider(container);
-
             ConfigureBrighter(services);
         }
 
@@ -178,73 +157,6 @@ namespace CasaDoCodigo.Carrinho
             services.AddSingleton(typeof(IAmACommandProcessor), commandProcessor);
         }
 
-        private IContainer RegisterEventBus(ContainerBuilder containerBuilder)
-        {
-            //EnsureSqlDatabaseExists();
-
-            IEndpointInstance endpoint = null;
-            containerBuilder.Register(c => endpoint)
-                .As<IEndpointInstance>()
-                .SingleInstance();
-
-            var container = containerBuilder.Build();
-
-            var endpointConfiguration = new EndpointConfiguration("Carrinho");
-
-            // Configure RabbitMQ transport
-            var transport = endpointConfiguration.UseTransport<RabbitMQTransport>();
-            transport.UseConventionalRoutingTopology();
-            transport.ConnectionString(GetRabbitConnectionString());
-
-            // Configure persistence
-            //var persistence = endpointConfiguration.UsePersistence<SqlPersistence>();
-            //persistence.SqlDialect<SqlDialect.MsSqlServer>();
-            //persistence.ConnectionBuilder(connectionBuilder:
-            //    () => new SqlConnection(Configuration["SqlConnectionString"]));
-
-            // Use JSON.NET serializer
-            endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
-
-            //// Enable the Outbox
-            //endpointConfiguration.EnableOutbox();
-
-            // Disable the Outbox
-            endpointConfiguration.DisableFeature<Outbox>();
-
-            // Make sure NServiceBus creates queues in RabbitMQ, tables in SQL Server, etc.
-            // You might want to turn this off in production, so that DevOps can use scripts to create these.
-            endpointConfiguration.EnableInstallers();
-
-            // Turn on auditing.
-            endpointConfiguration.AuditProcessedMessagesTo("audit");
-
-            // Define conventions
-            var conventions = endpointConfiguration.Conventions();
-            conventions.DefiningEventsAs(c => c.Namespace != null && c.Name.EndsWith("IntegrationEvent"));
-
-            // Configure the DI container.
-            endpointConfiguration.UseContainer<AutofacBuilder>(customizations: customizations =>
-            {
-                customizations.ExistingLifetimeScope(container);
-            });
-
-            // Start the endpoint and register it with ASP.NET Core DI
-            endpoint = Endpoint.Start(endpointConfiguration).GetAwaiter().GetResult();
-
-            return container;
-        }
-
-        private string GetRabbitConnectionString()
-        {
-            var host = Configuration["EventBusConnection"];
-            var user = Configuration["EventBusUserName"];
-            var password = Configuration["EventBusPassword"];
-
-            if (string.IsNullOrEmpty(user))
-                return $"host={host}";
-
-            return $"host={host};username={user};password={password};";
-        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
