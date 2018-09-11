@@ -25,6 +25,7 @@ THE SOFTWARE. */
 using CasaDoCodigo.Mensagens.Ports.Commands;
 using Paramore.Brighter;
 using System;
+using System.Diagnostics;
 
 namespace CasaDoCodigo.Mensagens.Ports.CommandHandlers
 {
@@ -32,11 +33,21 @@ namespace CasaDoCodigo.Mensagens.Ports.CommandHandlers
     {
         public override CheckoutEvent Handle(CheckoutEvent @event)
         {
-            Console.WriteLine("Received Greeting. Message Follows");
-            Console.WriteLine("----------------------------------");
-            Console.WriteLine(@event.ClienteId);
-            Console.WriteLine("----------------------------------");
-            Console.WriteLine("Message Ends");
+            Trace.WriteLine("Received Checkout. Message Follows");
+            Trace.WriteLine("----------------------------------");
+            Trace.WriteLine(@event.ClienteId);
+            foreach (var item in @event.Items)
+            {
+                Trace.WriteLine(
+                $"Id = {item.Id}, " +
+                $"ProdutoId = {item.ProdutoId}, " +
+                $"ProdutoNome = {item.ProdutoNome}, " +
+                $"PrecoUnitario = {item.PrecoUnitario}, " +
+                $"Quantidade = {item.Quantidade}, " +
+                $"UrlImagem = {item.UrlImagem}, ");
+            }
+            Trace.WriteLine("----------------------------------");
+            Trace.WriteLine("Message Ends");
             return base.Handle(@event);
         }
     }

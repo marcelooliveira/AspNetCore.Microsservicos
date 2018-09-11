@@ -28,7 +28,7 @@ using Paramore.Brighter;
 
 namespace CasaDoCodigo.Mensagens.Ports.Mappers
 {
-    public class GreetingEventMessageMapper : IAmAMessageMapper<CheckoutEvent>
+    public class CheckoutEventMessageMapper : IAmAMessageMapper<CheckoutEvent>
     {
         public Message MapToMessage(CheckoutEvent request)
         {

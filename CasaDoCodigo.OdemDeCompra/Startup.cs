@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using CasaDoCodigo.Mensagens;
+using CasaDoCodigo.Mensagens.Adapters.ServiceHost;
+using CasaDoCodigo.Mensagens.Ports.CommandHandlers;
 using CasaDoCodigo.Mensagens.Ports.Commands;
+using CasaDoCodigo.Mensagens.Ports.Mappers;
 using CasaDoCodigo.OdemDeCompra.IntegrationEvents.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,6 +21,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NServiceBus;
 using NServiceBus.Features;
+using Paramore.Brighter;
+using Paramore.Brighter.MessagingGateway.RMQ;
+using Paramore.Brighter.MessagingGateway.RMQ.MessagingGatewayConfiguration;
+using Paramore.Brighter.ServiceActivator;
+using Polly;
+using Serilog;
 
 namespace CasaDoCodigo.OdemDeCompra
 {
@@ -31,7 +40,7 @@ namespace CasaDoCodigo.OdemDeCompra
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -54,9 +63,87 @@ namespace CasaDoCodigo.OdemDeCompra
             //containerBuilder.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
 
             // NServiceBus
-            var container = RegisterEventBus(containerBuilder);
+            //var container = RegisterEventBus(containerBuilder);
 
-            return new AutofacServiceProvider(container);
+            //return new AutofacServiceProvider(container);
+
+            RegisterBrighter();
+        }
+
+        private static void RegisterBrighter()
+        {
+            Log.Logger = new LoggerConfiguration()
+              .MinimumLevel.Debug()
+              .WriteTo.LiterateConsole()
+              .CreateLogger();
+
+            var container = new TinyIoCContainer();
+
+            var handlerFactory = new TinyIocHandlerFactory(container);
+            var messageMapperFactory = new TinyIoCMessageMapperFactory(container);
+            container.Register<IHandleRequests<CheckoutEvent>, CheckoutEventHandler>();
+
+            var subscriberRegistry = new SubscriberRegistry();
+            subscriberRegistry.Register<CheckoutEvent, CheckoutEventHandler>();
+
+            //create policies
+            var retryPolicy = Policy
+              .Handle<Exception>()
+              .WaitAndRetry(new[]
+              {
+            TimeSpan.FromMilliseconds(50),
+            TimeSpan.FromMilliseconds(100),
+            TimeSpan.FromMilliseconds(150)
+              });
+
+            var circuitBreakerPolicy = Policy
+              .Handle<Exception>()
+              .CircuitBreaker(1, TimeSpan.FromMilliseconds(500));
+
+            var policyRegistry = new PolicyRegistry
+        {
+          {CommandProcessor.RETRYPOLICY, retryPolicy},
+          {CommandProcessor.CIRCUITBREAKER, circuitBreakerPolicy}
+        };
+
+            //create message mappers
+            var messageMapperRegistry = new MessageMapperRegistry(messageMapperFactory)
+        {
+          {typeof(CheckoutEvent), typeof(CheckoutEventMessageMapper)}
+        };
+
+            //create the gateway
+            var rmqConnnection = new RmqMessagingGatewayConnection
+            {
+                AmpqUri = new AmqpUriSpecification(new Uri("amqp://guest:guest@localhost:5672")),
+                Exchange = new Exchange("paramore.brighter.exchange"),
+            };
+
+            var rmqMessageConsumerFactory = new RmqMessageConsumerFactory(rmqConnnection);
+
+            var dispatcher = DispatchBuilder.With()
+              .CommandProcessor(CommandProcessorBuilder.With()
+                .Handlers(new HandlerConfiguration(subscriberRegistry, handlerFactory))
+                .Policies(policyRegistry)
+                .NoTaskQueues()
+                .RequestContextFactory(new InMemoryRequestContextFactory())
+                .Build())
+              .MessageMappers(messageMapperRegistry)
+              .DefaultChannelFactory(new InputChannelFactory(rmqMessageConsumerFactory))
+              .Connections(new Connection[]
+              {
+            new Connection<CheckoutEvent>(
+              new ConnectionName("paramore.example.greeting"),
+              new ChannelName("greeting.event"),
+              new RoutingKey("greeting.event"),
+              timeoutInMilliseconds: 200,
+              isDurable: true,
+              highAvailability: true)
+              }).Build();
+
+            dispatcher.Receive();
+
+            dispatcher.End().Wait();
         }
 
         IContainer RegisterEventBus(ContainerBuilder containerBuilder)
@@ -138,7 +225,7 @@ namespace CasaDoCodigo.OdemDeCompra
             app.UseHttpsRedirection();
             app.UseMvc();
 
-            serviceProvider.GetService<ApplicationContext>().Database.MigrateAsync().Wait();
+            //serviceProvider.GetService<ApplicationContext>().Database.MigrateAsync().Wait();
         }
     }
 }

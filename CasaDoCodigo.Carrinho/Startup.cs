@@ -7,6 +7,10 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using CasaDoCodigo.Carrinho.IntegrationEvents;
 using CasaDoCodigo.Carrinho.Model;
+using CasaDoCodigo.Mensagens;
+using CasaDoCodigo.Mensagens.Adapters.ServiceHost;
+using CasaDoCodigo.Mensagens.Ports.Commands;
+using CasaDoCodigo.Mensagens.Ports.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +21,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NServiceBus;
 using NServiceBus.Features;
+using Paramore.Brighter;
+using Paramore.Brighter.MessagingGateway.RMQ;
+using Paramore.Brighter.MessagingGateway.RMQ.MessagingGatewayConfiguration;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -32,7 +39,7 @@ namespace CasaDoCodigo.Carrinho
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication()
                 //.AddJwtBearer(cfg =>
@@ -134,10 +141,41 @@ namespace CasaDoCodigo.Carrinho
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
 
-            // NServiceBus
-            var container = RegisterEventBus(containerBuilder);
+            //// NServiceBus
+            //var container = RegisterEventBus(containerBuilder);
 
-            return new AutofacServiceProvider(container);
+            //return new AutofacServiceProvider(container);
+
+            ConfigureBrighter(services);
+        }
+
+        private static void ConfigureBrighter(IServiceCollection services)
+        {
+            var container = new TinyIoCContainer();
+
+            var messageMapperFactory = new TinyIoCMessageMapperFactory(container);
+
+            var messageMapperRegistry = new MessageMapperRegistry(messageMapperFactory)
+            {
+                {typeof(CheckoutEvent), typeof(CheckoutEventMessageMapper)}
+            };
+
+            var messageStore = new InMemoryMessageStore();
+            var rmqConnnection = new RmqMessagingGatewayConnection
+            {
+                AmpqUri = new AmqpUriSpecification(new Uri("amqp://guest:guest@localhost:5672")),
+                Exchange = new Exchange("paramore.brighter.exchange"),
+            };
+            var producer = new RmqMessageProducer(rmqConnnection);
+
+            var builder = CommandProcessorBuilder.With()
+                .Handlers(new HandlerConfiguration())
+                .DefaultPolicy()
+                .TaskQueues(new MessagingConfiguration(messageStore, producer, messageMapperRegistry))
+                .RequestContextFactory(new InMemoryRequestContextFactory());
+
+            var commandProcessor = builder.Build();
+            services.AddSingleton(typeof(IAmACommandProcessor), commandProcessor);
         }
 
         private IContainer RegisterEventBus(ContainerBuilder containerBuilder)

@@ -2,6 +2,7 @@
 using CasaDoCodigo.Mensagens.Ports.Commands;
 using Microsoft.AspNetCore.Mvc;
 using NServiceBus;
+using Paramore.Brighter;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -13,13 +14,17 @@ namespace CasaDoCodigo.Carrinho.Controllers
     public class CarrinhoController : Controller
     {
         private readonly ICarrinhoRepository _repository;
-        private readonly IEndpointInstance _endpoint;
+        //private readonly IEndpointInstance _endpoint;
+        private readonly IAmACommandProcessor _commandProcessor;
 
         public CarrinhoController(ICarrinhoRepository repository
-            , IEndpointInstance endpoint)
+            //, IEndpointInstance endpoint
+            , IAmACommandProcessor commandProcessor
+            )
         {
             _repository = repository;
-            _endpoint = endpoint;
+            //_endpoint = endpoint;
+            _commandProcessor = commandProcessor;
         }
 
         //GET /id
@@ -65,7 +70,9 @@ namespace CasaDoCodigo.Carrinho.Controllers
             // Assim que fazemos o checkout, envia um evento de integração para
             // API Pedidos para converter o carrinho em pedido e continuar com
             // processo de criação de pedido
-            await _endpoint.Publish(eventMessage);
+            //await _endpoint.Publish(eventMessage);
+
+            _commandProcessor.Post(eventMessage);
 
             var carrinho = await _repository.GetCarrinhoAsync(carrinhoCliente.ClienteId);
 

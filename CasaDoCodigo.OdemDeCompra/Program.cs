@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CasaDoCodigo.Mensagens;
+using CasaDoCodigo.Mensagens.Adapters.ServiceHost;
+using CasaDoCodigo.Mensagens.Ports.CommandHandlers;
+using CasaDoCodigo.Mensagens.Ports.Commands;
+using CasaDoCodigo.Mensagens.Ports.Mappers;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Paramore.Brighter;
+using Paramore.Brighter.MessagingGateway.RMQ;
+using Paramore.Brighter.MessagingGateway.RMQ.MessagingGatewayConfiguration;
+using Paramore.Brighter.ServiceActivator;
+using Polly;
+using Serilog;
+using System;
 
 namespace CasaDoCodigo.OdemDeCompra
 {
