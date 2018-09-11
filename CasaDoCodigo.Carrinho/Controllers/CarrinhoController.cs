@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CasaDoCodigo.Carrinho.Model;
+using CasaDoCodigo.Mensagens.Ports.Commands;
+using Microsoft.AspNetCore.Mvc;
+using NServiceBus;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using CasaDoCodigo.Carrinho.IntegrationEvents;
-using CasaDoCodigo.Carrinho.Model;
-using CasaDoCodigo.Mensagens;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using NServiceBus;
 
 namespace CasaDoCodigo.Carrinho.Controllers
 {
@@ -55,9 +51,9 @@ namespace CasaDoCodigo.Carrinho.Controllers
         public async Task<IActionResult> Checkout([FromBody]CarrinhoCliente carrinhoCliente, [FromHeader(Name = "x-requestid")] string requestId)
         {
             var eventMessage 
-                = new MensagemCarrinho(carrinhoCliente.ClienteId,
+                = new CheckoutEvent(carrinhoCliente.ClienteId,
                     carrinhoCliente.Items.Select(i =>
-                        new MensagemItemCarrinho(
+                        new CheckoutItem(
                             i.Id, 
                             i.ProdutoId, 
                             i.ProdutoNome, 

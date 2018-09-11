@@ -1,34 +1,32 @@
 ﻿using NServiceBus;
+using Paramore.Brighter;
 using System;
 using System.Collections.Generic;
 
-namespace CasaDoCodigo.Mensagens
+namespace CasaDoCodigo.Mensagens.Ports.Commands
 {
-    public class MensagemCarrinho : IEvent
+    public class CheckoutEvent : Event
     {
-        public MensagemCarrinho()
-        {
+        public CheckoutEvent() : base(Guid.NewGuid()) { }
 
-        }
-
-        public MensagemCarrinho(string clienteId, List<MensagemItemCarrinho> items)
+        public CheckoutEvent(string clienteId, List<CheckoutItem> items) : base(Guid.NewGuid())
         {
             ClienteId = clienteId;
             Items = items;
         }
 
         public string ClienteId { get; set; }
-        public IList<MensagemItemCarrinho> Items { get; set; }
+        public IList<CheckoutItem> Items { get; set; }
     }
 
-    public class MensagemItemCarrinho
+    public class CheckoutItem
     {
-        public MensagemItemCarrinho()
+        public CheckoutItem()
         {
 
         }
 
-        public MensagemItemCarrinho(string id, string produtoId, string produtoNome, decimal precoUnitario, int quantidade, string urlImagem)
+        public CheckoutItem(string id, string produtoId, string produtoNome, decimal precoUnitario, int quantidade, string urlImagem)
         {
             Id = id;
             ProdutoId = produtoId;

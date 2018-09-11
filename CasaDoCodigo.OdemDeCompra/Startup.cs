@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using CasaDoCodigo.Mensagens;
+using CasaDoCodigo.Mensagens.Ports.Commands;
 using CasaDoCodigo.OdemDeCompra.IntegrationEvents.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -33,8 +35,17 @@ namespace CasaDoCodigo.OdemDeCompra
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            //configure autofac
+            services.AddDistributedMemoryCache();
+            services.AddSession();
 
+            string connectionString = Configuration.GetConnectionString("Default");
+
+            services.AddScoped<DbContext, ApplicationContext>();
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseSqlServer(connectionString)
+            );
+
+            //configure autofac
             var containerBuilder = new ContainerBuilder();
 
             containerBuilder.Populate(services);
@@ -94,9 +105,8 @@ namespace CasaDoCodigo.OdemDeCompra
             // Configure the DI container.
             endpointConfiguration.UseContainer<AutofacBuilder>(customizations: customizations => { customizations.ExistingLifetimeScope(container); });
 
-
             endpoint = Endpoint.Start(endpointConfiguration).GetAwaiter().GetResult();
-            endpoint.Subscribe(typeof(MensagemCarrinho)).Wait();
+            endpoint.Subscribe(typeof(CheckoutEvent)).Wait();
 
             return container;
         }
@@ -114,7 +124,7 @@ namespace CasaDoCodigo.OdemDeCompra
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IServiceProvider serviceProvider, IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -127,6 +137,8 @@ namespace CasaDoCodigo.OdemDeCompra
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            serviceProvider.GetService<ApplicationContext>().Database.MigrateAsync().Wait();
         }
     }
 }
