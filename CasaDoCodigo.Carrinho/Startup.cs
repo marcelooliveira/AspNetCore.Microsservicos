@@ -1,10 +1,10 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using CasaDoCodigo.Carrinho.IntegrationEvents.Events;
+using CasaDoCodigo.Carrinho.IntegrationEvents.Mappers;
 using CasaDoCodigo.Carrinho.Model;
 using CasaDoCodigo.Mensagens;
 using CasaDoCodigo.Mensagens.Adapters.ServiceHost;
-using CasaDoCodigo.Mensagens.Ports.Commands;
-using CasaDoCodigo.Mensagens.Ports.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

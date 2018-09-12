@@ -1,5 +1,5 @@
-﻿using CasaDoCodigo.Carrinho.Model;
-using CasaDoCodigo.Mensagens.Ports.Commands;
+﻿using CasaDoCodigo.Carrinho.IntegrationEvents.Events;
+using CasaDoCodigo.Carrinho.Model;
 using Microsoft.AspNetCore.Mvc;
 using NServiceBus;
 using Paramore.Brighter;

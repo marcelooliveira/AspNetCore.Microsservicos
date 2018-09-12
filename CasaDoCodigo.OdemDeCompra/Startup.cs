@@ -1,8 +1,8 @@
 ﻿using CasaDoCodigo.Mensagens;
 using CasaDoCodigo.Mensagens.Adapters.ServiceHost;
-using CasaDoCodigo.Mensagens.Ports.CommandHandlers;
-using CasaDoCodigo.Mensagens.Ports.Commands;
-using CasaDoCodigo.Mensagens.Ports.Mappers;
+using CasaDoCodigo.OdemDeCompra.IntegrationEvents.EventHandling;
+using CasaDoCodigo.OdemDeCompra.IntegrationEvents.Events;
+using CasaDoCodigo.OdemDeCompra.IntegrationEvents.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
