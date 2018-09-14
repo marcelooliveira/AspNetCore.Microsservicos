@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Repositories\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -16,6 +17,7 @@
     <PackageReference Include="Autofac" Version="4.8.1" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.0" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="5.1.4" />
+    <PackageReference Include="MediatR" Version="5.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Paramore.Brighter.MessagingGateway.RMQ" Version="7.4.2" />
     <PackageReference Include="Paramore.Brighter.ServiceActivator" Version="7.4.2" />

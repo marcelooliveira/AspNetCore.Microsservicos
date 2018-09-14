@@ -1,11 +1,17 @@
 ﻿using CasaDoCodigo.OdemDeCompra.IntegrationEvents.Events;
+using MediatR;
+using Microsoft.Extensions.Logging;
 using Paramore.Brighter;
 using System.Diagnostics;
 
 namespace CasaDoCodigo.OdemDeCompra.IntegrationEvents.EventHandling
 {
-    public class CheckoutEventHandler : RequestHandler<CheckoutEvent>
+    public class CheckoutEventHandler : Paramore.Brighter.RequestHandler<CheckoutEvent>
     {
+        private readonly IMediator _mediator;
+        private readonly ILoggerFactory _logger;
+        //private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
+
         public override CheckoutEvent Handle(CheckoutEvent @event)
         {
             Trace.WriteLine("Received Checkout. Message Follows");

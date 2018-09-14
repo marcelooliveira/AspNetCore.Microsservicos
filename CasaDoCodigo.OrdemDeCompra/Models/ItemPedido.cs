@@ -27,6 +27,11 @@ namespace CasaDoCodigo.OrdemDeCompra.Models
         public decimal ProdutoPrecoUnitario { get; set; }
         public decimal Subtotal => ProdutoQuantidade * ProdutoPrecoUnitario;
 
+        public ItemPedido()
+        {
+
+        }
+
         public ItemPedido(int produtoId, string produtoCodigo, string produtoNome, decimal produtoPreco, int produtoQuantidade, decimal produtoPrecoUnitario)
         {
             ProdutoId = produtoId;

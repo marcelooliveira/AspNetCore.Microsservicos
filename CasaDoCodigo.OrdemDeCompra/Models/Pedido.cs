@@ -5,6 +5,11 @@ namespace CasaDoCodigo.OrdemDeCompra.Models
 {
     public class Pedido : BaseModel
     {
+        public Pedido()
+        {
+
+        }
+
         public Pedido(List<ItemPedido> itens, string clienteNome, string clienteEmail, string clienteTelefone, string clienteEndereco, string clienteComplemento, string clienteBairro, string clienteMunicipio, string clienteUF, string clienteCEP)
         {
             Itens = itens;
