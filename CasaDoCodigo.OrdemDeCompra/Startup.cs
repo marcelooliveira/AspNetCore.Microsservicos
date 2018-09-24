@@ -117,9 +117,9 @@ namespace CasaDoCodigo.OdemDeCompra
               highAvailability: true)
               }).Build();
 
-            //dispatcher.Receive();
+            dispatcher.Receive();
 
-            //dispatcher.End().Wait();
+            dispatcher.End().Wait();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
