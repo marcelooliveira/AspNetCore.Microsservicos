@@ -1,4 +1,5 @@
 ﻿using CasaDoCodigo.OdemDeCompra.IntegrationEvents.Events;
+using CasaDoCodigo.OrdemDeCompra.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Paramore.Brighter;
@@ -10,7 +11,12 @@ namespace CasaDoCodigo.OdemDeCompra.IntegrationEvents.EventHandling
     {
         private readonly IMediator _mediator;
         private readonly ILoggerFactory _logger;
-        //private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
+        private readonly IPedidoRepository _pedidoRepository;
+
+        public CheckoutEventHandler(IPedidoRepository pedidoRepository)
+        {
+            _pedidoRepository = pedidoRepository;
+        }
 
         public override CheckoutEvent Handle(CheckoutEvent @event)
         {
@@ -29,6 +35,8 @@ namespace CasaDoCodigo.OdemDeCompra.IntegrationEvents.EventHandling
             }
             Trace.WriteLine("----------------------------------");
             Trace.WriteLine("Message Ends");
+
+            _pedidoRepository.CreateOrUpdate(new OrdemDeCompra.Models.Pedido());
             return base.Handle(@event);
         }
     }

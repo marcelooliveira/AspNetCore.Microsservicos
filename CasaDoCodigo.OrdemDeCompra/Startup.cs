@@ -3,6 +3,7 @@ using CasaDoCodigo.Mensagens.Adapters.ServiceHost;
 using CasaDoCodigo.OdemDeCompra.IntegrationEvents.EventHandling;
 using CasaDoCodigo.OdemDeCompra.IntegrationEvents.Events;
 using CasaDoCodigo.OdemDeCompra.IntegrationEvents.Mappers;
+using CasaDoCodigo.OrdemDeCompra.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,7 @@ namespace CasaDoCodigo.OdemDeCompra
             string connectionString = Configuration.GetConnectionString("Default");
 
             services.AddScoped<DbContext, ApplicationContext>();
+            services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connectionString)
             );
