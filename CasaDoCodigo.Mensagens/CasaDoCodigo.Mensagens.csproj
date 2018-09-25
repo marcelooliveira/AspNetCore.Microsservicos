@@ -11,6 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Adapters\ServiceHost\TinyIoCHandlerFactory.cs" />
+    <Compile Remove="Adapters\ServiceHost\TinyIoCMessageMapperFactory.cs" />
+    <Compile Remove="ArrayCache.cs" />
+    <Compile Remove="TinyIoC.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="NServiceBus" Version="7.1.3" />
     <PackageReference Include="Paramore.Brighter" Version="7.4.2" />
   </ItemGroup>

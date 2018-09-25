@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using CasaDoCodigo.Carrinho.IntegrationEvents.EventHandling;
 using CasaDoCodigo.Carrinho.IntegrationEvents.Events;
 using CasaDoCodigo.Carrinho.IntegrationEvents.Mappers;
 using CasaDoCodigo.Carrinho.Model;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Paramore.Brighter;
+using Paramore.Brighter.AspNetCore;
 using Paramore.Brighter.MessagingGateway.RMQ;
 using Paramore.Brighter.MessagingGateway.RMQ.MessagingGatewayConfiguration;
 using StackExchange.Redis;
@@ -130,9 +132,17 @@ namespace CasaDoCodigo.Carrinho
 
         private static void ConfigureBrighter(IServiceCollection services)
         {
-            var container = new TinyIoCContainer();
+            //var container = new TinyIoCContainer();
+            //var messageMapperFactory = new TinyIoCMessageMapperFactory(container);
 
-            var messageMapperFactory = new TinyIoCMessageMapperFactory(container);
+            services.AddBrighter()
+                .HandlersFromAssemblies(typeof(CheckoutEventHandler).Assembly)
+                .Services.AddTransient<CheckoutEventMessageMapper>();
+
+            //services.AddTransient<IAmAMessageMapper<CheckoutEvent>, CheckoutEventMessageMapper>();
+
+            var container = services.BuildServiceProvider();
+            var messageMapperFactory = new NETCoreIoCMessageMapperFactory();
 
             var messageMapperRegistry = new MessageMapperRegistry(messageMapperFactory)
             {
@@ -155,6 +165,9 @@ namespace CasaDoCodigo.Carrinho
 
             var commandProcessor = builder.Build();
             services.AddSingleton(typeof(IAmACommandProcessor), commandProcessor);
+
+            var newContainer = services.BuildServiceProvider();
+            messageMapperFactory.Container = newContainer;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

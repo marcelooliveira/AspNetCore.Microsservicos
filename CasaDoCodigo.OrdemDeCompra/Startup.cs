@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Paramore.Brighter;
+using Paramore.Brighter.AspNetCore;
 using Paramore.Brighter.MessagingGateway.RMQ;
 using Paramore.Brighter.MessagingGateway.RMQ.MessagingGatewayConfiguration;
 using Paramore.Brighter.ServiceActivator;
@@ -43,24 +44,37 @@ namespace CasaDoCodigo.OdemDeCompra
                 options.UseSqlServer(connectionString)
             );
 
-            RegisterBrighter();
+            RegisterBrighter(services);
         }
 
-        private static void RegisterBrighter()
+        private static void RegisterBrighter(IServiceCollection services)
         {
             Log.Logger = new LoggerConfiguration()
               .MinimumLevel.Debug()
               .WriteTo.LiterateConsole()
               .CreateLogger();
 
-            var container = new TinyIoCContainer();
+            //var container = new TinyIoCContainer();
+            //var handlerFactory = new TinyIocHandlerFactory(container);
+            //var messageMapperFactory = new TinyIoCMessageMapperFactory(container);
+            //container.Register<IHandleRequests<CheckoutEvent>, CheckoutEventHandler>();
 
-            var handlerFactory = new TinyIocHandlerFactory(container);
-            var messageMapperFactory = new TinyIoCMessageMapperFactory(container);
-            container.Register<IHandleRequests<CheckoutEvent>, CheckoutEventHandler>();
+            services.AddScoped<IHandleRequests<CheckoutEvent>, CheckoutEventHandler>();
+
+            services.AddBrighter()
+                .HandlersFromAssemblies(typeof(CheckoutEventHandler).Assembly)
+                .Services.AddTransient<CheckoutEventMessageMapper>();
+
+            var container = services.BuildServiceProvider();
+            var handlerFactory = new NETCoreIoCHandlerFactory();
+            var messageMapperFactory = new NETCoreIoCMessageMapperFactory();
+
+            handlerFactory.Container = container;
+            messageMapperFactory.Container = container;
 
             var subscriberRegistry = new SubscriberRegistry();
             subscriberRegistry.Register<CheckoutEvent, CheckoutEventHandler>();
+
 
             //create policies
             var retryPolicy = Policy
