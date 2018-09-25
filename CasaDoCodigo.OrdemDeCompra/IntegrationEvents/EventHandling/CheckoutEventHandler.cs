@@ -1,9 +1,11 @@
 ﻿using CasaDoCodigo.OdemDeCompra.IntegrationEvents.Events;
+using CasaDoCodigo.OrdemDeCompra.Commands;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Paramore.Brighter;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace CasaDoCodigo.OdemDeCompra.IntegrationEvents.EventHandling
 {
@@ -13,9 +15,9 @@ namespace CasaDoCodigo.OdemDeCompra.IntegrationEvents.EventHandling
         private readonly ILoggerFactory _logger;
         private readonly IPedidoRepository _pedidoRepository;
 
-        public CheckoutEventHandler(IPedidoRepository pedidoRepository)
+        public CheckoutEventHandler(IMediator mediator)
         {
-            _pedidoRepository = pedidoRepository;
+            _mediator = mediator;
         }
 
         public override CheckoutEvent Handle(CheckoutEvent @event)
@@ -36,7 +38,13 @@ namespace CasaDoCodigo.OdemDeCompra.IntegrationEvents.EventHandling
             Trace.WriteLine("----------------------------------");
             Trace.WriteLine("Message Ends");
 
-            _pedidoRepository.CreateOrUpdate(new OrdemDeCompra.Models.Pedido());
+            var createPedidoCommand = new CreatePedidoCommand();
+
+            var requestCreateOrder = new IdentifiedCommand<CreatePedidoCommand, bool>(createPedidoCommand, @event.Id);
+
+            //HACK: I should never call Wait(), but this method override cannot be async...
+            _mediator.Send(requestCreateOrder).Wait();
+
             return base.Handle(@event);
         }
     }

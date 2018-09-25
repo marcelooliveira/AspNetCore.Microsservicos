@@ -3,7 +3,9 @@ using CasaDoCodigo.Mensagens.Adapters.ServiceHost;
 using CasaDoCodigo.OdemDeCompra.IntegrationEvents.EventHandling;
 using CasaDoCodigo.OdemDeCompra.IntegrationEvents.Events;
 using CasaDoCodigo.OdemDeCompra.IntegrationEvents.Mappers;
+using CasaDoCodigo.OrdemDeCompra.Commands;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +20,7 @@ using Paramore.Brighter.ServiceActivator;
 using Polly;
 using Serilog;
 using System;
+using System.Reflection;
 
 namespace CasaDoCodigo.OdemDeCompra
 {
@@ -45,6 +48,11 @@ namespace CasaDoCodigo.OdemDeCompra
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connectionString)
             );
+
+            services.AddScoped<IMediator, NoMediator>();
+            //services.AddScoped<IRequestHandler<IdentifiedCommand<CreatePedidoCommand, bool>, bool>, CreatePedidoCommandHandler>();
+            services.AddScoped<IRequest<bool>, CreatePedidoCommand>();
+            services.AddMediatR(typeof(CreatePedidoCommand).GetTypeInfo().Assembly);
 
             RegisterBrighter(services);
         }
