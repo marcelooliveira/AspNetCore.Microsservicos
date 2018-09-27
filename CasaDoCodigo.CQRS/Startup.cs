@@ -20,7 +20,7 @@ namespace CasaDoCodigo
 {
     public class Startup
     {
-        private const string API_BASE_URI = "https://localhost:44339";
+        private const string API_BASE_URI = "https://localhost:44320";
 
         public Startup(IConfiguration configuration)
         {

@@ -233,9 +233,9 @@ namespace CasaDoCodigo.OdemDeCompra
                         options.Connections = connections;
                         options.ChannelFactory = new InputChannelFactory(rmqMessageConsumerFactory);
                         options.PolicyRegistry = policyRegistry;
-                        //options.RequestContextFactory =
-                        //        new InMemoryRequestContextFactory();
-                        //options.MessagingConfiguration = messagingConfiguration;
+                        options.RequestContextFactory =
+                                new InMemoryRequestContextFactory();
+                        options.MessagingConfiguration = messagingConfiguration;
                     })
                     .MapperRegistryFromAssemblies(typeof(CheckoutEventHandler).Assembly)
                     .HandlersFromAssemblies(typeof(CheckoutEventHandler).Assembly, typeof(ExceptionPolicyHandler<>).Assembly);
@@ -243,6 +243,7 @@ namespace CasaDoCodigo.OdemDeCompra
             services.AddSingleton<ILoggerFactory>(x => new SerilogLoggerFactory());
                     services.AddHostedService<MyServiceActivatorHostedService>();
             services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
+            
             //})
             //.UseConsoleLifetime()
             //.Build();
