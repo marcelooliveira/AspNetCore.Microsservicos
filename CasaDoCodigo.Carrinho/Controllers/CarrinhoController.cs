@@ -1,8 +1,8 @@
-﻿using CasaDoCodigo.Carrinho.IntegrationEvents.Events;
-using CasaDoCodigo.Carrinho.Model;
+﻿using CasaDoCodigo.Carrinho.Model;
+using CasaDoCodigo.Mensagens.Events;
 using Microsoft.AspNetCore.Mvc;
-using NServiceBus;
-using Paramore.Brighter;
+using Microsoft.Extensions.Logging;
+using Rebus.Bus;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -14,17 +14,19 @@ namespace CasaDoCodigo.Carrinho.Controllers
     public class CarrinhoController : Controller
     {
         private readonly ICarrinhoRepository _repository;
-        //private readonly IEndpointInstance _endpoint;
-        private readonly IAmACommandProcessor _commandProcessor;
+        private readonly IBus _bus;
+        private readonly ILoggerFactory _loggerFactory;
 
         public CarrinhoController(ICarrinhoRepository repository
-            //, IEndpointInstance endpoint
-            , IAmACommandProcessor commandProcessor
+            , IBus bus
+            , ILoggerFactory loggerFactory
             )
         {
             _repository = repository;
             //_endpoint = endpoint;
-            _commandProcessor = commandProcessor;
+            _bus = bus;
+            _loggerFactory = loggerFactory;
+            _loggerFactory.AddDebug();
         }
 
         //GET /id
@@ -72,7 +74,7 @@ namespace CasaDoCodigo.Carrinho.Controllers
             // processo de criação de pedido
             //await _endpoint.Publish(eventMessage);
 
-            _commandProcessor.Post(eventMessage);
+            await _bus.Send(eventMessage);
 
             var carrinho = await _repository.GetCarrinhoAsync(carrinhoCliente.ClienteId);
 

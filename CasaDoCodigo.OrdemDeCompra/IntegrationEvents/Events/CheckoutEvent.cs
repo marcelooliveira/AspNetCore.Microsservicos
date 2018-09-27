@@ -2,13 +2,16 @@
 using System;
 using System.Collections.Generic;
 
-namespace CasaDoCodigo.OdemDeCompra.IntegrationEvents.Events
+namespace CasaDoCodigo.Mensagens.Events
 {
-    public class CheckoutEvent : Event
+    public class CheckoutEvent
     {
-        public CheckoutEvent() : base(Guid.NewGuid()) { }
+        public CheckoutEvent()
+        {
+            
+        }
 
-        public CheckoutEvent(string clienteId, List<CheckoutItem> items) : base(Guid.NewGuid())
+        public CheckoutEvent(string clienteId, List<CheckoutItem> items)
         {
             ClienteId = clienteId;
             Items = items;
@@ -16,6 +19,7 @@ namespace CasaDoCodigo.OdemDeCompra.IntegrationEvents.Events
 
         public string ClienteId { get; set; }
         public IList<CheckoutItem> Items { get; set; }
+        public Guid Id { get; internal set; }
     }
 
     public class CheckoutItem

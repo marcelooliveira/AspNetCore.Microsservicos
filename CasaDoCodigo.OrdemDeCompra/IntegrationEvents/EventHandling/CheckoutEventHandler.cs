@@ -1,15 +1,15 @@
-﻿using CasaDoCodigo.OdemDeCompra.IntegrationEvents.Events;
+﻿using CasaDoCodigo.Mensagens.Events;
 using CasaDoCodigo.OrdemDeCompra.Commands;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Paramore.Brighter;
+using Rebus.Handlers;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.OdemDeCompra.IntegrationEvents.EventHandling
+namespace CasaDoCodigo.Mensagens.EventHandling
 {
-    public class CheckoutEventHandler : Paramore.Brighter.RequestHandler<CheckoutEvent>
+    public class CheckoutEventHandler : IHandleMessages<CheckoutEvent>
     {
         private readonly IMediator _mediator;
         private readonly ILoggerFactory _logger;
@@ -20,12 +20,12 @@ namespace CasaDoCodigo.OdemDeCompra.IntegrationEvents.EventHandling
             _mediator = mediator;
         }
 
-        public override CheckoutEvent Handle(CheckoutEvent @event)
+        Task IHandleMessages<CheckoutEvent>.Handle(CheckoutEvent message)
         {
             Trace.WriteLine("Received Checkout. Message Follows");
             Trace.WriteLine("----------------------------------");
-            Trace.WriteLine(@event.ClienteId);
-            foreach (var item in @event.Items)
+            Trace.WriteLine(message.ClienteId);
+            foreach (var item in message.Items)
             {
                 Trace.WriteLine(
                 $"Id = {item.Id}, " +
@@ -40,12 +40,11 @@ namespace CasaDoCodigo.OdemDeCompra.IntegrationEvents.EventHandling
 
             var createPedidoCommand = new CreatePedidoCommand();
 
-            var requestCreateOrder = new IdentifiedCommand<CreatePedidoCommand, bool>(createPedidoCommand, @event.Id);
+            var requestCreateOrder = new IdentifiedCommand<CreatePedidoCommand, bool>(createPedidoCommand, message.Id);
 
             //HACK: I should never call Wait(), but this method override cannot be async...
             _mediator.Send(requestCreateOrder).Wait();
-
-            return base.Handle(@event);
+            return Task.CompletedTask;
         }
     }
 }

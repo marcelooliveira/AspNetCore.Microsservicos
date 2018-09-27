@@ -1,11 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using CasaDoCodigo.Carrinho.IntegrationEvents.EventHandling;
-using CasaDoCodigo.Carrinho.IntegrationEvents.Events;
-using CasaDoCodigo.Carrinho.IntegrationEvents.Mappers;
 using CasaDoCodigo.Carrinho.Model;
-using CasaDoCodigo.Mensagens;
-using CasaDoCodigo.Mensagens.Adapters.ServiceHost;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Paramore.Brighter;
-using Paramore.Brighter.AspNetCore;
-using Paramore.Brighter.MessagingGateway.RMQ;
-using Paramore.Brighter.MessagingGateway.RMQ.MessagingGatewayConfiguration;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
@@ -25,14 +16,27 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Rebus.Routing.TypeBased;
+using Rebus.ServiceProvider;
+using Rebus.Transport.InMem;
+using Microsoft.Extensions.Logging;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
+using Rebus.Bus;
+using CasaDoCodigo.Mensagens.EventHandling;
+using CasaDoCodigo.Mensagens.Events;
 
 namespace CasaDoCodigo.Carrinho
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILoggerFactory _loggerFactory;
+
+        public Startup(ILoggerFactory loggerFactory, 
+            IConfiguration configuration)
         {
             Configuration = configuration;
+            _loggerFactory = loggerFactory;
         }
 
         public IConfiguration Configuration { get; }
@@ -127,48 +131,62 @@ namespace CasaDoCodigo.Carrinho
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
 
-            ConfigureBrighter(services);
+            //ConfigureBrighter(services);
+            ConfigureRebus(services);
         }
 
-        private static void ConfigureBrighter(IServiceCollection services)
+        private void ConfigureRebus(IServiceCollection services)
         {
-            //var container = new TinyIoCContainer();
-            //var messageMapperFactory = new TinyIoCMessageMapperFactory(container);
+            // Register handlers 
+            services.AutoRegisterHandlersFromAssemblyOf<CheckoutEventHandler>();
 
-            services.AddBrighter()
-                .HandlersFromAssemblies(typeof(CheckoutEventHandler).Assembly)
-                .Services.AddTransient<CheckoutEventMessageMapper>();
 
-            //services.AddTransient<IAmAMessageMapper<CheckoutEvent>, CheckoutEventMessageMapper>();
-
-            var container = services.BuildServiceProvider();
-            var messageMapperFactory = new NETCoreIoCMessageMapperFactory();
-
-            var messageMapperRegistry = new MessageMapperRegistry(messageMapperFactory)
-            {
-                {typeof(CheckoutEvent), typeof(CheckoutEventMessageMapper)}
-            };
-
-            var messageStore = new InMemoryMessageStore();
-            var rmqConnnection = new RmqMessagingGatewayConnection
-            {
-                AmpqUri = new AmqpUriSpecification(new Uri("amqp://guest:guest@localhost:5672")),
-                Exchange = new Exchange("paramore.brighter.exchange"),
-            };
-            var producer = new RmqMessageProducer(rmqConnnection);
-
-            var builder = CommandProcessorBuilder.With()
-                .Handlers(new HandlerConfiguration())
-                .DefaultPolicy()
-                .TaskQueues(new MessagingConfiguration(messageStore, producer, messageMapperRegistry))
-                .RequestContextFactory(new InMemoryRequestContextFactory());
-
-            var commandProcessor = builder.Build();
-            services.AddSingleton(typeof(IAmACommandProcessor), commandProcessor);
-
-            var newContainer = services.BuildServiceProvider();
-            messageMapperFactory.Container = newContainer;
+            // Configure and register Rebus
+            services.AddRebus(configure => configure
+                .Logging(l => l.Use(new MSLoggerFactoryAdapter(_loggerFactory)))
+                .Transport(t => t.UseInMemoryTransport(new InMemNetwork(), "Messages"))
+                .Routing(r => r.TypeBased().MapAssemblyOf<CheckoutEvent>("Messages")));
         }
+
+        //private static void ConfigureBrighter(IServiceCollection services)
+        //{
+        //    //var container = new TinyIoCContainer();
+        //    //var messageMapperFactory = new TinyIoCMessageMapperFactory(container);
+
+        //    services.AddBrighter()
+        //        .HandlersFromAssemblies(typeof(CheckoutEventHandler).Assembly)
+        //        .Services.AddTransient<CheckoutEventMessageMapper>();
+
+        //    //services.AddTransient<IAmAMessageMapper<CheckoutEvent>, CheckoutEventMessageMapper>();
+
+        //    var container = services.BuildServiceProvider();
+        //    var messageMapperFactory = new NETCoreIoCMessageMapperFactory();
+
+        //    var messageMapperRegistry = new MessageMapperRegistry(messageMapperFactory)
+        //    {
+        //        {typeof(CheckoutEvent), typeof(CheckoutEventMessageMapper)}
+        //    };
+
+        //    var messageStore = new InMemoryMessageStore();
+        //    var rmqConnnection = new RmqMessagingGatewayConnection
+        //    {
+        //        AmpqUri = new AmqpUriSpecification(new Uri("amqp://guest:guest@localhost:5672")),
+        //        Exchange = new Exchange("paramore.brighter.exchange"),
+        //    };
+        //    var producer = new RmqMessageProducer(rmqConnnection);
+
+        //    var builder = CommandProcessorBuilder.With()
+        //        .Handlers(new HandlerConfiguration())
+        //        .DefaultPolicy()
+        //        .TaskQueues(new MessagingConfiguration(messageStore, producer, messageMapperRegistry))
+        //        .RequestContextFactory(new InMemoryRequestContextFactory());
+
+        //    var commandProcessor = builder.Build();
+        //    services.AddSingleton(typeof(IAmACommandProcessor), commandProcessor);
+
+        //    var newContainer = services.BuildServiceProvider();
+        //    messageMapperFactory.Container = newContainer;
+        //}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -198,6 +216,7 @@ namespace CasaDoCodigo.Carrinho
             app.UseAuthentication();
             app.UseStaticFiles();
             app.UseMvc();
+            app.UseRebus();
         }
     }
 }

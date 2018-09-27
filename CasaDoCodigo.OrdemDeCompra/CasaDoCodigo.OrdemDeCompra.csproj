@@ -19,16 +19,11 @@
     <PackageReference Include="MediatR" Version="5.1.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="5.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Paramore.Brighter.AspNetCore" Version="1.0.13" />
-    <PackageReference Include="Paramore.Brighter.MessagingGateway.RMQ" Version="7.4.2" />
-    <PackageReference Include="Paramore.Brighter.ServiceActivator" Version="7.4.2" />
+    <PackageReference Include="Rebus" Version="5.0.0-b19" />
+    <PackageReference Include="Rebus.ServiceProvider" Version="4.0.1" />
     <PackageReference Include="Serilog" Version="2.7.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CasaDoCodigo.Mensagens\CasaDoCodigo.Mensagens.csproj" />
   </ItemGroup>
 
   <ItemGroup>

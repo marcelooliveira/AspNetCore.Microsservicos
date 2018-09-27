@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Paramore.Brighter;
+using System;
 using System.Collections.Generic;
 
 namespace CasaDoCodigo.Mensagens.Events
 {
-    public class CheckoutEvent
+    public class CheckoutEvent : Event
     {
-        public CheckoutEvent(string clienteId, List<CheckoutItem> items)
+        public CheckoutEvent() : base(Guid.NewGuid()) { }
+
+        public CheckoutEvent(string clienteId, List<CheckoutItem> items) : base(Guid.NewGuid())
         {
             ClienteId = clienteId;
             Items = items;
