@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Rebus.Config;
 using Rebus.Routing.TypeBased;
 using Rebus.ServiceProvider;
 using Rebus.Transport.InMem;
@@ -72,8 +73,8 @@ namespace CasaDoCodigo.OdemDeCompra
             // Configure and register Rebus
             services.AddRebus(configure => configure
                 .Logging(l => l.Use(new MSLoggerFactoryAdapter(_loggerFactory)))
-                .Transport(t => t.UseInMemoryTransport(new InMemNetwork(), "Messages"))
-                .Routing(r => r.TypeBased().MapAssemblyOf<CheckoutEvent>("Messages")));
+                .Transport(t => t.UseRabbitMq("amqp://localhost", "Messages")))
+                .AutoRegisterHandlersFromAssemblyOf<CheckoutEvent>();
         }
 
         //private static void RegisterBrighter(IServiceCollection services)
@@ -273,7 +274,10 @@ namespace CasaDoCodigo.OdemDeCompra
 
             app.UseHttpsRedirection();
             app.UseMvc();
-            app.UseRebus();
+            app.UseRebus(async (bus) =>
+            {
+                await bus.Subscribe<CheckoutEvent>();
+            });
             //serviceProvider.GetService<ApplicationContext>().Database.MigrateAsync().Wait();
         }
     }

@@ -74,7 +74,7 @@ namespace CasaDoCodigo.Carrinho.Controllers
             // processo de criação de pedido
             //await _endpoint.Publish(eventMessage);
 
-            await _bus.Send(eventMessage);
+            await _bus.Publish(eventMessage);
 
             var carrinho = await _repository.GetCarrinhoAsync(carrinhoCliente.ClienteId);
 

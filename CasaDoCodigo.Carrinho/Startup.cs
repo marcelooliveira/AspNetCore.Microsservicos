@@ -25,6 +25,7 @@ using Microsoft.AspNetCore.Http;
 using Rebus.Bus;
 using CasaDoCodigo.Mensagens.EventHandling;
 using CasaDoCodigo.Mensagens.Events;
+using Rebus.Config;
 
 namespace CasaDoCodigo.Carrinho
 {
@@ -144,8 +145,8 @@ namespace CasaDoCodigo.Carrinho
             // Configure and register Rebus
             services.AddRebus(configure => configure
                 .Logging(l => l.Use(new MSLoggerFactoryAdapter(_loggerFactory)))
-                .Transport(t => t.UseInMemoryTransport(new InMemNetwork(), "Messages"))
-                .Routing(r => r.TypeBased().MapAssemblyOf<CheckoutEvent>("Messages")));
+                .Transport(t => t.UseRabbitMq("amqp://localhost", "Messages")))
+                .AutoRegisterHandlersFromAssemblyOf<CheckoutEvent>();
         }
 
         //private static void ConfigureBrighter(IServiceCollection services)
