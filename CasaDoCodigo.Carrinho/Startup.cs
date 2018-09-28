@@ -23,7 +23,6 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Rebus.Bus;
-using CasaDoCodigo.Mensagens.EventHandling;
 using CasaDoCodigo.Mensagens.Events;
 using Rebus.Config;
 
@@ -138,15 +137,10 @@ namespace CasaDoCodigo.Carrinho
 
         private void ConfigureRebus(IServiceCollection services)
         {
-            // Register handlers 
-            services.AutoRegisterHandlersFromAssemblyOf<CheckoutEventHandler>();
-
-
             // Configure and register Rebus
             services.AddRebus(configure => configure
                 .Logging(l => l.Use(new MSLoggerFactoryAdapter(_loggerFactory)))
-                .Transport(t => t.UseRabbitMq("amqp://localhost", "Messages")))
-                .AutoRegisterHandlersFromAssemblyOf<CheckoutEvent>();
+                .Transport(t => t.UseRabbitMq("amqp://localhost", "Messages")));
         }
 
         //private static void ConfigureBrighter(IServiceCollection services)

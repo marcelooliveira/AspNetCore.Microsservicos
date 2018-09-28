@@ -18,7 +18,9 @@ using Rebus.Transport.InMem;
 using Serilog;
 using Serilog.AspNetCore;
 using Serilog.Events;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
+using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,6 +45,41 @@ namespace CasaDoCodigo.OdemDeCompra
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "Casa do Código - Ordem de Compra API",
+                    Description = "Uma API contendo funcionalidades da aplicação de e-Commerce:" +
+                    "Criação de pedidos.",
+                    TermsOfService = "Nenhum",
+                    Contact = new Contact
+                    {
+                        Name = "Marcelo Oliveira",
+                        Email = "mclricardo@gmail.com",
+                        Url = "https://twitter.com/twmoliveira"
+                    },
+                    License = new License
+                    {
+                        Name = "Licença XPTO 4567",
+                        Url = "https://example.com/license"
+                    }
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
+            services.ConfigureSwaggerGen(options =>
+            {
+                // UseFullTypeNameInSchemaIds replacement for .NET Core
+                options.CustomSchemaIds(x => x.FullName);
+            });
 
             services.AddDistributedMemoryCache();
             services.AddSession();
@@ -272,9 +309,20 @@ namespace CasaDoCodigo.OdemDeCompra
                 app.UseHsts();
             }
 
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Casa do Código - Ordem de Compra v1");
+            });
+
             app.UseHttpsRedirection();
             app.UseMvc();
-            app.UseRebus(async bus => await bus.Subscribe<CheckoutEvent>());
+            app.UseRebus(async bus => await bus.Subscribe<CheckoutEvent>())
+                .Run(async (context) =>
+                {
+
+                });
             //serviceProvider.GetService<ApplicationContext>().Database.MigrateAsync().Wait();
         }
     }

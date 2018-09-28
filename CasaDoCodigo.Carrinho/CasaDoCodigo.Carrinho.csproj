@@ -9,14 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="IntegrationEvents\Events\**" />
-    <Compile Remove="IntegrationEvents\Mappers\**" />
-    <Content Remove="IntegrationEvents\Events\**" />
-    <Content Remove="IntegrationEvents\Mappers\**" />
-    <EmbeddedResource Remove="IntegrationEvents\Events\**" />
-    <EmbeddedResource Remove="IntegrationEvents\Mappers\**" />
-    <None Remove="IntegrationEvents\Events\**" />
-    <None Remove="IntegrationEvents\Mappers\**" />
+    <Compile Remove="IntegrationEvents\**" />
+    <Content Remove="IntegrationEvents\**" />
+    <EmbeddedResource Remove="IntegrationEvents\**" />
+    <None Remove="IntegrationEvents\**" />
   </ItemGroup>
 
   <ItemGroup>

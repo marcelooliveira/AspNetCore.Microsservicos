@@ -6,14 +6,14 @@ namespace CasaDoCodigo.OrdemDeCompra.Repositories
 {
     public interface IPedidoRepository
     {
-        Task<Pedido> CreateOrUpdate(Pedido pedido);
+        Task<bool> CreateOrUpdate(Pedido pedido);
     }
 
     public class PedidoRepository : IPedidoRepository
     {
-        public Task<Pedido> CreateOrUpdate(Pedido pedido)
+        public Task<bool> CreateOrUpdate(Pedido pedido)
         {
-            throw new NotImplementedException();
+            return new Task<bool>(() => true);
         }
     }
 }
