@@ -300,6 +300,7 @@ namespace CasaDoCodigo.OdemDeCompra
 
         public void Configure(IServiceProvider serviceProvider, IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -308,22 +309,22 @@ namespace CasaDoCodigo.OdemDeCompra
             {
                 app.UseHsts();
             }
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Casa do Código - Ordem de Compra v1");
-            });
-
-            app.UseHttpsRedirection();
-            app.UseMvc();
             app.UseRebus(async bus => await bus.Subscribe<CheckoutEvent>())
                 .Run(async (context) =>
                 {
 
                 });
-            //serviceProvider.GetService<ApplicationContext>().Database.MigrateAsync().Wait();
+
+            //// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            //// specifying the Swagger JSON endpoint.
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Casa do Código - Ordem de Compra v1");
+            //});
+
+            //app.UseHttpsRedirection();
+            //app.UseMvc();
+            ////serviceProvider.GetService<ApplicationContext>().Database.MigrateAsync().Wait();
         }
     }
 }
