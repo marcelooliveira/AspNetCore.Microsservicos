@@ -9,6 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="IntegrationEvents\Events\**" />
+    <Compile Remove="IntegrationEvents\Mappers\**" />
+    <Content Remove="IntegrationEvents\Events\**" />
+    <Content Remove="IntegrationEvents\Mappers\**" />
+    <EmbeddedResource Remove="IntegrationEvents\Events\**" />
+    <EmbeddedResource Remove="IntegrationEvents\Mappers\**" />
+    <None Remove="IntegrationEvents\Events\**" />
+    <None Remove="IntegrationEvents\Mappers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -23,6 +34,10 @@
     <PackageReference Include="Rebus.ServiceProvider" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CasaDoCodigo.Mensagens\CasaDoCodigo.Mensagens.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -274,10 +274,7 @@ namespace CasaDoCodigo.OdemDeCompra
 
             app.UseHttpsRedirection();
             app.UseMvc();
-            app.UseRebus(async (bus) =>
-            {
-                await bus.Subscribe<CheckoutEvent>();
-            });
+            app.UseRebus(async bus => await bus.Subscribe<CheckoutEvent>());
             //serviceProvider.GetService<ApplicationContext>().Database.MigrateAsync().Wait();
         }
     }

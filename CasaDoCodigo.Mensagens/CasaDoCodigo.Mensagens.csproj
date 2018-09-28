@@ -5,8 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="IntegrationEvents\EventHandling\**" />
+    <Compile Remove="IntegrationEvents\Mappers\**" />
     <Compile Remove="Ports\**" />
+    <EmbeddedResource Remove="IntegrationEvents\EventHandling\**" />
+    <EmbeddedResource Remove="IntegrationEvents\Mappers\**" />
     <EmbeddedResource Remove="Ports\**" />
+    <None Remove="IntegrationEvents\EventHandling\**" />
+    <None Remove="IntegrationEvents\Mappers\**" />
     <None Remove="Ports\**" />
   </ItemGroup>
 

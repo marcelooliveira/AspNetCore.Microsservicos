@@ -9,6 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="IntegrationEvents\Events\**" />
+    <Compile Remove="IntegrationEvents\Mappers\**" />
+    <Content Remove="IntegrationEvents\Events\**" />
+    <Content Remove="IntegrationEvents\Mappers\**" />
+    <EmbeddedResource Remove="IntegrationEvents\Events\**" />
+    <EmbeddedResource Remove="IntegrationEvents\Mappers\**" />
+    <None Remove="IntegrationEvents\Events\**" />
+    <None Remove="IntegrationEvents\Mappers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -25,6 +36,10 @@
     <PackageReference Include="Serilog" Version="2.7.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CasaDoCodigo.Mensagens\CasaDoCodigo.Mensagens.csproj" />
   </ItemGroup>
 
   <ItemGroup>
