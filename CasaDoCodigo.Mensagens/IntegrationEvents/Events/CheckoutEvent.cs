@@ -16,6 +16,12 @@ namespace CasaDoCodigo.Mensagens.Events
 
         public string ClienteId { get; set; }
         public IList<CheckoutItem> Items { get; set; }
+        public DateTime CreatedDate = DateTime.Now;
+
+        public override string ToString()
+        {
+            return string.Format("{0:HH:mm:ss}", CreatedDate);
+        }
     }
 
     public class CheckoutItem

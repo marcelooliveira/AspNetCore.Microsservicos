@@ -43,7 +43,7 @@ namespace CasaDoCodigo.Mensagens.EventHandling
             var requestCreateOrder = new IdentifiedCommand<CreatePedidoCommand, bool>(createPedidoCommand, message.Id);
 
             //HACK: I should never call Wait(), but this method override cannot be async...
-            _mediator.Send(requestCreateOrder).Wait();
+            _mediator.Send(requestCreateOrder);
             return Task.CompletedTask;
         }
     }
