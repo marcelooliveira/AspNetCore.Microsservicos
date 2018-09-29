@@ -96,6 +96,7 @@ namespace CasaDoCodigo.OdemDeCompra
             var serviceProvider = services.BuildServiceProvider();
             var contexto = serviceProvider.GetService<ApplicationContext>();
             services.AddSingleton<ApplicationContext>(contexto);
+            //services.AddTransient<DbContext, ApplicationContext>();
 
             services.AddScoped<IPedidoRepository, PedidoRepository>();
 

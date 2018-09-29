@@ -33,15 +33,8 @@ namespace CasaDoCodigo.OrdemDeCompra.Repositories
         public async Task<Pedido> CreateOrUpdate(Pedido pedido)
         {
             EntityEntry<Pedido> entityEntry;
-            try
-            {
-                entityEntry = await dbSet.AddAsync(pedido);
-                await contexto.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            entityEntry = await dbSet.AddAsync(pedido);
+            await contexto.SaveChangesAsync();
             return entityEntry.Entity;
         }
     }
