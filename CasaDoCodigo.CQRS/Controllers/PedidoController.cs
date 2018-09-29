@@ -51,7 +51,11 @@ namespace CasaDoCodigo.Controllers
             {
                 return View(await apiService.GetProdutos());
             }
-            catch (BrokenCircuitException)
+            catch (BrokenCircuitException e)
+            {
+                HandleBrokenCircuitException();
+            }
+            catch (Exception e)
             {
                 HandleBrokenCircuitException();
             }
