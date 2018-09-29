@@ -38,35 +38,7 @@ namespace CasaDoCodigo.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //var tokenValidationParameters = new TokenValidationParameters
-            //{
-            //    ValidateIssuerSigningKey = true,
-            //    IssuerSigningKey = GetSignInKey(),
-            //    ValidateIssuer = false,
-            //    ValidIssuer = GetIssuer(),
-            //    ValidateAudience = false,
-            //    ValidAudience = GetAudience(),
-            //    ValidateLifetime = true,
-            //    ValidateActor = false,
-            //    ValidateTokenReplay = false,
-            //    RequireExpirationTime = true,
-            //    ClockSkew = TimeSpan.Zero
-            //};
-
             services.AddAuthentication()
-                //.AddJwtBearer(cfg =>
-                //{
-                //    cfg.RequireHttpsMetadata = false;
-                //    cfg.SaveToken = true;
-
-                //    cfg.TokenValidationParameters = new TokenValidationParameters()
-                //    {
-                //        ValidIssuer = Configuration["Tokens:Issuer"],
-                //        ValidAudience = Configuration["Tokens:Issuer"],
-                //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
-                //    };
-
-                //});
                 .AddJwtBearer(bearerOptions =>
                 {
                     var paramsValidation = bearerOptions.TokenValidationParameters;
@@ -132,7 +104,9 @@ namespace CasaDoCodigo.API
 
             services.AddScoped<DbContext, ApplicationContext>();
             services.AddDbContext<ApplicationContext>(options =>
-                options.UseSqlServer(connectionString)
+                {
+                    options.UseSqlServer(connectionString);
+                }
             );
 
             services.AddTransient<IUserStore<CasaDoCodigoAPIUser>, UserStore<CasaDoCodigoAPIUser>>();

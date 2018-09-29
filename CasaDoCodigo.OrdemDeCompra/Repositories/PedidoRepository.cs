@@ -1,19 +1,48 @@
-﻿using CasaDoCodigo.OrdemDeCompra.Models;
+﻿using CasaDoCodigo.OdemDeCompra;
+using CasaDoCodigo.OrdemDeCompra.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.OrdemDeCompra.Repositories
 {
-    public interface IPedidoRepository
+    public abstract class BaseRepository<T> where T : BaseModel
     {
-        Task<bool> CreateOrUpdate(Pedido pedido);
+        protected readonly ApplicationContext contexto;
+        protected readonly DbSet<T> dbSet;
+
+        public BaseRepository(ApplicationContext contexto)
+        {
+            this.contexto = contexto;
+            dbSet = contexto.Set<T>();
+        }
     }
 
-    public class PedidoRepository : IPedidoRepository
+    public interface IPedidoRepository
     {
-        public Task<bool> CreateOrUpdate(Pedido pedido)
+        Task<Pedido> CreateOrUpdate(Pedido pedido);
+    }
+
+    public class PedidoRepository : BaseRepository<Pedido>, IPedidoRepository
+    {
+        public PedidoRepository(ApplicationContext contexto) : base(contexto)
         {
-            return new Task<bool>(() => true);
+        }
+
+        public async Task<Pedido> CreateOrUpdate(Pedido pedido)
+        {
+            EntityEntry<Pedido> entityEntry;
+            try
+            {
+                entityEntry = await dbSet.AddAsync(pedido);
+                await contexto.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return entityEntry.Entity;
         }
     }
 }

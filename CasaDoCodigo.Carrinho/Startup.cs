@@ -114,7 +114,6 @@ namespace CasaDoCodigo.Carrinho
             services.AddSingleton<ConnectionMultiplexer>(sp =>
             {
                 var settings = sp.GetRequiredService<IOptions<CarrinhoConfig>>().Value;
-                //var configuration = ConfigurationOptions.Parse(settings.ConnectionString, true);
                 var configuration = ConfigurationOptions.Parse("localhost", true);
 
                 configuration.ResolveDns = true;
@@ -145,47 +144,6 @@ namespace CasaDoCodigo.Carrinho
                 .Transport(t => t.UseRabbitMq(RMQ_CONNECTION_STRING, INPUT_QUEUE_NAME)));
         }
 
-        //private static void ConfigureBrighter(IServiceCollection services)
-        //{
-        //    //var container = new TinyIoCContainer();
-        //    //var messageMapperFactory = new TinyIoCMessageMapperFactory(container);
-
-        //    services.AddBrighter()
-        //        .HandlersFromAssemblies(typeof(CheckoutEventHandler).Assembly)
-        //        .Services.AddTransient<CheckoutEventMessageMapper>();
-
-        //    //services.AddTransient<IAmAMessageMapper<CheckoutEvent>, CheckoutEventMessageMapper>();
-
-        //    var container = services.BuildServiceProvider();
-        //    var messageMapperFactory = new NETCoreIoCMessageMapperFactory();
-
-        //    var messageMapperRegistry = new MessageMapperRegistry(messageMapperFactory)
-        //    {
-        //        {typeof(CheckoutEvent), typeof(CheckoutEventMessageMapper)}
-        //    };
-
-        //    var messageStore = new InMemoryMessageStore();
-        //    var rmqConnnection = new RmqMessagingGatewayConnection
-        //    {
-        //        AmpqUri = new AmqpUriSpecification(new Uri("amqp://guest:guest@localhost:5672")),
-        //        Exchange = new Exchange("paramore.brighter.exchange"),
-        //    };
-        //    var producer = new RmqMessageProducer(rmqConnnection);
-
-        //    var builder = CommandProcessorBuilder.With()
-        //        .Handlers(new HandlerConfiguration())
-        //        .DefaultPolicy()
-        //        .TaskQueues(new MessagingConfiguration(messageStore, producer, messageMapperRegistry))
-        //        .RequestContextFactory(new InMemoryRequestContextFactory());
-
-        //    var commandProcessor = builder.Build();
-        //    services.AddSingleton(typeof(IAmACommandProcessor), commandProcessor);
-
-        //    var newContainer = services.BuildServiceProvider();
-        //    messageMapperFactory.Container = newContainer;
-        //}
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

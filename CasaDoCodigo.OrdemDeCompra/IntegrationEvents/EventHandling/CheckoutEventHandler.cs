@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Rebus.Handlers;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Mensagens.EventHandling
@@ -12,8 +13,6 @@ namespace CasaDoCodigo.Mensagens.EventHandling
     public class CheckoutEventHandler : IHandleMessages<CheckoutEvent>
     {
         private readonly IMediator _mediator;
-        private readonly ILoggerFactory _logger;
-        private readonly IPedidoRepository _pedidoRepository;
 
         public CheckoutEventHandler(IMediator mediator)
         {
@@ -38,7 +37,11 @@ namespace CasaDoCodigo.Mensagens.EventHandling
             Trace.WriteLine("----------------------------------");
             Trace.WriteLine("Message Ends");
 
-            var createPedidoCommand = new CreatePedidoCommand();
+            var itens = message.Items.Select(
+                    i => new CreatePedidoCommandItem(0, "", "", i.PrecoUnitario, i.Quantidade, i.PrecoUnitario)
+                ).ToList();
+
+            var createPedidoCommand = new CreatePedidoCommand(itens, "", "", "", "", "", "", "", "", "");
 
             var requestCreateOrder = new IdentifiedCommand<CreatePedidoCommand, bool>(createPedidoCommand, message.Id);
 
