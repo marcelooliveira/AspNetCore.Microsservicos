@@ -8,14 +8,14 @@ namespace CasaDoCodigo.Mensagens.Events
     {
         public CheckoutEvent() : base(Guid.NewGuid()) { }
 
-        public CheckoutEvent(string clienteId, List<CheckoutItem> items) : base(Guid.NewGuid())
+        public CheckoutEvent(string clienteId, List<CheckoutItem> itens) : base(Guid.NewGuid())
         {
             ClienteId = clienteId;
-            Items = items;
+            Itens = itens;
         }
 
         public string ClienteId { get; set; }
-        public IList<CheckoutItem> Items { get; set; }
+        public IList<CheckoutItem> Itens { get; set; }
         public DateTime CreatedDate = DateTime.Now;
 
         public override string ToString()

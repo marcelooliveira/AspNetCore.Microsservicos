@@ -24,7 +24,7 @@ namespace CasaDoCodigo.Client.Playground.Services
             CarrinhoCliente carrinho = new CarrinhoCliente
             {
                 ClienteId = usuarioInput.UsuarioId,
-                Items = new ObservableCollection<ItemCarrinho>(new List<ItemCarrinho>
+                Itens = new ObservableCollection<ItemCarrinho>(new List<ItemCarrinho>
                 {
                     new ItemCarrinho { Id = "1", PrecoUnitario = 49.90, ProdutoId = "001", ProdutoNome = "ASP.NET Core MVC", Quantidade = 2, UrlImagem = "http:\\img1.images.com}" },
                     new ItemCarrinho { Id = "2", PrecoUnitario = 49.90, ProdutoId = "002", ProdutoNome = "Construct 2", Quantidade = 3, UrlImagem = "http:\\img2.images.com}" }
@@ -38,8 +38,8 @@ namespace CasaDoCodigo.Client.Playground.Services
             PrintCarrinho(carrinhoCliente);
 
             System.Console.WriteLine("ApiCarrinhoPostAsync...");
-            carrinho.Items[0].Quantidade = 4;
-            carrinho.Items[1].Quantidade = 5;
+            carrinho.Itens[0].Quantidade = 4;
+            carrinho.Itens[1].Quantidade = 5;
             await carrinhoClient.ApiCarrinhoPostAsync(carrinho);
             carrinhoCliente = await carrinhoClient.ApiCarrinhoByIdGetAsync(usuarioInput.UsuarioId);
             PrintCarrinho(carrinhoCliente);
@@ -51,7 +51,7 @@ namespace CasaDoCodigo.Client.Playground.Services
 
         private static void PrintCarrinho(CarrinhoCliente carrinhoCliente)
         {
-            foreach (var item in carrinhoCliente.Items)
+            foreach (var item in carrinhoCliente.Itens)
             {
                 System.Console.WriteLine(
                     $"Id: {item.Id}, PrecoUnitario: {item.PrecoUnitario}, ProdutoId: {item.ProdutoId}, ProdutoNome: {item.ProdutoNome}, Quantidade: {item.Quantidade}, UrlImagem: {item.UrlImagem}"

@@ -10,16 +10,31 @@ namespace CasaDoCodigo.Models.ViewModels
         public CarrinhoViewModel(string clienteId, IList<ItemCarrinho> itens)
         {
             ClienteId = clienteId;
-            Items = itens;
+            Itens = itens;
         }
 
         public string ClienteId { get; set; }
-        public IList<ItemCarrinho> Items { get; set; }
-        public decimal Total => Items.Sum(i => i.Quantidade * i.PrecoUnitario);
+        public IList<ItemCarrinho> Itens { get; set; } = new List<ItemCarrinho>();
+        public decimal Total => Itens.Sum(i => i.Quantidade * i.PrecoUnitario);
     }
 
     public class ItemCarrinho 
     {
+        public ItemCarrinho()
+        {
+
+        }
+
+        public ItemCarrinho(string id, string produtoId, string produtoNome, decimal precoUnitario, int quantidade, string urlImagem)
+        {   
+            Id = id;
+            ProdutoId = produtoId;
+            ProdutoNome = produtoNome;
+            PrecoUnitario = precoUnitario;
+            Quantidade = quantidade;
+            UrlImagem = urlImagem;
+        }
+
         public string Id { get; set; }
         public string ProdutoId { get; set; }
         public string ProdutoNome { get; set; }

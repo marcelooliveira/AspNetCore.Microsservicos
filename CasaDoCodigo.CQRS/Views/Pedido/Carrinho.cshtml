@@ -31,7 +31,7 @@
     </div>
     <div class="panel-body">
 
-        @foreach (var item in Model.Items)
+        @foreach (var item in Model.Itens)
         {
 
             <div class="row row-center linha-produto" item-id="@item.Id">
@@ -73,7 +73,7 @@
         <div class="row">
             <div class="col-md-10">
                 <span numero-itens>
-                    Total: @(Model.Items.Count())
+                    Total: @(Model.Itens.Count())
                     itens
                 </span>
             </div>

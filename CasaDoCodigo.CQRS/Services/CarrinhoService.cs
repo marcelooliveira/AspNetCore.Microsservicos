@@ -15,6 +15,7 @@ namespace CasaDoCodigo.Services
         class CarrinhoUris
         {
             public static string GetCarrinho => "api/carrinho";
+            public static string PostCarrinho => "api/carrinho/postitem";
         }
 
         private readonly ILogger<CarrinhoService> _logger;
@@ -33,6 +34,12 @@ namespace CasaDoCodigo.Services
         public async Task<CarrinhoViewModel> GetCarrinho(string userId)
         {
             return await GetAsync<CarrinhoViewModel>(CarrinhoUris.GetCarrinho, userId);
+        }
+
+        public async Task<CarrinhoViewModel> UpdateItem(string clienteId, ItemCarrinho input)
+        {
+            var uri = new Uri(new Uri(CarrinhoUris.PostCarrinho), clienteId);
+            return await PostAsync<CarrinhoViewModel>(uri.ToString(), input);
         }
     }
 }

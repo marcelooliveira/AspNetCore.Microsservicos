@@ -51,6 +51,14 @@ namespace CasaDoCodigo.Carrinho.Controllers
             return Ok(carrinho);
         }
 
+        [HttpPost("{clienteId}", Name = "PostItem")]
+        [ProducesResponseType(typeof(ItemCarrinho), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Post(string clienteId, [FromBody] ItemCarrinho input)
+        {
+            var carrinho = await _repository.UpdateCarrinhoAsync(clienteId, input);
+            return Ok(carrinho);
+        }
+
         [Route("checkout")]
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
@@ -59,7 +67,7 @@ namespace CasaDoCodigo.Carrinho.Controllers
         {
             var eventMessage 
                 = new CheckoutEvent(carrinhoCliente.ClienteId,
-                    carrinhoCliente.Items.Select(i =>
+                    carrinhoCliente.Itens.Select(i =>
                         new CheckoutItem(
                             i.Id, 
                             i.ProdutoId, 

@@ -54,10 +54,27 @@ namespace CasaDoCodigo.Carrinho.Model
             return await GetCarrinhoAsync(carrinho.ClienteId);
         }
 
+        public async Task<CarrinhoCliente> UpdateCarrinhoAsync(string clienteId, ItemCarrinho item)
+        {
+            var carrinho = await GetCarrinhoAsync(clienteId);
+            ItemCarrinho itemDB = carrinho.Itens.Where(i => i.ProdutoId == item.ProdutoId).SingleOrDefault();
+            if (itemDB == null)
+            {
+                itemDB = new ItemCarrinho(item.Id, item.ProdutoId, item.ProdutoNome, item.PrecoUnitario, item.Quantidade);
+                carrinho.Itens.Add(item);
+            }
+            else
+            {
+                itemDB.Quantidade = item.Quantidade;
+            }
+            return await UpdateCarrinhoAsync(carrinho);
+        }
+
         private IServer GetServer()
         {
             var endpoints = _redis.GetEndPoints();
             return _redis.GetServer(endpoints.First());
         }
+
     }
 }

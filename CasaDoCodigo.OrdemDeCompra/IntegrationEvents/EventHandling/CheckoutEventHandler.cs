@@ -24,7 +24,7 @@ namespace CasaDoCodigo.Mensagens.EventHandling
             Trace.WriteLine("Received Checkout. Message Follows");
             Trace.WriteLine("----------------------------------");
             Trace.WriteLine(message.ClienteId);
-            foreach (var item in message.Items)
+            foreach (var item in message.Itens)
             {
                 Trace.WriteLine(
                 $"Id = {item.Id}, " +
@@ -37,7 +37,7 @@ namespace CasaDoCodigo.Mensagens.EventHandling
             Trace.WriteLine("----------------------------------");
             Trace.WriteLine("Message Ends");
 
-            var itens = message.Items.Select(
+            var itens = message.Itens.Select(
                     i => new CreatePedidoCommandItem(0, "", "", i.PrecoUnitario, i.Quantidade, i.PrecoUnitario)
                 ).ToList();
 

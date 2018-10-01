@@ -381,7 +381,7 @@ namespace CasaDoCodigo.Client.Carrinho.Generated
     public partial class CarrinhoCliente : System.ComponentModel.INotifyPropertyChanged
     {
         private string _clienteId;
-        private System.Collections.ObjectModel.ObservableCollection<ItemCarrinho> _items;
+        private System.Collections.ObjectModel.ObservableCollection<ItemCarrinho> _itens;
     
         [Newtonsoft.Json.JsonProperty("clienteId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ClienteId
@@ -397,15 +397,15 @@ namespace CasaDoCodigo.Client.Carrinho.Generated
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("items", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.ObjectModel.ObservableCollection<ItemCarrinho> Items
+        [Newtonsoft.Json.JsonProperty("itens", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.ObjectModel.ObservableCollection<ItemCarrinho> Itens
         {
-            get { return _items; }
+            get { return _itens; }
             set 
             {
-                if (_items != value)
+                if (_itens != value)
                 {
-                    _items = value; 
+                    _itens = value; 
                     RaisePropertyChanged();
                 }
             }

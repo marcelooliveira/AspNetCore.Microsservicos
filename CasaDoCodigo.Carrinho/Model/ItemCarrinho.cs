@@ -5,6 +5,20 @@ namespace CasaDoCodigo.Carrinho.Model
 {
     public class ItemCarrinho : IValidatableObject
     {
+        public ItemCarrinho()
+        {
+
+        }
+
+        public ItemCarrinho(string id, string produtoId, string produtoNome, decimal precoUnitario, int quantidade)
+        {
+            Id = id;
+            ProdutoId = produtoId;
+            ProdutoNome = produtoNome;
+            PrecoUnitario = precoUnitario;
+            Quantidade = quantidade;
+        }
+
         public string Id { get; set; }
         public string ProdutoId { get; set; }
         public string ProdutoNome { get; set; }
