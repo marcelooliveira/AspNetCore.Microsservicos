@@ -11,14 +11,16 @@ namespace CasaDoCodigo.Services
     public class BaseHttpService
     {
         protected readonly IConfiguration _configuration;
-        protected readonly HttpClient _httpClient;
+        //protected readonly HttpClient _httpClient;
+        protected readonly IHttpClientFactory _httpClientFactory;
         protected readonly IHttpContextAccessor _contextAccessor;
         protected string _baseUri;
 
-        public BaseHttpService(IConfiguration configuration, HttpClient httpClient, IHttpContextAccessor contextAccessor)
+        public BaseHttpService(IConfiguration configuration, IHttpClientFactory httpClientFactory, HttpClient httpClient, IHttpContextAccessor contextAccessor)
         {
             _configuration = configuration;
-            _httpClient = httpClient;
+            _httpClientFactory = httpClientFactory;
+            //_httpClient = httpClient;
             _contextAccessor = contextAccessor;
         }
 
@@ -32,7 +34,8 @@ namespace CasaDoCodigo.Services
                 requestUri += string.Format($"/{par}");
             }
 
-            var json = await _httpClient.GetStringAsync(requestUri);
+            var client = _httpClientFactory.CreateClient();
+            var json = await client.GetStringAsync(requestUri);
             return JsonConvert.DeserializeObject<T>(json);
         }
 
@@ -41,7 +44,8 @@ namespace CasaDoCodigo.Services
             var jsonIn = JsonConvert.SerializeObject(content);
             var stringContent = new StringContent(jsonIn, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage httpResponse = await _httpClient.PostAsync(new Uri(new Uri(_baseUri), uri), stringContent);
+            var client = _httpClientFactory.CreateClient();
+            HttpResponseMessage httpResponse = await client.PostAsync(new Uri(new Uri(_baseUri), uri), stringContent);
             if (!httpResponse.IsSuccessStatusCode)
             {
                 var error = new { httpResponse.StatusCode, httpResponse.ReasonPhrase };

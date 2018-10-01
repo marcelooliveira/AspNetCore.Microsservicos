@@ -22,10 +22,11 @@ namespace CasaDoCodigo.Services
 
         public CarrinhoService(
             IConfiguration configuration
+            , IHttpClientFactory httpClientFactory
             , HttpClient httpClient
             , IHttpContextAccessor contextAccessor
             , ILogger<CarrinhoService> logger)
-            : base(configuration, httpClient, contextAccessor)
+            : base(configuration, httpClientFactory, httpClient, contextAccessor)
         {
             _logger = logger;
             _baseUri = _configuration["CarrinhoUrl"];

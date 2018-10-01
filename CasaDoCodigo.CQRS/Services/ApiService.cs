@@ -29,10 +29,11 @@ namespace CasaDoCodigo.Services
 
         public ApiService(
             IConfiguration configuration
+            , IHttpClientFactory httpClientFactory
             , HttpClient httpClient
             , IHttpContextAccessor contextAccessor
             , ILogger<ApiService> logger) 
-            : base(configuration, httpClient, contextAccessor)
+            : base(configuration, httpClientFactory, httpClient, contextAccessor)
         {
             _logger = logger;
             _baseUri = _configuration["ApiUrl"];
@@ -41,7 +42,8 @@ namespace CasaDoCodigo.Services
         public async Task<IEnumerable<Models.Produto>> GetProdutos()
         {
             var uri = _baseUri + ApiUris.GetProdutos;
-            var result = await _httpClient.GetStringAsync(uri);
+            var client = _httpClientFactory.CreateClient();
+            var result = await client.GetStringAsync(uri);
             return JsonConvert.DeserializeObject<IEnumerable<Models.Produto>>(result);
         }
 
