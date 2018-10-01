@@ -29,6 +29,7 @@ namespace CasaDoCodigo.Controllers
         private readonly IHttpContextAccessor contextAccessor;
         private readonly HttpClient httpClient;
         private readonly IApiService apiService;
+        private readonly ICarrinhoService carrinhoService;
 
         public IConfiguration Configuration { get; }
 
@@ -36,12 +37,14 @@ namespace CasaDoCodigo.Controllers
             IHttpContextAccessor contextAccessor,
             HttpClient httpClient,
             IConfiguration configuration,
+            ICarrinhoService carrinhoService,
             IApiService apiService)
         {
             this.logger = logger;
             this.contextAccessor = contextAccessor;
             this.httpClient = httpClient;
             this.Configuration = configuration;
+            this.carrinhoService = carrinhoService;
             this.apiService = apiService;
         }
 
@@ -63,14 +66,15 @@ namespace CasaDoCodigo.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Carrinho(string codigo)
+        public async Task<IActionResult> Carrinho(string codigoProduto)
         {
             try
             {
                 int pedidoId = GetPedidoId() ?? 0;
-                CarrinhoViewModel carrinho = await apiService.Carrinho(codigo, pedidoId);
-                SetPedidoId(carrinho.PedidoId);
-                return base.View(carrinho);
+                var idUsuario = "eed37679-a43c-4d59-8a27-50fc710834ad";
+                var carrinho = await carrinhoService.GetCarrinho(idUsuario);
+                //SetPedidoId(carrinho.PedidoId);
+                return View(carrinho);
             }
             catch (BrokenCircuitException)
             {

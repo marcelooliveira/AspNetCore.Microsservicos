@@ -51,6 +51,7 @@ namespace CasaDoCodigo
             services.AddSingleton(typeof(HttpClient), httpClient);
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IApiService, ApiService>();
+            services.AddTransient<ICarrinhoService, CarrinhoService>();
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 
             services.AddHttpClient<IApiService, ApiService>()

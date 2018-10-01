@@ -31,14 +31,14 @@
     </div>
     <div class="panel-body">
 
-        @foreach (var item in Model.Itens)
+        @foreach (var item in Model.Items)
         {
-            
+
             <div class="row row-center linha-produto" item-id="@item.Id">
                 <div class="col-md-3">
-                    <img class="img-produto-carrinho" src="/images/produtos/large_@(item.Produto.Codigo).jpg" />
+                    <img class="img-produto-carrinho" src="@(item.UrlImagem)" />
                 </div>
-                <div class="col-md-3">@(item.Produto.Nome)</div>
+                <div class="col-md-3">@(item.ProdutoNome)</div>
                 <div class="col-md-2 text-center">R$ @(item.PrecoUnitario)</div>
                 <div class="col-md-2 text-center">
                     <div class="input-group">
@@ -73,7 +73,7 @@
         <div class="row">
             <div class="col-md-10">
                 <span numero-itens>
-                    Total: @(Model.Itens.Count())
+                    Total: @(Model.Items.Count())
                     itens
                 </span>
             </div>

@@ -26,8 +26,8 @@ namespace CasaDoCodigo.Client.Playground.Services
                 ClienteId = usuarioInput.UsuarioId,
                 Items = new ObservableCollection<ItemCarrinho>(new List<ItemCarrinho>
                 {
-                    new ItemCarrinho { Id = "1", PrecoUnitario = 12.34, ProdutoId = "1", ProdutoNome = "Java para baixinhos", Quantidade = 2, UrlImagem = "http:\\img1.images.com}" },
-                    new ItemCarrinho { Id = "2", PrecoUnitario = 23.45, ProdutoId = "2", ProdutoNome = "C# for dummies", Quantidade = 3, UrlImagem = "http:\\img2.images.com}" }
+                    new ItemCarrinho { Id = "1", PrecoUnitario = 49.90, ProdutoId = "001", ProdutoNome = "ASP.NET Core MVC", Quantidade = 2, UrlImagem = "http:\\img1.images.com}" },
+                    new ItemCarrinho { Id = "2", PrecoUnitario = 49.90, ProdutoId = "002", ProdutoNome = "Construct 2", Quantidade = 3, UrlImagem = "http:\\img2.images.com}" }
                 })
             };
 
@@ -38,8 +38,8 @@ namespace CasaDoCodigo.Client.Playground.Services
             PrintCarrinho(carrinhoCliente);
 
             System.Console.WriteLine("ApiCarrinhoPostAsync...");
-            carrinho.Items[0].Quantidade = 777;
-            carrinho.Items[1].Quantidade = 888;
+            carrinho.Items[0].Quantidade = 4;
+            carrinho.Items[1].Quantidade = 5;
             await carrinhoClient.ApiCarrinhoPostAsync(carrinho);
             carrinhoCliente = await carrinhoClient.ApiCarrinhoByIdGetAsync(usuarioInput.UsuarioId);
             PrintCarrinho(carrinhoCliente);

@@ -10,7 +10,7 @@ namespace CasaDoCodigo.Carrinho.Model
         public string ProdutoNome { get; set; }
         public decimal PrecoUnitario { get; set; }
         public int Quantidade { get; set; }
-        public string UrlImagem { get; set; }
+        public string UrlImagem { get { return $"/images/produtos/large_{ProdutoId}.jpg"; } }
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var results = new List<ValidationResult>();

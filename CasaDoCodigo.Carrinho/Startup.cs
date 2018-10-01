@@ -25,6 +25,7 @@ using Microsoft.AspNetCore.Http;
 using Rebus.Bus;
 using CasaDoCodigo.Mensagens.Events;
 using Rebus.Config;
+using Newtonsoft.Json.Serialization;
 
 namespace CasaDoCodigo.Carrinho
 {
@@ -66,7 +67,9 @@ namespace CasaDoCodigo.Carrinho
                     paramsValidation.ClockSkew = TimeSpan.Zero;
                 });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
