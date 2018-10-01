@@ -66,14 +66,14 @@ namespace CasaDoCodigo.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Carrinho(string codigoProduto)
+        public async Task<IActionResult> Carrinho(string codigo)
         {
             try
             {
 
                 int pedidoId = GetPedidoId() ?? 0;
                 var idUsuario = "eed37679-a43c-4d59-8a27-50fc710834ad";
-                ItemCarrinho itemCarrinho = new ItemCarrinho("", codigoProduto, $"produto código {codigoProduto}", 1.23m, 1, "");
+                ItemCarrinho itemCarrinho = new ItemCarrinho("", codigo, $"produto código {codigo}", 1.23m, 1, "");
                 var carrinho = await carrinhoService.UpdateItem(idUsuario, itemCarrinho);
                 //SetPedidoId(carrinho.PedidoId);
                 return View(carrinho);

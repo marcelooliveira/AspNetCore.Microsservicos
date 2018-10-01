@@ -270,6 +270,89 @@ namespace CasaDoCodigo.Client.Carrinho.Generated
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<ItemCarrinho> ApiCarrinhoByClienteIdPostAsync(string clienteId, ItemCarrinho input)
+        {
+            return ApiCarrinhoByClienteIdPostAsync(clienteId, input, System.Threading.CancellationToken.None);
+        }
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        public async System.Threading.Tasks.Task<ItemCarrinho> ApiCarrinhoByClienteIdPostAsync(string clienteId, ItemCarrinho input, System.Threading.CancellationToken cancellationToken)
+        {
+            if (clienteId == null)
+                throw new System.ArgumentNullException("clienteId");
+    
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Carrinho/{clienteId}");
+            urlBuilder_.Replace("{clienteId}", System.Uri.EscapeDataString(ConvertToString(clienteId, System.Globalization.CultureInfo.InvariantCulture)));
+    
+            var client_ = _httpClient;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(input, _settings.Value));
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+    
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+    
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+    
+                        ProcessResponse(client_, response_);
+    
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200") 
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            var result_ = default(ItemCarrinho); 
+                            try
+                            {
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<ItemCarrinho>(responseData_, _settings.Value);
+                                return result_; 
+                            } 
+                            catch (System.Exception exception_) 
+                            {
+                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                            }
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+            
+                        return default(ItemCarrinho);
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+            }
+        }
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task ApiCarrinhoCheckoutPostAsync(CarrinhoCliente carrinhoCliente, string x_requestid)
         {
             return ApiCarrinhoCheckoutPostAsync(carrinhoCliente, x_requestid, System.Threading.CancellationToken.None);
@@ -383,7 +466,7 @@ namespace CasaDoCodigo.Client.Carrinho.Generated
         private string _clienteId;
         private System.Collections.ObjectModel.ObservableCollection<ItemCarrinho> _itens;
     
-        [Newtonsoft.Json.JsonProperty("clienteId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("ClienteId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ClienteId
         {
             get { return _clienteId; }
@@ -397,7 +480,7 @@ namespace CasaDoCodigo.Client.Carrinho.Generated
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("itens", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("Itens", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.ObjectModel.ObservableCollection<ItemCarrinho> Itens
         {
             get { return _itens; }
@@ -442,7 +525,7 @@ namespace CasaDoCodigo.Client.Carrinho.Generated
         private int? _quantidade;
         private string _urlImagem;
     
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("Id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Id
         {
             get { return _id; }
@@ -456,7 +539,7 @@ namespace CasaDoCodigo.Client.Carrinho.Generated
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("produtoId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("ProdutoId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ProdutoId
         {
             get { return _produtoId; }
@@ -470,7 +553,7 @@ namespace CasaDoCodigo.Client.Carrinho.Generated
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("produtoNome", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("ProdutoNome", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ProdutoNome
         {
             get { return _produtoNome; }
@@ -484,7 +567,7 @@ namespace CasaDoCodigo.Client.Carrinho.Generated
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("precoUnitario", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("PrecoUnitario", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double? PrecoUnitario
         {
             get { return _precoUnitario; }
@@ -498,7 +581,7 @@ namespace CasaDoCodigo.Client.Carrinho.Generated
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("quantidade", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("Quantidade", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? Quantidade
         {
             get { return _quantidade; }
@@ -512,7 +595,7 @@ namespace CasaDoCodigo.Client.Carrinho.Generated
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("urlImagem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("UrlImagem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string UrlImagem
         {
             get { return _urlImagem; }
