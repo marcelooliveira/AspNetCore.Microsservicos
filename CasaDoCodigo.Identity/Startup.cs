@@ -12,6 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using CasaDoCodigo.Identity.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using CasaDoCodigo.Identity.Services;
+using System.Reflection;
+using CasaDoCodigo.Identity.Certificates;
 
 namespace CasaDoCodigo.Identity
 {
@@ -37,10 +40,46 @@ namespace CasaDoCodigo.Identity
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<AppSettings>(Configuration);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddTransient<ILoginService<IdentityUser>, EFLoginService>();
+            services.AddTransient<IRedirectService, RedirectService>();
+
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
+            // Adds IdentityServer
+            services.AddIdentityServer(x => x.IssuerUri = "null")
+                .AddSigningCredential(Certificate.Get())
+                .AddAspNetIdentity<IdentityUser>()
+                .AddConfigurationStore(options =>
+                {
+                    options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
+                                     sqlServerOptionsAction: sqlOptions =>
+                                     {
+                                         sqlOptions.MigrationsAssembly(migrationsAssembly);
+                                         //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
+                                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                                     });
+                })
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
+                                    sqlServerOptionsAction: sqlOptions =>
+                                    {
+                                        sqlOptions.MigrationsAssembly(migrationsAssembly);
+                                        //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
+                                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                                    });
+                });
+                //.Services.AddTransient<IProfileService, ProfileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +101,10 @@ namespace CasaDoCodigo.Identity
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseForwardedHeaders();
+            // Adds IdentityServer
+            app.UseIdentityServer();
 
             app.UseMvc(routes =>
             {

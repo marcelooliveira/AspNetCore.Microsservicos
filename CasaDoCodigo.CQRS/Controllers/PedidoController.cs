@@ -72,8 +72,8 @@ namespace CasaDoCodigo.Controllers
             {
 
                 int pedidoId = GetPedidoId() ?? 0;
-                var idUsuario = "1d886c8c-de1d-44f1-b8be-7461adef24b7";
-                //var idUsuario = "eed37679-a43c-4d59-8a27-50fc710834ad";
+                //var idUsuario = "1d886c8c-de1d-44f1-b8be-7461adef24b7";
+                var idUsuario = "eed37679-a43c-4d59-8a27-50fc710834ad";
                 ItemCarrinho itemCarrinho = new ItemCarrinho("", codigo, $"produto código {codigo}", 1.23m, 1, "");
                 var carrinho = await carrinhoService.UpdateItem(idUsuario, itemCarrinho);
                 //SetPedidoId(carrinho.PedidoId);

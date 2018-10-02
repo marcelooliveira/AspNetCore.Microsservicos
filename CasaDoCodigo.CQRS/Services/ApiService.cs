@@ -32,7 +32,7 @@ namespace CasaDoCodigo.Services
             , IHttpClientFactory httpClientFactory
             , HttpClient httpClient
             , IHttpContextAccessor contextAccessor
-            , ILogger<ApiService> logger) 
+            , ILogger<ApiService> logger)
             : base(configuration, httpClientFactory, httpClient, contextAccessor)
         {
             _logger = logger;
