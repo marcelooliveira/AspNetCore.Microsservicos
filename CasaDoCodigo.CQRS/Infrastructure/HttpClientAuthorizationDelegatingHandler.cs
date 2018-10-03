@@ -18,12 +18,15 @@ namespace CasaDoCodigo.Infrastructure
     {
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccesor;
+        private readonly IHttpClientFactory _httpClientFactory;
         private CasaDoCodigo.Client.API.Generated.Client apiCliente;
 
         public HttpClientAuthorizationDelegatingHandler(IConfiguration configuration,
+            IHttpClientFactory httpClientFactory,
             IHttpContextAccessor httpContextAccesor)
         {
             _configuration = configuration;
+            _httpClientFactory = httpClientFactory;
             _httpContextAccesor = httpContextAccesor;
         }
 
@@ -46,16 +49,14 @@ namespace CasaDoCodigo.Infrastructure
 
             if (token == null)
             {
-                using (HttpClient httpClient = new HttpClient())
+                var cliente = _httpClientFactory.CreateClient();
+                apiCliente = new Client.API.Generated.Client(_configuration["ApiUrl"], cliente);
+                token = await apiCliente.ApiLoginPostAsync(
+                new UsuarioInput
                 {
-                    apiCliente = new Client.API.Generated.Client(_configuration["ApiUrl"], httpClient);
-                    token = await apiCliente.ApiLoginPostAsync(
-                    new UsuarioInput
-                    {
-                        UsuarioId = Environment.GetEnvironmentVariable("CASADOCODIGO_USERID", EnvironmentVariableTarget.User),
-                        Password = Environment.GetEnvironmentVariable("CASADOCODIGO_PASSWORD", EnvironmentVariableTarget.User),
-                    });
-                }
+                    UsuarioId = Environment.GetEnvironmentVariable("CASADOCODIGO_USERID", EnvironmentVariableTarget.User),
+                    Password = Environment.GetEnvironmentVariable("CASADOCODIGO_PASSWORD", EnvironmentVariableTarget.User),
+                });
                 _httpContextAccesor.HttpContext.Session.SetString("accessToken", token);
             }
             return token;
