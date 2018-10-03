@@ -30,14 +30,53 @@ namespace CasaDoCodigo.Infrastructure
             _httpContextAccesor = httpContextAccesor;
         }
 
+        //protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        //{
+        //    var token = await GetToken();
+
+        //    if (token != null)
+        //    {
+        //        request.Headers.Authorization =
+        //            new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+        //    }
+
+        //    return await base.SendAsync(request, cancellationToken);
+        //}
+
+        //async Task<string> GetToken()
+        //{
+        //    var token = _httpContextAccesor.HttpContext.Session.GetString("accessToken");
+
+        //    if (token == null)
+        //    {
+        //        var cliente = _httpClientFactory.CreateClient();
+        //        apiCliente = new Client.API.Generated.Client(_configuration["ApiUrl"], cliente);
+        //        token = await apiCliente.ApiLoginPostAsync(
+        //        new UsuarioInput
+        //        {
+        //            UsuarioId = Environment.GetEnvironmentVariable("CASADOCODIGO_USERID", EnvironmentVariableTarget.User),
+        //            Password = Environment.GetEnvironmentVariable("CASADOCODIGO_PASSWORD", EnvironmentVariableTarget.User),
+        //        });
+        //        _httpContextAccesor.HttpContext.Session.SetString("accessToken", token);
+        //    }
+        //    return token;
+        //}
+
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+            var authorizationHeader = _httpContextAccesor.HttpContext
+                .Request.Headers["Authorization"];
+
+            if (!string.IsNullOrEmpty(authorizationHeader))
+            {
+                request.Headers.Add("Authorization", new List<string>() { authorizationHeader });
+            }
+
             var token = await GetToken();
 
             if (token != null)
             {
-                request.Headers.Authorization =
-                    new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
 
             return await base.SendAsync(request, cancellationToken);
@@ -45,21 +84,10 @@ namespace CasaDoCodigo.Infrastructure
 
         async Task<string> GetToken()
         {
-            var token = _httpContextAccesor.HttpContext.Session.GetString("accessToken");
+            const string ACCESS_TOKEN = "access_token";
 
-            if (token == null)
-            {
-                var cliente = _httpClientFactory.CreateClient();
-                apiCliente = new Client.API.Generated.Client(_configuration["ApiUrl"], cliente);
-                token = await apiCliente.ApiLoginPostAsync(
-                new UsuarioInput
-                {
-                    UsuarioId = Environment.GetEnvironmentVariable("CASADOCODIGO_USERID", EnvironmentVariableTarget.User),
-                    Password = Environment.GetEnvironmentVariable("CASADOCODIGO_PASSWORD", EnvironmentVariableTarget.User),
-                });
-                _httpContextAccesor.HttpContext.Session.SetString("accessToken", token);
-            }
-            return token;
+            return await _httpContextAccesor.HttpContext
+                .GetTokenAsync(ACCESS_TOKEN);
         }
     }
 }
