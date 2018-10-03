@@ -133,6 +133,7 @@ using Polly.Extensions.Http;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace CasaDoCodigo
 {
@@ -163,6 +164,7 @@ namespace CasaDoCodigo
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             IServiceProvider serviceProvider)
         {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             if (env.IsDevelopment())
             {
@@ -173,6 +175,8 @@ namespace CasaDoCodigo
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseAuthentication();
 
             app.UseStaticFiles();
             app.UseSession();
