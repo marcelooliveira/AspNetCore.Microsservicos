@@ -42,8 +42,8 @@ namespace CasaDoCodigo.Services
         public async Task<IEnumerable<Models.Produto>> GetProdutos()
         {
             var uri = _baseUri + ApiUris.GetProdutos;
-            var client = _httpClientFactory.CreateClient();
-            var result = await client.GetStringAsync(uri);
+            //var client = _httpClientFactory.CreateClient();
+            var result = await _httpClient.GetStringAsync(uri);
             return JsonConvert.DeserializeObject<IEnumerable<Models.Produto>>(result);
         }
 
