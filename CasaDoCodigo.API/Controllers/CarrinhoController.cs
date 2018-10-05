@@ -15,6 +15,7 @@ namespace CasaDoCodigo.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CarrinhoController : BaseApiController
     {
         private readonly IPedidoRepository pedidoRepository;

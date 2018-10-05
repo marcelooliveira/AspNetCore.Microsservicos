@@ -1,5 +1,6 @@
 ﻿using CasaDoCodigo.Carrinho.Model;
 using CasaDoCodigo.Mensagens.Events;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Rebus.Bus;
