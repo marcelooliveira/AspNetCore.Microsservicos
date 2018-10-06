@@ -28,18 +28,19 @@ namespace CasaDoCodigo.ApiGateway
                         .AddJsonFile("ocelot.json")
                         .AddEnvironmentVariables();
                 })
-                .ConfigureServices(s => {
-                    s.AddOcelot();
-                })
+                //.ConfigureServices(s =>
+                //{
+                //    s.AddOcelot();
+                //})
                 .ConfigureLogging((hostingContext, logging) =>
                 {
                     //add your logging
                 })
                 .UseIISIntegration()
-                .Configure(app =>
-                {
-                    app.UseOcelot().Wait();
-                })
+                //.Configure(app =>
+                //{
+                //    app.UseOcelot().Wait();
+                //})
                 .Build()
                 .Run();
         }
