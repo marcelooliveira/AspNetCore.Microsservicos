@@ -257,7 +257,13 @@ namespace CasaDoCodigo
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-            .AddCookie()
+            .AddCookie(
+            //    options =>
+            //{
+            //    options.LoginPath = "/account/login";
+            //    options.LogoutPath = "/account/logout";
+            //}
+            )
             .AddOpenIdConnect(options =>
             {
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;

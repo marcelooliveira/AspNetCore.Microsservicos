@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CasaDoCodigo.Identity.Certificates;
+using CasaDoCodigo.Identity.Data;
+using CasaDoCodigo.Identity.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CasaDoCodigo.Identity.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CasaDoCodigo.Identity.Services;
+using System;
 using System.Reflection;
-using CasaDoCodigo.Identity.Certificates;
 
 namespace CasaDoCodigo.Identity
 {
@@ -100,10 +96,9 @@ namespace CasaDoCodigo.Identity
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseAuthentication();
-
             app.UseForwardedHeaders();
-            // Adds IdentityServer
+
+            // app.UseAuthentication(); // not needed, since UseIdentityServer adds the authentication middleware
             app.UseIdentityServer();
 
             app.UseMvc(routes =>

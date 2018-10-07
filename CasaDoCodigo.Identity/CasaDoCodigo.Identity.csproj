@@ -8,6 +8,11 @@
 
   <ItemGroup>
     <None Remove="Certificates\idsrv3test.pfx" />
+    <None Remove="Setup\Users.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Setup\Users.csv" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +25,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" PrivateAssets="All" />
+    <PackageReference Include="Polly" Version="6.1.0" />
   </ItemGroup>
 
   <ItemGroup>

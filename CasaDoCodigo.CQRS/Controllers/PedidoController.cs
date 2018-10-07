@@ -1,6 +1,7 @@
 ﻿using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -66,6 +67,7 @@ namespace CasaDoCodigo.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> Carrinho(string codigo)
         {
             try
