@@ -1,6 +1,7 @@
 ﻿using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
+using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,9 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Polly.CircuitBreaker;
 using System;
+using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -72,11 +75,9 @@ namespace CasaDoCodigo.Controllers
         {
             try
             {
-
+                string idUsuario = GetUserId();
                 int pedidoId = GetPedidoId() ?? 0;
-                //var idUsuario = "1d886c8c-de1d-44f1-b8be-7461adef24b7";
-                var idUsuario = "eed37679-a43c-4d59-8a27-50fc710834ad";
-                ItemCarrinho itemCarrinho = new ItemCarrinho("", codigo, $"produto código {codigo}", 1.23m, 1, "");
+                ItemCarrinho itemCarrinho = new ItemCarrinho(codigo, codigo, $"produto código {codigo}", 1.23m, 1, "");
                 var carrinho = await carrinhoService.UpdateItem(idUsuario, itemCarrinho);
                 //SetPedidoId(carrinho.PedidoId);
                 return View(carrinho);
@@ -90,6 +91,23 @@ namespace CasaDoCodigo.Controllers
                 HandleBrokenCircuitException();
             }
             return View();
+        }
+
+        private string GetUserId()
+        {
+            var claims = User.Claims;
+            var userIdClaim = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Subject);
+            if (userIdClaim == null)
+            {
+                userIdClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+            }
+            if (userIdClaim == null)
+            {
+                throw new Exception("Usuário desconhecido");
+            }
+
+            var idUsuario = userIdClaim.Value;
+            return idUsuario;
         }
 
         public async Task<IActionResult> Cadastro()
@@ -133,9 +151,10 @@ namespace CasaDoCodigo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<UpdateQuantidadeOutput> UpdateQuantidade([FromBody]ItemPedido itemPedido)
         {
-            return await apiService.UpdateQuantidade(itemPedido.Id, itemPedido.Quantidade);
+            return await apiService.UpdateQuantidade(itemPedido.Id.ToString("000"), itemPedido.Quantidade);
         }
 
         private int? GetPedidoId()

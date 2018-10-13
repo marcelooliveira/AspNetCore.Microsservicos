@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using CasaDoCodigo.Identity.Models;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using CasaDoCodigo.Identity.Models;
 
 namespace CasaDoCodigo.Identity.Data
 {

@@ -31,7 +31,7 @@ namespace CasaDoCodigo.Carrinho.Model
             var data = await _database.StringGetAsync(clienteId);
             if (data.IsNullOrEmpty)
             {
-                return null;
+                return await UpdateCarrinhoAsync(new CarrinhoCliente(clienteId));
             }
             return JsonConvert.DeserializeObject<CarrinhoCliente>(data);
         }

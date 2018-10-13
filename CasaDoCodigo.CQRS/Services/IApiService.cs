@@ -11,6 +11,6 @@ namespace CasaDoCodigo.Services
         Task<CarrinhoViewModel> Carrinho(string codigo, int pedidoId);
         Task<PedidoViewModel> GetPedido(int pedidoId);
         Task<PedidoViewModel> UpdateCadastro(CadastroViewModel viewModel);
-        Task<UpdateQuantidadeOutput> UpdateQuantidade(int itemPedidoId, int quantidade);
+        Task<UpdateQuantidadeOutput> UpdateQuantidade(string itemPedidoId, int quantidade);
     }
 }

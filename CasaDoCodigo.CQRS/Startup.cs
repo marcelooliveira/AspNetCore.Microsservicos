@@ -1,145 +1,17 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Net.Http;
-//using System.Threading.Tasks;
-//using CasaDoCodigo.Infrastructure;
-//using CasaDoCodigo.Services;
-//using Microsoft.AspNetCore.Builder;
-//using Microsoft.AspNetCore.Hosting;
-//using Microsoft.AspNetCore.Http;
-//using Microsoft.EntityFrameworkCore;
-//using Microsoft.Extensions.Configuration;
-//using Microsoft.Extensions.DependencyInjection;
-//using Microsoft.Extensions.DependencyInjection.Extensions;
-//using Polly;
-//using Polly.Extensions.Http;
-//using Microsoft.Extensions.HealthChecks;
-
-//namespace CasaDoCodigo
-//{
-//    public class Startup
-//    {
-//        private const string API_BASE_URI = "https://localhost:44320";
-
-//        public Startup(IConfiguration configuration)
-//        {
-//            Configuration = configuration;
-//        }
-
-//        public IConfiguration Configuration { get; }
-
-//        // This method gets called by the runtime. Use this method to add services to the container.
-//        public void ConfigureServices(IServiceCollection services)
-//        {
-//            services.AddMvc();
-//            services.AddDistributedMemoryCache();
-//            services.AddSession();
-
-//            string connectionString = Configuration.GetConnectionString("Default");
-
-//            services.AddDbContext<ApplicationContext>(options =>
-//                options.UseSqlServer(connectionString)
-//            );
-
-//            var uri = new Uri(API_BASE_URI);
-//            HttpClient httpClient = new HttpClient()
-//            {
-//                BaseAddress = uri
-//            };
-
-//            services.AddSingleton(typeof(HttpClient), httpClient);
-//            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-//            services.AddTransient<IApiService, ApiService>();
-//            services.AddTransient<ICarrinhoService, CarrinhoService>();
-//            services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
-
-//            services.AddHttpClient<IApiService, ApiService>()
-//               .SetHandlerLifetime(TimeSpan.FromMinutes(5))
-//               .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-//               .AddPolicyHandler(GetRetryPolicy())
-//               .AddPolicyHandler(GetCircuitBreakerPolicy());
-
-//            services.AddHealthChecks(checks =>
-//            {
-//                checks.AddUrlCheck(Configuration["ApiUrlHC"]);
-//                checks.AddValueTaskCheck("HTTP Endpoint", () => new
-//                    ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
-//            });
-//        }
-
-//        // Este método é chamado pelo runtime.
-//        // Use este método para configurar o pipeline de requisições HTTP.
-//        ///<image url="$(ItemDir)\pipeline.png"/>
-//        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
-//            IServiceProvider serviceProvider)
-//        {
-
-//            if (env.IsDevelopment())
-//            {
-//                app.UseBrowserLink();
-//                app.UseDeveloperExceptionPage();
-//            }
-//            else
-//            {
-//                app.UseExceptionHandler("/Home/Error");
-//            }
-
-//            app.UseStaticFiles();
-//            app.UseSession();
-//            app.UseMvc(routes =>
-//            {
-//                routes.MapRoute(
-//                    name: "default",
-//                    template: "{controller=Pedido}/{action=Carrossel}/{codigo?}");
-//            });
-//        }
-
-//        static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
-//        {
-//            return HttpPolicyExtensions
-//              .HandleTransientHttpError()
-//              .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
-//              .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-//        }
-
-//        static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
-//        {
-//            return HttpPolicyExtensions
-//                .HandleTransientHttpError()
-//                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
-//        }
-//    }
-
-//}
-
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using CasaDoCodigo.Infrastructure;
-using CasaDoCodigo.Services;
+﻿using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Polly;
-using Polly.Extensions.Http;
-using Microsoft.Extensions.HealthChecks;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http;
 
 namespace CasaDoCodigo
 {
     public class Startup
     {
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -147,28 +19,54 @@ namespace CasaDoCodigo
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services
-                .AddCustomMvc(Configuration)
-                .AddHttpClientServices()
-                .AddHealthChecks(Configuration)
-                .AddCustomAuthentication(Configuration);
-        }
+            var uri = new Uri(Configuration["ApiUrl"]);
+            HttpClient httpClient = new HttpClient()
+            {
+                BaseAddress = uri
+            };
 
+            services.AddSingleton(typeof(HttpClient), httpClient);
+            services.AddHttpContextAccessor();
+            services.AddTransient<IApiService, ApiService>();
+            services.AddTransient<ICarrinhoService, CarrinhoService>();
+            services.AddMvc()
+                .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            services.AddDistributedMemoryCache();
+            services.AddSession();
 
-        // Este método é chamado pelo runtime.
-        // Use este método para configurar o pipeline de requisições HTTP.
-        ///<image url="$(ItemDir)\pipeline.png"/>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
-            IServiceProvider serviceProvider)
-        {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "Cookies";
+                options.DefaultChallengeScheme = "oidc";
+            })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.SignInScheme = "Cookies";
+
+                    options.Authority = "https://localhost:44338";
+                    options.RequireHttpsMetadata = false;
+
+                    options.ClientId = "CasaDoCodigo.MVC";
+                    options.ClientSecret = "secret";
+                    options.ResponseType = "code id_token";
+
+                    options.SaveTokens = true;
+                    options.GetClaimsFromUserInfoEndpoint = true;
+
+                    options.Scope.Add("CasaDoCodigo.Carrinho");
+                    options.Scope.Add("offline_access");
+                });
+        }
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -186,123 +84,30 @@ namespace CasaDoCodigo
                     name: "default",
                     template: "{controller=Pedido}/{action=Carrossel}/{codigo?}");
             });
-        }
 
-    }
 
-    static class ServiceCollectionExtensions
-    {
-        private const string API_BASE_URI = "https://localhost:44320";
-
-        public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddMvc();
-            services.AddDistributedMemoryCache();
-            services.AddSession();
-
-            string connectionString = configuration.GetConnectionString("Default");
-
-            services.AddDbContext<ApplicationContext>(options =>
-                options.UseSqlServer(connectionString)
-            );
-
-            return services;
-        }
-
-        public static IServiceCollection AddHttpClientServices(this IServiceCollection services)
-        {
-            var uri = new Uri(API_BASE_URI);
-            HttpClient httpClient = new HttpClient()
-            {
-                BaseAddress = uri
-            };
-
-            services.AddSingleton(typeof(HttpClient), httpClient);
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<IApiService, ApiService>();
-            services.AddTransient<ICarrinhoService, CarrinhoService>();
-            services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
-
-            services.AddHttpClient<IApiService, ApiService>()
-               .SetHandlerLifetime(TimeSpan.FromMinutes(5))
-               .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-               .AddPolicyHandler(GetRetryPolicy())
-               .AddPolicyHandler(GetCircuitBreakerPolicy());
-
-            return services;
-        }
-
-        public static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddHealthChecks(checks =>
-            {
-                checks.AddUrlCheck(configuration["ApiUrlHC"]);
-                checks.AddValueTaskCheck("HTTP Endpoint", () => new
-                    ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
-            });
-
-            return services;
-        }
-
-        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
-        {
-            //var useLoadTest = configuration.GetValue<bool>("UseLoadTest");
-            var identityUrl = configuration.GetValue<string>("IdentityUrl");
-            var callBackUrl = configuration.GetValue<string>("CallBackUrl");
-
-            // Add Authentication services          
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            })
-            .AddCookie(
-            //    options =>
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            //if (env.IsDevelopment())
             //{
-            //    options.LoginPath = "/account/login";
-            //    options.LogoutPath = "/account/logout";
+            //    app.UseBrowserLink();
+            //    app.UseDeveloperExceptionPage();
             //}
-            )
-            .AddOpenIdConnect(options =>
-            {
-                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.Authority = identityUrl.ToString();
-                options.SignedOutRedirectUri = callBackUrl.ToString();
-                //options.ClientId = useLoadTest ? "mvctest" : "mvc";
-                options.ClientId = "mvc";
-                options.ClientSecret = "secret";
-                //options.ResponseType = useLoadTest ? "code id_token token" : "code id_token";
-                options.ResponseType = "code id_token";
-                options.SaveTokens = true;
-                options.GetClaimsFromUserInfoEndpoint = true;
-                options.RequireHttpsMetadata = false;
-                options.Scope.Add("openid");
-                options.Scope.Add("profile");
-                options.Scope.Add("orders");
-                options.Scope.Add("basket");
-                options.Scope.Add("marketing");
-                options.Scope.Add("locations");
-                options.Scope.Add("webshoppingagg");
-                options.Scope.Add("orders.signalrhub");
-            });
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //}
 
-            return services;
+            //app.UseAuthentication();
+
+            //app.UseStaticFiles();
+            //app.UseSession();
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Pedido}/{action=Carrossel}/{codigo?}");
+            //});
         }
 
-        static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
-        {
-            return HttpPolicyExtensions
-              .HandleTransientHttpError()
-              .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
-              .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-        }
-
-        static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
-        {
-            return HttpPolicyExtensions
-                .HandleTransientHttpError()
-                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
-        }
     }
 }

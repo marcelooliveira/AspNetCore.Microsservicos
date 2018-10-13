@@ -12,7 +12,6 @@ namespace CasaDoCodigo
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseHealthChecks("/hc")
                 .UseStartup<Startup>()
                 .Build();
     }

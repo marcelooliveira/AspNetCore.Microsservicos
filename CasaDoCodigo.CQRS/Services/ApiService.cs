@@ -60,10 +60,10 @@ namespace CasaDoCodigo.Services
             return await PostAsync<PedidoViewModel>(ApiUris.UpdateCadastro, viewModel);
         }
 
-        public async Task<UpdateQuantidadeOutput> UpdateQuantidade(int itemPedidoId, int quantidade)
+        public async Task<UpdateQuantidadeOutput> UpdateQuantidade(string itemPedidoId, int quantidade)
         {
             return await PostAsync<UpdateQuantidadeOutput>(
-                ApiUris.UpdateQuantidade, new { itemPedidoId, quantidade });
+                ApiUris.UpdateQuantidade, new { Id = itemPedidoId, Quantidade = quantidade });
         }
 
     }

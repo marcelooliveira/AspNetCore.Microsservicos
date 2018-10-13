@@ -14,10 +14,10 @@ namespace CasaDoCodigo.Services
     {
         class CarrinhoUris
         {
-            //public static string GetCarrinho => "api/carrinho"; //carrinho
-            //public static string PostItem => "api/carrinho"; //carrinho
-            public static string GetCarrinho => "carrinho"; //ApiGateway
-            public static string PostItem => "carrinho"; //ApiGateway
+            public static string GetCarrinho => "api/carrinho"; //carrinho
+            public static string PostItem => "api/carrinho"; //carrinho
+            //public static string GetCarrinho => "carrinho"; //ApiGateway
+            //public static string PostItem => "carrinho"; //ApiGateway
         }
 
         private readonly ILogger<CarrinhoService> _logger;

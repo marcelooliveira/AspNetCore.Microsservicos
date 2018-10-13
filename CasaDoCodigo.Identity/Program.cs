@@ -1,14 +1,15 @@
-﻿using CasaDoCodigo.Identity.Data;
-using IdentityServer4.EntityFramework.DbContexts;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Polly;
-using System;
-using System.Data.SqlClient;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace CasaDoCodigo.Identity
 {
@@ -16,71 +17,42 @@ namespace CasaDoCodigo.Identity
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args)
-                .Build()
-                .MigrateDbContext<ConfigurationDbContext>((context, services) =>
-                {
-                    var configuration = services.GetService<IConfiguration>();
+            Console.Title = "CasaDoCodigo.Identity";
 
-                    new ConfigurationDbContextSeed()
-                        .SeedAsync(context, configuration)
-                        .Wait();
-                })
-                .Run();
-        }
+            var seed = args.Any(x => x == "/seed");
+            if (seed) args = args.Except(new[] { "/seed" }).ToArray();
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
+            var host = BuildWebHost(args);
 
-    public static class IWebHostExtensions
-    {
-        public static IWebHost MigrateDbContext<TContext>(this IWebHost webHost, Action<TContext, IServiceProvider> seeder) where TContext : DbContext
-        {
-            using (var scope = webHost.Services.CreateScope())
+            if (seed)
             {
-                var services = scope.ServiceProvider;
-
-                var logger = services.GetRequiredService<ILogger<TContext>>();
-
-                var context = services.GetService<TContext>();
-
-                try
-                {
-                    logger.LogInformation($"Migrating database associated with context {typeof(TContext).Name}");
-
-                    var retry = Policy.Handle<SqlException>()
-                         .WaitAndRetry(new TimeSpan[]
-                         {
-                             TimeSpan.FromSeconds(3),
-                             TimeSpan.FromSeconds(5),
-                             TimeSpan.FromSeconds(8),
-                         });
-
-                    retry.Execute(() =>
-                    {
-                        //if the sql server container is not created on run docker compose this
-                        //migration can't fail for network related exception. The retry options for DbContext only 
-                        //apply to transient exceptions.
-
-                        context.Database
-                        .Migrate();
-
-                        seeder(context, services);
-                    });
-
-
-                    logger.LogInformation($"Migrated database associated with context {typeof(TContext).Name}");
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, $"An error occurred while migrating the database used on context {typeof(TContext).Name}");
-                }
+                SeedData.EnsureSeedData(host.Services);
+                return;
             }
 
-            return webHost;
+            host.Run();
+        }
+
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .MinimumLevel.Override("System", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.File(@"identityserver4_log.txt")
+                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Literate)
+                .CreateLogger();
+
+            return WebHost.CreateDefaultBuilder(args)
+                    .UseStartup<Startup>()
+                    .ConfigureLogging(builder =>
+                    {
+                        builder.ClearProviders();
+                        builder.AddSerilog();
+                    })
+                    .Build();
         }
     }
-
 }
