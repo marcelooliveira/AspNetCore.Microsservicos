@@ -5,8 +5,7 @@
 
 <h3>Meu Carrinho</h3>
 
-<form method="post" asp-action="carrinho">
-</form>
+<form method="post" asp-action="carrinho"></form>
 
 
 <div class="panel panel-default">
@@ -49,8 +48,8 @@
                             </button>
                         </span>
                         <input type="text" value="@(item.Quantidade)"
-                               class="form-control text-center" 
-                               onblur="carrinho.updateQuantidade(this)"/>
+                               class="form-control text-center"
+                               onblur="carrinho.updateQuantidade(this)" />
                         <span class="input-group-btn">
                             <button class="btn btn-default"
                                     onclick="carrinho.clickIncremento(this)">
@@ -100,8 +99,6 @@
 </div>
 
 @section Scripts
-{
-    <script src="~/js/carrinho.js">
-
-    </script>
+    {
+    <script src="~/js/carrinho.js"></script>
 }

@@ -15,7 +15,7 @@ namespace CasaDoCodigo.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class CarrinhoController : BaseApiController
     {
         private readonly IPedidoRepository pedidoRepository;
@@ -35,7 +35,7 @@ namespace CasaDoCodigo.API.Controllers
         /// <response code="400">Código de produto inválido</response> 
         /// <response code="404">Pedido não encontrado</response> 
         [HttpGet("{pedidoId}/{codigo}", Name = "GetCarrinho")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize()]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetCarrinho(int pedidoId, string codigo)
@@ -64,7 +64,7 @@ namespace CasaDoCodigo.API.Controllers
         /// <returns>O item do carrinho atualizado</returns>
         /// <response code="400">O item do carrinho não foi encontrado</response> 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Post([FromBody]UpdateQuantidadeInput input)
         {

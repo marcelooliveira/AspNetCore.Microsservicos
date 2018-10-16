@@ -2,6 +2,8 @@
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
 using IdentityModel;
+using IdentityModel.Client;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,12 +36,14 @@ namespace CasaDoCodigo.Controllers
         private readonly HttpClient httpClient;
         private readonly IApiService apiService;
         private readonly ICarrinhoService carrinhoService;
+        private readonly ISessionHelper sessionHelper;
 
         public IConfiguration Configuration { get; }
 
         public PedidoController(ILogger<PedidoController> logger,
             IHttpContextAccessor contextAccessor,
             HttpClient httpClient,
+            ISessionHelper sessionHelper,
             IConfiguration configuration,
             ICarrinhoService carrinhoService,
             IApiService apiService)
@@ -47,6 +51,7 @@ namespace CasaDoCodigo.Controllers
             this.logger = logger;
             this.contextAccessor = contextAccessor;
             this.httpClient = httpClient;
+            this.sessionHelper = sessionHelper;
             this.Configuration = configuration;
             this.carrinhoService = carrinhoService;
             this.apiService = apiService;
@@ -79,7 +84,6 @@ namespace CasaDoCodigo.Controllers
                 int pedidoId = GetPedidoId() ?? 0;
                 ItemCarrinho itemCarrinho = new ItemCarrinho(codigo, codigo, $"produto código {codigo}", 1.23m, 1, "");
                 var carrinho = await carrinhoService.UpdateItem(idUsuario, itemCarrinho);
-                //SetPedidoId(carrinho.PedidoId);
                 return View(carrinho);
             }
             catch (BrokenCircuitException)
@@ -155,6 +159,12 @@ namespace CasaDoCodigo.Controllers
         public async Task<UpdateQuantidadeOutput> UpdateQuantidade([FromBody]ItemPedido itemPedido)
         {
             return await apiService.UpdateQuantidade(itemPedido.Id.ToString("000"), itemPedido.Quantidade);
+        }
+
+        public async Task Logout()
+        {
+            await HttpContext.SignOutAsync("Cookies");
+            await HttpContext.SignOutAsync("oidc");
         }
 
         private int? GetPedidoId()

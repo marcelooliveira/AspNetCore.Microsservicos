@@ -30,9 +30,9 @@ namespace CasaDoCodigo.Services
         public ApiService(
             IConfiguration configuration
             , HttpClient httpClient
-            , IHttpContextAccessor contextAccessor
+            , ISessionHelper sessionHelper
             , ILogger<ApiService> logger)
-            : base(configuration, httpClient, contextAccessor)
+            : base(configuration, httpClient, sessionHelper)
         {
             _logger = logger;
             _baseUri = _configuration["ApiUrl"];
@@ -66,5 +66,6 @@ namespace CasaDoCodigo.Services
                 ApiUris.UpdateQuantidade, new { Id = itemPedidoId, Quantidade = quantidade });
         }
 
+        protected override string Scope => "CasaDoCodigo.API";
     }
 }

@@ -27,6 +27,12 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"></a>
+                <ul class="nav navbar-nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-action="Logout">Logout</a></li>
+                    }
+                </ul>
             </div>
             <div class="navbar-collapse collapse">
             </div>

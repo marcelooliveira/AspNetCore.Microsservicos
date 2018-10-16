@@ -24,7 +24,8 @@ namespace CasaDoCodigo.Identity
         {
             return new List<ApiResource>
             {
-                new ApiResource("CasaDoCodigo.Carrinho", "Carrinho da CasaDoCodigo")
+                new ApiResource("CasaDoCodigo.Carrinho", "Carrinho da CasaDoCodigo"),
+                new ApiResource("CasaDoCodigo.API", "APIa CasaDoCodigo")
             };
         }
 
@@ -55,7 +56,8 @@ namespace CasaDoCodigo.Identity
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "CasaDoCodigo.Carrinho"
+                        "CasaDoCodigo.Carrinho",
+                        "CasaDoCodigo.API"
                     },
                     AllowOfflineAccess = true
                 }

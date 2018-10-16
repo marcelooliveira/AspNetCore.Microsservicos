@@ -31,6 +31,7 @@ namespace CasaDoCodigo
             services.AddHttpContextAccessor();
             services.AddTransient<IApiService, ApiService>();
             services.AddTransient<ICarrinhoService, CarrinhoService>();
+            services.AddTransient<ISessionHelper, SessionHelper>();
             services.AddMvc()
                 .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.AddDistributedMemoryCache();
@@ -38,17 +39,18 @@ namespace CasaDoCodigo
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = "Cookies";
-                options.DefaultChallengeScheme = "oidc";
-            })
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultScheme = "Cookies";
+                    options.DefaultChallengeScheme = "oidc";
+                })
                 .AddCookie("Cookies")
                 .AddOpenIdConnect("oidc", options =>
                 {
                     options.SignInScheme = "Cookies";
 
-                    options.Authority = "https://localhost:44338";
+                    options.Authority = Configuration["IdentityUrl"];
                     options.RequireHttpsMetadata = false;
 
                     options.ClientId = "CasaDoCodigo.MVC";
@@ -59,6 +61,7 @@ namespace CasaDoCodigo
                     options.GetClaimsFromUserInfoEndpoint = true;
 
                     options.Scope.Add("CasaDoCodigo.Carrinho");
+                    options.Scope.Add("CasaDoCodigo.API");
                     options.Scope.Add("offline_access");
                 });
         }
@@ -84,30 +87,6 @@ namespace CasaDoCodigo
                     name: "default",
                     template: "{controller=Pedido}/{action=Carrossel}/{codigo?}");
             });
-
-
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseBrowserLink();
-            //    app.UseDeveloperExceptionPage();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/Home/Error");
-            //}
-
-            //app.UseAuthentication();
-
-            //app.UseStaticFiles();
-            //app.UseSession();
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Pedido}/{action=Carrossel}/{codigo?}");
-            //});
         }
-
     }
 }

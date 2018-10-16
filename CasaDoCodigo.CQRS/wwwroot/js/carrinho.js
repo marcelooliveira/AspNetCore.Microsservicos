@@ -60,7 +60,4 @@ var carrinho = new Carrinho();
 
 Number.prototype.duasCasas = function () {
     return this.toFixed(2).replace('.', ',');
-}
-
-
-
+};

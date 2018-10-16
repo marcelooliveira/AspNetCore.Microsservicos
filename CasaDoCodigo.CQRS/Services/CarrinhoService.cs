@@ -25,9 +25,9 @@ namespace CasaDoCodigo.Services
         public CarrinhoService(
             IConfiguration configuration
             , HttpClient httpClient
-            , IHttpContextAccessor contextAccessor
+            , ISessionHelper sessionHelper
             , ILogger<CarrinhoService> logger)
-            : base(configuration, httpClient, contextAccessor)
+            : base(configuration, httpClient, sessionHelper)
         {
             _logger = logger;
             _baseUri = _configuration["CarrinhoUrl"];
@@ -43,5 +43,7 @@ namespace CasaDoCodigo.Services
             var uri = $"{CarrinhoUris.PostItem}/{clienteId}";
             return await PostAsync<CarrinhoViewModel>(uri, input);
         }
+
+        protected override string Scope => "CasaDoCodigo.Carrinho";
     }
 }
