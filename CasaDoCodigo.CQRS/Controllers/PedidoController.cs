@@ -156,9 +156,9 @@ namespace CasaDoCodigo.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<UpdateQuantidadeOutput> UpdateQuantidade([FromBody]ItemPedido itemPedido)
+        public async Task<CarrinhoViewModel> UpdateQuantidade([FromBody]ItemCarrinho itemCarrinho)
         {
-            return await apiService.UpdateQuantidade(itemPedido.Id.ToString("000"), itemPedido.Quantidade);
+            return await carrinhoService.UpdateItem(GetUserId(), itemCarrinho);
         }
 
         public async Task Logout()

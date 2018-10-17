@@ -47,28 +47,6 @@ namespace CasaDoCodigo.Carrinho
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services
-            //    .AddAuthentication()
-            //    .AddJwtBearer(bearerOptions =>
-            //    {
-            //        var paramsValidation = bearerOptions.TokenValidationParameters;
-            //        paramsValidation.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]));
-            //        paramsValidation.ValidAudience = Configuration["Tokens:Issuer"];
-            //        paramsValidation.ValidIssuer = Configuration["Tokens:Issuer"];
-
-            //        // Valida a assinatura de um token recebido
-            //        paramsValidation.ValidateIssuerSigningKey = true;
-
-            //        // Verifica se um token recebido ainda é válido
-            //        paramsValidation.ValidateLifetime = true;
-
-            //        // Tempo de tolerância para a expiração de um token (utilizado
-            //        // caso haja problemas de sincronismo de horário entre diferentes
-            //        // computadores envolvidos no processo de comunicação)
-            //        paramsValidation.ClockSkew = TimeSpan.Zero;
-            //    });
-
-
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)

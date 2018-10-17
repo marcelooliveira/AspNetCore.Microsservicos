@@ -65,7 +65,14 @@ namespace CasaDoCodigo.Carrinho.Model
             }
             else
             {
-                itemDB.Quantidade = item.Quantidade;
+                if (item.Quantidade == 0)
+                {
+                    carrinho.Itens.Remove(itemDB);
+                }
+                else
+                {
+                    itemDB.Quantidade = item.Quantidade;
+                }
             }
             return await UpdateCarrinhoAsync(carrinho);
         }
