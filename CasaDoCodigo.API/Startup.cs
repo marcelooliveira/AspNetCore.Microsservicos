@@ -59,14 +59,14 @@ namespace CasaDoCodigo.API
             //        paramsValidation.ClockSkew = TimeSpan.Zero;
             //    });
 
-            //services
-            //    .AddAuthentication("Bearer")
-            //    .AddIdentityServerAuthentication(options =>
-            //    {
-            //        options.ApiName = "CasaDoCodigo.API";
-            //        options.ApiSecret = "secret";
-            //        options.Authority = "https://localhost:44338/";
-            //    });
+            services
+                .AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.ApiName = "CasaDoCodigo.API";
+                    options.ApiSecret = "secret";
+                    options.Authority = Configuration["IdentityUrl"];
+                });
 
             services
                 .AddMvc()
