@@ -54,7 +54,7 @@ namespace CasaDoCodigo.Carrinho.Model
             return await GetCarrinhoAsync(carrinho.ClienteId);
         }
 
-        public async Task<CarrinhoCliente> UpdateCarrinhoAsync(string clienteId, ItemCarrinho item)
+        public async Task<CarrinhoCliente> AddCarrinhoAsync(string clienteId, ItemCarrinho item)
         {
             var carrinho = await GetCarrinhoAsync(clienteId);
             ItemCarrinho itemDB = carrinho.Itens.Where(i => i.ProdutoId == item.ProdutoId).SingleOrDefault();
@@ -63,16 +63,20 @@ namespace CasaDoCodigo.Carrinho.Model
                 itemDB = new ItemCarrinho(item.Id, item.ProdutoId, item.ProdutoNome, item.PrecoUnitario, item.Quantidade);
                 carrinho.Itens.Add(item);
             }
+            return await UpdateCarrinhoAsync(carrinho);
+        }
+
+        public async Task<CarrinhoCliente> UpdateCarrinhoAsync(string clienteId, ItemCarrinho item)
+        {
+            var carrinho = await GetCarrinhoAsync(clienteId);
+            ItemCarrinho itemDB = carrinho.Itens.Where(i => i.ProdutoId == item.ProdutoId).SingleOrDefault();
+            if (item.Quantidade == 0)
+            {
+                carrinho.Itens.Remove(itemDB);
+            }
             else
             {
-                if (item.Quantidade == 0)
-                {
-                    carrinho.Itens.Remove(itemDB);
-                }
-                else
-                {
-                    itemDB.Quantidade = item.Quantidade;
-                }
+                itemDB.Quantidade = item.Quantidade;
             }
             return await UpdateCarrinhoAsync(carrinho);
         }

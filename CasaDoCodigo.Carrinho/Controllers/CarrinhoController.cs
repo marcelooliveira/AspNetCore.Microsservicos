@@ -52,9 +52,17 @@ namespace CasaDoCodigo.Carrinho.Controllers
             return Ok(carrinho);
         }
 
-        [HttpPost("{clienteId}", Name = "PostItem")]
+        [Route("[action]/{clienteId}")]
         [ProducesResponseType(typeof(ItemCarrinho), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Post(string clienteId, [FromBody] ItemCarrinho input)
+        public async Task<IActionResult> AddItem(string clienteId, [FromBody] ItemCarrinho input)
+        {
+            var carrinho = await _repository.AddCarrinhoAsync(clienteId, input);
+            return Ok(carrinho);
+        }
+
+        [Route("[action]/{clienteId}")]
+        [ProducesResponseType(typeof(ItemCarrinho), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> UpdateItem(string clienteId, [FromBody] ItemCarrinho input)
         {
             var carrinho = await _repository.UpdateCarrinhoAsync(clienteId, input);
             return Ok(carrinho);
