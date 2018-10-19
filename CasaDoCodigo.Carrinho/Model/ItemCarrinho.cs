@@ -22,8 +22,9 @@ namespace CasaDoCodigo.Carrinho.Model
         public string Id { get; set; }
         public string ProdutoId { get; set; }
         public string ProdutoNome { get; set; }
-        public decimal PrecoUnitario { get; set; }
         public int Quantidade { get; set; }
+        public decimal PrecoUnitario { get; set; }
+        public decimal Subtotal => Quantidade * PrecoUnitario;
         public string UrlImagem { get { return $"/images/produtos/large_{ProdutoId}.jpg"; } }
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

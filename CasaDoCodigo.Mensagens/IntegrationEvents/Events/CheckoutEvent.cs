@@ -44,8 +44,9 @@ namespace CasaDoCodigo.Mensagens.Events
         public string Id { get; set; }
         public string ProdutoId { get; set; }
         public string ProdutoNome { get; set; }
-        public decimal PrecoUnitario { get; set; }
         public int Quantidade { get; set; }
+        public decimal PrecoUnitario { get; set; }
+        public decimal Subtotal => Quantidade * PrecoUnitario;
         public string UrlImagem { get; set; }
     }
 }

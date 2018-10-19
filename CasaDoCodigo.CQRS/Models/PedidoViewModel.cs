@@ -12,7 +12,7 @@ namespace CasaDoCodigo.Models
     {
         public string Codigo { get; set; }
         public string Nome { get; set; }
-        public double Preco { get; set; }
+        public decimal Preco { get; set; }
         public int Id { get; set; }
     }
 
@@ -20,8 +20,8 @@ namespace CasaDoCodigo.Models
     {
         public ProdutoViewModel Produto { get; set; }
         public int Quantidade { get; set; }
-        public double PrecoUnitario { get; set; }
-        public double Subtotal { get; set; }
+        public decimal PrecoUnitario { get; set; }
+        public decimal Subtotal => Quantidade * PrecoUnitario;
         public int Id { get; set; }
     }
 
