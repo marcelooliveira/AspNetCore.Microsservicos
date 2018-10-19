@@ -35,5 +35,11 @@ namespace CasaDoCodigo.API.Controllers
         {
             return Ok(await produtoQueries.GetProdutosAsync());
         }
+
+        [HttpGet("{codigo}")]
+        public async Task<ActionResult<IEnumerable<Produto>>> GetProdutos(string codigo = null)
+        {
+            return Ok(await produtoQueries.GetProdutoAsync(codigo));
+        }
     }
 }

@@ -30,6 +30,7 @@ namespace CasaDoCodigo.Models
         [Required]
         [DataMember]
         public decimal Preco { get; private set; }
+        public string UrlImagem { get { return $"/images/produtos/large_{Codigo}.jpg"; } }
 
         public Produto(string codigo, string nome, decimal preco)
         {

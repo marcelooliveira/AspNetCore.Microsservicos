@@ -8,6 +8,7 @@ namespace CasaDoCodigo.Services
     public interface IApiService
     {
         Task<IEnumerable<Produto>> GetProdutos();
+        Task<Produto> GetProduto(string codigo);
         Task<CarrinhoViewModel> Carrinho(string codigo, int pedidoId);
         Task<PedidoViewModel> GetPedido(int pedidoId);
         Task<PedidoViewModel> UpdateCadastro(CadastroViewModel viewModel);

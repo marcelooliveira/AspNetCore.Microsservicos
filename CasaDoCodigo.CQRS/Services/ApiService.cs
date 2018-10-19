@@ -45,6 +45,11 @@ namespace CasaDoCodigo.Services
             return JsonConvert.DeserializeObject<IEnumerable<Models.Produto>>(result);
         }
 
+        public async Task<Models.Produto> GetProduto(string codigo)
+        {
+            return await GetAsync<Models.Produto>(ApiUris.GetProdutos, codigo);
+        }
+
         public async Task<CarrinhoViewModel> Carrinho(string codigo, int pedidoId)
         {
             return await GetAsync<CarrinhoViewModel>(ApiUris.GetCarrinho, pedidoId, codigo);

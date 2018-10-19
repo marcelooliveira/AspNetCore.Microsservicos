@@ -82,7 +82,8 @@ namespace CasaDoCodigo.Controllers
             {
                 string idUsuario = GetUserId();
                 int pedidoId = GetPedidoId() ?? 0;
-                ItemCarrinho itemCarrinho = new ItemCarrinho(codigo, codigo, $"produto código {codigo}", 1.23m, 1, "");
+                var produto = await apiService.GetProduto(codigo);
+                ItemCarrinho itemCarrinho = new ItemCarrinho(produto.Codigo, produto.Codigo, produto.Nome, produto.Preco, 1, produto.UrlImagem);
                 var carrinho = await carrinhoService.UpdateItem(idUsuario, itemCarrinho);
                 return View(carrinho);
             }
