@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CasaDoCodigo.Catalogo</name>
+    </assembly>
+    <members>
+        <member name="M:CasaDoCodigo.Catalogo.Controllers.ProdutoController.GetProdutos">
+            <summary>
+            Obtém a lista completa de produtos do catálogo.
+            </summary>
+            <returns>
+            A lista completa de produtos do catálogo
+            </returns>
+            <response code="401">Não autorizado</response> 
+        </member>
+    </members>
+</doc>
