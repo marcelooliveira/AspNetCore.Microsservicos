@@ -11,6 +11,9 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Identity\Data\zzzCasaDoCodigoAPIContext.cs" />
+    <Compile Remove="Controllers\CarrinhoController.cs" />
+    <Compile Remove="Controllers\LoginController.cs" />
+    <Compile Remove="Controllers\PedidoController.cs" />
   </ItemGroup>
 
   <ItemGroup>

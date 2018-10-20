@@ -16,7 +16,7 @@ namespace CasaDoCodigo.API.Controllers
         private readonly IProdutoRepository produtoRepository;
         private readonly IProdutoQueries produtoQueries;
 
-        public ProdutoController(ILogger<CarrinhoController> logger,
+        public ProdutoController(ILogger<ProdutoController> logger,
             IProdutoRepository produtoRepository, IProdutoQueries produtoQueries) : base(logger)
         {
             this.produtoRepository = produtoRepository;
