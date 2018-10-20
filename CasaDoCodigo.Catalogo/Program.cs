@@ -7,18 +7,43 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace CasaDoCodigo.Catalogo
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            Console.Title = "CasaDoCodigo.Catalogo";
+
+            var seed = args.Any(a => a == "/seed");
+            if (seed)
+            {
+                args = args.Except(new[] { "/seed" }).ToArray();
+            }
+
+            IWebHost host = BuildWebHost(args);
+
+            if (seed)
+            {
+                await SeedData.EnsureSeedData(host.Services);
+            }
+
+            host.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            return WebHost
+                    .CreateDefaultBuilder(args)
+                    .UseStartup<Startup>()
+                    .ConfigureLogging(builder =>
+                    {
+                        builder.ClearProviders();
+                        builder.AddSerilog();
+                    })
+                    .Build();
+        }
     }
 }

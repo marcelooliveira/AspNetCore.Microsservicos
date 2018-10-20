@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BrighterExtensions", "Brigh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Identity", "CasaDoCodigo.Identity\CasaDoCodigo.Identity.csproj", "{C71256D5-2BA8-444B-BE6A-4512FA317F97}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Catalogo", "CasaDoCodigo.Catalogo\CasaDoCodigo.Catalogo.csproj", "{99EC294B-8F3C-4CAA-AF38-65A4BA64736A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{C71256D5-2BA8-444B-BE6A-4512FA317F97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C71256D5-2BA8-444B-BE6A-4512FA317F97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C71256D5-2BA8-444B-BE6A-4512FA317F97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99EC294B-8F3C-4CAA-AF38-65A4BA64736A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99EC294B-8F3C-4CAA-AF38-65A4BA64736A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99EC294B-8F3C-4CAA-AF38-65A4BA64736A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99EC294B-8F3C-4CAA-AF38-65A4BA64736A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
