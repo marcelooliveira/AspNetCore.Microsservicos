@@ -1,10 +1,9 @@
-﻿using CasaDoCodigo.Models.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Models
+namespace CasaDoCodigo.Carrinho.Model
 {
     public class UpdateQuantidadeOutput
     {

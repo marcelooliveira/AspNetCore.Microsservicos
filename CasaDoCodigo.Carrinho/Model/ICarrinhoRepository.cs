@@ -9,7 +9,7 @@ namespace CasaDoCodigo.Carrinho.Model
         IEnumerable<string> GetUsuarios();
         Task<CarrinhoCliente> UpdateCarrinhoAsync(CarrinhoCliente carrinho);
         Task<CarrinhoCliente> AddCarrinhoAsync(string clienteId, ItemCarrinho item);
-        Task<CarrinhoCliente> UpdateCarrinhoAsync(string clienteId, ItemCarrinho item);
+        Task<UpdateQuantidadeOutput> UpdateCarrinhoAsync(string clienteId, ItemCarrinho item);
         Task<bool> DeleteCarrinhoAsync(string id);
     }
 }

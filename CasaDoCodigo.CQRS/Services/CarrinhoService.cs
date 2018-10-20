@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -34,21 +35,21 @@ namespace CasaDoCodigo.Services
             _baseUri = _configuration["CarrinhoUrl"];
         }
 
-        public async Task<CarrinhoViewModel> GetCarrinho(string userId)
+        public async Task<CarrinhoCliente> GetCarrinho(string userId)
         {
-            return await GetAsync<CarrinhoViewModel>(CarrinhoUris.GetCarrinho, userId);
+            return await GetAsync<CarrinhoCliente>(CarrinhoUris.GetCarrinho, userId);
         }
 
-        public async Task<CarrinhoViewModel> AddItem(string clienteId, ItemCarrinho input)
+        public async Task<CarrinhoCliente> AddItem(string clienteId, ItemCarrinho input)
         {
             var uri = $"{CarrinhoUris.AddItem}/{clienteId}";
-            return await PostAsync<CarrinhoViewModel>(uri, input);
+            return await PostAsync<CarrinhoCliente>(uri, input);
         }
 
-        public async Task<CarrinhoViewModel> UpdateItem(string clienteId, ItemCarrinho input)
+        public async Task<UpdateQuantidadeOutput> UpdateItem(string clienteId, ItemCarrinho input)
         {
             var uri = $"{CarrinhoUris.UpdateItem}/{clienteId}";
-            return await PostAsync<CarrinhoViewModel>(uri, input);
+            return await PostAsync<UpdateQuantidadeOutput>(uri, input);
         }
 
         protected override string Scope => "CasaDoCodigo.Carrinho";

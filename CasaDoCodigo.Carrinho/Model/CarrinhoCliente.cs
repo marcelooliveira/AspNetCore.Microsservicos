@@ -15,6 +15,6 @@ namespace CasaDoCodigo.Carrinho.Model
         }
 
         public string ClienteId { get; set; }
-        public List<ItemCarrinho> Itens { get; set; }
+        public IList<ItemCarrinho> Itens { get; set; }
     }
 }

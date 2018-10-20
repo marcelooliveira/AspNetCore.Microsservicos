@@ -66,19 +66,17 @@ namespace CasaDoCodigo.Carrinho.Model
             return await UpdateCarrinhoAsync(carrinho);
         }
 
-        public async Task<CarrinhoCliente> UpdateCarrinhoAsync(string clienteId, ItemCarrinho item)
+        public async Task<UpdateQuantidadeOutput> UpdateCarrinhoAsync(string clienteId, ItemCarrinho item)
         {
             var carrinho = await GetCarrinhoAsync(clienteId);
             ItemCarrinho itemDB = carrinho.Itens.Where(i => i.ProdutoId == item.ProdutoId).SingleOrDefault();
+            itemDB.Quantidade = item.Quantidade;
             if (item.Quantidade == 0)
             {
                 carrinho.Itens.Remove(itemDB);
             }
-            else
-            {
-                itemDB.Quantidade = item.Quantidade;
-            }
-            return await UpdateCarrinhoAsync(carrinho);
+            CarrinhoCliente carrinhoCliente = await UpdateCarrinhoAsync(carrinho);
+            return new UpdateQuantidadeOutput(itemDB, carrinhoCliente);
         }
 
         private IServer GetServer()

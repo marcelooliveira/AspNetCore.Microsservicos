@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Models.ViewModels
 {
-    public class CarrinhoViewModel
+    public class CarrinhoCliente
     {
-        public CarrinhoViewModel(string clienteId, IList<ItemCarrinho> itens)
+        public CarrinhoCliente(string clienteId, IList<ItemCarrinho> itens)
         {
             ClienteId = clienteId;
             Itens = itens;

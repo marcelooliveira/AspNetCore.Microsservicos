@@ -50,9 +50,9 @@ namespace CasaDoCodigo.Services
             return await GetAsync<Models.Produto>(ApiUris.GetProdutos, codigo);
         }
 
-        public async Task<CarrinhoViewModel> Carrinho(string codigo, int pedidoId)
+        public async Task<CarrinhoCliente> Carrinho(string codigo, int pedidoId)
         {
-            return await GetAsync<CarrinhoViewModel>(ApiUris.GetCarrinho, pedidoId, codigo);
+            return await GetAsync<CarrinhoCliente>(ApiUris.GetCarrinho, pedidoId, codigo);
         }
 
         public async Task<PedidoViewModel> GetPedido(int pedidoId)

@@ -42,21 +42,13 @@
             data: JSON.stringify(data),
             headers: headers
         }).done(function (response) {
-            var itens = response.Itens;
-            let itemPedido;
-            for (var i = 0; i < itens.length; i++) {
-                if (itens[i].ProdutoId === data.ProdutoId) {
-                    itemPedido = itens[i];
-                    break;
-                }
-            }
-            let linhaDoItem = $('[item-id=' + itemPedido.ProdutoId + ']')
+            let itemPedido = response.ItemPedido;
+            let linhaDoItem = $('[item-id=' + itemPedido.Id + ']');
             linhaDoItem.find('input').val(itemPedido.Quantidade);
             linhaDoItem.find('[subtotal]').html((itemPedido.Subtotal).duasCasas());
-            //let carrinhoViewModel = response.carrinhoViewModel;
-            //$('[numero-itens]').html('Total: ' + carrinhoViewModel.itens.length + ' itens');
-            //$('[total]').html((carrinhoViewModel.total).duasCasas());
-            debugger;
+            let carrinhoCliente = response.CarrinhoCliente;
+            $('[numero-itens]').html('Total: ' + carrinhoCliente.Itens.length + ' itens');
+            $('[total]').html((carrinhoCliente.Total).duasCasas());
 
             if (itemPedido.Quantidade === 0) {
                 linhaDoItem.remove();
