@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CasaDoCodigo.Catalogo.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    //[ApiController]
     public class ProdutoController : BaseApiController
     {
         private readonly IProdutoQueries produtoQueries;

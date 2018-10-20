@@ -37,18 +37,6 @@ namespace CasaDoCodigo.Services
             _baseUri = _configuration["ApiUrl"];
         }
 
-        public async Task<IEnumerable<Models.Produto>> GetProdutos()
-        {
-            var uri = _baseUri + ApiUris.GetProdutos;
-            var result = await _httpClient.GetStringAsync(uri);
-            return JsonConvert.DeserializeObject<IEnumerable<Models.Produto>>(result);
-        }
-
-        public async Task<Models.Produto> GetProduto(string codigo)
-        {
-            return await GetAsync<Models.Produto>(ApiUris.GetProdutos, codigo);
-        }
-
         public async Task<CarrinhoCliente> Carrinho(string codigo, int pedidoId)
         {
             return await GetAsync<CarrinhoCliente>(ApiUris.GetCarrinho, pedidoId, codigo);

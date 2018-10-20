@@ -20,21 +20,13 @@ using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Controllers
 {
-    class ApiUris
-    {
-        public static string GetProdutos => "api/produto";
-        public static string GetCarrinho => "api/carrinho";
-        public static string GetPedido => "api/pedido";
-        public static string UpdateQuantidade => "api/carrinho";
-        public static string UpdateCadastro => "api/cadastro";
-    }
-
     public class PedidoController : Controller
     {
         private readonly ILogger logger;
         private readonly IHttpContextAccessor contextAccessor;
         private readonly HttpClient httpClient;
         private readonly IApiService apiService;
+        private readonly ICatalogoService catalogoService;
         private readonly ICarrinhoService carrinhoService;
         private readonly ISessionHelper sessionHelper;
 
@@ -45,8 +37,9 @@ namespace CasaDoCodigo.Controllers
             HttpClient httpClient,
             ISessionHelper sessionHelper,
             IConfiguration configuration,
-            ICarrinhoService carrinhoService,
-            IApiService apiService)
+            IApiService apiService,
+            ICatalogoService catalogoService,
+            ICarrinhoService carrinhoService)
         {
             this.logger = logger;
             this.contextAccessor = contextAccessor;
@@ -55,13 +48,14 @@ namespace CasaDoCodigo.Controllers
             this.Configuration = configuration;
             this.carrinhoService = carrinhoService;
             this.apiService = apiService;
+            this.catalogoService = catalogoService;
         }
 
         public async Task<IActionResult> Carrossel()
         {
             try
             {
-                return View(await apiService.GetProdutos());
+                return View(await catalogoService.GetProdutos());
             }
             catch (BrokenCircuitException e)
             {
@@ -82,7 +76,7 @@ namespace CasaDoCodigo.Controllers
             {
                 string idUsuario = GetUserId();
                 int pedidoId = GetPedidoId() ?? 0;
-                var produto = await apiService.GetProduto(codigo);
+                var produto = await catalogoService.GetProduto(codigo);
                 ItemCarrinho itemCarrinho = new ItemCarrinho(produto.Codigo, produto.Codigo, produto.Nome, produto.Preco, 1, produto.UrlImagem);
                 var carrinho = await carrinhoService.AddItem(idUsuario, itemCarrinho);
                 return View(carrinho);
