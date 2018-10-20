@@ -7,24 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.MVC", "CasaDoC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.API", "CasaDoCodigo.API\CasaDoCodigo.API.csproj", "{06D179A9-0730-4029-9C62-E191F053FBC3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Client.Generated", "CasaDoCodigo.Client\CasaDoCodigo.Client.Generated.csproj", "{F5087414-E404-43E0-BFAB-6008C20C857E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Client.Playground", "CasaDoCodigo.Client.Playground\CasaDoCodigo.Client.Playground.csproj", "{09BC8448-2914-4C5E-8CCB-1C8CE1BD8FF7}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwagStudio", "NSwagStudio", "{A4502ACB-B015-4D9A-9C6A-189D22E9BC93}"
 	ProjectSection(SolutionItems) = preProject
 		CasaDoCodigo.API.nswag = CasaDoCodigo.API.nswag
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Status", "CasaDoCodigo.Status\CasaDoCodigo.Status.csproj", "{3A00DC21-DEF8-4A18-954F-5C8EE9337249}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Catalogo", "CasaDoCodigo.Catalogo\CasaDoCodigo.Catalogo.csproj", "{412FC36B-8B56-4B56-9C93-A1B70707C7EA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Carrinho", "CasaDoCodigo.Carrinho\CasaDoCodigo.Carrinho.csproj", "{9AAAC4D2-5C55-4125-8580-13DBCAE8242E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Mensagens", "CasaDoCodigo.Mensagens\CasaDoCodigo.Mensagens.csproj", "{4B257028-6B62-496E-AD3B-0D93F2C1FF14}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.OrdemDeCompra", "CasaDoCodigo.OrdemDeCompra\CasaDoCodigo.OrdemDeCompra.csproj", "{A0FD505F-E8D0-43BA-A237-974B2C4D4E40}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BrighterExtensions", "BrighterExtensions", "{C9DC4B43-EB76-48D8-8B56-82AF31D4EE62}"
 	ProjectSection(SolutionItems) = preProject
@@ -32,8 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BrighterExtensions", "Brigh
 		BrighterExtensions\Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection.dll = BrighterExtensions\Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection.dll
 		BrighterExtensions\Paramore.Brighter.ServiceActivator.Extensions.Hosting.dll = BrighterExtensions\Paramore.Brighter.ServiceActivator.Extensions.Hosting.dll
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.ApiGateway", "CasaDoCodigo.ApiGateway\CasaDoCodigo.ApiGateway.csproj", "{E7D8F5BE-8352-4F87-97E4-303C75C0C9A4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Identity", "CasaDoCodigo.Identity\CasaDoCodigo.Identity.csproj", "{C71256D5-2BA8-444B-BE6A-4512FA317F97}"
 EndProject
@@ -51,22 +39,6 @@ Global
 		{06D179A9-0730-4029-9C62-E191F053FBC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06D179A9-0730-4029-9C62-E191F053FBC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06D179A9-0730-4029-9C62-E191F053FBC3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F5087414-E404-43E0-BFAB-6008C20C857E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F5087414-E404-43E0-BFAB-6008C20C857E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F5087414-E404-43E0-BFAB-6008C20C857E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F5087414-E404-43E0-BFAB-6008C20C857E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{09BC8448-2914-4C5E-8CCB-1C8CE1BD8FF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{09BC8448-2914-4C5E-8CCB-1C8CE1BD8FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{09BC8448-2914-4C5E-8CCB-1C8CE1BD8FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{09BC8448-2914-4C5E-8CCB-1C8CE1BD8FF7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A00DC21-DEF8-4A18-954F-5C8EE9337249}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A00DC21-DEF8-4A18-954F-5C8EE9337249}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A00DC21-DEF8-4A18-954F-5C8EE9337249}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A00DC21-DEF8-4A18-954F-5C8EE9337249}.Release|Any CPU.Build.0 = Release|Any CPU
-		{412FC36B-8B56-4B56-9C93-A1B70707C7EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{412FC36B-8B56-4B56-9C93-A1B70707C7EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{412FC36B-8B56-4B56-9C93-A1B70707C7EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{412FC36B-8B56-4B56-9C93-A1B70707C7EA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9AAAC4D2-5C55-4125-8580-13DBCAE8242E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9AAAC4D2-5C55-4125-8580-13DBCAE8242E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AAAC4D2-5C55-4125-8580-13DBCAE8242E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,14 +47,6 @@ Global
 		{4B257028-6B62-496E-AD3B-0D93F2C1FF14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B257028-6B62-496E-AD3B-0D93F2C1FF14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B257028-6B62-496E-AD3B-0D93F2C1FF14}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A0FD505F-E8D0-43BA-A237-974B2C4D4E40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0FD505F-E8D0-43BA-A237-974B2C4D4E40}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0FD505F-E8D0-43BA-A237-974B2C4D4E40}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0FD505F-E8D0-43BA-A237-974B2C4D4E40}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E7D8F5BE-8352-4F87-97E4-303C75C0C9A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7D8F5BE-8352-4F87-97E4-303C75C0C9A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E7D8F5BE-8352-4F87-97E4-303C75C0C9A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E7D8F5BE-8352-4F87-97E4-303C75C0C9A4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C71256D5-2BA8-444B-BE6A-4512FA317F97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C71256D5-2BA8-444B-BE6A-4512FA317F97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C71256D5-2BA8-444B-BE6A-4512FA317F97}.Release|Any CPU.ActiveCfg = Release|Any CPU

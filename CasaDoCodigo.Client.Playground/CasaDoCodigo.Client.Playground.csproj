@@ -29,10 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CasaDoCodigo.Client\CasaDoCodigo.Client.Generated.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="Microsoft.AspNetCore.Authentication.JwtBearer">
       <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.authentication.jwtbearer\2.1.1\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll</HintPath>
     </Reference>
