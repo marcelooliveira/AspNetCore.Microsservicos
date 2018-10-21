@@ -10,13 +10,13 @@
 
   <ItemGroup>
     <Compile Remove="IntegrationEvents\**" />
+    <Compile Remove="wwwroot\**" />
     <Content Remove="IntegrationEvents\**" />
+    <Content Remove="wwwroot\**" />
     <EmbeddedResource Remove="IntegrationEvents\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
     <None Remove="IntegrationEvents\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <None Remove="wwwroot\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.MVC", "CasaDoCodigo.CQRS\CasaDoCodigo.MVC.csproj", "{616AEE63-21B3-4243-8A2A-D162242F161A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.API", "CasaDoCodigo.API\CasaDoCodigo.API.csproj", "{06D179A9-0730-4029-9C62-E191F053FBC3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwagStudio", "NSwagStudio", "{A4502ACB-B015-4D9A-9C6A-189D22E9BC93}"
 	ProjectSection(SolutionItems) = preProject
 		CasaDoCodigo.API.nswag = CasaDoCodigo.API.nswag
@@ -37,10 +35,6 @@ Global
 		{616AEE63-21B3-4243-8A2A-D162242F161A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{616AEE63-21B3-4243-8A2A-D162242F161A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{616AEE63-21B3-4243-8A2A-D162242F161A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06D179A9-0730-4029-9C62-E191F053FBC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06D179A9-0730-4029-9C62-E191F053FBC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06D179A9-0730-4029-9C62-E191F053FBC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06D179A9-0730-4029-9C62-E191F053FBC3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9AAAC4D2-5C55-4125-8580-13DBCAE8242E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9AAAC4D2-5C55-4125-8580-13DBCAE8242E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AAAC4D2-5C55-4125-8580-13DBCAE8242E}.Release|Any CPU.ActiveCfg = Release|Any CPU
