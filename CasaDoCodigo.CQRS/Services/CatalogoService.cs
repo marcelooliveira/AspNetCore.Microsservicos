@@ -20,13 +20,13 @@ namespace CasaDoCodigo.Services
             public static string GetProdutos => "api/produto";
         }
 
-        private readonly ILogger<ApiService> _logger;
+        private readonly ILogger<CatalogoService> _logger;
 
         public CatalogoService(
             IConfiguration configuration
             , HttpClient httpClient
             , ISessionHelper sessionHelper
-            , ILogger<ApiService> logger)
+            , ILogger<CatalogoService> logger)
             : base(configuration, httpClient, sessionHelper)
         {
             _logger = logger;

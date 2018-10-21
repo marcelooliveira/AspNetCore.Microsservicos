@@ -19,6 +19,8 @@
   <ItemGroup>
     <Compile Remove="DataService.cs" />
     <Compile Remove="IDataService.cs" />
+    <Compile Remove="Services\ApiService.cs" />
+    <Compile Remove="Services\IApiService.cs" />
   </ItemGroup>
 
   <ItemGroup>

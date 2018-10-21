@@ -52,12 +52,6 @@ namespace CasaDoCodigo.Services
             return await PostAsync<PedidoViewModel>(ApiUris.UpdateCadastro, viewModel);
         }
 
-        public async Task<UpdateQuantidadeOutput> UpdateQuantidade(string itemPedidoId, int quantidade)
-        {
-            return await PostAsync<UpdateQuantidadeOutput>(
-                ApiUris.UpdateQuantidade, new { Id = itemPedidoId, Quantidade = quantidade });
-        }
-
         protected override string Scope => "CasaDoCodigo.API";
     }
 }

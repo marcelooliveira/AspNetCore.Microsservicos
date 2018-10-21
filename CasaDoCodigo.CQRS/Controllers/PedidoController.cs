@@ -25,7 +25,6 @@ namespace CasaDoCodigo.Controllers
         private readonly ILogger logger;
         private readonly IHttpContextAccessor contextAccessor;
         private readonly HttpClient httpClient;
-        private readonly IApiService apiService;
         private readonly ICatalogoService catalogoService;
         private readonly ICarrinhoService carrinhoService;
         private readonly ISessionHelper sessionHelper;
@@ -37,7 +36,6 @@ namespace CasaDoCodigo.Controllers
             HttpClient httpClient,
             ISessionHelper sessionHelper,
             IConfiguration configuration,
-            IApiService apiService,
             ICatalogoService catalogoService,
             ICarrinhoService carrinhoService)
         {
@@ -47,7 +45,6 @@ namespace CasaDoCodigo.Controllers
             this.sessionHelper = sessionHelper;
             this.Configuration = configuration;
             this.carrinhoService = carrinhoService;
-            this.apiService = apiService;
             this.catalogoService = catalogoService;
         }
 
@@ -109,44 +106,44 @@ namespace CasaDoCodigo.Controllers
             return idUsuario;
         }
 
-        public async Task<IActionResult> Cadastro()
-        {
-            try
-            {
-                int pedidoId = GetPedidoId() ?? throw new ArgumentNullException("pedidoId");
-                PedidoViewModel pedido = await apiService.GetPedido(pedidoId);
+        //public async Task<IActionResult> Cadastro()
+        //{
+        //    try
+        //    {
+        //        int pedidoId = GetPedidoId() ?? throw new ArgumentNullException("pedidoId");
+        //        PedidoViewModel pedido = await apiService.GetPedido(pedidoId);
 
-                if (pedido == null)
-                {
-                    return RedirectToAction("Carrossel");
-                }
+        //        if (pedido == null)
+        //        {
+        //            return RedirectToAction("Carrossel");
+        //        }
 
-                return View(pedido.Cadastro);
-            }
-            catch (BrokenCircuitException)
-            {
-                HandleBrokenCircuitException();
-            }
-            catch (Exception e)
-            {
-                HandleBrokenCircuitException();
-            }
-            return View();
-        }
+        //        return View(pedido.Cadastro);
+        //    }
+        //    catch (BrokenCircuitException)
+        //    {
+        //        HandleBrokenCircuitException();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        HandleBrokenCircuitException();
+        //    }
+        //    return View();
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Resumo(Cadastro cadastro)
-        {
-            if (ModelState.IsValid)
-            {
-                var viewModel = new CasaDoCodigo.Models.CadastroViewModel(cadastro);
-                viewModel.PedidoId = GetPedidoId().Value;
-                var pedidoViewModel = await apiService.UpdateCadastro(viewModel);
-                return base.View(pedidoViewModel);
-            }
-            return RedirectToAction("Cadastro");
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Resumo(Cadastro cadastro)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var viewModel = new CasaDoCodigo.Models.CadastroViewModel(cadastro);
+        //        viewModel.PedidoId = GetPedidoId().Value;
+        //        var pedidoViewModel = await apiService.UpdateCadastro(viewModel);
+        //        return base.View(pedidoViewModel);
+        //    }
+        //    return RedirectToAction("Cadastro");
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
