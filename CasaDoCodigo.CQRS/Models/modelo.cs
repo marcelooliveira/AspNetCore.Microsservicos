@@ -29,6 +29,7 @@ namespace CasaDoCodigo.Models
         public string Nome { get; private set; }
         [Required]
         [DataMember]
+        [DisplayFormat(DataFormatString="{0:C}")]
         public decimal Preco { get; private set; }
         public string UrlImagem { get { return $"/images/produtos/large_{Codigo}.jpg"; } }
 

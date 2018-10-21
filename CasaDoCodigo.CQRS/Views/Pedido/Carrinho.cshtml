@@ -39,7 +39,7 @@
                 </div>
                 <input type="hidden" name="produtoId" value="@(item.ProdutoId)" />
                 <div class="col-md-3">@(item.ProdutoNome)</div>
-                <div class="col-md-2 text-center">R$ @(item.PrecoUnitario)</div>
+                <div class="col-md-2 text-center">R$ @(item.PrecoUnitario.ToString("0.00"))</div>
                 <div class="col-md-2 text-center">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -60,9 +60,11 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    R$ <span class="pull-right" subtotal>
-                        @(item.Quantidade * item.PrecoUnitario)
-                    </span>
+                    <div class="pull-right">
+                        R$ <span class="pull-right" subtotal>
+                            @((item.Quantidade * item.PrecoUnitario).ToString("0.00"))
+                        </span>
+                    </div>
                 </div>
             </div>
 
@@ -79,7 +81,7 @@
             </div>
             <div class="col-md-2">
                 Total: R$ <span class="pull-right" total>
-                    @(Model.Total)
+                    @((Model.Total).ToString("0.00"))
                 </span>
             </div>
         </div>
