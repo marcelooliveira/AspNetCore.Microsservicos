@@ -18,10 +18,25 @@ namespace CasaDoCodigo.Catalogo
             using (var scope = services.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                context.Database.Migrate();
+
+                await CreateTables(context);
 
                 await SaveLivros(context);
             }
+        }
+
+        private static async Task CreateTables(ApplicationDbContext context)
+        {
+            var createTableSql
+                = @"CREATE TABLE IF NOT EXISTS 
+                        'Produto' (
+                            'Id'        INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	                        'Codigo'	TEXT NOT NULL,
+                            'Nome'      TEXT NOT NULL,
+	                        'Preco'     NUMERIC NOT NULL
+                        );";
+
+            await context.Database.ExecuteSqlCommandAsync(createTableSql);
         }
 
         private static async Task SaveLivros(ApplicationDbContext context)

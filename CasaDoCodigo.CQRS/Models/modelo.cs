@@ -16,8 +16,6 @@ namespace CasaDoCodigo.Models
 
     public class Produto : BaseModel
     {
-        private string _codigo;
-
         public Produto()
         {
 
@@ -25,7 +23,7 @@ namespace CasaDoCodigo.Models
 
         [Required]
         [DataMember]
-        public string Codigo { get => _codigo.PadLeft(3, '0'); private set => _codigo = value; }
+        public string Codigo { get; private set; }
         [Required]
         [DataMember]
         public string Nome { get; private set; }
