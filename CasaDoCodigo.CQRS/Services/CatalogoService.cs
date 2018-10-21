@@ -36,13 +36,15 @@ namespace CasaDoCodigo.Services
         public async Task<IEnumerable<Models.Produto>> GetProdutos()
         {
             var uri = _baseUri + ApiUris.GetProdutos;
-            var result = await _httpClient.GetStringAsync(uri);
-            return JsonConvert.DeserializeObject<IEnumerable<Models.Produto>>(result);
+            var json = await _httpClient.GetStringAsync(uri);
+            IEnumerable<Produto> result = JsonConvert.DeserializeObject<IEnumerable<Models.Produto>>(json);
+            return result;
         }
 
         public async Task<Models.Produto> GetProduto(string codigo)
         {
-            return await GetAsync<Models.Produto>(ApiUris.GetProdutos, codigo);
+            Produto result = await GetAsync<Models.Produto>(ApiUris.GetProdutos, codigo);
+            return result;
         }
 
         protected override string Scope => "CasaDoCodigo.Catalogo";

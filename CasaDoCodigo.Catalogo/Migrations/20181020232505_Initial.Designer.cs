@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CasaDoCodigo.Catalogo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181020194658_Initial")]
+    [Migration("20181020232505_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,12 +23,15 @@ namespace CasaDoCodigo.Catalogo.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Codigo")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("string");
 
                     b.Property<string>("Nome")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("string");
 
-                    b.Property<decimal>("Preco");
+                    b.Property<decimal>("Preco")
+                        .HasColumnType("decimal(5,2)");
 
                     b.HasKey("Id");
 

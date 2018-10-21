@@ -21,12 +21,15 @@ namespace CasaDoCodigo.Catalogo.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Codigo")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("string");
 
                     b.Property<string>("Nome")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("string");
 
-                    b.Property<decimal>("Preco");
+                    b.Property<decimal>("Preco")
+                        .HasColumnType("decimal(5,2)");
 
                     b.HasKey("Id");
 

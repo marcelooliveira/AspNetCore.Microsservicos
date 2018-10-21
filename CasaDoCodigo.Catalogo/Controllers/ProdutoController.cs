@@ -28,7 +28,8 @@ namespace CasaDoCodigo.Catalogo.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Produto>>> GetProdutos()
         {
-            return Ok(await produtoQueries.GetProdutosAsync());
+            IEnumerable<Produto> produtos = await produtoQueries.GetProdutosAsync();
+            return base.Ok(produtos);
         }
 
         [HttpGet("{codigo}")]

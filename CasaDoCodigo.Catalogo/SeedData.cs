@@ -43,8 +43,7 @@ namespace CasaDoCodigo.Catalogo
         static async Task<List<Livro>> GetLivros()
         {
             var json = await File.ReadAllTextAsync("livros.json");
-            var livros = JsonConvert.DeserializeObject<List<Livro>>(json);
-            return livros;
+            return JsonConvert.DeserializeObject<List<Livro>>(json);
         }
     }
 

@@ -18,7 +18,15 @@ namespace CasaDoCodigo.Catalogo.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Produto>().HasKey(t => t.Id);
+            var produto = modelBuilder.Entity<Produto>();
+            produto.HasKey(t => t.Id);
+            produto.Property("Codigo").HasColumnType("nvarchar(3)");
+            produto.Property("Nome").HasColumnType("nvarchar(255)");
+            produto.Property("Preco").HasColumnType("decimal(5,2)");
         }
     }
 }
+
+
+
+
