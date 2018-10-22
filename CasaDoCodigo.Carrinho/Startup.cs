@@ -7,25 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Serialization;
+using Rebus.Config;
+using Rebus.ServiceProvider;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using Rebus.Routing.TypeBased;
-using Rebus.ServiceProvider;
-using Rebus.Transport.InMem;
-using Microsoft.Extensions.Logging;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Rebus.Bus;
-using CasaDoCodigo.Mensagens.Events;
-using Rebus.Config;
-using Newtonsoft.Json.Serialization;
 
 namespace CasaDoCodigo.Carrinho
 {
