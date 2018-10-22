@@ -71,6 +71,7 @@ namespace CasaDoCodigo.Carrinho.Controllers
         /// <param name="clienteId">Id do cliente</param>
         /// <param name="input">Novo item a inserir no carrinho de compras</param>
         /// <returns></returns>
+        [HttpPost]
         [Route("[action]/{clienteId}")]
         [ProducesResponseType(typeof(ItemCarrinho), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddItem(string clienteId, [FromBody] ItemCarrinho input)
@@ -85,6 +86,7 @@ namespace CasaDoCodigo.Carrinho.Controllers
         /// <param name="clienteId">Id do cliente</param>
         /// <param name="input">Item do carrinho de compras cuja quantidade será atualizada</param>
         /// <returns></returns>
+        [HttpPut]
         [Route("[action]/{clienteId}")]
         [ProducesResponseType(typeof(ItemCarrinho), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateItem(string clienteId, [FromBody] ItemCarrinho input)

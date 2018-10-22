@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -49,7 +50,7 @@ namespace CasaDoCodigo.Services
         public async Task<UpdateQuantidadeOutput> UpdateItem(string clienteId, ItemCarrinho input)
         {
             var uri = $"{CarrinhoUris.UpdateItem}/{clienteId}";
-            return await PostAsync<UpdateQuantidadeOutput>(uri, input);
+            return await PutAsync<UpdateQuantidadeOutput>(uri, input);
         }
 
         protected override string Scope => "CasaDoCodigo.Carrinho";

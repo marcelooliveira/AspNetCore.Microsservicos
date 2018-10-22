@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace CasaDoCodigo.Services
 {
+    delegate Task<HttpResponseMessage> HttpVerbMethod(Uri requestUri, HttpContent content);
+    
     public abstract class BaseHttpService
     {
         protected readonly IConfiguration _configuration;
@@ -39,12 +41,25 @@ namespace CasaDoCodigo.Services
 
         protected async Task<T> PostAsync<T>(string uri, object content)
         {
+            HttpVerbMethod httpVerbMethod = new HttpVerbMethod(_httpClient.PostAsync);
+            return await PutOrPostAsync<T>(uri, content, httpVerbMethod);
+        }
+
+        protected async Task<T> PutAsync<T>(string uri, object content)
+        {
+            HttpVerbMethod httpVerbMethod = new HttpVerbMethod(_httpClient.PutAsync);
+            return await PutOrPostAsync<T>(uri, content, httpVerbMethod);
+        }
+
+        private async Task<T> PutOrPostAsync<T>(string uri, object content, HttpVerbMethod httpVerbMethod)
+        {
             var jsonIn = JsonConvert.SerializeObject(content);
             var stringContent = new StringContent(jsonIn, Encoding.UTF8, "application/json");
 
             var accessToken = await _sessionHelper.GetAccessToken(Scope);
             _httpClient.SetBearerToken(accessToken);
-            HttpResponseMessage httpResponse = await _httpClient.PostAsync(new Uri(new Uri(_baseUri), uri), stringContent);
+
+            HttpResponseMessage httpResponse = await httpVerbMethod(new Uri(new Uri(_baseUri), uri), stringContent);
             if (!httpResponse.IsSuccessStatusCode)
             {
                 var error = new { httpResponse.StatusCode, httpResponse.ReasonPhrase };
