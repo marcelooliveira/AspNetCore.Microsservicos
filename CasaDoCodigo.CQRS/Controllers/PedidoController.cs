@@ -106,30 +106,6 @@ namespace CasaDoCodigo.Controllers
             return idUsuario;
         }
 
-        //public async Task<IActionResult> Cadastro()
-        //{
-        //    try
-        //    {
-        //        int pedidoId = GetPedidoId() ?? throw new ArgumentNullException("pedidoId");
-        //        PedidoViewModel pedido = await apiService.GetPedido(pedidoId);
-
-        //        if (pedido == null)
-        //        {
-        //            return RedirectToAction("Carrossel");
-        //        }
-
-        //        return View(pedido.Cadastro);
-        //    }
-        //    catch (BrokenCircuitException)
-        //    {
-        //        HandleBrokenCircuitException();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        HandleBrokenCircuitException();
-        //    }
-        //    return View();
-        //}
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]

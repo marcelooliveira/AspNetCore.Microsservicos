@@ -46,7 +46,7 @@ namespace CasaDoCodigo.Carrinho.Controllers
             var carrinho = await _repository.GetCarrinhoAsync(id);
             if (carrinho == null)
             {
-                return Ok(new CarrinhoCliente() { ClienteId = id });
+                return Ok(new CarrinhoCliente(id));
             }
             return Ok(carrinho);
         }
