@@ -7,7 +7,7 @@
     {
         //var claim = Context.User?.Claims.Where(c => c.Type == ClaimTypes.Name).SingleOrDefault();
         //name = claim?.Value;
-        name = @User.FindFirst("name").Value;
+        name = @User.FindFirst("name")?.Value;
     }
 }
 

@@ -52,7 +52,7 @@ namespace CasaDoCodigo.Identity
                 })
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
-                .AddInMemoryClients(Config.GetClients())
+                .AddInMemoryClients(Config.GetClients(Configuration["CallbackUrl"]))
                 .AddAspNetIdentity<ApplicationUser>();
 
             if (Environment.IsDevelopment())
