@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Controllers
 {
-    public class PedidoController : Controller
+    public class PedidoController : BaseController
     {
         private readonly ILogger logger;
         private readonly IHttpContextAccessor contextAccessor;
@@ -106,6 +106,29 @@ namespace CasaDoCodigo.Controllers
             return idUsuario;
         }
 
+        [Authorize]
+        public async Task<IActionResult> Cadastro()
+        {
+            try
+            {
+                CadastroViewModel cadastro
+                    = new CadastroViewModel()
+                    {
+                        Nome = User.FindFirst("name").Value
+                    };
+
+                return View(cadastro);
+            }
+            catch (BrokenCircuitException)
+            {
+                HandleBrokenCircuitException();
+            }
+            catch (Exception e)
+            {
+                HandleBrokenCircuitException();
+            }
+            return View();
+        }
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]
@@ -145,9 +168,5 @@ namespace CasaDoCodigo.Controllers
             contextAccessor.HttpContext.Session.SetInt32("pedidoId", pedidoId);
         }
 
-        private void HandleBrokenCircuitException()
-        {
-            ViewBag.MsgCarrosselIndisponivel = "O serviço de carrossel não está ativo, por favor tente novamente mais tarde.";
-        }
     }
 }

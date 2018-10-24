@@ -1,9 +1,12 @@
 ﻿@using IdentityServer4.Extensions
+@using System.Linq;
+@using System.Security.Claims;
 @{
     string name = null;
     if (!true.Equals(ViewData["signed-out"]))
     {
-        name = Context.User?.GetDisplayName();
+        var claim = Context.User?.Claims.Where(c => c.Type == ClaimTypes.Name).SingleOrDefault();
+        name = claim?.Value;
     }
 }
 <!DOCTYPE html>
@@ -35,7 +38,6 @@
                     </span>
                 </a>
             </div>
-
             @if (!string.IsNullOrWhiteSpace(name))
             {
                 <ul class="nav navbar-nav">
@@ -49,11 +51,9 @@
             }
         </div>
     </div>
-
     <div class="container body-content">
         @RenderBody()
     </div>
-
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
     @RenderSection("scripts", required: false)

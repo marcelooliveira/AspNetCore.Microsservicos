@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Polly.CircuitBreaker;
 using System;
 using System.Collections.Generic;
@@ -7,31 +8,8 @@ using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Controllers
 {
-    public class CadastroController : Controller
+    public class CadastroController : BaseController
     {
-        //public async Task<IActionResult> Cadastro()
-        //{
-        //    try
-        //    {
-        //        int pedidoId = GetPedidoId() ?? throw new ArgumentNullException("pedidoId");
-        //        PedidoViewModel pedido = await apiService.GetPedido(pedidoId);
 
-        //        if (pedido == null)
-        //        {
-        //            return RedirectToAction("Carrossel");
-        //        }
-
-        //        return View(pedido.Cadastro);
-        //    }
-        //    catch (BrokenCircuitException)
-        //    {
-        //        HandleBrokenCircuitException();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        HandleBrokenCircuitException();
-        //    }
-        //    return View();
-        //}
     }
 }
