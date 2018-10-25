@@ -30,7 +30,7 @@ namespace CasaDoCodigo.Identity
         }
 
         // clients want to access resources (aka scopes)
-        public static IEnumerable<Client> GetClients()
+        public static IEnumerable<Client> GetClients(string callbackUrl)
         {
             // client credentials client
             return new List<Client>
@@ -49,8 +49,8 @@ namespace CasaDoCodigo.Identity
                         new Secret("secret".Sha256())
                     },
 
-                    RedirectUris = { "https://localhost:44347/signin-oidc" },
-                    PostLogoutRedirectUris = { "https://localhost:44347/signout-callback-oidc" },
+                    RedirectUris = { callbackUrl + "signin-oidc" },
+                    PostLogoutRedirectUris = { callbackUrl + "signout-callback-oidc" },
 
                     AllowedScopes =
                     {
