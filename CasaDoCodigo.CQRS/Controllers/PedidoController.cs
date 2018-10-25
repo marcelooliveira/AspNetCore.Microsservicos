@@ -28,6 +28,7 @@ namespace CasaDoCodigo.Controllers
         private readonly ICatalogoService catalogoService;
         private readonly ICarrinhoService carrinhoService;
         private readonly ISessionHelper sessionHelper;
+        private readonly IIdentityParser<ApplicationUser> appUserParser;
 
         public IConfiguration Configuration { get; }
 
@@ -37,7 +38,8 @@ namespace CasaDoCodigo.Controllers
             ISessionHelper sessionHelper,
             IConfiguration configuration,
             ICatalogoService catalogoService,
-            ICarrinhoService carrinhoService)
+            ICarrinhoService carrinhoService,
+            IIdentityParser<ApplicationUser> appUserParser)
         {
             this.logger = logger;
             this.contextAccessor = contextAccessor;
@@ -46,6 +48,7 @@ namespace CasaDoCodigo.Controllers
             this.Configuration = configuration;
             this.carrinhoService = carrinhoService;
             this.catalogoService = catalogoService;
+            this.appUserParser = appUserParser;
         }
 
         public async Task<IActionResult> Carrossel()
@@ -71,6 +74,7 @@ namespace CasaDoCodigo.Controllers
         {
             try
             {
+
                 string idUsuario = GetUserId();
                 int pedidoId = GetPedidoId() ?? 0;
                 var produto = await catalogoService.GetProduto(codigo);
@@ -111,10 +115,20 @@ namespace CasaDoCodigo.Controllers
         {
             try
             {
+                var usuario = appUserParser.Parse(HttpContext.User);
                 CadastroViewModel cadastro
                     = new CadastroViewModel()
                     {
-                        Nome = User.FindFirst("name").Value
+                        //Id = user.Id
+                        Bairro = usuario.Bairro,
+                        CEP = usuario.CEP,
+                        Complemento = usuario.Complemento,
+                        Email = usuario.Email,
+                        Endereco = usuario.Endereco,
+                        Municipio = usuario.Municipio,
+                        Nome = usuario.Nome,
+                        Telefone = usuario.Telefone,
+                        UF = usuario.UF
                     };
 
                 return View(cadastro);

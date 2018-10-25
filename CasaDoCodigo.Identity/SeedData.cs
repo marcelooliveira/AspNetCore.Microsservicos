@@ -29,7 +29,15 @@ namespace CasaDoCodigo.Identity
                 {
                     alice = new ApplicationUser
                     {
-                        UserName = "alice"
+                        UserName = "alice",
+                        Nome = "Alice Smith",
+                        Telefone = "1234-5678",
+                        Endereco = "Rua Vergueiro, 456",
+                        Complemento = "8 andar sala 801",
+                        Bairro = "Vila Mariana",
+                        Municipio = "São Paulo",
+                        UF = "SP",
+                        CEP = "69118"
                     };
                     var result = userMgr.CreateAsync(alice, "Pass123$").Result;
                     if (!result.Succeeded)
@@ -38,13 +46,19 @@ namespace CasaDoCodigo.Identity
                     }
 
                     result = userMgr.AddClaimsAsync(alice, new Claim[]{
-                        new Claim(JwtClaimTypes.Name, "Alice Smith"),
+                        new Claim("name", "Alice Smith"),
                         new Claim(JwtClaimTypes.GivenName, "Alice"),
                         new Claim(JwtClaimTypes.FamilyName, "Smith"),
                         new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
                         new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
                         new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
-                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
+                        new Claim("address", "Rua Vergueiro, 456"),
+                        new Claim("address_details", "8 andar sala 801"),
+                        new Claim("phone", "1234-5678"),
+                        new Claim("neighborhood", "Vila Mariana"),
+                        new Claim("city", "São Paulo"),
+                        new Claim("state", "SP"),
+                        new Claim("zip_code", "69118")
                     }).Result;
                     if (!result.Succeeded)
                     {
@@ -62,7 +76,15 @@ namespace CasaDoCodigo.Identity
                 {
                     bob = new ApplicationUser
                     {
-                        UserName = "bob"
+                        UserName = "bob",
+                        Nome = "Bob Smith",
+                        Telefone = "1234-5678",
+                        Endereco = "Rua Vergueiro, 456",
+                        Complemento = "8 andar sala 801",
+                        Bairro = "Vila Mariana",
+                        Municipio = "São Paulo",
+                        UF = "SP",
+                        CEP = "69118"
                     };
                     var result = userMgr.CreateAsync(bob, "Pass123$").Result;
                     if (!result.Succeeded)
@@ -78,7 +100,14 @@ namespace CasaDoCodigo.Identity
                         new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
                         new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
                         new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
-                        new Claim("location", "somewhere")
+                        new Claim("location", "somewhere"),
+                        new Claim("address", "Rua Vergueiro, 456"),
+                        new Claim("address_details", "8 andar sala 801"),
+                        new Claim("phone", "1234-5678"),
+                        new Claim("neighborhood", "Vila Mariana"),
+                        new Claim("city", "São Paulo"),
+                        new Claim("state", "SP"),
+                        new Claim("zip_code", "69118")
                     }).Result;
                     if (!result.Succeeded)
                     {

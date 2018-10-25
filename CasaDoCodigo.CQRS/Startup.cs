@@ -1,4 +1,5 @@
-﻿using CasaDoCodigo.Services;
+﻿using CasaDoCodigo.Models.ViewModels;
+using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -32,6 +33,7 @@ namespace CasaDoCodigo
             services.AddTransient<ICatalogoService, CatalogoService>();
             services.AddTransient<ICarrinhoService, CarrinhoService>();
             services.AddTransient<ISessionHelper, SessionHelper>();
+            services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();
             services.AddMvc()
                 .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.AddDistributedMemoryCache();
