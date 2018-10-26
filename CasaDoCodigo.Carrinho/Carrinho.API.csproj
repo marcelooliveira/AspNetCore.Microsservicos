@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>Carrinho.API</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.1\CasaDoCodigo.Carrinho.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\marce\Documents\GitHub\CasaDoCodigo.CQRS\CasaDoCodigo.Carrinho\Carrinho.API.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

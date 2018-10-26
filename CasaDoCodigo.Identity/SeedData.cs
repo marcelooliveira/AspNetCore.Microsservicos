@@ -47,7 +47,7 @@ namespace CasaDoCodigo.Identity
 
                     result = userMgr.AddClaimsAsync(alice, new Claim[]{
                         new Claim("name", "Alice Smith"),
-                        new Claim(JwtClaimTypes.GivenName, "Alice"),
+                        new Claim(JwtClaimTypes.GivenName, "Alicexxx"),
                         new Claim(JwtClaimTypes.FamilyName, "Smith"),
                         new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
                         new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),

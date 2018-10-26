@@ -53,6 +53,6 @@ namespace CasaDoCodigo.Services
             return await PutAsync<UpdateQuantidadeOutput>(uri, input);
         }
 
-        protected override string Scope => "CasaDoCodigo.Carrinho";
+        protected override string Scope => "Carrinho.API";
     }
 }

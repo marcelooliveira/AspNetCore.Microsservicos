@@ -62,7 +62,7 @@ namespace CasaDoCodigo
                     options.SaveTokens = true;
                     options.GetClaimsFromUserInfoEndpoint = true;
 
-                    options.Scope.Add("CasaDoCodigo.Carrinho");
+                    options.Scope.Add("Carrinho.API");
                     options.Scope.Add("CasaDoCodigo.API");
                     options.Scope.Add("offline_access");
                 });

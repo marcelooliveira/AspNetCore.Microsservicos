@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Carrinho.Model
+namespace Carrinho.API.Model
 {
     public interface ICarrinhoRepository
     {

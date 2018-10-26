@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Carrinho.API</name>
+    </assembly>
+    <members>
+        <member name="T:Carrinho.API.Controllers.CarrinhoController">
+            <summary>
+            Fornece funcionalidades do carrinho de compras da Casa do Código
+            </summary>
+        </member>
+        <member name="M:Carrinho.API.Controllers.CarrinhoController.Get(System.String)">
+            <summary>
+            Obtém o carrinho de compras
+            </summary>
+            <param name="id">Id do cliente do carrinho</param>
+            <returns>O carrinho de compras</returns>
+        </member>
+        <member name="M:Carrinho.API.Controllers.CarrinhoController.Post(Carrinho.API.Model.CarrinhoCliente)">
+            <summary>
+            Salva o carrinho de compras do cliente
+            </summary>
+            <param name="input">Dados do carrinho de compras</param>
+            <returns></returns>
+        </member>
+        <member name="M:Carrinho.API.Controllers.CarrinhoController.AddItem(System.String,Carrinho.API.Model.ItemCarrinho)">
+            <summary>
+            Adiciona um item no carrinho de compras do cliente
+            </summary>
+            <param name="clienteId">Id do cliente</param>
+            <param name="input">Novo item a inserir no carrinho de compras</param>
+            <returns></returns>
+        </member>
+        <member name="M:Carrinho.API.Controllers.CarrinhoController.UpdateItem(System.String,Carrinho.API.Model.ItemCarrinho)">
+            <summary>
+            Atualiza a quantidade do item do carrinho de compras
+            </summary>
+            <param name="clienteId">Id do cliente</param>
+            <param name="input">Item do carrinho de compras cuja quantidade será atualizada</param>
+            <returns></returns>
+        </member>
+        <member name="M:Carrinho.API.Controllers.CarrinhoController.Checkout(Carrinho.API.Model.CarrinhoCliente,System.String)">
+            <summary>
+            Fecha o carrinho de compras e finaliza o pedido
+            </summary>
+            <param name="carrinhoCliente">Dados do carrinho de compras</param>
+            <param name="requestId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Carrinho.API.Controllers.CarrinhoController.Delete(System.String)">
+            <summary>
+            Remove um item do carrinho de compras
+            </summary>
+            <param name="id"></param>
+        </member>
+    </members>
+</doc>

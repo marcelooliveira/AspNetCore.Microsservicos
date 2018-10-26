@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Rebus.Logging;
 
-namespace CasaDoCodigo.Carrinho
+namespace Carrinho.API
 {
     public class MSLoggerFactoryAdapter : AbstractRebusLoggerFactory
     {

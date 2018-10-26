@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using CasaDoCodigo.Carrinho.Model;
+using Carrinho.API.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +19,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Carrinho
+namespace Carrinho.API
 {
     public class Startup
     {
@@ -48,7 +48,7 @@ namespace CasaDoCodigo.Carrinho
                 .AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.ApiName = "CasaDoCodigo.Carrinho";
+                    options.ApiName = "Carrinho.API";
                     options.ApiSecret = "secret";
                     options.Authority = Configuration["IdentityUrl"];
                 });

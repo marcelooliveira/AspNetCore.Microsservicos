@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Carrinho.Controllers
+namespace Carrinho.API.Controllers
 {
     public class HomeController : Controller
     {

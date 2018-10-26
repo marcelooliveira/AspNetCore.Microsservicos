@@ -1,4 +1,4 @@
-﻿using CasaDoCodigo.Carrinho.Model;
+﻿using Carrinho.API.Model;
 using CasaDoCodigo.Mensagens.Events;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Carrinho.Controllers
+namespace Carrinho.API.Controllers
 {
     /// <summary>
     /// Fornece funcionalidades do carrinho de compras da Casa do Código

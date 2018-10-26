@@ -10,20 +10,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwagStudio", "NSwagStudio"
 		CasaDoCodigo.API.nswag = CasaDoCodigo.API.nswag
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Carrinho", "CasaDoCodigo.Carrinho\CasaDoCodigo.Carrinho.csproj", "{9AAAC4D2-5C55-4125-8580-13DBCAE8242E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carrinho.API", "CasaDoCodigo.Carrinho\Carrinho.API.csproj", "{9AAAC4D2-5C55-4125-8580-13DBCAE8242E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Mensagens", "CasaDoCodigo.Mensagens\CasaDoCodigo.Mensagens.csproj", "{4B257028-6B62-496E-AD3B-0D93F2C1FF14}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BrighterExtensions", "BrighterExtensions", "{C9DC4B43-EB76-48D8-8B56-82AF31D4EE62}"
-	ProjectSection(SolutionItems) = preProject
-		BrighterExtensions\Paramore.Brighter.Extensions.DependencyInjection.dll = BrighterExtensions\Paramore.Brighter.Extensions.DependencyInjection.dll
-		BrighterExtensions\Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection.dll = BrighterExtensions\Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection.dll
-		BrighterExtensions\Paramore.Brighter.ServiceActivator.Extensions.Hosting.dll = BrighterExtensions\Paramore.Brighter.ServiceActivator.Extensions.Hosting.dll
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Identity", "CasaDoCodigo.Identity\CasaDoCodigo.Identity.csproj", "{C71256D5-2BA8-444B-BE6A-4512FA317F97}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Catalogo", "CasaDoCodigo.Catalogo\CasaDoCodigo.Catalogo.csproj", "{99EC294B-8F3C-4CAA-AF38-65A4BA64736A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servicos", "Servicos", "{EC57E6DB-8B05-4ACD-8FD8-0B6BCC2E18D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Carrinho", "Carrinho", "{5A6EE5AE-405D-4556-B059-8A7A01F1324E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalogo", "Catalogo", "{6CB2AE7C-8AE4-439F-BD09-681B9B163E9F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{CDDD91B9-D1F3-4F1C-9144-ABB2145AC475}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{3D011CD3-C250-4D92-833D-AE15B1AB4BD7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MVC", "MVC", "{D0FACE6F-F795-4CF0-A4BF-77627F621B5B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testes", "testes", "{CAFC5BC9-13A2-4D76-A7E2-8D056A006422}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +61,18 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{616AEE63-21B3-4243-8A2A-D162242F161A} = {D0FACE6F-F795-4CF0-A4BF-77627F621B5B}
+		{9AAAC4D2-5C55-4125-8580-13DBCAE8242E} = {5A6EE5AE-405D-4556-B059-8A7A01F1324E}
+		{4B257028-6B62-496E-AD3B-0D93F2C1FF14} = {EC57E6DB-8B05-4ACD-8FD8-0B6BCC2E18D9}
+		{C71256D5-2BA8-444B-BE6A-4512FA317F97} = {CDDD91B9-D1F3-4F1C-9144-ABB2145AC475}
+		{99EC294B-8F3C-4CAA-AF38-65A4BA64736A} = {6CB2AE7C-8AE4-439F-BD09-681B9B163E9F}
+		{5A6EE5AE-405D-4556-B059-8A7A01F1324E} = {EC57E6DB-8B05-4ACD-8FD8-0B6BCC2E18D9}
+		{6CB2AE7C-8AE4-439F-BD09-681B9B163E9F} = {EC57E6DB-8B05-4ACD-8FD8-0B6BCC2E18D9}
+		{CDDD91B9-D1F3-4F1C-9144-ABB2145AC475} = {EC57E6DB-8B05-4ACD-8FD8-0B6BCC2E18D9}
+		{D0FACE6F-F795-4CF0-A4BF-77627F621B5B} = {3D011CD3-C250-4D92-833D-AE15B1AB4BD7}
+		{CAFC5BC9-13A2-4D76-A7E2-8D056A006422} = {5A6EE5AE-405D-4556-B059-8A7A01F1324E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03DBD554-4917-4E9A-B783-78151722175A}
