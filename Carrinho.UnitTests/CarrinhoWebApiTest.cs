@@ -1,10 +1,14 @@
 using Carrinho.API.Controllers;
 using Carrinho.API.Model;
+using CasaDoCodigo.Mensagens.Events;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Rebus.Bus;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
 using ICarrinhoIdentityService = Carrinho.API.Services.IIdentityService;
@@ -26,55 +30,64 @@ namespace Carrinho.UnitTests
             _loggerFactoryMock = new Mock<ILoggerFactory>();
         }
 
-        //[Fact]
-        //public async Task Get_customer_basket_success()
-        //{
-        //    //Arrange
-        //    var fakeCustomerId = "1";
-        //    var fakeCarrinhoCliente = GetCarrinhoClienteFake(fakeCustomerId);
+        [Fact]
+        public async Task Get_carrinho_cliente_sucesso()
+        {
+            //Arrange
+            var fakeClienteId = "1";
+            var fakeCarrinhoCliente = GetCarrinhoClienteFake(fakeClienteId);
 
-        //    _carrinhoRepositoryMock.Setup(x => x.GetBasketAsync(It.IsAny<string>()))
-        //        .Returns(Task.FromResult(fakeCarrinhoCliente));
-        //    _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeCustomerId);
+            _carrinhoRepositoryMock.Setup(x => x.GetCarrinhoAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeCarrinhoCliente));
+            _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId);
 
-        //    _serviceBusMock.Setup(x => x.Publish(It.IsAny<UserCheckoutAcceptedIntegrationEvent>()));
+            _serviceBusMock.Setup(x => x.Publish(It.IsAny<CheckoutAceitoEvent>(), null));
 
-        //    //Act
-        //    var carrinhoController = new CarrinhoController(
-        //        _carrinhoRepositoryMock.Object, _identityServiceMock.Object, _serviceBusMock.Object);
-        //    var actionResult = await carrinhoController.Get(fakeCustomerId) as OkObjectResult;
+            //Act
+            var carrinhoController = new CarrinhoController(
+                _carrinhoRepositoryMock.Object, 
+                _identityServiceMock.Object, 
+                _serviceBusMock.Object,
+                _loggerFactoryMock.Object);
 
-        //    //Assert
-        //    Assert.Equal(actionResult.StatusCode, (int)System.Net.HttpStatusCode.OK);
-        //    Assert.Equal(((CarrinhoCliente)actionResult.Value).BuyerId, fakeCustomerId);
-        //}
+            var actionResult = await carrinhoController.Get(fakeClienteId) as OkObjectResult;
 
-        //[Fact]
-        //public async Task Post_customer_basket_success()
-        //{
-        //    //Arrange
-        //    var fakeCustomerId = "1";
-        //    var fakeCarrinhoCliente = GetCarrinhoClienteFake(fakeCustomerId);
-
-        //    _carrinhoRepositoryMock.Setup(x => x.UpdateBasketAsync(It.IsAny<CarrinhoCliente>()))
-        //        .Returns(Task.FromResult(fakeCarrinhoCliente));
-        //    _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeCustomerId);
-        //    _serviceBusMock.Setup(x => x.Publish(It.IsAny<UserCheckoutAcceptedIntegrationEvent>()));
-
-        //    //Act
-        //    var carrinhoController = new CarrinhoController(
-        //        _carrinhoRepositoryMock.Object, _identityServiceMock.Object, _serviceBusMock.Object);
-
-        //    var actionResult = await carrinhoController.Post(fakeCarrinhoCliente) as OkObjectResult;
-
-        //    //Assert
-        //    Assert.Equal(actionResult.StatusCode, (int)System.Net.HttpStatusCode.OK);
-        //    Assert.Equal(((CarrinhoCliente)actionResult.Value).BuyerId, fakeCustomerId);
-        //}
+            //Assert
+            Assert.Equal(actionResult.StatusCode, (int)System.Net.HttpStatusCode.OK);
+            Assert.Equal(((CarrinhoCliente)actionResult.Value).ClienteId, fakeClienteId);
+        }
 
         [Fact]
-        public async Task Fazer_Checkout_Sem_Cesta_Deve_Retornar_Bad_Request()
+        public async Task Post_carrinho_cliente_sucesso()
         {
+            //Arrange
+            var fakeClienteId = "1";
+            var fakeCarrinhoCliente = GetCarrinhoClienteFake(fakeClienteId);
+
+            _carrinhoRepositoryMock.Setup(x => x.UpdateCarrinhoAsync(It.IsAny<CarrinhoCliente>()))
+                .Returns(Task.FromResult(fakeCarrinhoCliente));
+            _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId);
+            _serviceBusMock.Setup(x => x.Publish(It.IsAny<CheckoutAceitoEvent>(), null));
+
+            //Act
+            var carrinhoController = new CarrinhoController(
+                _carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object,
+                _serviceBusMock.Object,
+                _loggerFactoryMock.Object);
+
+            var actionResult = await carrinhoController.Post(fakeCarrinhoCliente) as OkObjectResult;
+
+            //Assert
+            Assert.Equal(actionResult.StatusCode, (int)System.Net.HttpStatusCode.OK);
+            Assert.Equal(((CarrinhoCliente)actionResult.Value).ClienteId, fakeClienteId);
+        }
+
+        [Fact]
+        public async Task Fazer_Checkout_Sem_Cesta_Deve_Retornar_BadRequest()
+        {
+            //Arrange
+
             var fakeClienteId = "2";
             _carrinhoRepositoryMock.Setup(x => x.GetCarrinhoAsync(It.IsAny<string>()))
                 .Returns(Task.FromResult((CarrinhoCliente)null));
@@ -89,50 +102,53 @@ namespace Carrinho.UnitTests
                 _loggerFactoryMock.Object);
 
             var result = await carrinhoController.Checkout(new CarrinhoCheckout(), Guid.NewGuid().ToString()) as BadRequestResult;
+
+            //Assert
+
             Assert.NotNull(result);
         }
 
-        //[Fact]
-        //public async Task Doing_Checkout_Wit_Basket_Should_Publish_UserCheckoutAccepted_Integration_Event()
-        //{
-        //    var fakeCustomerId = "1";
-        //    var fakeCarrinhoCliente = GetCarrinhoClienteFake(fakeCustomerId);
+        [Fact]
+        public async Task Fazer_Checkout_Com_Carrinho_Deveria_Publicar_CheckoutAceitoEvent()
+        {
+            var fakeClienteId = "1";
+            var fakeCarrinhoCliente = GetCarrinhoClienteFake(fakeClienteId);
 
-        //    _carrinhoRepositoryMock.Setup(x => x.GetBasketAsync(It.IsAny<string>()))
-        //         .Returns(Task.FromResult(fakeCarrinhoCliente));
+            _carrinhoRepositoryMock.Setup(x => x.GetCarrinhoAsync(It.IsAny<string>()))
+                 .Returns(Task.FromResult(fakeCarrinhoCliente));
 
-        //    _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeCustomerId);
+            _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId);
 
-        //    var carrinhoController = new CarrinhoController(
-        //        _carrinhoRepositoryMock.Object, _identityServiceMock.Object, _serviceBusMock.Object);
+            var carrinhoController = new CarrinhoController(
+                _carrinhoRepositoryMock.Object, _identityServiceMock.Object, _serviceBusMock.Object, _loggerFactoryMock.Object);
 
-        //    carrinhoController.ControllerContext = new ControllerContext()
-        //    {
-        //        HttpContext = new DefaultHttpContext()
-        //        {
-        //            User = new ClaimsPrincipal(
-        //                new ClaimsIdentity(new Claim[] { new Claim("unique_name", "testuser") }))
-        //        }
-        //    };
+            carrinhoController.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                {
+                    User = new ClaimsPrincipal(
+                        new ClaimsIdentity(new Claim[] { new Claim("unique_name", "testuser") }))
+                }
+            };
 
-        //    //Act
-        //    var result = await carrinhoController.Checkout(new CarrinhoCheckout(), Guid.NewGuid().ToString()) as AcceptedResult;
+            //Act
+            var result = await carrinhoController.Checkout(new CarrinhoCheckout(), Guid.NewGuid().ToString()) as AcceptedResult;
 
-        //    _serviceBusMock.Verify(mock => mock.Publish(It.IsAny<UserCheckoutAcceptedIntegrationEvent>()), Times.Once);
+            _serviceBusMock.Verify(mock => mock.Publish(It.IsAny<CheckoutAceitoEvent>(), null), Times.Once);
 
-        //    Assert.NotNull(result);
-        //}
+            Assert.NotNull(result);
+        }
 
-        //private CarrinhoCliente GetCarrinhoClienteFake(string fakeCustomerId)
-        //{
-        //    return new CarrinhoCliente(fakeCustomerId)
-        //    {
-        //        Items = new List<BasketItem>()
-        //        {
-        //            new BasketItem()
-        //        }
-        //    };
-        //}
+        private CarrinhoCliente GetCarrinhoClienteFake(string fakeClienteId)
+        {
+            return new CarrinhoCliente(fakeClienteId)
+            {
+                Itens = new List<ItemCarrinho>()
+                {
+                    new ItemCarrinho()
+                }
+            };
+        }
 
     }
 }

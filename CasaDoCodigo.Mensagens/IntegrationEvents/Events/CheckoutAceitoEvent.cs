@@ -6,6 +6,11 @@ namespace CasaDoCodigo.Mensagens.Events
 {
     public class CheckoutAceitoEvent : IntegrationEvent
     {
+        public CheckoutAceitoEvent()
+        {
+
+        }
+
         public CheckoutAceitoEvent(
             string userId
             , string userName
