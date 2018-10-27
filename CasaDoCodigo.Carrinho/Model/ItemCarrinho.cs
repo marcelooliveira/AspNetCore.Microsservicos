@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using CasaDoCodigo.Mensagens.Model;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Carrinho.API.Model
 {
-    public class ItemCarrinho : IValidatableObject
+    public class ItemCarrinho : IItemCarrinho, IValidatableObject
     {
         public ItemCarrinho()
         {

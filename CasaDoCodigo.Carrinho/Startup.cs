@@ -1,11 +1,14 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Carrinho.API.Model;
+using Carrinho.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -24,7 +27,7 @@ namespace Carrinho.API
     public class Startup
     {
         private const string RMQ_CONNECTION_STRING = "amqp://localhost";
-        private const string INPUT_QUEUE_NAME = "CheckoutEvent";
+        private const string INPUT_QUEUE_NAME = "CheckoutAceitoEvent";
         private readonly ILoggerFactory _loggerFactory;
 
         public Startup(ILoggerFactory loggerFactory, 
@@ -87,6 +90,9 @@ namespace Carrinho.API
                 options.CustomSchemaIds(x => x.FullName);
             });
 
+            services.AddHttpContextAccessor();
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
             services.AddDistributedMemoryCache();
             services.AddSession();
 
@@ -107,7 +113,7 @@ namespace Carrinho.API
             });
 
             services.AddTransient<ICarrinhoRepository, RedisCarrinhoRepository>();
-
+            services.AddTransient<IIdentityService, IdentityService>();
             services.AddHealthChecks(checks =>
             {
                 checks.AddValueTaskCheck("HTTP Endpoint", () => new

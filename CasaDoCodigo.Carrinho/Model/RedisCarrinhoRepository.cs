@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CasaDoCodigo.Mensagens.Model;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
@@ -57,7 +58,7 @@ namespace Carrinho.API.Model
         public async Task<CarrinhoCliente> AddCarrinhoAsync(string clienteId, ItemCarrinho item)
         {
             var carrinho = await GetCarrinhoAsync(clienteId);
-            ItemCarrinho itemDB = carrinho.Itens.Where(i => i.ProdutoId == item.ProdutoId).SingleOrDefault();
+            IItemCarrinho itemDB = carrinho.Itens.Where(i => i.ProdutoId == item.ProdutoId).SingleOrDefault();
             if (itemDB == null)
             {
                 itemDB = new ItemCarrinho(item.Id, item.ProdutoId, item.ProdutoNome, item.PrecoUnitario, item.Quantidade);

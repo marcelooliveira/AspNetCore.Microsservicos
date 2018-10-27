@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CasaDoCodigo.Mensagens.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,18 +8,18 @@ namespace CasaDoCodigo.Models.ViewModels
 {
     public class CarrinhoCliente
     {
-        public CarrinhoCliente(string clienteId, IList<ItemCarrinho> itens)
+        public CarrinhoCliente(string clienteId, List<ItemCarrinho> itens)
         {
             ClienteId = clienteId;
             Itens = itens;
         }
 
         public string ClienteId { get; set; }
-        public IList<ItemCarrinho> Itens { get; set; } = new List<ItemCarrinho>();
+        public List<ItemCarrinho> Itens { get; set; } = new List<ItemCarrinho>();
         public decimal Total => Itens.Sum(i => i.Quantidade * i.PrecoUnitario);
     }
 
-    public class ItemCarrinho 
+    public class ItemCarrinho : IItemCarrinho
     {
         public ItemCarrinho()
         {

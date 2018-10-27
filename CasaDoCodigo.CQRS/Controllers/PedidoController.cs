@@ -1,21 +1,19 @@
-﻿using CasaDoCodigo.Models;
+﻿using CasaDoCodigo.Mensagens.Model;
+using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
 using IdentityModel;
-using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Polly.CircuitBreaker;
 using System;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Controllers
@@ -74,7 +72,6 @@ namespace CasaDoCodigo.Controllers
         {
             try
             {
-
                 string idUsuario = GetUserId();
                 int pedidoId = GetPedidoId() ?? 0;
                 var produto = await catalogoService.GetProduto(codigo);

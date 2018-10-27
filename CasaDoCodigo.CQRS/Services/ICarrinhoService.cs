@@ -1,4 +1,5 @@
-﻿using CasaDoCodigo.Models;
+﻿using CasaDoCodigo.Mensagens.Model;
+using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using System;
 using System.Collections.Generic;

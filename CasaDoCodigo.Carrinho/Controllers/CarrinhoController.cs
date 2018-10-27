@@ -1,9 +1,13 @@
 ﻿using Carrinho.API.Model;
+using Carrinho.API.Services;
 using CasaDoCodigo.Mensagens.Events;
+using CasaDoCodigo.Mensagens.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Rebus.Bus;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -14,19 +18,22 @@ namespace Carrinho.API.Controllers
     /// Fornece funcionalidades do carrinho de compras da Casa do Código
     /// </summary>
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class CarrinhoController : Controller
     {
         private readonly ICarrinhoRepository _repository;
+        private readonly IIdentityService _identityService;
         private readonly IBus _bus;
         private readonly ILoggerFactory _loggerFactory;
-
+        
         public CarrinhoController(ICarrinhoRepository repository
+            , IIdentityService identityService
             , IBus bus
             , ILoggerFactory loggerFactory
             )
         {
             _repository = repository;
+            _identityService = identityService;
             //_endpoint = endpoint;
             _bus = bus;
             _loggerFactory = loggerFactory;
@@ -105,31 +112,43 @@ namespace Carrinho.API.Controllers
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-         public async Task<IActionResult> Checkout([FromBody]CarrinhoCliente carrinhoCliente, [FromHeader(Name = "x-requestid")] string requestId)
+         public async Task<IActionResult> Checkout([FromBody]CarrinhoCheckout carrinhoCheckout, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            var eventMessage 
-                = new CheckoutEvent(carrinhoCliente.ClienteId,
-                    carrinhoCliente.Itens.Select(i =>
-                        new CheckoutItem(
-                            i.Id, 
-                            i.ProdutoId, 
-                            i.ProdutoNome, 
-                            i.PrecoUnitario, 
-                            i.Quantidade, 
-                            i.UrlImagem)).ToList()
-                );
+            var userId = _identityService.GetUserIdentity();
 
-            // Assim que fazemos o checkout, envia um evento de integração para
-            // API Pedidos para converter o carrinho em pedido e continuar com
-            // processo de criação de pedido
-            await _bus.Publish(eventMessage);
+            carrinhoCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
+                guid : carrinhoCheckout.RequestId;
 
-            var carrinho = await _repository.GetCarrinhoAsync(carrinhoCliente.ClienteId);
+            var carrinho = await _repository.GetCarrinhoAsync(userId);
 
             if (carrinho == null)
             {
                 return BadRequest();
             }
+
+            var userName = User.FindFirst(x => x.Type == "unique_name").Value;
+
+            CarrinhoClienteDTO carrinhoClienteDTO
+                = new CarrinhoClienteDTO(userId,
+                carrinho.Itens.Select(i =>
+                    new ItemCarrinhoDTO(i.Id, i.ProdutoId, i.ProdutoNome, i.PrecoUnitario, i.Quantidade)).ToList());
+
+            var eventMessage 
+                = new CheckoutAceitoEvent(
+                      userId
+                    , userName
+                    , carrinhoCheckout.Municipio
+                    , carrinhoCheckout.Endereco
+                    , carrinhoCheckout.UF
+                    , carrinhoCheckout.Cep
+                    , carrinhoCheckout.Cliente
+                    , carrinhoCheckout.RequestId
+                    , carrinhoClienteDTO);
+
+            // Assim que fazemos o checkout, envia um evento de integração para
+            // API Pedidos para converter o carrinho em pedido e continuar com
+            // processo de criação de pedido
+            await _bus.Publish(eventMessage);
 
             return Accepted();
         }

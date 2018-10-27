@@ -2260,3 +2260,2806 @@
 2018-10-26 00:39:01.012 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
 2018-10-26 00:39:01.012 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
 2018-10-26 00:39:01.016 -03:00 [DBG] Start key discovery request
+2018-10-27 00:34:17.308 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-10-27 00:34:17.459 -03:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-10-27 00:34:17.471 -03:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-10-27 00:34:17.472 -03:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-10-27 00:34:17.474 -03:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-10-27 00:34:17.474 -03:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-10-27 00:34:29.795 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:34:29.847 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:36:32.709 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 00:36:32.722 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 00:36:32.722 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 00:36:32.742 -03:00 [DBG] Start token request.
+2018-10-27 00:36:32.756 -03:00 [DBG] Start client validation
+2018-10-27 00:36:32.768 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 00:36:32.768 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 00:36:32.768 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 00:36:32.794 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 00:36:32.795 -03:00 [DBG] Client validation success
+2018-10-27 00:36:32.923 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNKA7RKQL:00000001",
+  "TimeStamp": "2018-10-27T03:36:32Z",
+  "ProcessId": 8776,
+  "LocalIpAddress": "127.0.0.1:12253",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:36:33.027 -03:00 [DBG] Start token request validation
+2018-10-27 00:36:33.045 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 00:36:33.097 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 00:36:33.143 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 00:36:33.186 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 00:36:33.407 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****nc3g"
+    }
+  ],
+  "ActivityId": "0HLHRNKA7RKQL:00000001",
+  "TimeStamp": "2018-10-27T03:36:33Z",
+  "ProcessId": 8776,
+  "LocalIpAddress": "127.0.0.1:12253",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:36:33.409 -03:00 [DBG] Token request success.
+2018-10-27 00:36:34.096 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2018-10-27 00:36:34.098 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2018-10-27 00:36:34.098 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2018-10-27 00:36:34.104 -03:00 [DBG] Start discovery request
+2018-10-27 00:36:34.247 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2018-10-27 00:36:34.249 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2018-10-27 00:36:34.251 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2018-10-27 00:36:34.263 -03:00 [DBG] Start key discovery request
+2018-10-27 00:36:40.420 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 00:36:40.420 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 00:36:40.420 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 00:36:40.421 -03:00 [DBG] Start token request.
+2018-10-27 00:36:40.421 -03:00 [DBG] Start client validation
+2018-10-27 00:36:40.421 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 00:36:40.421 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 00:36:40.421 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 00:36:40.421 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 00:36:40.422 -03:00 [DBG] Client validation success
+2018-10-27 00:36:40.422 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNKA7RKQL:00000004",
+  "TimeStamp": "2018-10-27T03:36:40Z",
+  "ProcessId": 8776,
+  "LocalIpAddress": "127.0.0.1:12253",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:36:40.422 -03:00 [DBG] Start token request validation
+2018-10-27 00:36:40.422 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 00:36:40.423 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 00:36:40.423 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 00:36:40.423 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 00:36:40.430 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****SM2Q"
+    }
+  ],
+  "ActivityId": "0HLHRNKA7RKQL:00000004",
+  "TimeStamp": "2018-10-27T03:36:40Z",
+  "ProcessId": 8776,
+  "LocalIpAddress": "127.0.0.1:12253",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:36:40.430 -03:00 [DBG] Token request success.
+2018-10-27 00:36:48.958 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2018-10-27 00:36:48.960 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2018-10-27 00:36:48.960 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2018-10-27 00:36:48.960 -03:00 [DBG] Start discovery request
+2018-10-27 00:36:49.040 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2018-10-27 00:36:49.041 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2018-10-27 00:36:49.041 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2018-10-27 00:36:49.042 -03:00 [DBG] Start key discovery request
+2018-10-27 00:36:49.136 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:36:49.136 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:36:49.137 -03:00 [DBG] Request path /connect/endsession matched to endpoint type Endsession
+2018-10-27 00:36:49.139 -03:00 [DBG] Endpoint enabled: Endsession, successfully created handler: IdentityServer4.Endpoints.EndSessionEndpoint
+2018-10-27 00:36:49.139 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.EndSessionEndpoint for /connect/endsession
+2018-10-27 00:36:49.164 -03:00 [DBG] Processing signout request for b1eefa6d-1fff-43fa-bf08-9806aa73924d
+2018-10-27 00:36:49.182 -03:00 [DBG] Start end session request validation
+2018-10-27 00:36:49.193 -03:00 [DBG] Start identity token validation
+2018-10-27 00:36:49.247 -03:00 [DBG] Client found: CasaDoCodigo.MVC / CasaDoCodigo MVC
+2018-10-27 00:36:49.347 -03:00 [DBG] Calling into custom token validator: IdentityServer4.Validation.DefaultCustomTokenValidator
+2018-10-27 00:36:49.353 -03:00 [DBG] Token validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "ValidateLifetime": false,
+  "Claims": {
+    "nbf": 1540524421,
+    "exp": 1540524721,
+    "iss": "https://localhost:44338",
+    "aud": "CasaDoCodigo.MVC",
+    "nonce": "636761212085840776.NTVjNjhhZWItODMxZS00OTU0LTlmNjYtMjM3ZDRlZTI4OWEwZDNmZTYzNjgtZTBkNi00OTRlLThjZWEtYjEwNTJhN2QwNTg4",
+    "iat": 1540524421,
+    "at_hash": "m6Ut9jhmFZl5VgLaEqwtEg",
+    "sid": "e26e2bb442450e5f0b8919123e6c223e",
+    "sub": "b1eefa6d-1fff-43fa-bf08-9806aa73924d",
+    "auth_time": 1540524415,
+    "idp": "local",
+    "amr": "pwd"
+  }
+}
+2018-10-27 00:36:49.376 -03:00 [INF] End session request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "SubjectId": "b1eefa6d-1fff-43fa-bf08-9806aa73924d",
+  "PostLogOutUri": "https://localhost:44347/signout-callback-oidc",
+  "State": "CfDJ8G4K1yDodZ5Jhcmp4clfBza_LtyiIROdsjRRztJCUetlFzb6GbsObUDp91XdlJoDaT6r4B5vytKM0dsr_4-r7SZzAbz60BZlHNEOux16q3JFeFGV9rv1qjmm7nlOdUxRifuouTpECowv1HHd8aRoW9SjpLzGwQnjt_4ip_aZWlRh",
+  "Raw": {
+    "post_logout_redirect_uri": "https://localhost:44347/signout-callback-oidc",
+    "id_token_hint": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjI1ODZhNDE0YjMzNGQ3NmY2ODBkMTQ1MjhmNTk0ZWM2IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1NDA1MjQ0MjEsImV4cCI6MTU0MDUyNDcyMSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMzgiLCJhdWQiOiJDYXNhRG9Db2RpZ28uTVZDIiwibm9uY2UiOiI2MzY3NjEyMTIwODU4NDA3NzYuTlRWak5qaGhaV0l0T0RNeFpTMDBPVFUwTFRsbU5qWXRNak0zWkRSbFpUSTRPV0V3WkRObVpUWXpOamd0WlRCa05pMDBPVFJsTFRoalpXRXRZakV3TlRKaE4yUXdOVGc0IiwiaWF0IjoxNTQwNTI0NDIxLCJhdF9oYXNoIjoibTZVdDlqaG1GWmw1VmdMYUVxd3RFZyIsInNpZCI6ImUyNmUyYmI0NDI0NTBlNWYwYjg5MTkxMjNlNmMyMjNlIiwic3ViIjoiYjFlZWZhNmQtMWZmZi00M2ZhLWJmMDgtOTgwNmFhNzM5MjRkIiwiYXV0aF90aW1lIjoxNTQwNTI0NDE1LCJpZHAiOiJsb2NhbCIsImFtciI6WyJwd2QiXX0.t27-uHgy_lt3ug3CHlL6Pxlp1oTpK2oQ4BHRHvP9xdb761CtZ6jKk7vnxcW5fgLSUgVA_NxvT4Hf7Pi1_rWGhmps0A7oHVcqpz6npixILQvPXSBtntOfTGhODTd8rv8rl74U7cECoM6Z9trfuvIM5PnRUBxn1NADBE9yLfuzxDueZrAhirA4y8xQT6nEUfSuyKeLkj2GeBGsYRSfc72C7JY6oi6-NplGygEhA9idSa3vWILAqGhvuHUi2Wo6nCY0cv0JtM68SYJ6XVSRPZmv_31T6ZahOmQe0IAL4cpf9AGn0jZvmIkU-mSwBFUmjcmwZ-9RtVGi3tw3PNSu1h3sIw",
+    "state": "CfDJ8G4K1yDodZ5Jhcmp4clfBza_LtyiIROdsjRRztJCUetlFzb6GbsObUDp91XdlJoDaT6r4B5vytKM0dsr_4-r7SZzAbz60BZlHNEOux16q3JFeFGV9rv1qjmm7nlOdUxRifuouTpECowv1HHd8aRoW9SjpLzGwQnjt_4ip_aZWlRh",
+    "x-client-SKU": "ID_NET",
+    "x-client-ver": "2.1.4.0"
+  }
+}
+2018-10-27 00:36:49.376 -03:00 [DBG] Success validating end session request from CasaDoCodigo.MVC
+2018-10-27 00:36:49.433 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:36:49.433 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:36:49.708 -03:00 [INF] AuthenticationScheme: Identity.Application signed out.
+2018-10-27 00:36:49.713 -03:00 [INF] AuthenticationScheme: Identity.External signed out.
+2018-10-27 00:36:49.714 -03:00 [INF] AuthenticationScheme: Identity.TwoFactorUserId signed out.
+2018-10-27 00:36:49.721 -03:00 [INF] {
+  "Name": "User Logout Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1002,
+  "SubjectId": "b1eefa6d-1fff-43fa-bf08-9806aa73924d",
+  "DisplayName": "Alice Smith",
+  "ActivityId": "0HLHRNKA7RKQL:00000008",
+  "TimeStamp": "2018-10-27T03:36:49Z",
+  "ProcessId": 8776,
+  "LocalIpAddress": "127.0.0.1:12253",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:36:50.417 -03:00 [DBG] Request path /connect/endsession/callback matched to endpoint type Endsession
+2018-10-27 00:36:50.550 -03:00 [DBG] Endpoint enabled: Endsession, successfully created handler: IdentityServer4.Endpoints.EndSessionCallbackEndpoint
+2018-10-27 00:36:50.555 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.EndSessionCallbackEndpoint for /connect/endsession/callback
+2018-10-27 00:36:50.568 -03:00 [DBG] Processing signout callback request
+2018-10-27 00:36:50.592 -03:00 [DBG] No client front-channel logout URLs
+2018-10-27 00:36:50.593 -03:00 [DBG] No client back-channel logout URLs
+2018-10-27 00:36:50.593 -03:00 [INF] Successful signout callback.
+2018-10-27 00:36:50.593 -03:00 [DBG] No client front-channel iframe urls
+2018-10-27 00:36:50.593 -03:00 [DBG] No client back-channel iframe urls
+2018-10-27 00:36:59.777 -03:00 [DBG] Request path /connect/authorize matched to endpoint type Authorize
+2018-10-27 00:36:59.781 -03:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeEndpoint
+2018-10-27 00:36:59.781 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeEndpoint for /connect/authorize
+2018-10-27 00:36:59.795 -03:00 [DBG] Start authorize request
+2018-10-27 00:36:59.812 -03:00 [DBG] No user present in authorize request
+2018-10-27 00:36:59.830 -03:00 [DBG] Start authorize request protocol validation
+2018-10-27 00:36:59.857 -03:00 [DBG] Checking for PKCE parameters
+2018-10-27 00:36:59.861 -03:00 [DBG] No PKCE used.
+2018-10-27 00:36:59.900 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2018-10-27 00:36:59.925 -03:00 [INF] ValidatedAuthorizeRequest
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "RedirectUri": "https://localhost:44347/signin-oidc",
+  "AllowedRedirectUris": [
+    "https://localhost:44347/signin-oidc"
+  ],
+  "SubjectId": "anonymous",
+  "ResponseType": "code id_token",
+  "ResponseMode": "form_post",
+  "GrantType": "hybrid",
+  "RequestedScopes": "openid profile Carrinho.API CasaDoCodigo.API offline_access",
+  "State": "CfDJ8G4K1yDodZ5Jhcmp4clfBza3N0L6binsO8MVoQ_To6eTYVgNKVua-zFrF3cH7IHer-oust8xdERQJKPUsJ0mGb4f0B4XhqzbwHonjGODcGXBsm-fD0dimK79cc4KffHZKACXBxCwfv_7f_Ci9XMncbjWFPk4IIvZj6DbJutKGoR9Z60DXGFbFfZ9ynjlZh20v03-P7sMiq0AJPj8RqHl50D_tN33Q031xShzerdepnDPU4vq2dQcaKbjvzum94wl1ZERZOyWdHIaE6b6cPubomLWvlsSIv7sCTZ9Znjx68PijzV4cJE6dxuGiIAzpro46nkc-_U4AqNOqhKtOk8isF29z6qjd9wtBEduiUGIRHLw",
+  "Nonce": "636762082197336060.NGUxNTZkM2YtNmEwNi00M2RkLWJjMmUtY2U5NGFjMDhkYTA1MjNiNTkzNzUtNjJkNy00N2NhLTg1NTAtOTVhZTc0M2MxMGY1",
+  "Raw": {
+    "client_id": "CasaDoCodigo.MVC",
+    "redirect_uri": "https://localhost:44347/signin-oidc",
+    "response_type": "code id_token",
+    "scope": "openid profile Carrinho.API CasaDoCodigo.API offline_access",
+    "response_mode": "form_post",
+    "nonce": "636762082197336060.NGUxNTZkM2YtNmEwNi00M2RkLWJjMmUtY2U5NGFjMDhkYTA1MjNiNTkzNzUtNjJkNy00N2NhLTg1NTAtOTVhZTc0M2MxMGY1",
+    "state": "CfDJ8G4K1yDodZ5Jhcmp4clfBza3N0L6binsO8MVoQ_To6eTYVgNKVua-zFrF3cH7IHer-oust8xdERQJKPUsJ0mGb4f0B4XhqzbwHonjGODcGXBsm-fD0dimK79cc4KffHZKACXBxCwfv_7f_Ci9XMncbjWFPk4IIvZj6DbJutKGoR9Z60DXGFbFfZ9ynjlZh20v03-P7sMiq0AJPj8RqHl50D_tN33Q031xShzerdepnDPU4vq2dQcaKbjvzum94wl1ZERZOyWdHIaE6b6cPubomLWvlsSIv7sCTZ9Znjx68PijzV4cJE6dxuGiIAzpro46nkc-_U4AqNOqhKtOk8isF29z6qjd9wtBEduiUGIRHLw",
+    "x-client-SKU": "ID_NET",
+    "x-client-ver": "2.1.4.0"
+  }
+}
+2018-10-27 00:36:59.941 -03:00 [INF] Showing login: User is not authenticated
+2018-10-27 00:37:00.024 -03:00 [DBG] Start authorize request protocol validation
+2018-10-27 00:37:00.024 -03:00 [DBG] Checking for PKCE parameters
+2018-10-27 00:37:00.024 -03:00 [DBG] No PKCE used.
+2018-10-27 00:37:00.025 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2018-10-27 00:37:04.199 -03:00 [DBG] CORS request made for path: /account/login from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2018-10-27 00:37:04.530 -03:00 [DBG] Augmenting SignInContext
+2018-10-27 00:37:04.534 -03:00 [DBG] Adding idp claim with value: local
+2018-10-27 00:37:04.536 -03:00 [DBG] Adding amr claim with value: pwd
+2018-10-27 00:37:04.539 -03:00 [DBG] Adding auth_time claim with value: 1540611424
+2018-10-27 00:37:04.573 -03:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2018-10-27 00:37:04.590 -03:00 [INF] {
+  "Name": "User Login Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1000,
+  "Username": "alice",
+  "SubjectId": "b1eefa6d-1fff-43fa-bf08-9806aa73924d",
+  "DisplayName": "alice",
+  "Endpoint": "UI",
+  "ActivityId": "0HLHRNKA7RKQL:0000000C",
+  "TimeStamp": "2018-10-27T03:37:04Z",
+  "ProcessId": 8776,
+  "LocalIpAddress": "127.0.0.1:12253",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:37:04.625 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:37:04.625 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:37:04.626 -03:00 [DBG] Request path /connect/authorize/callback matched to endpoint type Authorize
+2018-10-27 00:37:04.627 -03:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint
+2018-10-27 00:37:04.627 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint for /connect/authorize/callback
+2018-10-27 00:37:04.640 -03:00 [DBG] Start authorize callback request
+2018-10-27 00:37:04.645 -03:00 [DBG] User in authorize request: b1eefa6d-1fff-43fa-bf08-9806aa73924d
+2018-10-27 00:37:04.646 -03:00 [DBG] Start authorize request protocol validation
+2018-10-27 00:37:04.646 -03:00 [DBG] Checking for PKCE parameters
+2018-10-27 00:37:04.646 -03:00 [DBG] No PKCE used.
+2018-10-27 00:37:04.646 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2018-10-27 00:37:04.646 -03:00 [INF] ValidatedAuthorizeRequest
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "RedirectUri": "https://localhost:44347/signin-oidc",
+  "AllowedRedirectUris": [
+    "https://localhost:44347/signin-oidc"
+  ],
+  "SubjectId": "b1eefa6d-1fff-43fa-bf08-9806aa73924d",
+  "ResponseType": "code id_token",
+  "ResponseMode": "form_post",
+  "GrantType": "hybrid",
+  "RequestedScopes": "openid profile Carrinho.API CasaDoCodigo.API offline_access",
+  "State": "CfDJ8G4K1yDodZ5Jhcmp4clfBza3N0L6binsO8MVoQ_To6eTYVgNKVua-zFrF3cH7IHer-oust8xdERQJKPUsJ0mGb4f0B4XhqzbwHonjGODcGXBsm-fD0dimK79cc4KffHZKACXBxCwfv_7f_Ci9XMncbjWFPk4IIvZj6DbJutKGoR9Z60DXGFbFfZ9ynjlZh20v03-P7sMiq0AJPj8RqHl50D_tN33Q031xShzerdepnDPU4vq2dQcaKbjvzum94wl1ZERZOyWdHIaE6b6cPubomLWvlsSIv7sCTZ9Znjx68PijzV4cJE6dxuGiIAzpro46nkc-_U4AqNOqhKtOk8isF29z6qjd9wtBEduiUGIRHLw",
+  "Nonce": "636762082197336060.NGUxNTZkM2YtNmEwNi00M2RkLWJjMmUtY2U5NGFjMDhkYTA1MjNiNTkzNzUtNjJkNy00N2NhLTg1NTAtOTVhZTc0M2MxMGY1",
+  "SessionId": "6e9c1b0f41056ea923c602bd17d44c87",
+  "Raw": {
+    "client_id": "CasaDoCodigo.MVC",
+    "redirect_uri": "https://localhost:44347/signin-oidc",
+    "response_type": "code id_token",
+    "scope": "openid profile Carrinho.API CasaDoCodigo.API offline_access",
+    "response_mode": "form_post",
+    "nonce": "636762082197336060.NGUxNTZkM2YtNmEwNi00M2RkLWJjMmUtY2U5NGFjMDhkYTA1MjNiNTkzNzUtNjJkNy00N2NhLTg1NTAtOTVhZTc0M2MxMGY1",
+    "state": "CfDJ8G4K1yDodZ5Jhcmp4clfBza3N0L6binsO8MVoQ_To6eTYVgNKVua-zFrF3cH7IHer-oust8xdERQJKPUsJ0mGb4f0B4XhqzbwHonjGODcGXBsm-fD0dimK79cc4KffHZKACXBxCwfv_7f_Ci9XMncbjWFPk4IIvZj6DbJutKGoR9Z60DXGFbFfZ9ynjlZh20v03-P7sMiq0AJPj8RqHl50D_tN33Q031xShzerdepnDPU4vq2dQcaKbjvzum94wl1ZERZOyWdHIaE6b6cPubomLWvlsSIv7sCTZ9Znjx68PijzV4cJE6dxuGiIAzpro46nkc-_U4AqNOqhKtOk8isF29z6qjd9wtBEduiUGIRHLw",
+    "x-client-SKU": "ID_NET",
+    "x-client-ver": "2.1.4.0"
+  }
+}
+2018-10-27 00:37:04.665 -03:00 [DBG] Scopes contains offline_access, consent is required
+2018-10-27 00:37:04.665 -03:00 [INF] Showing consent: User has not yet consented
+2018-10-27 00:37:04.681 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:37:04.681 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:37:04.735 -03:00 [DBG] Start authorize request protocol validation
+2018-10-27 00:37:04.736 -03:00 [DBG] Checking for PKCE parameters
+2018-10-27 00:37:04.736 -03:00 [DBG] No PKCE used.
+2018-10-27 00:37:04.737 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2018-10-27 00:37:08.047 -03:00 [DBG] CORS request made for path: /consent from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2018-10-27 00:37:08.051 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:37:08.051 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:37:08.133 -03:00 [DBG] Start authorize request protocol validation
+2018-10-27 00:37:08.134 -03:00 [DBG] Checking for PKCE parameters
+2018-10-27 00:37:08.134 -03:00 [DBG] No PKCE used.
+2018-10-27 00:37:08.134 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2018-10-27 00:37:08.238 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:37:08.238 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:37:08.239 -03:00 [DBG] Request path /connect/authorize/callback matched to endpoint type Authorize
+2018-10-27 00:37:08.239 -03:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint
+2018-10-27 00:37:08.239 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint for /connect/authorize/callback
+2018-10-27 00:37:08.240 -03:00 [DBG] Start authorize callback request
+2018-10-27 00:37:08.254 -03:00 [DBG] User in authorize request: b1eefa6d-1fff-43fa-bf08-9806aa73924d
+2018-10-27 00:37:08.254 -03:00 [DBG] Start authorize request protocol validation
+2018-10-27 00:37:08.254 -03:00 [DBG] Checking for PKCE parameters
+2018-10-27 00:37:08.254 -03:00 [DBG] No PKCE used.
+2018-10-27 00:37:08.256 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2018-10-27 00:37:08.256 -03:00 [INF] ValidatedAuthorizeRequest
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "RedirectUri": "https://localhost:44347/signin-oidc",
+  "AllowedRedirectUris": [
+    "https://localhost:44347/signin-oidc"
+  ],
+  "SubjectId": "b1eefa6d-1fff-43fa-bf08-9806aa73924d",
+  "ResponseType": "code id_token",
+  "ResponseMode": "form_post",
+  "GrantType": "hybrid",
+  "RequestedScopes": "openid profile Carrinho.API CasaDoCodigo.API offline_access",
+  "State": "CfDJ8G4K1yDodZ5Jhcmp4clfBza3N0L6binsO8MVoQ_To6eTYVgNKVua-zFrF3cH7IHer-oust8xdERQJKPUsJ0mGb4f0B4XhqzbwHonjGODcGXBsm-fD0dimK79cc4KffHZKACXBxCwfv_7f_Ci9XMncbjWFPk4IIvZj6DbJutKGoR9Z60DXGFbFfZ9ynjlZh20v03-P7sMiq0AJPj8RqHl50D_tN33Q031xShzerdepnDPU4vq2dQcaKbjvzum94wl1ZERZOyWdHIaE6b6cPubomLWvlsSIv7sCTZ9Znjx68PijzV4cJE6dxuGiIAzpro46nkc-_U4AqNOqhKtOk8isF29z6qjd9wtBEduiUGIRHLw",
+  "Nonce": "636762082197336060.NGUxNTZkM2YtNmEwNi00M2RkLWJjMmUtY2U5NGFjMDhkYTA1MjNiNTkzNzUtNjJkNy00N2NhLTg1NTAtOTVhZTc0M2MxMGY1",
+  "SessionId": "6e9c1b0f41056ea923c602bd17d44c87",
+  "Raw": {
+    "client_id": "CasaDoCodigo.MVC",
+    "redirect_uri": "https://localhost:44347/signin-oidc",
+    "response_type": "code id_token",
+    "scope": "openid profile Carrinho.API CasaDoCodigo.API offline_access",
+    "response_mode": "form_post",
+    "nonce": "636762082197336060.NGUxNTZkM2YtNmEwNi00M2RkLWJjMmUtY2U5NGFjMDhkYTA1MjNiNTkzNzUtNjJkNy00N2NhLTg1NTAtOTVhZTc0M2MxMGY1",
+    "state": "CfDJ8G4K1yDodZ5Jhcmp4clfBza3N0L6binsO8MVoQ_To6eTYVgNKVua-zFrF3cH7IHer-oust8xdERQJKPUsJ0mGb4f0B4XhqzbwHonjGODcGXBsm-fD0dimK79cc4KffHZKACXBxCwfv_7f_Ci9XMncbjWFPk4IIvZj6DbJutKGoR9Z60DXGFbFfZ9ynjlZh20v03-P7sMiq0AJPj8RqHl50D_tN33Q031xShzerdepnDPU4vq2dQcaKbjvzum94wl1ZERZOyWdHIaE6b6cPubomLWvlsSIv7sCTZ9Znjx68PijzV4cJE6dxuGiIAzpro46nkc-_U4AqNOqhKtOk8isF29z6qjd9wtBEduiUGIRHLw",
+    "x-client-SKU": "ID_NET",
+    "x-client-ver": "2.1.4.0"
+  }
+}
+2018-10-27 00:37:08.260 -03:00 [DBG] Scopes contains offline_access, consent is required
+2018-10-27 00:37:08.307 -03:00 [INF] User consented to scopes: ["openid","profile","Carrinho.API","CasaDoCodigo.API","offline_access"]
+2018-10-27 00:37:08.337 -03:00 [DBG] User indicated to remember consent for scopes: ["openid","profile","Carrinho.API","CasaDoCodigo.API","offline_access"]
+2018-10-27 00:37:08.367 -03:00 [DBG] Client allows remembering consent, and consent given. Updating consent store for subject: b1eefa6d-1fff-43fa-bf08-9806aa73924d
+2018-10-27 00:37:08.425 -03:00 [DBG] Creating Hybrid Flow response.
+2018-10-27 00:37:08.496 -03:00 [DBG] Creating Implicit Flow response.
+2018-10-27 00:37:08.526 -03:00 [DBG] Getting claims for identity token for subject: b1eefa6d-1fff-43fa-bf08-9806aa73924d and client: CasaDoCodigo.MVC
+2018-10-27 00:37:08.530 -03:00 [DBG] In addition to an id_token, an access_token was requested. No claims other than sub are included in the id_token. To obtain more user claims, either use the user info endpoint or set AlwaysIncludeUserClaimsInIdToken on the client configuration.
+2018-10-27 00:37:08.550 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "RedirectUri": "https://localhost:44347/signin-oidc",
+  "Endpoint": "Authorize",
+  "SubjectId": "b1eefa6d-1fff-43fa-bf08-9806aa73924d",
+  "Scopes": "openid profile Carrinho.API CasaDoCodigo.API offline_access",
+  "GrantType": "hybrid",
+  "Tokens": [
+    {
+      "TokenType": "id_token",
+      "TokenValue": "****zlIw"
+    },
+    {
+      "TokenType": "code",
+      "TokenValue": "****5c8d"
+    }
+  ],
+  "ActivityId": "0HLHRNKA7RKQL:00000011",
+  "TimeStamp": "2018-10-27T03:37:08Z",
+  "ProcessId": 8776,
+  "LocalIpAddress": "127.0.0.1:12253",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:37:08.558 -03:00 [INF] Authorize endpoint response
+{
+  "SubjectId": "b1eefa6d-1fff-43fa-bf08-9806aa73924d",
+  "ClientId": "CasaDoCodigo.MVC",
+  "RedirectUri": "https://localhost:44347/signin-oidc",
+  "State": "CfDJ8G4K1yDodZ5Jhcmp4clfBza3N0L6binsO8MVoQ_To6eTYVgNKVua-zFrF3cH7IHer-oust8xdERQJKPUsJ0mGb4f0B4XhqzbwHonjGODcGXBsm-fD0dimK79cc4KffHZKACXBxCwfv_7f_Ci9XMncbjWFPk4IIvZj6DbJutKGoR9Z60DXGFbFfZ9ynjlZh20v03-P7sMiq0AJPj8RqHl50D_tN33Q031xShzerdepnDPU4vq2dQcaKbjvzum94wl1ZERZOyWdHIaE6b6cPubomLWvlsSIv7sCTZ9Znjx68PijzV4cJE6dxuGiIAzpro46nkc-_U4AqNOqhKtOk8isF29z6qjd9wtBEduiUGIRHLw",
+  "Scope": "openid profile Carrinho.API CasaDoCodigo.API offline_access"
+}
+2018-10-27 00:37:08.591 -03:00 [DBG] Augmenting SignInContext
+2018-10-27 00:37:08.592 -03:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2018-10-27 00:37:09.399 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 00:37:09.400 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 00:37:09.400 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 00:37:09.400 -03:00 [DBG] Start token request.
+2018-10-27 00:37:09.400 -03:00 [DBG] Start client validation
+2018-10-27 00:37:09.400 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 00:37:09.406 -03:00 [DBG] Start parsing for secret in post body
+2018-10-27 00:37:09.407 -03:00 [DBG] Parser found secret: PostBodySecretParser
+2018-10-27 00:37:09.407 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 00:37:09.407 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 00:37:09.407 -03:00 [DBG] Client validation success
+2018-10-27 00:37:09.407 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNKA7RKQL:00000012",
+  "TimeStamp": "2018-10-27T03:37:09Z",
+  "ProcessId": 8776,
+  "LocalIpAddress": "127.0.0.1:12253",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:37:09.407 -03:00 [DBG] Start token request validation
+2018-10-27 00:37:09.428 -03:00 [DBG] Start validation of authorization code token request
+2018-10-27 00:37:09.494 -03:00 [DBG] Validation of authorization code token request success
+2018-10-27 00:37:09.494 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "authorization_code",
+  "AuthorizationCode": "b93245e9d3663a3870d1603853686fc1c77043c4ba25cb84ef858a7405b95c8d",
+  "Raw": {
+    "client_id": "CasaDoCodigo.MVC",
+    "client_secret": "***REDACTED***",
+    "code": "b93245e9d3663a3870d1603853686fc1c77043c4ba25cb84ef858a7405b95c8d",
+    "grant_type": "authorization_code",
+    "redirect_uri": "https://localhost:44347/signin-oidc"
+  }
+}
+2018-10-27 00:37:09.508 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 00:37:09.508 -03:00 [DBG] Getting claims for access token for subject: b1eefa6d-1fff-43fa-bf08-9806aa73924d
+2018-10-27 00:37:09.546 -03:00 [DBG] Creating refresh token
+2018-10-27 00:37:09.546 -03:00 [DBG] Setting an absolute lifetime: 2592000
+2018-10-27 00:37:09.590 -03:00 [DBG] Getting claims for identity token for subject: b1eefa6d-1fff-43fa-bf08-9806aa73924d and client: CasaDoCodigo.MVC
+2018-10-27 00:37:09.590 -03:00 [DBG] In addition to an id_token, an access_token was requested. No claims other than sub are included in the id_token. To obtain more user claims, either use the user info endpoint or set AlwaysIncludeUserClaimsInIdToken on the client configuration.
+2018-10-27 00:37:09.595 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "openid profile Carrinho.API CasaDoCodigo.API offline_access",
+  "GrantType": "authorization_code",
+  "Tokens": [
+    {
+      "TokenType": "id_token",
+      "TokenValue": "****U-UA"
+    },
+    {
+      "TokenType": "refresh_token",
+      "TokenValue": "****5981"
+    },
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****tIdw"
+    }
+  ],
+  "ActivityId": "0HLHRNKA7RKQL:00000012",
+  "TimeStamp": "2018-10-27T03:37:09Z",
+  "ProcessId": 8776,
+  "LocalIpAddress": "127.0.0.1:12253",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:37:09.596 -03:00 [DBG] Token request success.
+2018-10-27 00:37:09.656 -03:00 [DBG] Request path /connect/userinfo matched to endpoint type Userinfo
+2018-10-27 00:37:09.658 -03:00 [DBG] Endpoint enabled: Userinfo, successfully created handler: IdentityServer4.Endpoints.UserInfoEndpoint
+2018-10-27 00:37:09.658 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.UserInfoEndpoint for /connect/userinfo
+2018-10-27 00:37:09.673 -03:00 [DBG] Start userinfo request
+2018-10-27 00:37:09.680 -03:00 [DBG] Bearer token found in header
+2018-10-27 00:37:09.725 -03:00 [DBG] Calling into custom token validator: IdentityServer4.Validation.DefaultCustomTokenValidator
+2018-10-27 00:37:09.725 -03:00 [DBG] Token validation success
+{
+  "ValidateLifetime": true,
+  "AccessTokenType": "Jwt",
+  "ExpectedScope": "openid",
+  "Claims": {
+    "nbf": 1540611429,
+    "exp": 1540615029,
+    "iss": "https://localhost:44338",
+    "aud": [
+      "https://localhost:44338/resources",
+      "Carrinho.API",
+      "CasaDoCodigo.API"
+    ],
+    "client_id": "CasaDoCodigo.MVC",
+    "sub": "b1eefa6d-1fff-43fa-bf08-9806aa73924d",
+    "auth_time": 1540611424,
+    "idp": "local",
+    "scope": [
+      "openid",
+      "profile",
+      "Carrinho.API",
+      "CasaDoCodigo.API",
+      "offline_access"
+    ],
+    "amr": "pwd"
+  }
+}
+2018-10-27 00:37:09.738 -03:00 [DBG] Creating userinfo response
+2018-10-27 00:37:09.746 -03:00 [DBG] Scopes in access token: openid profile Carrinho.API CasaDoCodigo.API offline_access
+2018-10-27 00:37:09.757 -03:00 [DBG] Scopes in access token: openid profile Carrinho.API CasaDoCodigo.API offline_access
+2018-10-27 00:37:09.762 -03:00 [DBG] Requested claim types: sub name family_name given_name middle_name nickname preferred_username profile picture website gender birthdate zoneinfo locale updated_at
+2018-10-27 00:37:09.762 -03:00 [DBG] Scopes in access token: openid profile Carrinho.API CasaDoCodigo.API offline_access
+2018-10-27 00:37:09.772 -03:00 [INF] Profile service returned to the following claim types: sub name given_name family_name website name preferred_username
+2018-10-27 00:37:09.773 -03:00 [DBG] End userinfo request
+2018-10-27 00:37:09.943 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 00:37:09.943 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 00:37:09.944 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 00:37:09.944 -03:00 [DBG] Start token request.
+2018-10-27 00:37:09.944 -03:00 [DBG] Start client validation
+2018-10-27 00:37:09.944 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 00:37:09.944 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 00:37:09.944 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 00:37:09.944 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 00:37:09.944 -03:00 [DBG] Client validation success
+2018-10-27 00:37:09.944 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNKA7RKQL:00000014",
+  "TimeStamp": "2018-10-27T03:37:09Z",
+  "ProcessId": 8776,
+  "LocalIpAddress": "127.0.0.1:12253",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:37:09.947 -03:00 [DBG] Start token request validation
+2018-10-27 00:37:09.947 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 00:37:09.947 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 00:37:09.947 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 00:37:09.948 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 00:37:09.953 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****kpgg"
+    }
+  ],
+  "ActivityId": "0HLHRNKA7RKQL:00000014",
+  "TimeStamp": "2018-10-27T03:37:09Z",
+  "ProcessId": 8776,
+  "LocalIpAddress": "127.0.0.1:12253",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:37:09.957 -03:00 [DBG] Token request success.
+2018-10-27 00:37:19.239 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:37:19.240 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:37:19.244 -03:00 [DBG] Start authorize request protocol validation
+2018-10-27 00:37:19.245 -03:00 [DBG] Checking for PKCE parameters
+2018-10-27 00:37:19.245 -03:00 [DBG] No PKCE used.
+2018-10-27 00:37:19.245 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2018-10-27 00:38:11.543 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-10-27 00:38:11.772 -03:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-10-27 00:38:11.784 -03:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-10-27 00:38:11.792 -03:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-10-27 00:38:11.793 -03:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-10-27 00:38:11.794 -03:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-10-27 00:38:16.838 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:38:16.906 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:41:55.009 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-10-27 00:41:55.360 -03:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-10-27 00:41:55.378 -03:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-10-27 00:41:55.382 -03:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-10-27 00:41:55.383 -03:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-10-27 00:41:55.384 -03:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-10-27 00:42:08.949 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:42:09.054 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:42:42.530 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 00:42:42.548 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 00:42:42.549 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 00:42:42.567 -03:00 [DBG] Start token request.
+2018-10-27 00:42:42.579 -03:00 [DBG] Start client validation
+2018-10-27 00:42:42.590 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 00:42:42.591 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 00:42:42.591 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 00:42:42.618 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 00:42:42.618 -03:00 [DBG] Client validation success
+2018-10-27 00:42:42.737 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNOJJVMB2:00000002",
+  "TimeStamp": "2018-10-27T03:42:42Z",
+  "ProcessId": 2796,
+  "LocalIpAddress": "127.0.0.1:28890",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:42:42.829 -03:00 [DBG] Start token request validation
+2018-10-27 00:42:42.846 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 00:42:42.909 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 00:42:42.949 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 00:42:42.983 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 00:42:43.152 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****oZQA"
+    }
+  ],
+  "ActivityId": "0HLHRNOJJVMB2:00000002",
+  "TimeStamp": "2018-10-27T03:42:43Z",
+  "ProcessId": 2796,
+  "LocalIpAddress": "127.0.0.1:28890",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:42:43.155 -03:00 [DBG] Token request success.
+2018-10-27 00:42:43.733 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2018-10-27 00:42:43.734 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2018-10-27 00:42:43.734 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2018-10-27 00:42:43.743 -03:00 [DBG] Start discovery request
+2018-10-27 00:42:44.000 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2018-10-27 00:42:44.006 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2018-10-27 00:42:44.006 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2018-10-27 00:42:44.013 -03:00 [DBG] Start key discovery request
+2018-10-27 00:43:07.677 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 00:43:07.683 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 00:43:07.683 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 00:43:07.684 -03:00 [DBG] Start token request.
+2018-10-27 00:43:07.684 -03:00 [DBG] Start client validation
+2018-10-27 00:43:07.684 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 00:43:07.684 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 00:43:07.684 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 00:43:07.684 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 00:43:07.684 -03:00 [DBG] Client validation success
+2018-10-27 00:43:07.684 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNOJJVMB3:00000003",
+  "TimeStamp": "2018-10-27T03:43:07Z",
+  "ProcessId": 2796,
+  "LocalIpAddress": "127.0.0.1:28890",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:43:07.685 -03:00 [DBG] Start token request validation
+2018-10-27 00:43:07.685 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 00:43:07.685 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 00:43:07.685 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 00:43:07.686 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 00:43:07.692 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****y85g"
+    }
+  ],
+  "ActivityId": "0HLHRNOJJVMB3:00000003",
+  "TimeStamp": "2018-10-27T03:43:07Z",
+  "ProcessId": 2796,
+  "LocalIpAddress": "127.0.0.1:28890",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:43:07.692 -03:00 [DBG] Token request success.
+2018-10-27 00:44:39.082 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 00:44:39.083 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 00:44:39.083 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 00:44:39.083 -03:00 [DBG] Start token request.
+2018-10-27 00:44:39.083 -03:00 [DBG] Start client validation
+2018-10-27 00:44:39.083 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 00:44:39.083 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 00:44:39.083 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 00:44:39.086 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 00:44:39.086 -03:00 [DBG] Client validation success
+2018-10-27 00:44:39.087 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNOJJVMB4:00000001",
+  "TimeStamp": "2018-10-27T03:44:39Z",
+  "ProcessId": 2796,
+  "LocalIpAddress": "127.0.0.1:28890",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:44:39.088 -03:00 [DBG] Start token request validation
+2018-10-27 00:44:39.089 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 00:44:39.089 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 00:44:39.089 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 00:44:39.089 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 00:44:39.096 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****mPyg"
+    }
+  ],
+  "ActivityId": "0HLHRNOJJVMB4:00000001",
+  "TimeStamp": "2018-10-27T03:44:39Z",
+  "ProcessId": 2796,
+  "LocalIpAddress": "127.0.0.1:28890",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:44:39.096 -03:00 [DBG] Token request success.
+2018-10-27 00:46:58.513 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-10-27 00:46:58.815 -03:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-10-27 00:46:58.825 -03:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-10-27 00:46:58.825 -03:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-10-27 00:46:58.826 -03:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-10-27 00:46:58.826 -03:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-10-27 00:47:10.836 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:47:10.937 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:47:36.573 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 00:47:36.589 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 00:47:36.589 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 00:47:36.603 -03:00 [DBG] Start token request.
+2018-10-27 00:47:36.611 -03:00 [DBG] Start client validation
+2018-10-27 00:47:36.618 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 00:47:36.619 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 00:47:36.619 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 00:47:36.636 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 00:47:36.636 -03:00 [DBG] Client validation success
+2018-10-27 00:47:36.776 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNRDV4EH8:00000002",
+  "TimeStamp": "2018-10-27T03:47:36Z",
+  "ProcessId": 20500,
+  "LocalIpAddress": "127.0.0.1:13941",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:47:36.875 -03:00 [DBG] Start token request validation
+2018-10-27 00:47:36.901 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 00:47:36.946 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 00:47:36.999 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 00:47:37.052 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 00:47:37.225 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****MVzA"
+    }
+  ],
+  "ActivityId": "0HLHRNRDV4EH8:00000002",
+  "TimeStamp": "2018-10-27T03:47:37Z",
+  "ProcessId": 20500,
+  "LocalIpAddress": "127.0.0.1:13941",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:47:37.227 -03:00 [DBG] Token request success.
+2018-10-27 00:47:37.813 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2018-10-27 00:47:37.816 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2018-10-27 00:47:37.817 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2018-10-27 00:47:37.821 -03:00 [DBG] Start discovery request
+2018-10-27 00:47:37.940 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2018-10-27 00:47:37.942 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2018-10-27 00:47:37.942 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2018-10-27 00:47:37.948 -03:00 [DBG] Start key discovery request
+2018-10-27 00:47:44.198 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 00:47:44.199 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 00:47:44.199 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 00:47:44.199 -03:00 [DBG] Start token request.
+2018-10-27 00:47:44.199 -03:00 [DBG] Start client validation
+2018-10-27 00:47:44.199 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 00:47:44.199 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 00:47:44.199 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 00:47:44.200 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 00:47:44.200 -03:00 [DBG] Client validation success
+2018-10-27 00:47:44.200 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNRDV4EH7:00000003",
+  "TimeStamp": "2018-10-27T03:47:44Z",
+  "ProcessId": 20500,
+  "LocalIpAddress": "127.0.0.1:13941",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:47:44.201 -03:00 [DBG] Start token request validation
+2018-10-27 00:47:44.201 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 00:47:44.201 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 00:47:44.201 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 00:47:44.201 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 00:47:44.210 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****mNFA"
+    }
+  ],
+  "ActivityId": "0HLHRNRDV4EH7:00000003",
+  "TimeStamp": "2018-10-27T03:47:44Z",
+  "ProcessId": 20500,
+  "LocalIpAddress": "127.0.0.1:13941",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:47:44.210 -03:00 [DBG] Token request success.
+2018-10-27 00:47:45.546 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 00:47:45.547 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 00:47:45.547 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 00:47:45.547 -03:00 [DBG] Start token request.
+2018-10-27 00:47:45.547 -03:00 [DBG] Start client validation
+2018-10-27 00:47:45.547 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 00:47:45.547 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 00:47:45.547 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 00:47:45.547 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 00:47:45.548 -03:00 [DBG] Client validation success
+2018-10-27 00:47:45.548 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNRDV4EH8:00000004",
+  "TimeStamp": "2018-10-27T03:47:45Z",
+  "ProcessId": 20500,
+  "LocalIpAddress": "127.0.0.1:13941",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:47:45.548 -03:00 [DBG] Start token request validation
+2018-10-27 00:47:45.548 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 00:47:45.549 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 00:47:45.550 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 00:47:45.550 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 00:47:45.556 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****uNkg"
+    }
+  ],
+  "ActivityId": "0HLHRNRDV4EH8:00000004",
+  "TimeStamp": "2018-10-27T03:47:45Z",
+  "ProcessId": 20500,
+  "LocalIpAddress": "127.0.0.1:13941",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:47:45.556 -03:00 [DBG] Token request success.
+2018-10-27 00:50:49.616 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-10-27 00:50:49.828 -03:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-10-27 00:50:49.844 -03:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-10-27 00:50:49.844 -03:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-10-27 00:50:49.849 -03:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-10-27 00:50:49.852 -03:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-10-27 00:50:55.791 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:50:55.936 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 00:52:06.236 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 00:52:06.258 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 00:52:06.259 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 00:52:06.280 -03:00 [DBG] Start token request.
+2018-10-27 00:52:06.294 -03:00 [DBG] Start client validation
+2018-10-27 00:52:06.304 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 00:52:06.307 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 00:52:06.307 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 00:52:06.332 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 00:52:06.332 -03:00 [DBG] Client validation success
+2018-10-27 00:52:06.511 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNTI582LJ:00000002",
+  "TimeStamp": "2018-10-27T03:52:06Z",
+  "ProcessId": 14748,
+  "LocalIpAddress": "127.0.0.1:6705",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:52:06.618 -03:00 [DBG] Start token request validation
+2018-10-27 00:52:06.629 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 00:52:06.705 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 00:52:06.780 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 00:52:06.842 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 00:52:07.058 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****ig6Q"
+    }
+  ],
+  "ActivityId": "0HLHRNTI582LJ:00000002",
+  "TimeStamp": "2018-10-27T03:52:07Z",
+  "ProcessId": 14748,
+  "LocalIpAddress": "127.0.0.1:6705",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:52:07.069 -03:00 [DBG] Token request success.
+2018-10-27 00:52:07.847 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2018-10-27 00:52:07.849 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2018-10-27 00:52:07.849 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2018-10-27 00:52:07.859 -03:00 [DBG] Start discovery request
+2018-10-27 00:52:08.181 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2018-10-27 00:52:08.182 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2018-10-27 00:52:08.182 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2018-10-27 00:52:08.192 -03:00 [DBG] Start key discovery request
+2018-10-27 00:52:13.765 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 00:52:13.766 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 00:52:13.766 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 00:52:13.766 -03:00 [DBG] Start token request.
+2018-10-27 00:52:13.766 -03:00 [DBG] Start client validation
+2018-10-27 00:52:13.766 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 00:52:13.766 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 00:52:13.766 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 00:52:13.767 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 00:52:13.767 -03:00 [DBG] Client validation success
+2018-10-27 00:52:13.767 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNTI582LJ:00000005",
+  "TimeStamp": "2018-10-27T03:52:13Z",
+  "ProcessId": 14748,
+  "LocalIpAddress": "127.0.0.1:6705",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:52:13.772 -03:00 [DBG] Start token request validation
+2018-10-27 00:52:13.772 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 00:52:13.772 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 00:52:13.772 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 00:52:13.772 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 00:52:13.777 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****bg8g"
+    }
+  ],
+  "ActivityId": "0HLHRNTI582LJ:00000005",
+  "TimeStamp": "2018-10-27T03:52:13Z",
+  "ProcessId": 14748,
+  "LocalIpAddress": "127.0.0.1:6705",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:52:13.777 -03:00 [DBG] Token request success.
+2018-10-27 00:54:43.453 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 00:54:43.455 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 00:54:43.456 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 00:54:43.456 -03:00 [DBG] Start token request.
+2018-10-27 00:54:43.456 -03:00 [DBG] Start client validation
+2018-10-27 00:54:43.456 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 00:54:43.456 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 00:54:43.456 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 00:54:43.456 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 00:54:43.456 -03:00 [DBG] Client validation success
+2018-10-27 00:54:43.456 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNTI582LL:00000001",
+  "TimeStamp": "2018-10-27T03:54:43Z",
+  "ProcessId": 14748,
+  "LocalIpAddress": "127.0.0.1:6705",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:54:43.457 -03:00 [DBG] Start token request validation
+2018-10-27 00:54:43.457 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 00:54:43.457 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 00:54:43.457 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 00:54:43.457 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 00:54:43.464 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****PMCA"
+    }
+  ],
+  "ActivityId": "0HLHRNTI582LL:00000001",
+  "TimeStamp": "2018-10-27T03:54:43Z",
+  "ProcessId": 14748,
+  "LocalIpAddress": "127.0.0.1:6705",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 00:54:43.464 -03:00 [DBG] Token request success.
+2018-10-27 01:01:14.212 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:01:14.212 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:01:14.213 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:01:14.213 -03:00 [DBG] Start token request.
+2018-10-27 01:01:14.213 -03:00 [DBG] Start client validation
+2018-10-27 01:01:14.213 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:01:14.213 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:01:14.213 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:01:14.213 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:01:14.213 -03:00 [DBG] Client validation success
+2018-10-27 01:01:14.214 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNTI582LM:00000001",
+  "TimeStamp": "2018-10-27T04:01:14Z",
+  "ProcessId": 14748,
+  "LocalIpAddress": "127.0.0.1:6705",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:01:14.214 -03:00 [DBG] Start token request validation
+2018-10-27 01:01:14.214 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:01:14.214 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:01:14.214 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:01:14.214 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:01:14.221 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****fEvA"
+    }
+  ],
+  "ActivityId": "0HLHRNTI582LM:00000001",
+  "TimeStamp": "2018-10-27T04:01:14Z",
+  "ProcessId": 14748,
+  "LocalIpAddress": "127.0.0.1:6705",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:01:14.221 -03:00 [DBG] Token request success.
+2018-10-27 01:01:18.645 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:01:18.647 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:01:18.647 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:01:18.648 -03:00 [DBG] Start token request.
+2018-10-27 01:01:18.648 -03:00 [DBG] Start client validation
+2018-10-27 01:01:18.653 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:01:18.653 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:01:18.653 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:01:18.653 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:01:18.653 -03:00 [DBG] Client validation success
+2018-10-27 01:01:18.653 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNTI582LM:00000002",
+  "TimeStamp": "2018-10-27T04:01:18Z",
+  "ProcessId": 14748,
+  "LocalIpAddress": "127.0.0.1:6705",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:01:18.654 -03:00 [DBG] Start token request validation
+2018-10-27 01:01:18.654 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:01:18.654 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:01:18.654 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:01:18.654 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:01:18.661 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****m_MA"
+    }
+  ],
+  "ActivityId": "0HLHRNTI582LM:00000002",
+  "TimeStamp": "2018-10-27T04:01:18Z",
+  "ProcessId": 14748,
+  "LocalIpAddress": "127.0.0.1:6705",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:01:18.661 -03:00 [DBG] Token request success.
+2018-10-27 01:01:25.188 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:01:25.189 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:01:25.189 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:01:25.189 -03:00 [DBG] Start token request.
+2018-10-27 01:01:25.189 -03:00 [DBG] Start client validation
+2018-10-27 01:01:25.189 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:01:25.189 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:01:25.189 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:01:25.190 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:01:25.190 -03:00 [DBG] Client validation success
+2018-10-27 01:01:25.190 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRNTI582LM:00000003",
+  "TimeStamp": "2018-10-27T04:01:25Z",
+  "ProcessId": 14748,
+  "LocalIpAddress": "127.0.0.1:6705",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:01:25.198 -03:00 [DBG] Start token request validation
+2018-10-27 01:01:25.198 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:01:25.198 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:01:25.199 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:01:25.200 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:01:25.208 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****vxKg"
+    }
+  ],
+  "ActivityId": "0HLHRNTI582LM:00000003",
+  "TimeStamp": "2018-10-27T04:01:25Z",
+  "ProcessId": 14748,
+  "LocalIpAddress": "127.0.0.1:6705",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:01:25.208 -03:00 [DBG] Token request success.
+2018-10-27 01:03:49.630 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-10-27 01:03:50.023 -03:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-10-27 01:03:50.034 -03:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-10-27 01:03:50.035 -03:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-10-27 01:03:50.035 -03:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-10-27 01:03:50.035 -03:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-10-27 01:03:56.104 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 01:03:56.172 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 01:04:36.107 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:04:36.122 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:04:36.123 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:04:36.137 -03:00 [DBG] Start token request.
+2018-10-27 01:04:36.143 -03:00 [DBG] Start client validation
+2018-10-27 01:04:36.151 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:04:36.152 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:04:36.152 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:04:36.169 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:04:36.169 -03:00 [DBG] Client validation success
+2018-10-27 01:04:36.323 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRO4QQDL1U:00000002",
+  "TimeStamp": "2018-10-27T04:04:36Z",
+  "ProcessId": 21636,
+  "LocalIpAddress": "127.0.0.1:25264",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:04:36.444 -03:00 [DBG] Start token request validation
+2018-10-27 01:04:36.457 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:04:36.505 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:04:36.535 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:04:36.608 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:04:36.854 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****6-wg"
+    }
+  ],
+  "ActivityId": "0HLHRO4QQDL1U:00000002",
+  "TimeStamp": "2018-10-27T04:04:36Z",
+  "ProcessId": 21636,
+  "LocalIpAddress": "127.0.0.1:25264",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:04:36.856 -03:00 [DBG] Token request success.
+2018-10-27 01:04:37.452 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2018-10-27 01:04:37.454 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2018-10-27 01:04:37.454 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2018-10-27 01:04:37.462 -03:00 [DBG] Start discovery request
+2018-10-27 01:04:37.589 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2018-10-27 01:04:37.590 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2018-10-27 01:04:37.590 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2018-10-27 01:04:37.594 -03:00 [DBG] Start key discovery request
+2018-10-27 01:06:56.534 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-10-27 01:06:56.722 -03:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-10-27 01:06:56.730 -03:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-10-27 01:06:56.730 -03:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-10-27 01:06:56.731 -03:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-10-27 01:06:56.731 -03:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-10-27 01:07:00.006 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 01:07:00.080 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 01:11:12.983 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-10-27 01:11:13.205 -03:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-10-27 01:11:13.216 -03:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-10-27 01:11:13.217 -03:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-10-27 01:11:13.218 -03:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-10-27 01:11:13.218 -03:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-10-27 01:11:22.237 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 01:11:22.311 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 01:11:50.153 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:11:50.176 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:11:50.177 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:11:50.197 -03:00 [DBG] Start token request.
+2018-10-27 01:11:50.207 -03:00 [DBG] Start client validation
+2018-10-27 01:11:50.217 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:11:50.218 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:11:50.219 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:11:50.256 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:11:50.257 -03:00 [DBG] Client validation success
+2018-10-27 01:11:50.437 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRO8UEGTME:00000002",
+  "TimeStamp": "2018-10-27T04:11:50Z",
+  "ProcessId": 3248,
+  "LocalIpAddress": "127.0.0.1:10876",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:11:50.605 -03:00 [DBG] Start token request validation
+2018-10-27 01:11:50.629 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:11:50.723 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:11:50.779 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:11:50.869 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:11:51.095 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****7rPg"
+    }
+  ],
+  "ActivityId": "0HLHRO8UEGTME:00000002",
+  "TimeStamp": "2018-10-27T04:11:51Z",
+  "ProcessId": 3248,
+  "LocalIpAddress": "127.0.0.1:10876",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:11:51.098 -03:00 [DBG] Token request success.
+2018-10-27 01:11:51.732 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2018-10-27 01:11:51.733 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2018-10-27 01:11:51.733 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2018-10-27 01:11:51.738 -03:00 [DBG] Start discovery request
+2018-10-27 01:11:51.899 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2018-10-27 01:11:51.900 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2018-10-27 01:11:51.900 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2018-10-27 01:11:51.908 -03:00 [DBG] Start key discovery request
+2018-10-27 01:12:45.487 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-10-27 01:12:45.672 -03:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-10-27 01:12:45.689 -03:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-10-27 01:12:45.690 -03:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-10-27 01:12:45.701 -03:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-10-27 01:12:45.702 -03:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-10-27 01:12:51.147 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 01:12:51.210 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 01:16:41.791 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:16:41.809 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:16:41.810 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:16:41.832 -03:00 [DBG] Start token request.
+2018-10-27 01:16:41.844 -03:00 [DBG] Start client validation
+2018-10-27 01:16:41.853 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:16:41.854 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:16:41.854 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:16:41.884 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:16:41.884 -03:00 [DBG] Client validation success
+2018-10-27 01:16:42.071 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRO9Q6A124:00000001",
+  "TimeStamp": "2018-10-27T04:16:41Z",
+  "ProcessId": 22292,
+  "LocalIpAddress": "127.0.0.1:17213",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:16:42.227 -03:00 [DBG] Start token request validation
+2018-10-27 01:16:42.244 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:16:42.310 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:16:42.397 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:16:42.467 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:16:42.871 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****PcOQ"
+    }
+  ],
+  "ActivityId": "0HLHRO9Q6A124:00000001",
+  "TimeStamp": "2018-10-27T04:16:42Z",
+  "ProcessId": 22292,
+  "LocalIpAddress": "127.0.0.1:17213",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:16:42.875 -03:00 [DBG] Token request success.
+2018-10-27 01:16:43.786 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2018-10-27 01:16:43.788 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2018-10-27 01:16:43.788 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2018-10-27 01:16:43.795 -03:00 [DBG] Start discovery request
+2018-10-27 01:16:44.070 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2018-10-27 01:16:44.074 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2018-10-27 01:16:44.076 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2018-10-27 01:16:44.083 -03:00 [DBG] Start key discovery request
+2018-10-27 01:17:16.428 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:17:16.429 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:17:16.429 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:17:16.429 -03:00 [DBG] Start token request.
+2018-10-27 01:17:16.429 -03:00 [DBG] Start client validation
+2018-10-27 01:17:16.429 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:17:16.429 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:17:16.429 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:17:16.429 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:17:16.429 -03:00 [DBG] Client validation success
+2018-10-27 01:17:16.430 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRO9Q6A124:00000004",
+  "TimeStamp": "2018-10-27T04:17:16Z",
+  "ProcessId": 22292,
+  "LocalIpAddress": "127.0.0.1:17213",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:17:16.430 -03:00 [DBG] Start token request validation
+2018-10-27 01:17:16.430 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:17:16.431 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:17:16.431 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:17:16.431 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:17:16.440 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****3kOg"
+    }
+  ],
+  "ActivityId": "0HLHRO9Q6A124:00000004",
+  "TimeStamp": "2018-10-27T04:17:16Z",
+  "ProcessId": 22292,
+  "LocalIpAddress": "127.0.0.1:17213",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:17:16.440 -03:00 [DBG] Token request success.
+2018-10-27 01:19:07.246 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:19:07.247 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:19:07.247 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:19:07.248 -03:00 [DBG] Start token request.
+2018-10-27 01:19:07.248 -03:00 [DBG] Start client validation
+2018-10-27 01:19:07.248 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:19:07.248 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:19:07.248 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:19:07.248 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:19:07.248 -03:00 [DBG] Client validation success
+2018-10-27 01:19:07.248 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRO9Q6A125:00000001",
+  "TimeStamp": "2018-10-27T04:19:07Z",
+  "ProcessId": 22292,
+  "LocalIpAddress": "127.0.0.1:17213",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:19:07.249 -03:00 [DBG] Start token request validation
+2018-10-27 01:19:07.249 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:19:07.249 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:19:07.249 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:19:07.249 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:19:07.258 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****iAXA"
+    }
+  ],
+  "ActivityId": "0HLHRO9Q6A125:00000001",
+  "TimeStamp": "2018-10-27T04:19:07Z",
+  "ProcessId": 22292,
+  "LocalIpAddress": "127.0.0.1:17213",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:19:07.258 -03:00 [DBG] Token request success.
+2018-10-27 01:19:19.350 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:19:19.351 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:19:19.351 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:19:19.351 -03:00 [DBG] Start token request.
+2018-10-27 01:19:19.351 -03:00 [DBG] Start client validation
+2018-10-27 01:19:19.351 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:19:19.351 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:19:19.351 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:19:19.351 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:19:19.351 -03:00 [DBG] Client validation success
+2018-10-27 01:19:19.352 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRO9Q6A125:00000002",
+  "TimeStamp": "2018-10-27T04:19:19Z",
+  "ProcessId": 22292,
+  "LocalIpAddress": "127.0.0.1:17213",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:19:19.352 -03:00 [DBG] Start token request validation
+2018-10-27 01:19:19.352 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:19:19.352 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:19:19.352 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:19:19.352 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:19:19.358 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****tRHw"
+    }
+  ],
+  "ActivityId": "0HLHRO9Q6A125:00000002",
+  "TimeStamp": "2018-10-27T04:19:19Z",
+  "ProcessId": 22292,
+  "LocalIpAddress": "127.0.0.1:17213",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:19:19.358 -03:00 [DBG] Token request success.
+2018-10-27 01:19:59.066 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:19:59.067 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:19:59.067 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:19:59.067 -03:00 [DBG] Start token request.
+2018-10-27 01:19:59.068 -03:00 [DBG] Start client validation
+2018-10-27 01:19:59.068 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:19:59.068 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:19:59.068 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:19:59.069 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:19:59.069 -03:00 [DBG] Client validation success
+2018-10-27 01:19:59.069 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRO9Q6A125:00000003",
+  "TimeStamp": "2018-10-27T04:19:59Z",
+  "ProcessId": 22292,
+  "LocalIpAddress": "127.0.0.1:17213",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:19:59.070 -03:00 [DBG] Start token request validation
+2018-10-27 01:19:59.070 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:19:59.071 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:19:59.071 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:19:59.071 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:19:59.076 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****Vyxg"
+    }
+  ],
+  "ActivityId": "0HLHRO9Q6A125:00000003",
+  "TimeStamp": "2018-10-27T04:19:59Z",
+  "ProcessId": 22292,
+  "LocalIpAddress": "127.0.0.1:17213",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:19:59.076 -03:00 [DBG] Token request success.
+2018-10-27 01:20:12.724 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:20:12.725 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:20:12.725 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:20:12.725 -03:00 [DBG] Start token request.
+2018-10-27 01:20:12.725 -03:00 [DBG] Start client validation
+2018-10-27 01:20:12.725 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:20:12.725 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:20:12.725 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:20:12.725 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:20:12.725 -03:00 [DBG] Client validation success
+2018-10-27 01:20:12.726 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRO9Q6A125:00000004",
+  "TimeStamp": "2018-10-27T04:20:12Z",
+  "ProcessId": 22292,
+  "LocalIpAddress": "127.0.0.1:17213",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:20:12.727 -03:00 [DBG] Start token request validation
+2018-10-27 01:20:12.727 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:20:12.727 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:20:12.727 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:20:12.727 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:20:12.735 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****XZhQ"
+    }
+  ],
+  "ActivityId": "0HLHRO9Q6A125:00000004",
+  "TimeStamp": "2018-10-27T04:20:12Z",
+  "ProcessId": 22292,
+  "LocalIpAddress": "127.0.0.1:17213",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:20:12.735 -03:00 [DBG] Token request success.
+2018-10-27 01:20:50.453 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:20:50.453 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:20:50.453 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:20:50.454 -03:00 [DBG] Start token request.
+2018-10-27 01:20:50.454 -03:00 [DBG] Start client validation
+2018-10-27 01:20:50.454 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:20:50.454 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:20:50.454 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:20:50.456 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:20:50.456 -03:00 [DBG] Client validation success
+2018-10-27 01:20:50.456 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRO9Q6A125:00000005",
+  "TimeStamp": "2018-10-27T04:20:50Z",
+  "ProcessId": 22292,
+  "LocalIpAddress": "127.0.0.1:17213",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:20:50.456 -03:00 [DBG] Start token request validation
+2018-10-27 01:20:50.456 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:20:50.456 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:20:50.457 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:20:50.457 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:20:50.462 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****fRgA"
+    }
+  ],
+  "ActivityId": "0HLHRO9Q6A125:00000005",
+  "TimeStamp": "2018-10-27T04:20:50Z",
+  "ProcessId": 22292,
+  "LocalIpAddress": "127.0.0.1:17213",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:20:50.462 -03:00 [DBG] Token request success.
+2018-10-27 01:35:58.438 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-10-27 01:35:58.586 -03:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-10-27 01:35:58.606 -03:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-10-27 01:35:58.606 -03:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-10-27 01:35:58.607 -03:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-10-27 01:35:58.607 -03:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-10-27 01:36:02.214 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 01:36:02.269 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 01:37:29.987 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-10-27 01:37:30.170 -03:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-10-27 01:37:30.198 -03:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-10-27 01:37:30.199 -03:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-10-27 01:37:30.199 -03:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-10-27 01:37:30.200 -03:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-10-27 01:37:34.734 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 01:37:34.805 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 01:37:58.236 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:37:58.250 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:37:58.250 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:37:58.266 -03:00 [DBG] Start token request.
+2018-10-27 01:37:58.277 -03:00 [DBG] Start client validation
+2018-10-27 01:37:58.282 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:37:58.283 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:37:58.283 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:37:58.302 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:37:58.302 -03:00 [DBG] Client validation success
+2018-10-27 01:37:58.431 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRONKGHLL4:00000002",
+  "TimeStamp": "2018-10-27T04:37:58Z",
+  "ProcessId": 6036,
+  "LocalIpAddress": "127.0.0.1:7138",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:37:58.548 -03:00 [DBG] Start token request validation
+2018-10-27 01:37:58.567 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:37:58.645 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:37:58.678 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:37:58.724 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:37:58.901 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****EZ6g"
+    }
+  ],
+  "ActivityId": "0HLHRONKGHLL4:00000002",
+  "TimeStamp": "2018-10-27T04:37:58Z",
+  "ProcessId": 6036,
+  "LocalIpAddress": "127.0.0.1:7138",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:37:58.903 -03:00 [DBG] Token request success.
+2018-10-27 01:37:59.451 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2018-10-27 01:37:59.453 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2018-10-27 01:37:59.453 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2018-10-27 01:37:59.461 -03:00 [DBG] Start discovery request
+2018-10-27 01:37:59.597 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2018-10-27 01:37:59.597 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2018-10-27 01:37:59.598 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2018-10-27 01:37:59.604 -03:00 [DBG] Start key discovery request
+2018-10-27 01:38:09.280 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:38:09.281 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:38:09.281 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:38:09.281 -03:00 [DBG] Start token request.
+2018-10-27 01:38:09.281 -03:00 [DBG] Start client validation
+2018-10-27 01:38:09.281 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:38:09.281 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:38:09.281 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:38:09.281 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:38:09.281 -03:00 [DBG] Client validation success
+2018-10-27 01:38:09.281 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRONKGHLL3:00000003",
+  "TimeStamp": "2018-10-27T04:38:09Z",
+  "ProcessId": 6036,
+  "LocalIpAddress": "127.0.0.1:7138",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:38:09.283 -03:00 [DBG] Start token request validation
+2018-10-27 01:38:09.284 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:38:09.284 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:38:09.284 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:38:09.284 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:38:09.291 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****3ceQ"
+    }
+  ],
+  "ActivityId": "0HLHRONKGHLL3:00000003",
+  "TimeStamp": "2018-10-27T04:38:09Z",
+  "ProcessId": 6036,
+  "LocalIpAddress": "127.0.0.1:7138",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:38:09.291 -03:00 [DBG] Token request success.
+2018-10-27 01:40:42.121 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-10-27 01:40:42.289 -03:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-10-27 01:40:42.306 -03:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-10-27 01:40:42.306 -03:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-10-27 01:40:42.306 -03:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-10-27 01:40:42.307 -03:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-10-27 01:40:47.701 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 01:40:47.767 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 01:41:08.676 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:41:08.691 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:41:08.691 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:41:08.707 -03:00 [DBG] Start token request.
+2018-10-27 01:41:08.719 -03:00 [DBG] Start client validation
+2018-10-27 01:41:08.736 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:41:08.737 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:41:08.737 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:41:08.764 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:41:08.764 -03:00 [DBG] Client validation success
+2018-10-27 01:41:08.916 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHROPDT1BN5:00000002",
+  "TimeStamp": "2018-10-27T04:41:08Z",
+  "ProcessId": 19984,
+  "LocalIpAddress": "127.0.0.1:21742",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:41:09.036 -03:00 [DBG] Start token request validation
+2018-10-27 01:41:09.052 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:41:09.099 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:41:09.131 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:41:09.162 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:41:09.325 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****Ja2g"
+    }
+  ],
+  "ActivityId": "0HLHROPDT1BN5:00000002",
+  "TimeStamp": "2018-10-27T04:41:09Z",
+  "ProcessId": 19984,
+  "LocalIpAddress": "127.0.0.1:21742",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:41:09.327 -03:00 [DBG] Token request success.
+2018-10-27 01:41:09.945 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2018-10-27 01:41:09.948 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2018-10-27 01:41:09.948 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2018-10-27 01:41:09.954 -03:00 [DBG] Start discovery request
+2018-10-27 01:41:10.124 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2018-10-27 01:41:10.125 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2018-10-27 01:41:10.126 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2018-10-27 01:41:10.133 -03:00 [DBG] Start key discovery request
+2018-10-27 01:53:49.763 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:53:49.764 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:53:49.764 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:53:49.769 -03:00 [DBG] Start token request.
+2018-10-27 01:53:49.769 -03:00 [DBG] Start client validation
+2018-10-27 01:53:49.769 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:53:49.770 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:53:49.770 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:53:49.770 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:53:49.770 -03:00 [DBG] Client validation success
+2018-10-27 01:53:49.770 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHROPDT1BN6:00000001",
+  "TimeStamp": "2018-10-27T04:53:49Z",
+  "ProcessId": 19984,
+  "LocalIpAddress": "127.0.0.1:21742",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:53:49.772 -03:00 [DBG] Start token request validation
+2018-10-27 01:53:49.772 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:53:49.773 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:53:49.773 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:53:49.773 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:53:49.786 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****9enw"
+    }
+  ],
+  "ActivityId": "0HLHROPDT1BN6:00000001",
+  "TimeStamp": "2018-10-27T04:53:49Z",
+  "ProcessId": 19984,
+  "LocalIpAddress": "127.0.0.1:21742",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:53:49.786 -03:00 [DBG] Token request success.
+2018-10-27 01:53:53.585 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 01:53:53.587 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 01:53:53.587 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 01:53:53.587 -03:00 [DBG] Start token request.
+2018-10-27 01:53:53.587 -03:00 [DBG] Start client validation
+2018-10-27 01:53:53.587 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 01:53:53.587 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 01:53:53.587 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 01:53:53.587 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 01:53:53.587 -03:00 [DBG] Client validation success
+2018-10-27 01:53:53.587 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHROPDT1BN6:00000002",
+  "TimeStamp": "2018-10-27T04:53:53Z",
+  "ProcessId": 19984,
+  "LocalIpAddress": "127.0.0.1:21742",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:53:53.590 -03:00 [DBG] Start token request validation
+2018-10-27 01:53:53.591 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 01:53:53.591 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 01:53:53.591 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 01:53:53.591 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 01:53:53.598 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****T6kg"
+    }
+  ],
+  "ActivityId": "0HLHROPDT1BN6:00000002",
+  "TimeStamp": "2018-10-27T04:53:53Z",
+  "ProcessId": 19984,
+  "LocalIpAddress": "127.0.0.1:21742",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 01:53:53.599 -03:00 [DBG] Token request success.
+2018-10-27 02:25:34.392 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-10-27 02:25:34.571 -03:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-10-27 02:25:34.577 -03:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-10-27 02:25:34.579 -03:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-10-27 02:25:34.583 -03:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-10-27 02:25:34.586 -03:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-10-27 02:25:43.369 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 02:25:43.451 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 02:26:03.466 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 02:26:03.483 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 02:26:03.483 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 02:26:03.499 -03:00 [DBG] Start token request.
+2018-10-27 02:26:03.511 -03:00 [DBG] Start client validation
+2018-10-27 02:26:03.520 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 02:26:03.522 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 02:26:03.522 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 02:26:03.551 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 02:26:03.552 -03:00 [DBG] Client validation success
+2018-10-27 02:26:03.698 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRPIG1LP2O:00000002",
+  "TimeStamp": "2018-10-27T05:26:03Z",
+  "ProcessId": 8968,
+  "LocalIpAddress": "127.0.0.1:26060",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 02:26:03.802 -03:00 [DBG] Start token request validation
+2018-10-27 02:26:03.822 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 02:26:03.882 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 02:26:03.913 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 02:26:03.941 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 02:26:04.092 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****sCSQ"
+    }
+  ],
+  "ActivityId": "0HLHRPIG1LP2O:00000002",
+  "TimeStamp": "2018-10-27T05:26:04Z",
+  "ProcessId": 8968,
+  "LocalIpAddress": "127.0.0.1:26060",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 02:26:04.094 -03:00 [DBG] Token request success.
+2018-10-27 02:26:04.680 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2018-10-27 02:26:04.682 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2018-10-27 02:26:04.683 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2018-10-27 02:26:04.689 -03:00 [DBG] Start discovery request
+2018-10-27 02:26:04.825 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2018-10-27 02:26:04.826 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2018-10-27 02:26:04.826 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2018-10-27 02:26:04.832 -03:00 [DBG] Start key discovery request
+2018-10-27 02:26:16.600 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 02:26:16.600 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 02:26:16.601 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 02:26:16.601 -03:00 [DBG] Start token request.
+2018-10-27 02:26:16.601 -03:00 [DBG] Start client validation
+2018-10-27 02:26:16.601 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 02:26:16.601 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 02:26:16.601 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 02:26:16.601 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 02:26:16.601 -03:00 [DBG] Client validation success
+2018-10-27 02:26:16.602 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRPIG1LP2N:00000003",
+  "TimeStamp": "2018-10-27T05:26:16Z",
+  "ProcessId": 8968,
+  "LocalIpAddress": "127.0.0.1:26060",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 02:26:16.603 -03:00 [DBG] Start token request validation
+2018-10-27 02:26:16.603 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 02:26:16.604 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 02:26:16.604 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 02:26:16.607 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 02:26:16.614 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****lJcw"
+    }
+  ],
+  "ActivityId": "0HLHRPIG1LP2N:00000003",
+  "TimeStamp": "2018-10-27T05:26:16Z",
+  "ProcessId": 8968,
+  "LocalIpAddress": "127.0.0.1:26060",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 02:26:16.614 -03:00 [DBG] Token request success.
+2018-10-27 02:28:10.342 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 02:28:10.343 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 02:28:10.343 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 02:28:10.343 -03:00 [DBG] Start token request.
+2018-10-27 02:28:10.343 -03:00 [DBG] Start client validation
+2018-10-27 02:28:10.343 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 02:28:10.343 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 02:28:10.343 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 02:28:10.343 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 02:28:10.343 -03:00 [DBG] Client validation success
+2018-10-27 02:28:10.344 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRPIG1LP2P:00000001",
+  "TimeStamp": "2018-10-27T05:28:10Z",
+  "ProcessId": 8968,
+  "LocalIpAddress": "127.0.0.1:26060",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 02:28:10.344 -03:00 [DBG] Start token request validation
+2018-10-27 02:28:10.344 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 02:28:10.344 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 02:28:10.344 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 02:28:10.344 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 02:28:10.349 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****1Ykw"
+    }
+  ],
+  "ActivityId": "0HLHRPIG1LP2P:00000001",
+  "TimeStamp": "2018-10-27T05:28:10Z",
+  "ProcessId": 8968,
+  "LocalIpAddress": "127.0.0.1:26060",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 02:28:10.349 -03:00 [DBG] Token request success.
+2018-10-27 02:28:25.107 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 02:28:25.108 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 02:28:25.108 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 02:28:25.108 -03:00 [DBG] Start token request.
+2018-10-27 02:28:25.108 -03:00 [DBG] Start client validation
+2018-10-27 02:28:25.108 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 02:28:25.108 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 02:28:25.108 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 02:28:25.108 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 02:28:25.108 -03:00 [DBG] Client validation success
+2018-10-27 02:28:25.109 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRPIG1LP2P:00000002",
+  "TimeStamp": "2018-10-27T05:28:25Z",
+  "ProcessId": 8968,
+  "LocalIpAddress": "127.0.0.1:26060",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 02:28:25.109 -03:00 [DBG] Start token request validation
+2018-10-27 02:28:25.110 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 02:28:25.110 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 02:28:25.110 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 02:28:25.110 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 02:28:25.115 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****pZ3g"
+    }
+  ],
+  "ActivityId": "0HLHRPIG1LP2P:00000002",
+  "TimeStamp": "2018-10-27T05:28:25Z",
+  "ProcessId": 8968,
+  "LocalIpAddress": "127.0.0.1:26060",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 02:28:25.115 -03:00 [DBG] Token request success.
+2018-10-27 02:33:35.724 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-10-27 02:33:35.875 -03:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-10-27 02:33:35.886 -03:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-10-27 02:33:35.886 -03:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-10-27 02:33:35.887 -03:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-10-27 02:33:35.887 -03:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-10-27 02:33:40.589 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 02:33:40.695 -03:00 [INF] AuthenticationScheme: Identity.Application was successfully authenticated.
+2018-10-27 02:34:28.763 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 02:34:28.785 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 02:34:28.787 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 02:34:28.809 -03:00 [DBG] Start token request.
+2018-10-27 02:34:28.827 -03:00 [DBG] Start client validation
+2018-10-27 02:34:28.838 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 02:34:28.839 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 02:34:28.839 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 02:34:28.862 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 02:34:28.862 -03:00 [DBG] Client validation success
+2018-10-27 02:34:29.037 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRPMVI5BP9:00000002",
+  "TimeStamp": "2018-10-27T05:34:28Z",
+  "ProcessId": 18404,
+  "LocalIpAddress": "127.0.0.1:1785",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 02:34:29.182 -03:00 [DBG] Start token request validation
+2018-10-27 02:34:29.201 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 02:34:29.253 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 02:34:29.280 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 02:34:29.328 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 02:34:29.517 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****ANTA"
+    }
+  ],
+  "ActivityId": "0HLHRPMVI5BP9:00000002",
+  "TimeStamp": "2018-10-27T05:34:29Z",
+  "ProcessId": 18404,
+  "LocalIpAddress": "127.0.0.1:1785",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 02:34:29.523 -03:00 [DBG] Token request success.
+2018-10-27 02:34:30.210 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2018-10-27 02:34:30.212 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2018-10-27 02:34:30.212 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2018-10-27 02:34:30.228 -03:00 [DBG] Start discovery request
+2018-10-27 02:34:30.352 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2018-10-27 02:34:30.353 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2018-10-27 02:34:30.353 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2018-10-27 02:34:30.358 -03:00 [DBG] Start key discovery request
+2018-10-27 02:35:20.212 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 02:35:20.228 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 02:35:20.228 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 02:35:20.228 -03:00 [DBG] Start token request.
+2018-10-27 02:35:20.228 -03:00 [DBG] Start client validation
+2018-10-27 02:35:20.228 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 02:35:20.228 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 02:35:20.228 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 02:35:20.229 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 02:35:20.229 -03:00 [DBG] Client validation success
+2018-10-27 02:35:20.229 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRPMVI5BP8:00000003",
+  "TimeStamp": "2018-10-27T05:35:20Z",
+  "ProcessId": 18404,
+  "LocalIpAddress": "127.0.0.1:1785",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 02:35:20.230 -03:00 [DBG] Start token request validation
+2018-10-27 02:35:20.230 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 02:35:20.230 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 02:35:20.230 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 02:35:20.231 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 02:35:20.243 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****11oQ"
+    }
+  ],
+  "ActivityId": "0HLHRPMVI5BP8:00000003",
+  "TimeStamp": "2018-10-27T05:35:20Z",
+  "ProcessId": 18404,
+  "LocalIpAddress": "127.0.0.1:1785",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 02:35:20.243 -03:00 [DBG] Token request success.
+2018-10-27 02:36:12.576 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2018-10-27 02:36:12.582 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2018-10-27 02:36:12.582 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2018-10-27 02:36:12.582 -03:00 [DBG] Start token request.
+2018-10-27 02:36:12.582 -03:00 [DBG] Start client validation
+2018-10-27 02:36:12.582 -03:00 [DBG] Start parsing Basic Authentication secret
+2018-10-27 02:36:12.582 -03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2018-10-27 02:36:12.582 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2018-10-27 02:36:12.582 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2018-10-27 02:36:12.582 -03:00 [DBG] Client validation success
+2018-10-27 02:36:12.582 -03:00 [INF] {
+  "Name": "Client Authentication Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1010,
+  "ClientId": "CasaDoCodigo.MVC",
+  "AuthenticationMethod": "SharedSecret",
+  "ActivityId": "0HLHRPMVI5BP8:00000004",
+  "TimeStamp": "2018-10-27T05:36:12Z",
+  "ProcessId": 18404,
+  "LocalIpAddress": "127.0.0.1:1785",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 02:36:12.596 -03:00 [DBG] Start token request validation
+2018-10-27 02:36:12.597 -03:00 [DBG] Start client credentials token request validation
+2018-10-27 02:36:12.597 -03:00 [DBG] CasaDoCodigo.MVC credentials token request validation success
+2018-10-27 02:36:12.597 -03:00 [INF] Token request validation success
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "GrantType": "client_credentials",
+  "Scopes": "Carrinho.API",
+  "Raw": {
+    "grant_type": "client_credentials",
+    "scope": "Carrinho.API"
+  }
+}
+2018-10-27 02:36:12.597 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2018-10-27 02:36:12.602 -03:00 [INF] {
+  "Name": "Token Issued Success",
+  "Category": "Token",
+  "EventType": "Success",
+  "Id": 2000,
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "Endpoint": "Token",
+  "Scopes": "Carrinho.API",
+  "GrantType": "client_credentials",
+  "Tokens": [
+    {
+      "TokenType": "access_token",
+      "TokenValue": "****oWQg"
+    }
+  ],
+  "ActivityId": "0HLHRPMVI5BP8:00000004",
+  "TimeStamp": "2018-10-27T05:36:12Z",
+  "ProcessId": 18404,
+  "LocalIpAddress": "127.0.0.1:1785",
+  "RemoteIpAddress": "::1"
+}
+2018-10-27 02:36:12.603 -03:00 [DBG] Token request success.
