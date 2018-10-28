@@ -33,11 +33,11 @@ namespace CasaDoCodigo.Services
             _baseUri = _configuration["CatalogoUrl"];
         }
 
-        public async Task<IEnumerable<Models.Produto>> GetProdutos()
+        public async Task<IList<Models.Produto>> GetProdutos()
         {
             var uri = _baseUri + ApiUris.GetProdutos;
             var json = await _httpClient.GetStringAsync(uri);
-            IEnumerable<Produto> result = JsonConvert.DeserializeObject<IEnumerable<Models.Produto>>(json);
+            IList<Produto> result = JsonConvert.DeserializeObject<IList<Models.Produto>>(json);
             return result;
         }
 
