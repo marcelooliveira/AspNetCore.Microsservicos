@@ -1,8 +1,12 @@
-﻿using CasaDoCodigo.Mensagens.Model;
+﻿using CasaDoCodigo.Infrastructure;
+using CasaDoCodigo.Mensagens.Model;
 using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -19,6 +23,8 @@ namespace CasaDoCodigo.Services
             //public static string PostItem => "carrinho"; //ApiGateway
         }
 
+        private readonly HttpClient _apiClient;
+        private readonly string _carrinhoUrl;
         private readonly ILogger<CarrinhoService> _logger;
 
         public CarrinhoService(
@@ -28,6 +34,7 @@ namespace CasaDoCodigo.Services
             , ILogger<CarrinhoService> logger)
             : base(configuration, httpClient, sessionHelper)
         {
+            _apiClient = httpClient;
             _logger = logger;
             _baseUri = _configuration["CarrinhoUrl"];
         }
@@ -47,6 +54,36 @@ namespace CasaDoCodigo.Services
         {
             var uri = $"{CarrinhoUris.UpdateItem}/{clienteId}";
             return await PutAsync<UpdateQuantidadeOutput>(uri, input);
+        }
+
+        public async Task<CarrinhoCliente> DefinirQuantidades(ApplicationUser applicationUser, Dictionary<string, int> quantidades)
+        {
+            var uri = UrlAPIs.Carrinho.UpdateItemCarrinho(_carrinhoUrl);
+
+            var atualizarCarrinho = new
+            {
+                ClienteId = applicationUser.Id,
+                Atualizacao = quantidades.Select(kvp => new
+                {
+                    ItemCarrinhoId = kvp.Key,
+                    NovaQuantidade = kvp.Value
+                }).ToArray()
+            };
+
+            var conteudoCarrinho = new StringContent(JsonConvert.SerializeObject(atualizarCarrinho), System.Text.Encoding.UTF8, "application/json");
+
+            var response = await _apiClient.PutAsync(uri, conteudoCarrinho);
+
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<CarrinhoCliente>(jsonResponse);
+        }
+
+        public Task AtualizarCarrinho(CarrinhoCliente carrinhoCliente)
+        {
+            throw new System.NotImplementedException();
         }
 
         protected override string Scope => "Carrinho.API";

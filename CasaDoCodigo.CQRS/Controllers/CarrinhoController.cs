@@ -6,18 +6,21 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Polly.CircuitBreaker;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Controllers
 {
     public class CarrinhoController : BaseController
     {
+        private readonly IIdentityParser<ApplicationUser> appUserParser;
         private readonly ICatalogoService catalogoService;
         private readonly ICarrinhoService carrinhoService;
 
-        public CarrinhoController(ICatalogoService catalogoService, ICarrinhoService carrinhoService, IHttpContextAccessor contextAccessor)
+        public CarrinhoController(IIdentityParser<ApplicationUser> appUserParser, ICatalogoService catalogoService, ICarrinhoService carrinhoService, IHttpContextAccessor contextAccessor)
             : base(contextAccessor)
         {
+            this.appUserParser = appUserParser;
             this.catalogoService = catalogoService;
             this.carrinhoService = carrinhoService;
         }
@@ -45,6 +48,26 @@ namespace CasaDoCodigo.Controllers
             return View();
         }
 
+        [Authorize]
+        public async Task<IActionResult> Index(Dictionary<string, int> quantidades, string action)
+        {
+            try
+            {
+                var usuario = appUserParser.Parse(HttpContext.User);
+                var carrinho = carrinhoService.DefinirQuantidades(usuario, quantidades);
+                //if (action == "[ Checkout ]")
+                //{
+                //    RedirectToAction("Create", "Order");
+                //}
+            }
+            catch (BrokenCircuitException ex)
+            {
+                HandleBrokenCircuitException();
+            }
+
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
@@ -52,5 +75,6 @@ namespace CasaDoCodigo.Controllers
         {
             return await carrinhoService.UpdateItem(GetUserId(), itemCarrinho);
         }
+
     }
 }

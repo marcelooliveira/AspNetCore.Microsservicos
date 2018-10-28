@@ -2,12 +2,10 @@
 using Carrinho.API.Services;
 using CasaDoCodigo.Mensagens.Events;
 using CasaDoCodigo.Mensagens.Model;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Rebus.Bus;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
