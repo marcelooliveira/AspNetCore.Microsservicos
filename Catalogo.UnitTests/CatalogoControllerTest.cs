@@ -26,12 +26,7 @@ namespace Catalogo.UnitTests
         public async Task Get_itens_catalogo_sucesso()
         {
             //Arrange
-            IList<Produto> fakeProdutos = new List<Produto>
-            {
-                new Produto(1, "prod1", "produto 1", 12.34m),
-                new Produto(2, "prod2", "produto 2", 23.45m),
-                new Produto(3, "prod3", "produto 3", 34.56m)
-            };
+            IList<Produto> fakeProdutos = GetFakeCatalogo();
 
             _catalogoServiceMock
                 .Setup(c => c.GetProdutos())
@@ -52,6 +47,16 @@ namespace Catalogo.UnitTests
             Assert.Equal(fakeProdutos[0].Codigo, model[0].Codigo);
             Assert.Equal(fakeProdutos[1].Codigo, model[1].Codigo);
             Assert.Equal(fakeProdutos[2].Codigo, model[2].Codigo);
+        }
+
+        private static IList<Produto> GetFakeCatalogo()
+        {
+            return new List<Produto>
+            {
+                new Produto(1, "prod1", "produto 1", 12.34m),
+                new Produto(2, "prod2", "produto 2", 23.45m),
+                new Produto(3, "prod3", "produto 3", 34.56m)
+            };
         }
     }
 }
