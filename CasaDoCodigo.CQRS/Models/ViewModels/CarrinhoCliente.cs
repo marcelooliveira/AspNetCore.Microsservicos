@@ -8,6 +8,11 @@ namespace CasaDoCodigo.Models.ViewModels
 {
     public class CarrinhoCliente
     {
+        public CarrinhoCliente()
+        {
+
+        }
+
         public CarrinhoCliente(string clienteId, List<ItemCarrinho> itens)
         {
             ClienteId = clienteId;

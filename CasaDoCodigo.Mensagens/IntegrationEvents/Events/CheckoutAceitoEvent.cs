@@ -1,6 +1,5 @@
 ﻿using CasaDoCodigo.Mensagens.Model;
 using System;
-using System.Collections.Generic;
 
 namespace CasaDoCodigo.Mensagens.Events
 {

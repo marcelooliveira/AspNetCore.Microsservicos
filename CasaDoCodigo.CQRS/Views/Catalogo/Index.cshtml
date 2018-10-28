@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Carrossel";
+    ViewData["Title"] = "Catálogo";
 }
 
 @model List<Produto>;
@@ -9,10 +9,10 @@
 <div class="container">
     <div class="row">
         <br />
-        @if (ViewBag.MsgCarrosselIndisponivel != null)
+        @if (ViewBag.MsgCatalogoIndisponivel != null)
         {
             <div class="alert alert-warning" role="alert">
-                &nbsp;@ViewBag.MsgCarrosselIndisponivel
+                &nbsp;@ViewBag.MsgCatalogoIndisponivel
             </div>
         }
     </div>
@@ -46,13 +46,14 @@
                             <div class="col-md-3 col-sm-3 col-lg-3">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
-                                        <img class="img-produto-carrossel" src="/images/produtos/large_@(produto.Codigo).jpg" />
+                                        <img class="img-produto-catalogo" src="/images/produtos/large_@(produto.Codigo).jpg" />
                                     </div>
                                     <div class="panel-footer produto-footer">
                                         <div class="produto-nome">@produto.Nome</div>
                                         <div><h4><strong>R$ @produto.Preco.ToString("0.00")</strong></h4></div>
                                         <div class="text-center">
-                                            <a asp-action="carrinho"
+                                            <a asp-controller="carrinho"
+                                               asp-action="index"
                                                asp-route-codigo="@produto.Codigo"
                                                class="btn btn-success">Adicionar</a>
                                         </div>
