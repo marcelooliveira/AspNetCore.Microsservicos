@@ -329,3 +329,4 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 *.txt
+CasaDoCodigo.Identity/identityserver4_log.txt
