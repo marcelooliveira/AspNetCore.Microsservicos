@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Controllers
 {
+    [Authorize]
     public class CarrinhoController : BaseController
     {
         private readonly IIdentityParser<ApplicationUser> appUserParser;
@@ -25,7 +26,6 @@ namespace CasaDoCodigo.Controllers
             this.carrinhoService = carrinhoService;
         }
 
-        [Authorize]
         public async Task<IActionResult> Index(string codigo)
         {
             try
@@ -48,7 +48,7 @@ namespace CasaDoCodigo.Controllers
             return View();
         }
 
-        [Authorize]
+        [HttpPost]
         public async Task<IActionResult> Index(Dictionary<string, int> quantidades, string action)
         {
             try
@@ -60,7 +60,7 @@ namespace CasaDoCodigo.Controllers
                 //    RedirectToAction("Create", "Order");
                 //}
             }
-            catch (BrokenCircuitException ex)
+            catch (BrokenCircuitException)
             {
                 HandleBrokenCircuitException();
             }
