@@ -139,7 +139,6 @@ namespace Carrinho.API.Controllers
                     , carrinhoCheckout.Endereco
                     , carrinhoCheckout.UF
                     , carrinhoCheckout.Cep
-                    , carrinhoCheckout.Cliente
                     , carrinhoCheckout.RequestId
                     , carrinhoClienteDTO);
 
@@ -159,6 +158,45 @@ namespace Carrinho.API.Controllers
         public void Delete(string id)
         {
             _repository.DeleteCarrinhoAsync(id);
+        }
+
+        [Route("[action]/{clienteId}")]
+        [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Finalizar(string clienteId, [FromBody] CadastroViewModel input)
+        {
+            var carrinho = await _repository.GetCarrinhoAsync(clienteId);
+
+            if (carrinho == null)
+            {
+                return BadRequest();
+            }
+
+            CarrinhoClienteDTO carrinhoClienteDTO
+                = new CarrinhoClienteDTO(clienteId,
+                carrinho.Itens.Select(i =>
+                    new ItemCarrinhoDTO(i.Id, i.ProdutoId, i.ProdutoNome, i.PrecoUnitario, i.Quantidade)).ToList());
+
+            var eventMessage
+                = new CheckoutAceitoEvent(
+                      clienteId
+                    , input.Nome
+                    , input.Municipio
+                    , input.Endereco
+                    , input.UF
+                    , input.CEP
+                    , Guid.NewGuid()
+                    , carrinhoClienteDTO);
+
+            // Assim que fazemos a finalização, envia um evento de integração para
+            // API OrdemDeCompra converter o carrinho em pedido e continuar com
+            // processo de criação de pedido
+            await _bus.Publish(eventMessage);
+
+            await _repository.DeleteCarrinhoAsync(clienteId);
+
+            return Accepted();
         }
     }
 }

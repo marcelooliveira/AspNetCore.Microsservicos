@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Catalogo.Queries
+namespace Catalogo.API.Queries
 {
     public interface IProdutoQueries
     {

@@ -19,6 +19,7 @@ namespace CasaDoCodigo.Services
             public static string GetCarrinho => "api/carrinho";
             public static string AddItem => "api/carrinho/additem";
             public static string UpdateItem => "api/carrinho/updateitem";
+            public static string Finalizar => "api/carrinho/finalizar";
             //public static string GetCarrinho => "carrinho"; //ApiGateway
             //public static string PostItem => "carrinho"; //ApiGateway
         }
@@ -86,6 +87,12 @@ namespace CasaDoCodigo.Services
             throw new System.NotImplementedException();
         }
 
-        protected override string Scope => "Carrinho.API";
+        public async Task<bool> Finalizar(string clienteId, CadastroViewModel viewModel)
+        {
+            var uri = $"{CarrinhoUris.Finalizar}/{clienteId}";
+            return await PostAsync<bool>(uri, viewModel);
+        }
+
+        public override string Scope => "Carrinho.API";
     }
 }

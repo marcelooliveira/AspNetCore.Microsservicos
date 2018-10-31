@@ -1,5 +1,5 @@
-﻿using CasaDoCodigo.Catalogo.Data;
-using CasaDoCodigo.Catalogo.Model;
+﻿using Catalogo.API.Data;
+using Catalogo.API.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Catalogo
+namespace Catalogo.API
 {
     internal class SeedData
     {

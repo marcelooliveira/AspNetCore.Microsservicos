@@ -18,7 +18,7 @@ using IdentityModel;
 using System.Linq;
 using System;
 using System.Collections.Generic;
-using CasaDoCodigo.Identity.Models;
+using Identity.API.Models;
 
 namespace IdentityServer4.Quickstart.UI
 {

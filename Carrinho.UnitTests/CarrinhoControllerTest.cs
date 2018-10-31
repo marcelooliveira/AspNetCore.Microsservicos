@@ -58,15 +58,19 @@ namespace Carrinho.UnitTests
             _carrinhoServiceMock.Setup(x => x.DefinirQuantidades(It.IsAny<ApplicationUser>(), It.IsAny<Dictionary<string, int>>()))
                 .Returns(Task.FromResult(fakeCarrinho));
 
+            _loggerMock
+                .Setup(m => m.LogError(It.IsAny<Exception>(), It.IsAny<string>()));
+
             _carrinhoServiceMock.Setup(x => x.AtualizarCarrinho(It.IsAny<CarrinhoClienteMVC>()))
                 .Returns(Task.FromResult(fakeCarrinho));
 
             //Act
             var carrinhoController = new CarrinhoController(
+                _contextAccessorMock.Object,
                 _appUserParserMock.Object,
+                _loggerMock.Object,
                 _catalogoServiceMock.Object,
-                _carrinhoServiceMock.Object,
-                _contextAccessorMock.Object);
+                _carrinhoServiceMock.Object);
 
             carrinhoController.ControllerContext.HttpContext = _contextMock.Object;
             var actionResult = await carrinhoController.Index(fakeQuantidades, action);

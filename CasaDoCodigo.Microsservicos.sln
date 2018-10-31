@@ -14,9 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carrinho.API", "CasaDoCodig
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Mensagens", "CasaDoCodigo.Mensagens\CasaDoCodigo.Mensagens.csproj", "{4B257028-6B62-496E-AD3B-0D93F2C1FF14}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Identity", "CasaDoCodigo.Identity\CasaDoCodigo.Identity.csproj", "{C71256D5-2BA8-444B-BE6A-4512FA317F97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.API", "CasaDoCodigo.Identity\Identity.API.csproj", "{C71256D5-2BA8-444B-BE6A-4512FA317F97}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Catalogo", "CasaDoCodigo.Catalogo\CasaDoCodigo.Catalogo.csproj", "{99EC294B-8F3C-4CAA-AF38-65A4BA64736A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalogo.API", "CasaDoCodigo.Catalogo\Catalogo.API.csproj", "{99EC294B-8F3C-4CAA-AF38-65A4BA64736A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servicos", "Servicos", "{EC57E6DB-8B05-4ACD-8FD8-0B6BCC2E18D9}"
 EndProject
@@ -38,11 +38,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testes", "testes", "{FC7C3B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testes", "testes", "{4AF230EC-1E24-4C55-89C7-74FD6A4578A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carrinho.UnitTests", "Carrinho.UnitTests\Carrinho.UnitTests.csproj", "{4A77ECDE-85A7-4D53-BDEE-FF05AB7D3494}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carrinho.UnitTests", "Carrinho.UnitTests\Carrinho.UnitTests.csproj", "{4A77ECDE-85A7-4D53-BDEE-FF05AB7D3494}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carrinho.FunctionalTests", "Carrinho.FunctionalTests\Carrinho.FunctionalTests.csproj", "{242840D6-2E19-40C6-816B-78FEDA11D418}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carrinho.FunctionalTests", "Carrinho.FunctionalTests\Carrinho.FunctionalTests.csproj", "{242840D6-2E19-40C6-816B-78FEDA11D418}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalogo.UnitTests", "Catalogo.UnitTests\Catalogo.UnitTests.csproj", "{0FE1B9A6-5351-4427-8832-5E0080FFFB1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalogo.UnitTests", "Catalogo.UnitTests\Catalogo.UnitTests.csproj", "{0FE1B9A6-5351-4427-8832-5E0080FFFB1A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrdemDeCompra", "OrdemDeCompra", "{74169CBC-F92A-4E85-B58C-8CF743AF87B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testes", "testes", "{23569E3B-B36E-4746-9E47-4887EA8AF116}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdemDeCompra.API", "OrdemDeCompra.API\OrdemDeCompra.API.csproj", "{EA09CDC8-0E95-433B-832E-6A1BEF3EAB23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +88,10 @@ Global
 		{0FE1B9A6-5351-4427-8832-5E0080FFFB1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FE1B9A6-5351-4427-8832-5E0080FFFB1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FE1B9A6-5351-4427-8832-5E0080FFFB1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA09CDC8-0E95-433B-832E-6A1BEF3EAB23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA09CDC8-0E95-433B-832E-6A1BEF3EAB23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA09CDC8-0E95-433B-832E-6A1BEF3EAB23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA09CDC8-0E95-433B-832E-6A1BEF3EAB23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +113,9 @@ Global
 		{4A77ECDE-85A7-4D53-BDEE-FF05AB7D3494} = {CAFC5BC9-13A2-4D76-A7E2-8D056A006422}
 		{242840D6-2E19-40C6-816B-78FEDA11D418} = {CAFC5BC9-13A2-4D76-A7E2-8D056A006422}
 		{0FE1B9A6-5351-4427-8832-5E0080FFFB1A} = {86602D18-2457-44B4-B066-4562A082F8F5}
+		{74169CBC-F92A-4E85-B58C-8CF743AF87B8} = {EC57E6DB-8B05-4ACD-8FD8-0B6BCC2E18D9}
+		{23569E3B-B36E-4746-9E47-4887EA8AF116} = {74169CBC-F92A-4E85-B58C-8CF743AF87B8}
+		{EA09CDC8-0E95-433B-832E-6A1BEF3EAB23} = {74169CBC-F92A-4E85-B58C-8CF743AF87B8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03DBD554-4917-4E9A-B783-78151722175A}

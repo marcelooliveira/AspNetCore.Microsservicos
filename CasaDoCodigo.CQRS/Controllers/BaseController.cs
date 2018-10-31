@@ -1,7 +1,9 @@
-﻿using IdentityModel;
+﻿using CasaDoCodigo.Services;
+using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -12,15 +14,22 @@ namespace CasaDoCodigo.Controllers
     public abstract class BaseController : Controller
     {
         protected readonly IHttpContextAccessor contextAccessor;
+        protected readonly ILogger logger;
 
-        protected BaseController(IHttpContextAccessor contextAccessor)
+        protected BaseController(IHttpContextAccessor contextAccessor, ILogger logger)
         {
             this.contextAccessor = contextAccessor;
+            this.logger = logger;
         }
 
-        protected void HandleBrokenCircuitException()
+        protected void HandleBrokenCircuitException(IService service)
         {
-            ViewBag.MsgCatalogoIndisponivel = "O serviço de catálogo não está ativo, por favor tente novamente mais tarde.";
+            ViewBag.MsgServicoIndisponivel = $"O serviço '{service.Scope}' não está ativo, por favor tente novamente mais tarde.";
+        }
+
+        protected void HandleException()
+        {
+            ViewBag.MsgServicoIndisponivel = $"O serviço está indisponível no momento, por favor tente novamente mais tarde.";
         }
 
         public async Task Logout()

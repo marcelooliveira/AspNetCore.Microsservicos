@@ -1,6 +1,7 @@
 ﻿using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Polly.CircuitBreaker;
 using System;
 using System.Threading.Tasks;
@@ -11,8 +12,11 @@ namespace CasaDoCodigo.Controllers
     {
         private readonly ICatalogoService catalogoService;
 
-        public CatalogoController(ICatalogoService catalogoService,
-            IHttpContextAccessor contextAccessor) : base(contextAccessor)
+        public CatalogoController
+            (ICatalogoService catalogoService,
+            ILogger<CatalogoController> logger,
+            IHttpContextAccessor contextAccessor) 
+            : base(contextAccessor, logger)
         {
             this.catalogoService = catalogoService;
         }
@@ -25,11 +29,13 @@ namespace CasaDoCodigo.Controllers
             }
             catch (BrokenCircuitException e)
             {
-                HandleBrokenCircuitException();
+                logger.LogError(e, e.Message);
+                HandleBrokenCircuitException(catalogoService);
             }
             catch (Exception e)
             {
-                HandleBrokenCircuitException();
+                logger.LogError(e, e.Message);
+                HandleException();
             }
 
             return View();

@@ -1,4 +1,4 @@
-﻿namespace CasaDoCodigo.Catalogo.Queries
+﻿namespace Catalogo.API.Queries
 {
     public class Produto
     {

@@ -3,16 +3,13 @@ using CasaDoCodigo.OdemDeCompra;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CasaDoCodigo.OrdemDeCompra.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20180914032655_Inicial")]
-    partial class Inicial
+    partial class ApplicationContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,7 +17,7 @@ namespace CasaDoCodigo.OrdemDeCompra.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CasaDoCodigo.OrdemDeCompra.Models.ItemPedido", b =>
+            modelBuilder.Entity("OrdemDeCompra.API.Models.ItemPedido", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,7 +46,7 @@ namespace CasaDoCodigo.OrdemDeCompra.Migrations
                     b.ToTable("ItemPedido");
                 });
 
-            modelBuilder.Entity("CasaDoCodigo.OrdemDeCompra.Models.Pedido", b =>
+            modelBuilder.Entity("OrdemDeCompra.API.Models.Pedido", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,9 +85,9 @@ namespace CasaDoCodigo.OrdemDeCompra.Migrations
                     b.ToTable("Pedido");
                 });
 
-            modelBuilder.Entity("CasaDoCodigo.OrdemDeCompra.Models.ItemPedido", b =>
+            modelBuilder.Entity("OrdemDeCompra.API.Models.ItemPedido", b =>
                 {
-                    b.HasOne("CasaDoCodigo.OrdemDeCompra.Models.Pedido", "Pedido")
+                    b.HasOne("OrdemDeCompra.API.Models.Pedido", "Pedido")
                         .WithMany("Itens")
                         .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade);

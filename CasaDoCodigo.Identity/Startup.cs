@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CasaDoCodigo.Identity.Data;
-using CasaDoCodigo.Identity.Models;
+using Identity.API.Data;
+using Identity.API.Models;
 
-namespace CasaDoCodigo.Identity
+namespace Identity.API
 {
     public class Startup
     {

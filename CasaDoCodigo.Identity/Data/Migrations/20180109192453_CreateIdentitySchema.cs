@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
-namespace CasaDoCodigo.Identity.Data.Migrations
+namespace Identity.API.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

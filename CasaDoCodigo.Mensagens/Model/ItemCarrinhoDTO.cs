@@ -1,4 +1,7 @@
-﻿namespace CasaDoCodigo.Mensagens.Model
+﻿using System.Threading.Tasks;
+using Rebus.Handlers;
+
+namespace CasaDoCodigo.Mensagens.Model
 {
     public class ItemCarrinhoDTO
     {

@@ -15,9 +15,10 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
 
         }
 
-        public CreatePedidoCommand(List<CreatePedidoCommandItem> itens, string clienteNome, string clienteEmail, string clienteTelefone, string clienteEndereco, string clienteComplemento, string clienteBairro, string clienteMunicipio, string clienteUF, string clienteCEP)
+        public CreatePedidoCommand(List<CreatePedidoCommandItem> itens, string clienteId, string clienteNome, string clienteEmail, string clienteTelefone, string clienteEndereco, string clienteComplemento, string clienteBairro, string clienteMunicipio, string clienteUF, string clienteCEP)
         {
             Itens = itens;
+            ClienteId = clienteId;
             ClienteNome = clienteNome;
             ClienteEmail = clienteEmail;
             ClienteTelefone = clienteTelefone;
@@ -30,6 +31,7 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
         }
 
         public List<CreatePedidoCommandItem> Itens { get; private set; } = new List<CreatePedidoCommandItem>();
+        public string ClienteId { get; set; } = "";
         public string ClienteNome { get; set; } = "";
         public string ClienteEmail { get; set; } = "";
         public string ClienteTelefone { get; set; } = "";

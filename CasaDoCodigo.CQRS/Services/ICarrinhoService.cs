@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Services
 {
-    public interface ICarrinhoService
+    public interface ICarrinhoService : IService
     {
         Task<CarrinhoCliente> GetCarrinho(string userId);
         Task<CarrinhoCliente> AddItem(string clienteId, ItemCarrinho input);
         Task<UpdateQuantidadeOutput> UpdateItem(string clienteId, ItemCarrinho input);
         Task<CarrinhoCliente> DefinirQuantidades(ApplicationUser applicationUser, Dictionary<string, int> quantidades);
         Task AtualizarCarrinho(CarrinhoCliente carrinhoCliente);
+        Task<bool> Finalizar(string clienteId, CadastroViewModel viewModel);
     }
 }

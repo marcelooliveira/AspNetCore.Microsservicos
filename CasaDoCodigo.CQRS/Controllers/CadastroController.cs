@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Polly.CircuitBreaker;
 using System;
 using System.Threading.Tasks;
@@ -19,9 +20,10 @@ namespace CasaDoCodigo.Controllers
 
         public CadastroController(
             IHttpContextAccessor contextAccessor,
-            IIdentityParser<ApplicationUser> appUserParser
+            IIdentityParser<ApplicationUser> appUserParser,
+            ILogger<CadastroController> logger
             )
-            : base(contextAccessor)
+            : base(contextAccessor, logger)
         {
             this.appUserParser = appUserParser;
         }
@@ -48,13 +50,10 @@ namespace CasaDoCodigo.Controllers
 
                 return View(cadastro);
             }
-            catch (BrokenCircuitException)
-            {
-                HandleBrokenCircuitException();
-            }
             catch (Exception e)
             {
-                HandleBrokenCircuitException();
+                logger.LogError(e, e.Message);
+                HandleException();
             }
             return View();
         }

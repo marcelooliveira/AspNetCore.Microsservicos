@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace CasaDoCodigo.Catalogo.Controllers
+namespace Catalogo.API.Controllers
 {
     public class BaseApiController : ControllerBase
     {

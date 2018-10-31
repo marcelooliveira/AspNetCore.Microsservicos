@@ -9,13 +9,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
-namespace CasaDoCodigo.Catalogo
+namespace Catalogo.API
 {
     public class Program
     {
         public static async Task Main(string[] args)
         {
-            Console.Title = "CasaDoCodigo.Catalogo";
+            Console.Title = "Catalogo.API";
 
             var seed = args.Any(a => a == "/seed");
             if (seed)

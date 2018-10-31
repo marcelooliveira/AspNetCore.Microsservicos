@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <UserSecretsId>aspnet-IdentityServerWithAspNetIdentity-04C6939F-E672-4E56-B4A5-5F064EB67F23</UserSecretsId>
+    <AssemblyName>Identity.API</AssemblyName>
   </PropertyGroup>
 
 

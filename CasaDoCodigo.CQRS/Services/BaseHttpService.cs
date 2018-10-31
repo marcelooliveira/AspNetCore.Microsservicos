@@ -11,11 +11,11 @@ namespace CasaDoCodigo.Services
 {
     delegate Task<HttpResponseMessage> HttpVerbMethod(Uri requestUri, HttpContent content);
     
-    public abstract class BaseHttpService
+    public abstract class BaseHttpService : IService
     {
         protected readonly IConfiguration _configuration;
-        protected readonly ISessionHelper _sessionHelper;
         protected readonly HttpClient _httpClient;
+        protected readonly ISessionHelper _sessionHelper;
         protected string _baseUri;
 
         public BaseHttpService(IConfiguration configuration, HttpClient httpClient, ISessionHelper sessionHelper)
@@ -70,6 +70,6 @@ namespace CasaDoCodigo.Services
             return JsonConvert.DeserializeObject<T>(jsonOut);
         }
 
-        protected abstract string Scope { get; }
+        public abstract string Scope { get; }
     }
 }

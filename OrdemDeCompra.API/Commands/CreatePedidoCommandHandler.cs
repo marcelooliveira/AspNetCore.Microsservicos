@@ -14,15 +14,15 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
         : IRequestHandler<IdentifiedCommand<CreatePedidoCommand, bool>, bool>
     {
         private readonly IPedidoRepository pedidoRepository;
-        private readonly ILoggerFactory _loggerFactory;
+        private readonly ILoggerFactory _logger;
 
         public CreatePedidoCommandHandler(
             ILoggerFactory loggerFactory
             , IPedidoRepository pedidoRepository)
         {
             this.pedidoRepository = pedidoRepository;
-            _loggerFactory = loggerFactory;
-            _loggerFactory.AddDebug();
+            _logger = loggerFactory;
+            _logger.AddDebug();
         }
 
         public async Task<bool> Handle(IdentifiedCommand<CreatePedidoCommand, bool> request, CancellationToken cancellationToken)
@@ -33,7 +33,10 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
                     i => new ItemPedido(i.ProdutoId, i.ProdutoCodigo, i.ProdutoNome, i.ProdutoPreco, i.ProdutoQuantidade, i.ProdutoPrecoUnitario)
                 ).ToList();
 
-            var pedido = new Models.Pedido(itens, cmd.ClienteNome, cmd.ClienteEmail, cmd.ClienteTelefone, cmd.ClienteEndereco, cmd.ClienteComplemento, cmd.ClienteBairro, cmd.ClienteMunicipio, cmd.ClienteUF, cmd.ClienteCEP);
+            var pedido = new Pedido(itens, cmd.ClienteId,
+                cmd.ClienteNome, cmd.ClienteEmail, cmd.ClienteTelefone, 
+                cmd.ClienteEndereco, cmd.ClienteComplemento, cmd.ClienteBairro, 
+                cmd.ClienteMunicipio, cmd.ClienteUF, cmd.ClienteCEP);
 
             try
             {
@@ -42,8 +45,9 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
             }
             catch (Exception e)
             {
-                //TODO: gerar log aqui
-                return false;
+                _logger.CreateLogger(nameof(CreatePedidoCommandHandler))
+                    .LogError(e, e.Message);
+                throw;
             }
         }
     }

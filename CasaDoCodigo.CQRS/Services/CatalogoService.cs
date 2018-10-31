@@ -47,6 +47,6 @@ namespace CasaDoCodigo.Services
             return result;
         }
 
-        protected override string Scope => "CasaDoCodigo.Catalogo";
+        public override string Scope => "Catalogo.API";
     }
 }

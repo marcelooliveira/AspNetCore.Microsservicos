@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
-namespace CasaDoCodigo.Catalogo.Model
+namespace Catalogo.API.Model
 {
     public class Produto : BaseModel
     {

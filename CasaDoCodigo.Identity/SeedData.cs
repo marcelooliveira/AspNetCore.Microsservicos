@@ -5,14 +5,14 @@
 using System;
 using System.Linq;
 using System.Security.Claims;
+using Identity.API.Data;
+using Identity.API.Models;
 using IdentityModel;
-using CasaDoCodigo.Identity.Data;
-using CasaDoCodigo.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CasaDoCodigo.Identity
+namespace Identity.API
 {
     public class SeedData
     {

@@ -1,8 +1,6 @@
 ﻿using CasaDoCodigo.Mensagens.Events;
 using CasaDoCodigo.OrdemDeCompra.Commands;
-using CasaDoCodigo.OrdemDeCompra.Repositories;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using Rebus.Handlers;
 using System.Diagnostics;
 using System.Linq;
@@ -10,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Mensagens.EventHandling
 {
-    public class CheckoutEventHandler : IHandleMessages<CheckoutEvent>
+    public class CheckoutEventHandler : IHandleMessages<CheckoutAceitoEvent>
     {
         private readonly IMediator _mediator;
 
@@ -19,11 +17,11 @@ namespace CasaDoCodigo.Mensagens.EventHandling
             _mediator = mediator;
         }
 
-        Task IHandleMessages<CheckoutEvent>.Handle(CheckoutEvent message)
+        Task IHandleMessages<CheckoutAceitoEvent>.Handle(CheckoutAceitoEvent message)
         {
             Trace.WriteLine("Received Checkout. Message Follows");
             Trace.WriteLine("----------------------------------");
-            Trace.WriteLine(message.ClienteId);
+            Trace.WriteLine(message.UserId);
             foreach (var item in message.Itens)
             {
                 Trace.WriteLine(
@@ -41,7 +39,7 @@ namespace CasaDoCodigo.Mensagens.EventHandling
                     i => new CreatePedidoCommandItem(0, "", "", i.PrecoUnitario, i.Quantidade, i.PrecoUnitario)
                 ).ToList();
 
-            var createPedidoCommand = new CreatePedidoCommand(itens, "", "", "", "", "", "", "", "", "");
+            var createPedidoCommand = new CreatePedidoCommand(itens, "", "", "", "", "", "", "", "", "", "");
 
             var requestCreateOrder = new IdentifiedCommand<CreatePedidoCommand, bool>(createPedidoCommand, message.Id);
 
@@ -50,4 +48,6 @@ namespace CasaDoCodigo.Mensagens.EventHandling
             return Task.CompletedTask;
         }
     }
+
+
 }

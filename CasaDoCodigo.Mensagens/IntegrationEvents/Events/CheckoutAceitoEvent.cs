@@ -1,5 +1,7 @@
 ﻿using CasaDoCodigo.Mensagens.Model;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CasaDoCodigo.Mensagens.Events
 {
@@ -17,7 +19,6 @@ namespace CasaDoCodigo.Mensagens.Events
             , string endereco
             , string uf
             , string cep
-            , string cliente
             , Guid requestId
             , CarrinhoClienteDTO carrinho)
         {
@@ -25,11 +26,19 @@ namespace CasaDoCodigo.Mensagens.Events
             UserName = userName;
             Municipio = municipio;
             Endereco = endereco;
-            this.UF = uf;
+            UF = uf;
             Cep = cep;
-            Cliente = cliente;
             RequestId = requestId;
-            Carrinho = carrinho;
+            Itens = 
+                carrinho
+                    .Itens
+                    .Select(i => 
+                        new CheckoutAceitoEventItem(
+                            i.Id, 
+                            i.ProdutoId, 
+                            i.ProdutoNome, 
+                            i.PrecoUnitario, 
+                            i.Quantidade)).ToList();
         }
 
         public string UserId { get; }
@@ -39,8 +48,33 @@ namespace CasaDoCodigo.Mensagens.Events
         public string Endereco { get; set; }
         public string UF { get; set; }
         public string Cep { get; set; }
-        public string Cliente { get; set; }
         public Guid RequestId { get; set; }
-        public CarrinhoClienteDTO Carrinho { get; }
+        public List<CheckoutAceitoEventItem> Itens { get; } = new List<CheckoutAceitoEventItem>();
     }
+
+    public class CheckoutAceitoEventItem
+    {
+        public CheckoutAceitoEventItem()
+        {
+
+        }
+
+        public CheckoutAceitoEventItem(string id, string produtoId, string produtoNome, decimal precoUnitario, int quantidade)
+        {
+            Id = id;
+            ProdutoId = produtoId;
+            ProdutoNome = produtoNome;
+            PrecoUnitario = precoUnitario;
+            Quantidade = quantidade;
+        }
+
+        public string Id { get; set; }
+        public string ProdutoId { get; set; }
+        public string ProdutoNome { get; set; }
+        public int Quantidade { get; set; }
+        public decimal PrecoUnitario { get; set; }
+        public decimal Subtotal { get; set; }
+        public string UrlImagem { get; set; }
+    }
+
 }

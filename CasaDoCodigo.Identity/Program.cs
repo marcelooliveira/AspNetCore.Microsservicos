@@ -7,13 +7,13 @@ using Serilog.Sinks.SystemConsole.Themes;
 using System;
 using System.Linq;
 
-namespace CasaDoCodigo.Identity
+namespace Identity.API
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            Console.Title = "CasaDoCodigo.Identity";
+            Console.Title = "Identity.API";
 
             var seed = args.Any(x => x == "/seed");
             if (seed) args = args.Except(new[] { "/seed" }).ToArray();

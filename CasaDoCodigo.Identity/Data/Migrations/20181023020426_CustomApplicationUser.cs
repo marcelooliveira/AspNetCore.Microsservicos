@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CasaDoCodigo.Identity.Data.Migrations
+namespace Identity.API.Data.Migrations
 {
     public partial class CustomApplicationUser : Migration
     {

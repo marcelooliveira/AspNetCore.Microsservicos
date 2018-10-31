@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CasaDoCodigo.Catalogo.Controllers
+namespace Catalogo.API.Controllers
 {
     public class HomeController : Controller
     {

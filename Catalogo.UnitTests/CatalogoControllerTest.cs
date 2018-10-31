@@ -3,6 +3,7 @@ using CasaDoCodigo.Models;
 using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,14 @@ namespace Catalogo.UnitTests
     public class CatalogoControllerTest
     {
         private readonly Mock<ICatalogoService> _catalogoServiceMock;
+        private readonly Mock<ILogger<CatalogoController>> _loggerMock;
+
         private readonly Mock<IHttpContextAccessor> _httpContextAccessorMock;
 
         public CatalogoControllerTest()
         {
             _catalogoServiceMock = new Mock<ICatalogoService>();
+            _loggerMock = new Mock<ILogger<CatalogoController>>();
             _httpContextAccessorMock = new Mock<IHttpContextAccessor>();
         }
 
@@ -32,12 +36,15 @@ namespace Catalogo.UnitTests
                 .Setup(c => c.GetProdutos())
                 .Returns(Task.FromResult(fakeProdutos));
 
+            _loggerMock
+                .Setup(m => m.LogError(It.IsAny<Exception>(), It.IsAny<string>()));
+
             _httpContextAccessorMock
                 .Setup(_ => _.HttpContext)
                 .Returns(new DefaultHttpContext());
 
             //Act
-            var _catalogoController = new CatalogoController(_catalogoServiceMock.Object, _httpContextAccessorMock.Object);
+            var _catalogoController = new CatalogoController(_catalogoServiceMock.Object, _loggerMock.Object, _httpContextAccessorMock.Object);
             var actionResult = await _catalogoController.Index();
 
             //Assert

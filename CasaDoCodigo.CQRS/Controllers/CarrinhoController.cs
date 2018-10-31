@@ -4,6 +4,7 @@ using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Polly.CircuitBreaker;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,13 @@ namespace CasaDoCodigo.Controllers
         private readonly ICatalogoService catalogoService;
         private readonly ICarrinhoService carrinhoService;
 
-        public CarrinhoController(IIdentityParser<ApplicationUser> appUserParser, ICatalogoService catalogoService, ICarrinhoService carrinhoService, IHttpContextAccessor contextAccessor)
-            : base(contextAccessor)
+        public CarrinhoController(
+            IHttpContextAccessor contextAccessor,
+            IIdentityParser<ApplicationUser> appUserParser,
+            ILogger<CarrinhoController> logger,
+            ICatalogoService catalogoService, 
+            ICarrinhoService carrinhoService)
+            : base(contextAccessor, logger)
         {
             this.appUserParser = appUserParser;
             this.catalogoService = catalogoService;
@@ -37,13 +43,15 @@ namespace CasaDoCodigo.Controllers
                 var carrinho = await carrinhoService.AddItem(idUsuario, itemCarrinho);
                 return View(carrinho);
             }
-            catch (BrokenCircuitException)
+            catch (BrokenCircuitException e)
             {
-                HandleBrokenCircuitException();
+                logger.LogError(e, e.Message);
+                HandleBrokenCircuitException(catalogoService);
             }
             catch (Exception e)
             {
-                HandleBrokenCircuitException();
+                logger.LogError(e, e.Message);
+                HandleException();
             }
             return View();
         }
@@ -60,9 +68,15 @@ namespace CasaDoCodigo.Controllers
                 //    RedirectToAction("Create", "Order");
                 //}
             }
-            catch (BrokenCircuitException)
+            catch (BrokenCircuitException e)
             {
-                HandleBrokenCircuitException();
+                logger.LogError(e, e.Message);
+                HandleBrokenCircuitException(carrinhoService);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, e.Message);
+                HandleException();
             }
 
             return View();
@@ -76,5 +90,32 @@ namespace CasaDoCodigo.Controllers
             return await carrinhoService.UpdateItem(GetUserId(), itemCarrinho);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Finalizacao(Cadastro cadastro)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var viewModel = new CadastroViewModel(cadastro);
+                    await carrinhoService.Finalizar(GetUserId(), viewModel);
+                    ViewBag.MsgFinalizacao = "Obrigado pelo pagamento! Enviaremos um e-mail com os detalhes do seu pedido.";
+                    return base.View();
+                }
+                return RedirectToAction("Index", "Cadastro");
+            }
+            catch (BrokenCircuitException e)
+            {
+                logger.LogError(e, e.Message);
+                HandleBrokenCircuitException(carrinhoService);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, e.Message);
+                HandleException();
+            }
+            return View();
+        }
     }
 }

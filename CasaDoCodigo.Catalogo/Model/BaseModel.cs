@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace CasaDoCodigo.Catalogo.Model
+namespace Catalogo.API.Model
 {
     [DataContract]
     public abstract class BaseModel

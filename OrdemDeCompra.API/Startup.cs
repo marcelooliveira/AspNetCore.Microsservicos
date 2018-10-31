@@ -121,7 +121,7 @@ namespace CasaDoCodigo.OdemDeCompra
                 .Logging(l => l.Use(new MSLoggerFactoryAdapter(_loggerFactory)))
                 .Transport(t => t.UseRabbitMq(RMQ_CONNECTION_STRING, INPUT_QUEUE_NAME)))
                 .AddTransient<DbContext, ApplicationContext>()
-                .AutoRegisterHandlersFromAssemblyOf<CheckoutEvent>();
+                .AutoRegisterHandlersFromAssemblyOf<CheckoutAceitoEvent>();
         }
 
         public void Configure(IServiceProvider serviceProvider, IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
@@ -129,7 +129,7 @@ namespace CasaDoCodigo.OdemDeCompra
             app.UseRebus(
                 async (bus) =>
                 {
-                    await bus.Subscribe<CheckoutEvent>();
+                    await bus.Subscribe<CheckoutAceitoEvent>();
                 });
 
             if (env.IsDevelopment())

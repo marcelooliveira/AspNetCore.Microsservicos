@@ -1,12 +1,7 @@
-﻿using CasaDoCodigo.Catalogo.Model;
-using JetBrains.Annotations;
+﻿using Catalogo.API.Model;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Catalogo.Data
+namespace Catalogo.API.Data
 {
     public class ApplicationDbContext : DbContext
     {
