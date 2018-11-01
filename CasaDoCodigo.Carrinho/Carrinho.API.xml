@@ -39,14 +39,6 @@
             <param name="input">Item do carrinho de compras cuja quantidade será atualizada</param>
             <returns></returns>
         </member>
-        <member name="M:Carrinho.API.Controllers.CarrinhoController.Checkout(Carrinho.API.Model.CarrinhoCheckout,System.String)">
-            <summary>
-            Fecha o carrinho de compras e finaliza o pedido
-            </summary>
-            <param name="carrinhoCliente">Dados do carrinho de compras</param>
-            <param name="requestId"></param>
-            <returns></returns>
-        </member>
         <member name="M:Carrinho.API.Controllers.CarrinhoController.Delete(System.String)">
             <summary>
             Remove um item do carrinho de compras

@@ -87,7 +87,7 @@ namespace CasaDoCodigo.Services
             throw new System.NotImplementedException();
         }
 
-        public async Task<bool> Finalizar(string clienteId, CadastroViewModel viewModel)
+        public async Task<bool> Checkout(string clienteId, CadastroViewModel viewModel)
         {
             var uri = $"{CarrinhoUris.Finalizar}/{clienteId}";
             return await PostAsync<bool>(uri, viewModel);

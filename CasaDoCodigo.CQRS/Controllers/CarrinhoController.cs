@@ -99,7 +99,7 @@ namespace CasaDoCodigo.Controllers
                 if (ModelState.IsValid)
                 {
                     var viewModel = new CadastroViewModel(cadastro);
-                    await carrinhoService.Finalizar(GetUserId(), viewModel);
+                    await carrinhoService.Checkout(GetUserId(), viewModel);
                     ViewBag.MsgFinalizacao = "Obrigado pelo pagamento! Enviaremos um e-mail com os detalhes do seu pedido.";
                     return base.View();
                 }

@@ -5,6 +5,7 @@ using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
@@ -20,7 +21,7 @@ namespace Carrinho.UnitTests
     public class CarrinhoControllerTest
     {
         private readonly Mock<HttpContext> _contextMock;
-        private readonly Mock<ILogger<CarrinhoController>> _loggerMock;
+        private readonly ILogger<CarrinhoController> _logger;
         private readonly Mock<IHttpContextAccessor> _contextAccessorMock;
         private readonly Mock<HttpClient> _httpClientMock;
         private readonly Mock<ISessionHelper> _sessionHelperMock;
@@ -32,7 +33,6 @@ namespace Carrinho.UnitTests
         public CarrinhoControllerTest()
         {
             _contextMock = new Mock<HttpContext>();
-            _loggerMock = new Mock<ILogger<CarrinhoController>>();
             _contextAccessorMock = new Mock<IHttpContextAccessor>();
             _httpClientMock = new Mock<HttpClient>();
             _sessionHelperMock = new Mock<ISessionHelper>();
@@ -40,6 +40,13 @@ namespace Carrinho.UnitTests
             _catalogoServiceMock = new Mock<ICatalogoService>();
             _carrinhoServiceMock = new Mock<ICarrinhoService>();
             _appUserParserMock = new Mock<IIdentityParser<ApplicationUser>>();
+
+            var serviceProvider = new ServiceCollection()
+                .AddLogging()
+                .BuildServiceProvider();
+
+            var factory = serviceProvider.GetService<ILoggerFactory>();
+            _logger = factory.CreateLogger<CarrinhoController>();
         }
 
         [Fact]
@@ -58,9 +65,6 @@ namespace Carrinho.UnitTests
             _carrinhoServiceMock.Setup(x => x.DefinirQuantidades(It.IsAny<ApplicationUser>(), It.IsAny<Dictionary<string, int>>()))
                 .Returns(Task.FromResult(fakeCarrinho));
 
-            _loggerMock
-                .Setup(m => m.LogError(It.IsAny<Exception>(), It.IsAny<string>()));
-
             _carrinhoServiceMock.Setup(x => x.AtualizarCarrinho(It.IsAny<CarrinhoClienteMVC>()))
                 .Returns(Task.FromResult(fakeCarrinho));
 
@@ -68,7 +72,7 @@ namespace Carrinho.UnitTests
             var carrinhoController = new CarrinhoController(
                 _contextAccessorMock.Object,
                 _appUserParserMock.Object,
-                _loggerMock.Object,
+                _logger,
                 _catalogoServiceMock.Object,
                 _carrinhoServiceMock.Object);
 

@@ -101,56 +101,6 @@ namespace Carrinho.API.Controllers
         }
 
         /// <summary>
-        /// Fecha o carrinho de compras e finaliza o pedido
-        /// </summary>
-        /// <param name="carrinhoCliente">Dados do carrinho de compras</param>
-        /// <param name="requestId"></param>
-        /// <returns></returns>
-        [Route("checkout")]
-        [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-         public async Task<IActionResult> Checkout([FromBody]CarrinhoCheckout carrinhoCheckout, [FromHeader(Name = "x-requestid")] string requestId)
-        {
-            var userId = _identityService.GetUserIdentity();
-
-            carrinhoCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
-                guid : carrinhoCheckout.RequestId;
-
-            var carrinho = await _repository.GetCarrinhoAsync(userId);
-
-            if (carrinho == null)
-            {
-                return BadRequest();
-            }
-
-            var userName = User.FindFirst(x => x.Type == "unique_name").Value;
-
-            CarrinhoClienteDTO carrinhoClienteDTO
-                = new CarrinhoClienteDTO(userId,
-                carrinho.Itens.Select(i =>
-                    new ItemCarrinhoDTO(i.Id, i.ProdutoId, i.ProdutoNome, i.PrecoUnitario, i.Quantidade)).ToList());
-
-            var eventMessage 
-                = new CheckoutAceitoEvent(
-                      userId
-                    , userName
-                    , carrinhoCheckout.Municipio
-                    , carrinhoCheckout.Endereco
-                    , carrinhoCheckout.UF
-                    , carrinhoCheckout.Cep
-                    , carrinhoCheckout.RequestId
-                    , carrinhoClienteDTO);
-
-            // Assim que fazemos o checkout, envia um evento de integração para
-            // API Pedidos para converter o carrinho em pedido e continuar com
-            // processo de criação de pedido
-            await _bus.Publish(eventMessage);
-
-            return Accepted();
-        }
-
-        /// <summary>
         /// Remove um item do carrinho de compras
         /// </summary>
         /// <param name="id"></param>
@@ -164,7 +114,7 @@ namespace Carrinho.API.Controllers
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Finalizar(string clienteId, [FromBody] CadastroViewModel input)
+        public async Task<IActionResult> Checkout(string clienteId, [FromBody] CadastroViewModel input)
         {
             var carrinho = await _repository.GetCarrinhoAsync(clienteId);
 
@@ -179,13 +129,10 @@ namespace Carrinho.API.Controllers
                     new ItemCarrinhoDTO(i.Id, i.ProdutoId, i.ProdutoNome, i.PrecoUnitario, i.Quantidade)).ToList());
 
             var eventMessage
-                = new CheckoutAceitoEvent(
-                      clienteId
-                    , input.Nome
-                    , input.Municipio
-                    , input.Endereco
-                    , input.UF
-                    , input.CEP
+                = new CheckoutAceitoEvent
+                 (clienteId, input.Nome, input.Email, input.Telefone
+                    , input.Endereco, input.Complemento, input.Bairro
+                    , input.Municipio, input.UF, input.CEP
                     , Guid.NewGuid()
                     , carrinhoClienteDTO);
 

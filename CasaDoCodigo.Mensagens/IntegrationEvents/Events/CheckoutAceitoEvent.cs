@@ -13,19 +13,20 @@ namespace CasaDoCodigo.Mensagens.Events
         }
 
         public CheckoutAceitoEvent(
-            string userId
-            , string userName
-            , string municipio
-            , string endereco
-            , string uf
-            , string cep
+              string userId, string userName, string email, string fone
+            , string endereco, string complemento, string bairro
+            , string municipio, string uf, string cep
             , Guid requestId
             , CarrinhoClienteDTO carrinho)
         {
             UserId = userId;
             UserName = userName;
             Municipio = municipio;
+            Email = email;
+            Fone = fone;
             Endereco = endereco;
+            Complemento = complemento;
+            Bairro = bairro;
             UF = uf;
             Cep = cep;
             RequestId = requestId;
@@ -45,7 +46,11 @@ namespace CasaDoCodigo.Mensagens.Events
         public string UserName { get; }
         public int PedidoId { get; set; }
         public string Municipio { get; set; }
+        public string Email { get; set; }
+        public string Fone { get; set; }
         public string Endereco { get; set; }
+        public string Complemento { get; set; }
+        public string Bairro { get; set; }
         public string UF { get; set; }
         public string Cep { get; set; }
         public Guid RequestId { get; set; }

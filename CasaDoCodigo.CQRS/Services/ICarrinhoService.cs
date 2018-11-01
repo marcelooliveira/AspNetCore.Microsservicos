@@ -15,6 +15,6 @@ namespace CasaDoCodigo.Services
         Task<UpdateQuantidadeOutput> UpdateItem(string clienteId, ItemCarrinho input);
         Task<CarrinhoCliente> DefinirQuantidades(ApplicationUser applicationUser, Dictionary<string, int> quantidades);
         Task AtualizarCarrinho(CarrinhoCliente carrinhoCliente);
-        Task<bool> Finalizar(string clienteId, CadastroViewModel viewModel);
+        Task<bool> Checkout(string clienteId, CadastroViewModel viewModel);
     }
 }

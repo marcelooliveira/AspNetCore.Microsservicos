@@ -39,7 +39,7 @@ namespace CasaDoCodigo.Mensagens.EventHandling
                     i => new CreatePedidoCommandItem(0, "", "", i.PrecoUnitario, i.Quantidade, i.PrecoUnitario)
                 ).ToList();
 
-            var createPedidoCommand = new CreatePedidoCommand(itens, "", "", "", "", "", "", "", "", "", "");
+            var createPedidoCommand = new CreatePedidoCommand(itens, message.UserId, message.UserName, "EMAIL", "FONE", message.Endereco, "COMPLEMENTO", "BAIRRO", message.Municipio, message.UF, message.Cep);
 
             var requestCreateOrder = new IdentifiedCommand<CreatePedidoCommand, bool>(createPedidoCommand, message.Id);
 

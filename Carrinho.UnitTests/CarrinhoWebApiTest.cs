@@ -3,6 +3,7 @@ using Carrinho.API.Model;
 using CasaDoCodigo.Mensagens.Events;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Rebus.Bus;
@@ -101,7 +102,7 @@ namespace Carrinho.UnitTests
                 _serviceBusMock.Object,
                 _loggerFactoryMock.Object);
 
-            var result = await carrinhoController.Checkout(new CarrinhoCheckout(), Guid.NewGuid().ToString()) as BadRequestResult;
+            var result = await carrinhoController.Checkout(fakeClienteId, new CadastroViewModel()) as BadRequestResult;
 
             //Assert
 
@@ -132,7 +133,7 @@ namespace Carrinho.UnitTests
             };
 
             //Act
-            var result = await carrinhoController.Checkout(new CarrinhoCheckout(), Guid.NewGuid().ToString()) as AcceptedResult;
+            var result = await carrinhoController.Checkout(fakeClienteId, new CadastroViewModel()) as AcceptedResult;
 
             _serviceBusMock.Verify(mock => mock.Publish(It.IsAny<CheckoutAceitoEvent>(), null), Times.Once);
 
