@@ -46,7 +46,6 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
     public class CreatePedidoCommandItem
     {
         public CreatePedidoCommand Pedido { get; set; }
-        public int ProdutoId { get; set; }
         public string ProdutoCodigo { get; set; }
         public string ProdutoNome { get; set; }
         public decimal ProdutoPreco { get; set; }
@@ -59,9 +58,8 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
 
         }
 
-        public CreatePedidoCommandItem(int produtoId, string produtoCodigo, string produtoNome, decimal produtoPreco, int produtoQuantidade, decimal produtoPrecoUnitario)
+        public CreatePedidoCommandItem(string produtoCodigo, string produtoNome, decimal produtoPreco, int produtoQuantidade, decimal produtoPrecoUnitario)
         {
-            ProdutoId = produtoId;
             ProdutoCodigo = produtoCodigo;
             ProdutoNome = produtoNome;
             ProdutoPreco = produtoPreco;

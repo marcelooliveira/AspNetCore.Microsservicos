@@ -9,8 +9,6 @@ namespace CasaDoCodigo.OrdemDeCompra.Models
         [Required]
         [DataMember]
         public Pedido Pedido { get; set; }
-        [DataMember]
-        public int ProdutoId { get; set; }
         [Required]
         [DataMember]
         public string ProdutoCodigo { get; set; }
@@ -32,9 +30,8 @@ namespace CasaDoCodigo.OrdemDeCompra.Models
 
         }
 
-        public ItemPedido(int produtoId, string produtoCodigo, string produtoNome, decimal produtoPreco, int produtoQuantidade, decimal produtoPrecoUnitario)
+        public ItemPedido(string produtoCodigo, string produtoNome, decimal produtoPreco, int produtoQuantidade, decimal produtoPrecoUnitario)
         {
-            ProdutoId = produtoId;
             ProdutoCodigo = produtoCodigo;
             ProdutoNome = produtoNome;
             ProdutoPreco = produtoPreco;

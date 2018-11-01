@@ -30,7 +30,7 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
             var cmd = request.Command;
 
             var itens = cmd.Itens.Select(
-                    i => new ItemPedido(i.ProdutoId, i.ProdutoCodigo, i.ProdutoNome, i.ProdutoPreco, i.ProdutoQuantidade, i.ProdutoPrecoUnitario)
+                    i => new ItemPedido(i.ProdutoCodigo, i.ProdutoNome, i.ProdutoPreco, i.ProdutoQuantidade, i.ProdutoPrecoUnitario)
                 ).ToList();
 
             var pedido = new Pedido(itens, cmd.ClienteId,

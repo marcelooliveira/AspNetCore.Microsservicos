@@ -36,10 +36,10 @@ namespace CasaDoCodigo.Mensagens.EventHandling
             Trace.WriteLine("Message Ends");
 
             var itens = message.Itens.Select(
-                    i => new CreatePedidoCommandItem(0, "", "", i.PrecoUnitario, i.Quantidade, i.PrecoUnitario)
+                    i => new CreatePedidoCommandItem(i.ProdutoId, i.ProdutoNome, i.PrecoUnitario, i.Quantidade, i.PrecoUnitario)
                 ).ToList();
 
-            var createPedidoCommand = new CreatePedidoCommand(itens, message.UserId, message.UserName, "EMAIL", "FONE", message.Endereco, "COMPLEMENTO", "BAIRRO", message.Municipio, message.UF, message.Cep);
+            var createPedidoCommand = new CreatePedidoCommand(itens, message.UserId, message.UserName, message.Email, message.Fone, message.Endereco, message.Complemento, message.Bairro, message.Municipio, message.UF, message.Cep);
 
             var requestCreateOrder = new IdentifiedCommand<CreatePedidoCommand, bool>(createPedidoCommand, message.Id);
 

@@ -23,7 +23,7 @@ namespace CasaDoCodigo.Controllers
             IHttpContextAccessor contextAccessor,
             IIdentityParser<ApplicationUser> appUserParser,
             ILogger<CarrinhoController> logger,
-            ICatalogoService catalogoService, 
+            ICatalogoService catalogoService,
             ICarrinhoService carrinhoService)
             : base(contextAccessor, logger)
         {
@@ -100,8 +100,7 @@ namespace CasaDoCodigo.Controllers
                 {
                     var viewModel = new CadastroViewModel(cadastro);
                     await carrinhoService.Checkout(GetUserId(), viewModel);
-                    ViewBag.MsgCheckout = "Obrigado pelo pagamento! Enviaremos um e-mail com os detalhes do seu pedido.";
-                    return base.View();
+                    return RedirectToAction("Checkout");
                 }
                 return RedirectToAction("Index", "Cadastro");
             }
@@ -115,6 +114,12 @@ namespace CasaDoCodigo.Controllers
                 logger.LogError(e, e.Message);
                 HandleException();
             }
+            return View();
+        }
+
+        public async Task<IActionResult> Checkout()
+        {
+            ViewBag.MsgCheckout = "Obrigado pelo pagamento! Enviaremos um e-mail com os detalhes do seu pedido.";
             return View();
         }
     }
