@@ -19,7 +19,7 @@ namespace CasaDoCodigo.Services
             public static string GetCarrinho => "api/carrinho";
             public static string AddItem => "api/carrinho/additem";
             public static string UpdateItem => "api/carrinho/updateitem";
-            public static string Finalizar => "api/carrinho/finalizar";
+            public static string Finalizar => "api/carrinho/checkout";
             //public static string GetCarrinho => "carrinho"; //ApiGateway
             //public static string PostItem => "carrinho"; //ApiGateway
         }

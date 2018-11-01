@@ -42,8 +42,8 @@ namespace CasaDoCodigo.Mensagens.Events
                             i.Quantidade)).ToList();
         }
 
-        public string UserId { get; }
-        public string UserName { get; }
+        public string UserId { get; set; }
+        public string UserName { get; set; }
         public int PedidoId { get; set; }
         public string Municipio { get; set; }
         public string Email { get; set; }

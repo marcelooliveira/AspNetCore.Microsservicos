@@ -92,7 +92,7 @@ namespace CasaDoCodigo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Finalizacao(Cadastro cadastro)
+        public async Task<IActionResult> Checkout(Cadastro cadastro)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace CasaDoCodigo.Controllers
                 {
                     var viewModel = new CadastroViewModel(cadastro);
                     await carrinhoService.Checkout(GetUserId(), viewModel);
-                    ViewBag.MsgFinalizacao = "Obrigado pelo pagamento! Enviaremos um e-mail com os detalhes do seu pedido.";
+                    ViewBag.MsgCheckout = "Obrigado pelo pagamento! Enviaremos um e-mail com os detalhes do seu pedido.";
                     return base.View();
                 }
                 return RedirectToAction("Index", "Cadastro");

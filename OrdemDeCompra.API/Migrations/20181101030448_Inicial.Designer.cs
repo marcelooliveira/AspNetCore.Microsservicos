@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace CasaDoCodigo.OrdemDeCompra.Migrations
+namespace OrdemDeCompra.API.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20180914032655_Inicial")]
+    [Migration("20181101030448_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,7 @@ namespace CasaDoCodigo.OrdemDeCompra.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("OrdemDeCompra.API.Models.ItemPedido", b =>
+            modelBuilder.Entity("CasaDoCodigo.OrdemDeCompra.Models.ItemPedido", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,7 +49,7 @@ namespace CasaDoCodigo.OrdemDeCompra.Migrations
                     b.ToTable("ItemPedido");
                 });
 
-            modelBuilder.Entity("OrdemDeCompra.API.Models.Pedido", b =>
+            modelBuilder.Entity("CasaDoCodigo.OrdemDeCompra.Models.Pedido", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -70,12 +70,15 @@ namespace CasaDoCodigo.OrdemDeCompra.Migrations
                     b.Property<string>("ClienteEndereco")
                         .IsRequired();
 
+                    b.Property<string>("ClienteId")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
                     b.Property<string>("ClienteMunicipio")
                         .IsRequired();
 
                     b.Property<string>("ClienteNome")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                        .IsRequired();
 
                     b.Property<string>("ClienteTelefone")
                         .IsRequired();
@@ -88,9 +91,9 @@ namespace CasaDoCodigo.OrdemDeCompra.Migrations
                     b.ToTable("Pedido");
                 });
 
-            modelBuilder.Entity("OrdemDeCompra.API.Models.ItemPedido", b =>
+            modelBuilder.Entity("CasaDoCodigo.OrdemDeCompra.Models.ItemPedido", b =>
                 {
-                    b.HasOne("OrdemDeCompra.API.Models.Pedido", "Pedido")
+                    b.HasOne("CasaDoCodigo.OrdemDeCompra.Models.Pedido", "Pedido")
                         .WithMany("Itens")
                         .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade);

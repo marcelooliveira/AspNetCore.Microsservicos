@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace CasaDoCodigo.OrdemDeCompra.Migrations
+namespace OrdemDeCompra.API.Migrations
 {
     public partial class Inicial : Migration
     {
@@ -13,7 +13,8 @@ namespace CasaDoCodigo.OrdemDeCompra.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ClienteNome = table.Column<string>(maxLength: 50, nullable: false),
+                    ClienteId = table.Column<string>(maxLength: 50, nullable: false),
+                    ClienteNome = table.Column<string>(nullable: false),
                     ClienteEmail = table.Column<string>(nullable: false),
                     ClienteTelefone = table.Column<string>(nullable: false),
                     ClienteEndereco = table.Column<string>(nullable: false),
