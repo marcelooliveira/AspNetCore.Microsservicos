@@ -13,16 +13,15 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
     public class CreatePedidoCommandHandler
         : IRequestHandler<IdentifiedCommand<CreatePedidoCommand, bool>, bool>
     {
-        private readonly IPedidoRepository pedidoRepository;
-        private readonly ILoggerFactory _logger;
+        private readonly IPedidoRepository _pedidoRepository;
+        private readonly ILogger<CreatePedidoCommandHandler> _logger;
 
         public CreatePedidoCommandHandler(
-            ILoggerFactory loggerFactory
+            ILogger<CreatePedidoCommandHandler> logger
             , IPedidoRepository pedidoRepository)
         {
-            this.pedidoRepository = pedidoRepository;
-            _logger = loggerFactory;
-            _logger.AddDebug();
+            this._pedidoRepository = pedidoRepository;
+            this._logger = logger;
         }
 
         public async Task<bool> Handle(IdentifiedCommand<CreatePedidoCommand, bool> request, CancellationToken cancellationToken)
@@ -40,13 +39,12 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
 
             try
             {
-                await this.pedidoRepository.CreateOrUpdate(pedido);
+                await this._pedidoRepository.CreateOrUpdate(pedido);
                 return true;
             }
             catch (Exception e)
             {
-                _logger.CreateLogger(nameof(CreatePedidoCommandHandler))
-                    .LogError(e, e.Message);
+                _logger.LogError(e, e.Message);
                 throw;
             }
         }

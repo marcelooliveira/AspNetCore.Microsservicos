@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Rebus.Logging;
 
-namespace CasaDoCodigo.OdemDeCompra
+namespace CasaDoCodigo.OrdemDeCompra
 {
     public class MSLoggerFactoryAdapter : AbstractRebusLoggerFactory
     {

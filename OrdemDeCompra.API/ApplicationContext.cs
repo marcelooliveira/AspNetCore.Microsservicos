@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace CasaDoCodigo.OdemDeCompra
+namespace CasaDoCodigo.OrdemDeCompra
 {
     public class ApplicationContext : DbContext
     {

@@ -1,4 +1,4 @@
-﻿using CasaDoCodigo.OdemDeCompra;
+﻿using CasaDoCodigo.OrdemDeCompra;
 using CasaDoCodigo.OrdemDeCompra.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;

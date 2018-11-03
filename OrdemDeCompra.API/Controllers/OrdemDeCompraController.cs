@@ -6,7 +6,7 @@ using CasaDoCodigo.OrdemDeCompra.Models;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CasaDoCodigo.OdemDeCompra.Controllers
+namespace CasaDoCodigo.OrdemDeCompra.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

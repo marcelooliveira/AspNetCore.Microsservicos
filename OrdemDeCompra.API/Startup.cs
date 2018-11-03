@@ -25,7 +25,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.OdemDeCompra
+namespace CasaDoCodigo.OrdemDeCompra
 {
     public class Startup
     {
