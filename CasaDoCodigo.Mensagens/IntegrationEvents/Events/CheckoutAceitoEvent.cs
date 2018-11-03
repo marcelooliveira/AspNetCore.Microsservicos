@@ -1,5 +1,4 @@
-﻿using CasaDoCodigo.Mensagens.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,7 +16,7 @@ namespace CasaDoCodigo.Mensagens.Events
             , string endereco, string complemento, string bairro
             , string municipio, string uf, string cep
             , Guid requestId
-            , CarrinhoClienteDTO carrinho)
+            , IList<CheckoutAceitoEventItem> itens)
         {
             UserId = userId;
             UserName = userName;
@@ -31,8 +30,7 @@ namespace CasaDoCodigo.Mensagens.Events
             Cep = cep;
             RequestId = requestId;
             Itens = 
-                carrinho
-                    .Itens
+                itens
                     .Select(i => 
                         new CheckoutAceitoEventItem(
                             i.Id, 

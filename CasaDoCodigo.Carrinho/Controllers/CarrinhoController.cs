@@ -1,7 +1,6 @@
 ﻿using Carrinho.API.Model;
 using Carrinho.API.Services;
 using CasaDoCodigo.Mensagens.Events;
-using CasaDoCodigo.Mensagens.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Rebus.Bus;
@@ -123,10 +122,8 @@ namespace Carrinho.API.Controllers
                 return BadRequest();
             }
 
-            CarrinhoClienteDTO carrinhoClienteDTO
-                = new CarrinhoClienteDTO(clienteId,
-                carrinho.Itens.Select(i =>
-                    new ItemCarrinhoDTO(i.Id, i.ProdutoId, i.ProdutoNome, i.PrecoUnitario, i.Quantidade)).ToList());
+            var itens = carrinho.Itens.Select(i =>
+                    new CheckoutAceitoEventItem(i.Id, i.ProdutoId, i.ProdutoNome, i.PrecoUnitario, i.Quantidade)).ToList();
 
             var eventMessage
                 = new CheckoutAceitoEvent
@@ -134,7 +131,7 @@ namespace Carrinho.API.Controllers
                     , input.Endereco, input.Complemento, input.Bairro
                     , input.Municipio, input.UF, input.CEP
                     , Guid.NewGuid()
-                    , carrinhoClienteDTO);
+                    , itens);
 
             // Assim que fazemos a finalização, envia um evento de integração para
             // API OrdemDeCompra converter o carrinho em pedido e continuar com

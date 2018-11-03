@@ -1,5 +1,4 @@
-﻿using CasaDoCodigo.Mensagens.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +23,7 @@ namespace CasaDoCodigo.Models.ViewModels
         public decimal Total => Itens.Sum(i => i.Quantidade * i.PrecoUnitario);
     }
 
-    public class ItemCarrinho : IItemCarrinho
+    public class ItemCarrinho
     {
         public ItemCarrinho()
         {
