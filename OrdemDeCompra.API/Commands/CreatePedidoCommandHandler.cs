@@ -1,7 +1,11 @@
-﻿using CasaDoCodigo.OrdemDeCompra.Models;
+﻿using CasaDoCodigo.Mensagens.Commands;
+using CasaDoCodigo.Mensagens.Events;
+using CasaDoCodigo.Mensagens.IntegrationEvents.Events;
+using CasaDoCodigo.OrdemDeCompra.Models;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Rebus.Bus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +19,16 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
     {
         private readonly IPedidoRepository _pedidoRepository;
         private readonly ILogger<CreatePedidoCommandHandler> _logger;
+        private readonly IBus _bus;
 
         public CreatePedidoCommandHandler(
             ILogger<CreatePedidoCommandHandler> logger
-            , IPedidoRepository pedidoRepository)
+            , IPedidoRepository pedidoRepository
+            , IBus bus)
         {
             this._pedidoRepository = pedidoRepository;
             this._logger = logger;
+            this._bus = bus;
         }
 
         public async Task<bool> Handle(IdentifiedCommand<CreatePedidoCommand, bool> request, CancellationToken cancellationToken)
@@ -40,6 +47,7 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
             try
             {
                 await this._pedidoRepository.CreateOrUpdate(pedido);
+
                 return true;
             }
             catch (Exception e)

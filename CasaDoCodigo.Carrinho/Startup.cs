@@ -27,7 +27,7 @@ namespace Carrinho.API
     public class Startup
     {
         private const string RMQ_CONNECTION_STRING = "amqp://localhost";
-        private const string INPUT_QUEUE_NAME = "CheckoutAceitoEvent";
+        private const string INPUT_QUEUE_NAME = "CheckoutEvent";
         private readonly ILoggerFactory _loggerFactory;
 
         public Startup(ILoggerFactory loggerFactory, 

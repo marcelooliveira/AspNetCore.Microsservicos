@@ -42,7 +42,7 @@ namespace Carrinho.UnitTests
                 .Returns(Task.FromResult(fakeCarrinhoCliente));
             _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId);
 
-            _serviceBusMock.Setup(x => x.Publish(It.IsAny<CheckoutAceitoEvent>(), null));
+            _serviceBusMock.Setup(x => x.Publish(It.IsAny<CheckoutEvent>(), null));
 
             //Act
             var carrinhoController = new CarrinhoController(
@@ -68,7 +68,7 @@ namespace Carrinho.UnitTests
             _carrinhoRepositoryMock.Setup(x => x.UpdateCarrinhoAsync(It.IsAny<CarrinhoCliente>()))
                 .Returns(Task.FromResult(fakeCarrinhoCliente));
             _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId);
-            _serviceBusMock.Setup(x => x.Publish(It.IsAny<CheckoutAceitoEvent>(), null));
+            _serviceBusMock.Setup(x => x.Publish(It.IsAny<CheckoutEvent>(), null));
 
             //Act
             var carrinhoController = new CarrinhoController(
@@ -110,7 +110,7 @@ namespace Carrinho.UnitTests
         }
 
         [Fact]
-        public async Task Fazer_Checkout_Com_Carrinho_Deveria_Publicar_CheckoutAceitoEvent()
+        public async Task Fazer_Checkout_Com_Carrinho_Deveria_Publicar_CheckoutEvent()
         {
             var fakeClienteId = "1";
             var fakeCarrinhoCliente = GetCarrinhoClienteFake(fakeClienteId);
@@ -135,7 +135,7 @@ namespace Carrinho.UnitTests
             //Act
             var result = await carrinhoController.Checkout(fakeClienteId, new CadastroViewModel()) as AcceptedResult;
 
-            _serviceBusMock.Verify(mock => mock.Publish(It.IsAny<CheckoutAceitoEvent>(), null), Times.Once);
+            _serviceBusMock.Verify(mock => mock.Publish(It.IsAny<CheckoutEvent>(), null), Times.Once);
 
             Assert.NotNull(result);
         }

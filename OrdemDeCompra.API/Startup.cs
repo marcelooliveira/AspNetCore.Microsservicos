@@ -101,12 +101,9 @@ namespace CasaDoCodigo.OrdemDeCompra
             services.AddScoped<IPedidoRepository, PedidoRepository>();
 
             services.AddScoped<IMediator, NoMediator>();
-            //services.AddScoped<IRequestHandler<IdentifiedCommand<CreatePedidoCommand, bool>, bool>, CreatePedidoCommandHandler>();
             services.AddScoped<IRequest<bool>, CreatePedidoCommand>();
             services.AddMediatR(typeof(CreatePedidoCommand).GetTypeInfo().Assembly);
 
-            //RegisterBrighter(services);
-            //RegisterBrighter2(services);
             RegisterRebus(services);
 
         }
@@ -121,7 +118,7 @@ namespace CasaDoCodigo.OrdemDeCompra
                 .Logging(l => l.Use(new MSLoggerFactoryAdapter(_loggerFactory)))
                 .Transport(t => t.UseRabbitMq(RMQ_CONNECTION_STRING, INPUT_QUEUE_NAME)))
                 .AddTransient<DbContext, ApplicationContext>()
-                .AutoRegisterHandlersFromAssemblyOf<CheckoutAceitoEvent>();
+                .AutoRegisterHandlersFromAssemblyOf<CheckoutEvent>();
         }
 
         public void Configure(IServiceProvider serviceProvider, IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
@@ -129,7 +126,7 @@ namespace CasaDoCodigo.OrdemDeCompra
             app.UseRebus(
                 async (bus) =>
                 {
-                    await bus.Subscribe<CheckoutAceitoEvent>();
+                    await bus.Subscribe<CheckoutEvent>();
                 });
 
             if (env.IsDevelopment())

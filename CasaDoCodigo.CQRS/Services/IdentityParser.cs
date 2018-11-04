@@ -17,6 +17,7 @@ namespace CasaDoCodigo.Services
                 return new ApplicationUser
                 {
                     Nome = claims.Claims.FirstOrDefault(x => x.Type == "name")?.Value ?? "",
+                    Email = claims.Claims.FirstOrDefault(x => x.Type == "email")?.Value ?? "",
                     Telefone = claims.Claims.FirstOrDefault(x => x.Type == "phone")?.Value ?? "",
                     Endereco = claims.Claims.FirstOrDefault(x => x.Type == "address")?.Value ?? "",
                     Complemento = claims.Claims.FirstOrDefault(x => x.Type == "address_details")?.Value ?? "",

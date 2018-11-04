@@ -4,19 +4,19 @@ using System.Linq;
 
 namespace CasaDoCodigo.Mensagens.Events
 {
-    public class CheckoutAceitoEvent : IntegrationEvent
+    public class CheckoutEvent : IntegrationEvent
     {
-        public CheckoutAceitoEvent()
+        public CheckoutEvent()
         {
 
         }
 
-        public CheckoutAceitoEvent(
+        public CheckoutEvent(
               string userId, string userName, string email, string fone
             , string endereco, string complemento, string bairro
             , string municipio, string uf, string cep
             , Guid requestId
-            , IList<CheckoutAceitoEventItem> itens)
+            , IList<CheckoutEventItem> itens)
         {
             UserId = userId;
             UserName = userName;
@@ -32,7 +32,7 @@ namespace CasaDoCodigo.Mensagens.Events
             Itens = 
                 itens
                     .Select(i => 
-                        new CheckoutAceitoEventItem(
+                        new CheckoutEventItem(
                             i.Id, 
                             i.ProdutoId, 
                             i.ProdutoNome, 
@@ -52,17 +52,17 @@ namespace CasaDoCodigo.Mensagens.Events
         public string UF { get; set; }
         public string Cep { get; set; }
         public Guid RequestId { get; set; }
-        public List<CheckoutAceitoEventItem> Itens { get; } = new List<CheckoutAceitoEventItem>();
+        public List<CheckoutEventItem> Itens { get; } = new List<CheckoutEventItem>();
     }
 
-    public class CheckoutAceitoEventItem
+    public class CheckoutEventItem
     {
-        public CheckoutAceitoEventItem()
+        public CheckoutEventItem()
         {
 
         }
 
-        public CheckoutAceitoEventItem(string id, string produtoId, string produtoNome, decimal precoUnitario, int quantidade)
+        public CheckoutEventItem(string id, string produtoId, string produtoNome, decimal precoUnitario, int quantidade)
         {
             Id = id;
             ProdutoId = produtoId;

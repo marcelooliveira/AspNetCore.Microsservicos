@@ -1,6 +1,7 @@
 ﻿using Carrinho.API.Model;
 using Carrinho.API.Services;
 using CasaDoCodigo.Mensagens.Events;
+using CasaDoCodigo.Mensagens.IntegrationEvents.Events;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Rebus.Bus;
@@ -123,10 +124,10 @@ namespace Carrinho.API.Controllers
             }
 
             var itens = carrinho.Itens.Select(i =>
-                    new CheckoutAceitoEventItem(i.Id, i.ProdutoId, i.ProdutoNome, i.PrecoUnitario, i.Quantidade)).ToList();
+                    new CheckoutEventItem(i.Id, i.ProdutoId, i.ProdutoNome, i.PrecoUnitario, i.Quantidade)).ToList();
 
-            var eventMessage
-                = new CheckoutAceitoEvent
+            var checkoutEvent
+                = new CheckoutEvent
                  (clienteId, input.Nome, input.Email, input.Telefone
                     , input.Endereco, input.Complemento, input.Bairro
                     , input.Municipio, input.UF, input.CEP
@@ -136,7 +137,15 @@ namespace Carrinho.API.Controllers
             // Assim que fazemos a finalização, envia um evento de integração para
             // API OrdemDeCompra converter o carrinho em pedido e continuar com
             // processo de criação de pedido
-            await _bus.Publish(eventMessage);
+            await _bus.Publish(checkoutEvent);
+
+            var cadastroEvent
+                = new CadastroEvent
+                 (clienteId, input.Nome, input.Email, input.Telefone
+                    , input.Endereco, input.Complemento, input.Bairro
+                    , input.Municipio, input.UF, input.CEP);
+
+            await _bus.Publish(cadastroEvent);
 
             await _repository.DeleteCarrinhoAsync(clienteId);
 

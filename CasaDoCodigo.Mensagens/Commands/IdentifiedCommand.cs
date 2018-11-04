@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.OrdemDeCompra.Commands
+namespace CasaDoCodigo.Mensagens.Commands
 {
     public class IdentifiedCommand<T, R> : IRequest<R>
         where T : IRequest<R>
