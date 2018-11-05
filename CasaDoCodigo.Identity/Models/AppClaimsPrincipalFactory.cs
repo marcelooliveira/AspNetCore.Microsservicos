@@ -22,61 +22,17 @@ namespace Identity.API.Models
         {
             var principal = await base.CreateAsync(user);
 
-            if (!string.IsNullOrWhiteSpace(user.Nome))
-            {
-                ((ClaimsIdentity)principal.Identity).AddClaims(new[] {
-                    new Claim("name", user.Nome)
-                });
-            }
+            ((ClaimsIdentity)principal.Identity).AddClaims(new[] {
+                new Claim("name", user.Nome),
+                new Claim("phone", user.Telefone),
+                new Claim("address", user.Endereco),
+                new Claim("address_details", user.Complemento),
+                new Claim("neighborhood", user.Bairro),
+                new Claim("city", user.Municipio),
+                new Claim("state", user.UF),
+                new Claim("zip_code", user.CEP)
 
-            if (!string.IsNullOrWhiteSpace(user.Telefone))
-            {
-                ((ClaimsIdentity)principal.Identity).AddClaims(new[] {
-                    new Claim("phone", user.Telefone)
-                });
-            }
-
-            if (!string.IsNullOrWhiteSpace(user.Endereco))
-            {
-                ((ClaimsIdentity)principal.Identity).AddClaims(new[] {
-                    new Claim("address", user.Endereco)
-                });
-            }
-
-            if (!string.IsNullOrWhiteSpace(user.Complemento))
-            {
-                ((ClaimsIdentity)principal.Identity).AddClaims(new[] {
-                    new Claim("address_details", user.Complemento)
-                });
-            }
-
-            if (!string.IsNullOrWhiteSpace(user.Bairro))
-            {
-                ((ClaimsIdentity)principal.Identity).AddClaims(new[] {
-                    new Claim("neighborhood", user.Bairro)
-                });
-            }
-
-            if (!string.IsNullOrWhiteSpace(user.Municipio))
-            {
-                ((ClaimsIdentity)principal.Identity).AddClaims(new[] {
-                    new Claim("city", user.Municipio)
-                });
-            }
-
-            if (!string.IsNullOrWhiteSpace(user.UF))
-            {
-                ((ClaimsIdentity)principal.Identity).AddClaims(new[] {
-                    new Claim("state", user.UF)
-                });
-            }
-
-            if (!string.IsNullOrWhiteSpace(user.CEP))
-            {
-                ((ClaimsIdentity)principal.Identity).AddClaims(new[] {
-                    new Claim("zip_code", user.CEP)
-                });
-            }
+            });
             return principal;
         }
     }

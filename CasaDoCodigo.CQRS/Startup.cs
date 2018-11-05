@@ -1,7 +1,11 @@
-﻿using CasaDoCodigo.Models.ViewModels;
+﻿using CasaDoCodigo.Infrastructure;
+using CasaDoCodigo.Models;
+using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
@@ -38,7 +42,7 @@ namespace CasaDoCodigo
                 .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.AddDistributedMemoryCache();
             services.AddSession();
-
+            services.AddAuthorization();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services
@@ -80,7 +84,6 @@ namespace CasaDoCodigo
             }
 
             app.UseAuthentication();
-
             app.UseStaticFiles();
             app.UseSession();
             app.UseMvc(routes =>

@@ -20,6 +20,7 @@ using Microsoft.Extensions.Logging;
 using MediatR;
 using Identity.API.Commands;
 using System.Reflection;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Identity.API
 {
@@ -51,6 +52,7 @@ namespace Identity.API
 
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AppClaimsPrincipalFactory>();
             services.AddScoped<IClaimsManager, ClaimsManager>();
+            //services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
             services.AddMvc();
 
             services.Configure<IISOptions>(iis =>
