@@ -23,15 +23,15 @@ namespace Identity.API.Models
             var principal = await base.CreateAsync(user);
             
             ((ClaimsIdentity)principal.Identity).AddClaims(new[] {
-                new Claim("name", user.Nome),
-                new Claim("email", user.Email),
-                new Claim("phone", user.Telefone),
-                new Claim("address", user.Endereco),
-                new Claim("address_details", user.Complemento),
-                new Claim("neighborhood", user.Bairro),
-                new Claim("city", user.Municipio),
-                new Claim("state", user.UF),
-                new Claim("zip_code", user.CEP)
+                new Claim("name", user.Nome ?? string.Empty),
+                new Claim("email", user.Email ?? string.Empty),
+                new Claim("phone", user.Telefone ?? string.Empty),
+                new Claim("address", user.Endereco ?? string.Empty),
+                new Claim("address_details", user.Complemento ?? string.Empty),
+                new Claim("neighborhood", user.Bairro ?? string.Empty),
+                new Claim("city", user.Municipio ?? string.Empty),
+                new Claim("state", user.UF ?? string.Empty),
+                new Claim("zip_code", user.CEP ?? string.Empty)
 
             });
             return principal;
