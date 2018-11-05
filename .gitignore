@@ -330,3 +330,4 @@ ASALocalRun/
 .mfractor/
 *.txt
 CasaDoCodigo.Identity/identityserver4_log.txt
+*.txt
