@@ -2,16 +2,23 @@
 using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
+using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace CasaDoCodigo
 {
@@ -65,6 +72,53 @@ namespace CasaDoCodigo
 
                     options.SaveTokens = true;
                     options.GetClaimsFromUserInfoEndpoint = true;
+                    options.Events = new OpenIdConnectEvents()
+                    {
+                        OnUserInformationReceived = (context) =>
+                        {
+                            if (!(context.Principal.Identity is ClaimsIdentity claimsId))
+                            {
+                                throw new Exception();
+                            }
+
+                            // Get a list of all claims attached to the UserInformationRecieved context
+                            var ctxClaims = context.User.Children().ToList();
+
+                            foreach (var ctxClaim in ctxClaims)
+                            {
+                                var claimType = ctxClaim.Path;
+                                var token = ctxClaim.FirstOrDefault();
+                                if (token == null)
+                                {
+                                    continue;
+                                }
+
+                                var claims = new List<Claim>();
+                                if (token.Children().Any())
+                                {
+                                    claims.AddRange(
+                                        token.Children()
+                                            .Select(c => new Claim(claimType, c.Value<string>())));
+                                }
+                                else
+                                {
+                                    claims.Add(new Claim(claimType, token.Value<string>()));
+                                }
+
+                                foreach (var claim in claims)
+                                {
+                                    if (!claimsId.Claims.Any(
+                                        c => c.Type == claim.Type &&
+                                             c.Value == claim.Value))
+                                    {
+                                        claimsId.AddClaim(claim);
+                                    }
+                                }
+                            }
+
+                            return Task.CompletedTask;
+                        }
+                    };
 
                     options.Scope.Add("Carrinho.API");
                     options.Scope.Add("CasaDoCodigo.API");

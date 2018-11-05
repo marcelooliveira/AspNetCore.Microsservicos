@@ -21,6 +21,8 @@ using MediatR;
 using Identity.API.Commands;
 using System.Reflection;
 using Microsoft.AspNetCore.Authentication;
+using IdentityServer4.Services;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Identity.API
 {
@@ -43,6 +45,7 @@ namespace Identity.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<UserManager<ApplicationUser>>();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -54,6 +57,7 @@ namespace Identity.API
             services.AddScoped<IClaimsManager, ClaimsManager>();
             //services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
             services.AddMvc();
+            services.AddSingleton<IProfileService, ProfileService>();
 
             services.Configure<IISOptions>(iis =>
             {
@@ -72,7 +76,8 @@ namespace Identity.API
                 .AddInMemoryClients(Config.GetClients(Configuration["CallbackUrl"]))
                 .AddInMemoryPersistedGrants()
                 .AddInMemoryApiResources(Config.GetApiResources())
-                .AddAspNetIdentity<ApplicationUser>();
+                .AddAspNetIdentity<ApplicationUser>()
+                .AddProfileService<ProfileService>();
 
             if (Environment.IsDevelopment())
             {
@@ -85,7 +90,6 @@ namespace Identity.API
 
             services.AddScoped<IMediator, NoMediator>();
             services.AddScoped<IRequest<bool>, CadastroCommand>();
-            services.AddScoped<UserManager<ApplicationUser>>();
             services.AddMediatR(typeof(CadastroCommand).GetTypeInfo().Assembly);
 
             RegisterRebus(services);
@@ -106,6 +110,7 @@ namespace Identity.API
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             app.UseRebus(
                 async (bus) =>
                 {

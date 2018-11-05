@@ -34,7 +34,7 @@ namespace Identity.API.Commands
                 IDictionary<string, string> claims = new Dictionary<string, string>
                 {
                     ["name"] = command.Nome,
-                    [JwtClaimTypes.Email] = command.Email,
+                    ["email"] = command.Email,
                     ["address"] = command.Endereco,
                     ["address_details"] = command.Complemento,
                     ["phone"] = command.Telefone,

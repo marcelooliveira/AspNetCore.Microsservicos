@@ -1,5 +1,4 @@
 ﻿using Identity.API.Models;
-using IdentityModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
