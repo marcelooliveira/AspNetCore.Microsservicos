@@ -332,3 +332,8 @@ ASALocalRun/
 CasaDoCodigo.Identity/identityserver4_log.txt
 *.txt
 *.txt
+<<<<<<< HEAD
+=======
+*.db
+*.txt
+>>>>>>> 13a4af56cddba61dccb3a46e2ced11dfbb8b4db8

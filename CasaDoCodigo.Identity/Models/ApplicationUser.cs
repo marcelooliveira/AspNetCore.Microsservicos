@@ -4,13 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace Identity.API.Models
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationUser : IdentityUser, IUser<string>
+    public class ApplicationUser : IdentityUser
     {
         public string Nome { get; set; }
         public string Telefone { get; set; }
