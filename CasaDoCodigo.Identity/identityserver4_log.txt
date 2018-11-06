@@ -16933,3 +16933,135 @@ System.InvalidOperationException: Unable to resolve service for type 'Microsoft.
   "RemoteIpAddress": "::1"
 }
 2018-11-05 01:57:30.036 -02:00 [DBG] Token request success.
+2018-11-05 21:57:49.946 -02:00 [INF] Initializing RabbitMQ connection manager for transport with input queue 'CadastroEvent'
+2018-11-05 21:57:50.958 -02:00 [INF] Starting periodic task CleanupTrackedErrors with interval "00:00:10"
+2018-11-05 21:57:51.010 -02:00 [INF] Setting number of workers to 1
+2018-11-05 21:57:51.025 -02:00 [DBG] Adding worker Rebus 1 worker 1
+2018-11-05 21:57:51.043 -02:00 [INF] Bus Rebus 1 started
+2018-11-05 21:57:51.049 -02:00 [DBG] Starting (threadpool-based) worker Rebus 1 worker 1
+2018-11-05 21:57:51.149 -02:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2018-11-05 21:57:51.263 -02:00 [INF] Successfully initialized consumer for CadastroEvent
+2018-11-05 21:57:51.348 -02:00 [DBG] Using Identity.Application as default scheme for authentication
+2018-11-05 21:57:51.348 -02:00 [DBG] Using Identity.External as default scheme for sign-in
+2018-11-05 21:57:51.348 -02:00 [DBG] Using Identity.External as default scheme for sign-out
+2018-11-05 21:57:51.350 -02:00 [DBG] Using Identity.Application as default scheme for challenge
+2018-11-05 21:57:51.350 -02:00 [DBG] Using Identity.Application as default scheme for forbid
+2018-11-05 21:59:17.311 -02:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2018-11-05 21:59:17.552 -02:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2018-11-05 21:59:17.552 -02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2018-11-05 21:59:17.558 -02:00 [DBG] Start discovery request
+2018-11-05 21:59:17.703 -02:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2018-11-05 21:59:17.705 -02:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2018-11-05 21:59:17.706 -02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2018-11-05 21:59:17.716 -02:00 [DBG] Start key discovery request
+2018-11-05 21:59:17.998 -02:00 [DBG] Request path /connect/authorize matched to endpoint type Authorize
+2018-11-05 21:59:18.013 -02:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeEndpoint
+2018-11-05 21:59:18.013 -02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeEndpoint for /connect/authorize
+2018-11-05 21:59:18.022 -02:00 [DBG] Start authorize request
+2018-11-05 21:59:18.040 -02:00 [DBG] No user present in authorize request
+2018-11-05 21:59:18.050 -02:00 [DBG] Start authorize request protocol validation
+2018-11-05 21:59:18.069 -02:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2018-11-05 21:59:18.089 -02:00 [DBG] Checking for PKCE parameters
+2018-11-05 21:59:18.094 -02:00 [DBG] No PKCE used.
+2018-11-05 21:59:18.145 -02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2018-11-05 21:59:18.160 -02:00 [INF] ValidatedAuthorizeRequest
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "RedirectUri": "https://localhost:44369/signin-oidc",
+  "AllowedRedirectUris": [
+    "https://localhost:44369/signin-oidc"
+  ],
+  "SubjectId": "anonymous",
+  "ResponseType": "code id_token",
+  "ResponseMode": "form_post",
+  "GrantType": "hybrid",
+  "RequestedScopes": "openid profile Carrinho.API CasaDoCodigo.API offline_access",
+  "State": "CfDJ8L1NgttdDVBJok3bZPXg4zPVOqWyJh73VhTqKitalzxH9p_LBh6NQlS1UoQlHuFipSe9HqbQnK03dM8xAU6vyFb5HZO2JkzjdUPgipBlOfhtstlIBWz144kLX-2T-3k2CAyByYPHCL-9MUB8gBbM3Q3wBumiOgsuBw9TX8yNxpav5Riq2xGM4u1EL3CswLUmGh87QHyNRXi2ngJR-zs0W72BORZZXA_848KgvLM59y3o9-G10yzOi-D2Y6sN-hIzUP-AX9DmoXPgcW9dWbGjr5_XMf2DBsXPrWIbG5H7EiaVOTdIiLtZbaDSD24IoD4spisHQofpTAlx3e0slPtpomqXu_N5OYENnQTyU1i-eG-s",
+  "Nonce": "636770591578499973.MGE1MzIyZjctMGFhYS00ZmYwLWFiMDItODMyMjhjMjBkZWUwZGQ0MDRlZTMtMTU4Ni00Mjc1LWIzMzEtMzY2NDQ3NzgzMTc4",
+  "Raw": {
+    "client_id": "CasaDoCodigo.MVC",
+    "redirect_uri": "https://localhost:44369/signin-oidc",
+    "response_type": "code id_token",
+    "scope": "openid profile Carrinho.API CasaDoCodigo.API offline_access",
+    "response_mode": "form_post",
+    "nonce": "636770591578499973.MGE1MzIyZjctMGFhYS00ZmYwLWFiMDItODMyMjhjMjBkZWUwZGQ0MDRlZTMtMTU4Ni00Mjc1LWIzMzEtMzY2NDQ3NzgzMTc4",
+    "state": "CfDJ8L1NgttdDVBJok3bZPXg4zPVOqWyJh73VhTqKitalzxH9p_LBh6NQlS1UoQlHuFipSe9HqbQnK03dM8xAU6vyFb5HZO2JkzjdUPgipBlOfhtstlIBWz144kLX-2T-3k2CAyByYPHCL-9MUB8gBbM3Q3wBumiOgsuBw9TX8yNxpav5Riq2xGM4u1EL3CswLUmGh87QHyNRXi2ngJR-zs0W72BORZZXA_848KgvLM59y3o9-G10yzOi-D2Y6sN-hIzUP-AX9DmoXPgcW9dWbGjr5_XMf2DBsXPrWIbG5H7EiaVOTdIiLtZbaDSD24IoD4spisHQofpTAlx3e0slPtpomqXu_N5OYENnQTyU1i-eG-s",
+    "x-client-SKU": "ID_NET",
+    "x-client-ver": "2.1.4.0"
+  }
+}
+2018-11-05 21:59:18.176 -02:00 [INF] Showing login: User is not authenticated
+2018-11-05 21:59:18.268 -02:00 [DBG] Start authorize request protocol validation
+2018-11-05 21:59:18.269 -02:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2018-11-05 21:59:18.269 -02:00 [DBG] Checking for PKCE parameters
+2018-11-05 21:59:18.269 -02:00 [DBG] No PKCE used.
+2018-11-05 21:59:18.270 -02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2018-11-05 21:59:18.275 -02:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2018-11-05 21:59:20.615 -02:00 [DBG] CORS request made for path: /account/login from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2018-11-05 21:59:21.868 -02:00 [DBG] Augmenting SignInContext
+2018-11-05 21:59:21.871 -02:00 [DBG] Adding idp claim with value: local
+2018-11-05 21:59:21.871 -02:00 [DBG] Adding amr claim with value: pwd
+2018-11-05 21:59:21.872 -02:00 [DBG] Adding auth_time claim with value: 1541462361
+2018-11-05 21:59:21.892 -02:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2018-11-05 21:59:21.920 -02:00 [INF] {
+  "Name": "User Login Success",
+  "Category": "Authentication",
+  "EventType": "Success",
+  "Id": 1000,
+  "Username": "bob",
+  "SubjectId": "fdce5b6b-6b5c-4edb-89e3-40d17fccef0e",
+  "DisplayName": "bob",
+  "Endpoint": "UI",
+  "ActivityId": "0HLI3F9VJGIME:00000005",
+  "TimeStamp": "2018-11-05T23:59:21Z",
+  "ProcessId": 14412,
+  "LocalIpAddress": "127.0.0.1:8610",
+  "RemoteIpAddress": "::1"
+}
+2018-11-05 21:59:21.950 -02:00 [DBG] Request path /connect/authorize/callback matched to endpoint type Authorize
+2018-11-05 21:59:21.952 -02:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint
+2018-11-05 21:59:21.952 -02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint for /connect/authorize/callback
+2018-11-05 21:59:21.962 -02:00 [DBG] Start authorize callback request
+2018-11-05 21:59:21.968 -02:00 [DBG] User in authorize request: fdce5b6b-6b5c-4edb-89e3-40d17fccef0e
+2018-11-05 21:59:21.968 -02:00 [DBG] Start authorize request protocol validation
+2018-11-05 21:59:21.968 -02:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2018-11-05 21:59:21.969 -02:00 [DBG] Checking for PKCE parameters
+2018-11-05 21:59:21.969 -02:00 [DBG] No PKCE used.
+2018-11-05 21:59:21.969 -02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2018-11-05 21:59:21.969 -02:00 [INF] ValidatedAuthorizeRequest
+{
+  "ClientId": "CasaDoCodigo.MVC",
+  "ClientName": "CasaDoCodigo MVC",
+  "RedirectUri": "https://localhost:44369/signin-oidc",
+  "AllowedRedirectUris": [
+    "https://localhost:44369/signin-oidc"
+  ],
+  "SubjectId": "fdce5b6b-6b5c-4edb-89e3-40d17fccef0e",
+  "ResponseType": "code id_token",
+  "ResponseMode": "form_post",
+  "GrantType": "hybrid",
+  "RequestedScopes": "openid profile Carrinho.API CasaDoCodigo.API offline_access",
+  "State": "CfDJ8L1NgttdDVBJok3bZPXg4zPVOqWyJh73VhTqKitalzxH9p_LBh6NQlS1UoQlHuFipSe9HqbQnK03dM8xAU6vyFb5HZO2JkzjdUPgipBlOfhtstlIBWz144kLX-2T-3k2CAyByYPHCL-9MUB8gBbM3Q3wBumiOgsuBw9TX8yNxpav5Riq2xGM4u1EL3CswLUmGh87QHyNRXi2ngJR-zs0W72BORZZXA_848KgvLM59y3o9-G10yzOi-D2Y6sN-hIzUP-AX9DmoXPgcW9dWbGjr5_XMf2DBsXPrWIbG5H7EiaVOTdIiLtZbaDSD24IoD4spisHQofpTAlx3e0slPtpomqXu_N5OYENnQTyU1i-eG-s",
+  "Nonce": "636770591578499973.MGE1MzIyZjctMGFhYS00ZmYwLWFiMDItODMyMjhjMjBkZWUwZGQ0MDRlZTMtMTU4Ni00Mjc1LWIzMzEtMzY2NDQ3NzgzMTc4",
+  "SessionId": "cd5df77e9974a9c6c5fb6b2c010c5b5d",
+  "Raw": {
+    "client_id": "CasaDoCodigo.MVC",
+    "redirect_uri": "https://localhost:44369/signin-oidc",
+    "response_type": "code id_token",
+    "scope": "openid profile Carrinho.API CasaDoCodigo.API offline_access",
+    "response_mode": "form_post",
+    "nonce": "636770591578499973.MGE1MzIyZjctMGFhYS00ZmYwLWFiMDItODMyMjhjMjBkZWUwZGQ0MDRlZTMtMTU4Ni00Mjc1LWIzMzEtMzY2NDQ3NzgzMTc4",
+    "state": "CfDJ8L1NgttdDVBJok3bZPXg4zPVOqWyJh73VhTqKitalzxH9p_LBh6NQlS1UoQlHuFipSe9HqbQnK03dM8xAU6vyFb5HZO2JkzjdUPgipBlOfhtstlIBWz144kLX-2T-3k2CAyByYPHCL-9MUB8gBbM3Q3wBumiOgsuBw9TX8yNxpav5Riq2xGM4u1EL3CswLUmGh87QHyNRXi2ngJR-zs0W72BORZZXA_848KgvLM59y3o9-G10yzOi-D2Y6sN-hIzUP-AX9DmoXPgcW9dWbGjr5_XMf2DBsXPrWIbG5H7EiaVOTdIiLtZbaDSD24IoD4spisHQofpTAlx3e0slPtpomqXu_N5OYENnQTyU1i-eG-s",
+    "x-client-SKU": "ID_NET",
+    "x-client-ver": "2.1.4.0"
+  }
+}
+2018-11-05 21:59:21.992 -02:00 [DBG] Scopes contains offline_access, consent is required
+2018-11-05 21:59:21.992 -02:00 [INF] Showing consent: User has not yet consented
+2018-11-05 21:59:22.041 -02:00 [DBG] Start authorize request protocol validation
+2018-11-05 21:59:22.041 -02:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2018-11-05 21:59:22.042 -02:00 [DBG] Checking for PKCE parameters
+2018-11-05 21:59:22.049 -02:00 [DBG] No PKCE used.
+2018-11-05 21:59:22.049 -02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2018-11-05 21:59:22.049 -02:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
