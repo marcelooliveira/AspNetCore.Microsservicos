@@ -149,7 +149,7 @@ namespace Carrinho.API.Controllers
 
             await _repository.DeleteCarrinhoAsync(clienteId);
 
-            return Accepted();
+            return Accepted(true);
         }
     }
 }

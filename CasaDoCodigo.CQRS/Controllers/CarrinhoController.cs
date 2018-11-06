@@ -119,7 +119,16 @@ namespace CasaDoCodigo.Controllers
 
         public async Task<IActionResult> Checkout()
         {
-            ViewBag.MsgCheckout = "Obrigado pelo pagamento! Enviaremos um e-mail com os detalhes do seu pedido.";
+            try
+            {
+                var usuario = appUserParser.Parse(HttpContext.User);
+                return View(new PedidoConfirmado(usuario.Email));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, e.Message);
+                HandleException();
+            }
             return View();
         }
     }
