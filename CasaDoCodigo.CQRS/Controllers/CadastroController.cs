@@ -4,7 +4,6 @@ using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Polly.CircuitBreaker;
 using System;
@@ -16,13 +15,9 @@ namespace CasaDoCodigo.Controllers
     {
         private readonly IIdentityParser<ApplicationUser> appUserParser;
 
-        public IConfiguration Configuration { get; }
-
         public CadastroController(
-            IHttpContextAccessor contextAccessor,
             IIdentityParser<ApplicationUser> appUserParser,
-            ILogger<CadastroController> logger
-            )
+            ILogger<CadastroController> logger)
             : base(logger)
         {
             this.appUserParser = appUserParser;

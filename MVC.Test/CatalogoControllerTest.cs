@@ -60,10 +60,11 @@ namespace MVC.Test
                 new CatalogoController(catalogoServiceMock.Object, loggerMock.Object);
 
             var result = await catalogoController.Index();
+            var model = result as IList<Produto>;
 
             //assert
-            Assert.IsNotType<List<Produto>>(result);
-            Assert.NotNull(catalogoController.ViewBag.MsgServicoIndisponivel);
+            Assert.Null(model);
+            Assert.True(!string.IsNullOrWhiteSpace(catalogoController.ViewBag.MsgServicoIndisponivel));
         }
 
         [Fact]
@@ -79,10 +80,11 @@ namespace MVC.Test
                 new CatalogoController(catalogoServiceMock.Object, loggerMock.Object);
 
             var result = await catalogoController.Index();
+            var model = result as IList<Produto>;
 
             //assert
-            Assert.IsNotType<List<Produto>>(result);
-            Assert.NotNull(catalogoController.ViewBag.MsgServicoIndisponivel);
+            Assert.Null(model);
+            Assert.True(!string.IsNullOrWhiteSpace(catalogoController.ViewBag.MsgServicoIndisponivel));
         }
 
         private IList<Produto> GetFakeProdutos()
