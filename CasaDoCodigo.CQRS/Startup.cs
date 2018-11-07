@@ -66,7 +66,7 @@ namespace CasaDoCodigo
                     options.Authority = Configuration["IdentityUrl"];
                     options.RequireHttpsMetadata = false;
 
-                    options.ClientId = "CasaDoCodigo.MVC";
+                    options.ClientId = "MVC";
                     options.ClientSecret = "secret";
                     options.ResponseType = "code id_token";
 

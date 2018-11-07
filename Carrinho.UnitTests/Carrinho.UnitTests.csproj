@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CasaDoCodigo.Carrinho\Carrinho.API.csproj" />
-    <ProjectReference Include="..\CasaDoCodigo.CQRS\CasaDoCodigo.MVC.csproj" />
+    <ProjectReference Include="..\CasaDoCodigo.CQRS\MVC.csproj" />
   </ItemGroup>
 
 </Project>

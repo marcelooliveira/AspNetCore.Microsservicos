@@ -14,9 +14,8 @@ namespace CasaDoCodigo.Controllers
 
         public CatalogoController
             (ICatalogoService catalogoService,
-            ILogger<CatalogoController> logger,
-            IHttpContextAccessor contextAccessor) 
-            : base(contextAccessor, logger)
+            ILogger<CatalogoController> logger) 
+            : base(logger)
         {
             this.catalogoService = catalogoService;
         }

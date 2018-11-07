@@ -13,12 +13,10 @@ namespace CasaDoCodigo.Controllers
 {
     public abstract class BaseController : Controller
     {
-        protected readonly IHttpContextAccessor contextAccessor;
         protected readonly ILogger logger;
 
-        protected BaseController(IHttpContextAccessor contextAccessor, ILogger logger)
+        protected BaseController(ILogger logger)
         {
-            this.contextAccessor = contextAccessor;
             this.logger = logger;
         }
 
@@ -36,16 +34,6 @@ namespace CasaDoCodigo.Controllers
         {
             await HttpContext.SignOutAsync("Cookies");
             await HttpContext.SignOutAsync("oidc");
-        }
-
-        protected int? GetPedidoId()
-        {
-            return contextAccessor.HttpContext.Session.GetInt32("pedidoId");
-        }
-
-        protected void SetPedidoId(int pedidoId)
-        {
-            contextAccessor.HttpContext.Session.SetInt32("pedidoId", pedidoId);
         }
 
         protected string GetUserId()

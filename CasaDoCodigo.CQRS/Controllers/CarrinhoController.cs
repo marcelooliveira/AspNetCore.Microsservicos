@@ -25,7 +25,7 @@ namespace CasaDoCodigo.Controllers
             ILogger<CarrinhoController> logger,
             ICatalogoService catalogoService,
             ICarrinhoService carrinhoService)
-            : base(contextAccessor, logger)
+            : base(logger)
         {
             this.appUserParser = appUserParser;
             this.catalogoService = catalogoService;
@@ -37,7 +37,6 @@ namespace CasaDoCodigo.Controllers
             try
             {
                 string idUsuario = GetUserId();
-                int pedidoId = GetPedidoId() ?? 0;
                 var produto = await catalogoService.GetProduto(codigo);
                 ItemCarrinho itemCarrinho = new ItemCarrinho(produto.Codigo, produto.Codigo, produto.Nome, produto.Preco, 1, produto.UrlImagem);
                 var carrinho = await carrinhoService.AddItem(idUsuario, itemCarrinho);
@@ -119,7 +118,16 @@ namespace CasaDoCodigo.Controllers
 
         public async Task<IActionResult> Checkout()
         {
-            ViewBag.MsgCheckout = "Obrigado pelo pagamento! Enviaremos um e-mail com os detalhes do seu pedido.";
+            try
+            {
+                var usuario = appUserParser.Parse(HttpContext.User);
+                return View(new PedidoConfirmado(usuario.Email));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, e.Message);
+                HandleException();
+            }
             return View();
         }
     }

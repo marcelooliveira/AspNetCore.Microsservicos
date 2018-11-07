@@ -25,7 +25,7 @@ namespace CasaDoCodigo.Models
         public int Id { get; set; }
     }
 
-    public class CadastroViewModel
+    public class CadastroViewModel : IEquatable<CadastroViewModel>
     {
         public int Id { get; set; }
         public int PedidoId { get; set; }
@@ -67,6 +67,26 @@ namespace CasaDoCodigo.Models
             this.Nome = cadastro.Nome;
             this.Telefone = cadastro.Telefone;
             this.UF = cadastro.UF;
+        }
+
+        public bool Equals(CadastroViewModel other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return
+            this.Id == other.Id &&
+            this.Bairro == other.Bairro &&
+            this.CEP == other.CEP &&
+            this.Complemento == other.Complemento &&
+            this.Email == other.Email &&
+            this.Endereco == other.Endereco &&
+            this.Municipio == other.Municipio &&
+            this.Nome == other.Nome &&
+            this.Telefone == other.Telefone &&
+            this.UF == other.UF;
         }
     }
 

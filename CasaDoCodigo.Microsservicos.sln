@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.MVC", "CasaDoCodigo.CQRS\CasaDoCodigo.MVC.csproj", "{616AEE63-21B3-4243-8A2A-D162242F161A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC", "CasaDoCodigo.CQRS\MVC.csproj", "{616AEE63-21B3-4243-8A2A-D162242F161A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwagStudio", "NSwagStudio", "{A4502ACB-B015-4D9A-9C6A-189D22E9BC93}"
 	ProjectSection(SolutionItems) = preProject
@@ -50,6 +50,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testes", "testes", "{23569E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdemDeCompra.API", "OrdemDeCompra.API\OrdemDeCompra.API.csproj", "{EA09CDC8-0E95-433B-832E-6A1BEF3EAB23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC.Test", "MVC.Test\MVC.Test.csproj", "{5EB9497A-2EE0-4135-AA25-71AD4D475841}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,10 @@ Global
 		{EA09CDC8-0E95-433B-832E-6A1BEF3EAB23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA09CDC8-0E95-433B-832E-6A1BEF3EAB23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA09CDC8-0E95-433B-832E-6A1BEF3EAB23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EB9497A-2EE0-4135-AA25-71AD4D475841}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EB9497A-2EE0-4135-AA25-71AD4D475841}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EB9497A-2EE0-4135-AA25-71AD4D475841}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EB9497A-2EE0-4135-AA25-71AD4D475841}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,6 +122,7 @@ Global
 		{74169CBC-F92A-4E85-B58C-8CF743AF87B8} = {EC57E6DB-8B05-4ACD-8FD8-0B6BCC2E18D9}
 		{23569E3B-B36E-4746-9E47-4887EA8AF116} = {74169CBC-F92A-4E85-B58C-8CF743AF87B8}
 		{EA09CDC8-0E95-433B-832E-6A1BEF3EAB23} = {74169CBC-F92A-4E85-B58C-8CF743AF87B8}
+		{5EB9497A-2EE0-4135-AA25-71AD4D475841} = {4AF230EC-1E24-4C55-89C7-74FD6A4578A4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03DBD554-4917-4E9A-B783-78151722175A}

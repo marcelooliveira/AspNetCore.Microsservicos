@@ -79,7 +79,7 @@ namespace Identity.API
                     {
                         UserName = "bob",
                         Nome = "Bob Smith",
-                        Email = "alice@asp.net",
+                        Email = "bob@asp.net",
                         Telefone = "1234-5678",
                         Endereco = "Rua Vergueiro, 456",
                         Complemento = "8 andar sala 801",

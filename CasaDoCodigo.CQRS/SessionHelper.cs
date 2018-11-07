@@ -28,7 +28,7 @@ namespace CasaDoCodigo
 
         public async Task<string> GetAccessToken(string scope)
         {
-            var tokenClient = new TokenClient(Configuration["IdentityUrl"] + "connect/token", "CasaDoCodigo.MVC", "secret");
+            var tokenClient = new TokenClient(Configuration["IdentityUrl"] + "connect/token", "MVC", "secret");
             var tokenResponse = await tokenClient.RequestClientCredentialsAsync(scope);
             return tokenResponse.AccessToken;
         }

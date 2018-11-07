@@ -2,12 +2,16 @@
     ViewData["Title"] = "Finalização";
 }
 
-@model List<Produto>;
+@model PedidoConfirmado;
 
-<h3>Finalização</h3>
+<h3>Pedido Confirmado</h3>
 
-<div class="container">
-    <div class="row">
-        <h3>@ViewBag.MsgCheckout</h3>
-    </div>
+<div class="panel-info">
+    <p>Seu pedido foi realizado com sucesso.</p>
+    <br />
+    <p>Em breve você receberá um e-mail no endereço <b>@Model.Email</b> com todos os detalhes do pedido.</p>
+    <br />
+    <p>Aguardamos a confirmação do pagamento.</p>
+    <br />
+    <p><a href="/" class="btn btn-success">Voltar ao catálogo de produtos</a></p>
 </div>
