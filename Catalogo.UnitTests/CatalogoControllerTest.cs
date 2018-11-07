@@ -47,7 +47,7 @@ namespace Catalogo.UnitTests
                 .Returns(new DefaultHttpContext());
 
             //Act
-            var _catalogoController = new CatalogoController(_catalogoServiceMock.Object, _logger, _httpContextAccessorMock.Object);
+            var _catalogoController = new CatalogoController(_catalogoServiceMock.Object, _logger);
             var actionResult = await _catalogoController.Index();
 
             //Assert

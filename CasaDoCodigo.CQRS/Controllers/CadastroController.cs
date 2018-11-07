@@ -23,7 +23,7 @@ namespace CasaDoCodigo.Controllers
             IIdentityParser<ApplicationUser> appUserParser,
             ILogger<CadastroController> logger
             )
-            : base(contextAccessor, logger)
+            : base(logger)
         {
             this.appUserParser = appUserParser;
         }

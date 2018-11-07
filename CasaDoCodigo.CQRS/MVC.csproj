@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RootNamespace>CasaDoCodigo</RootNamespace>
+    <RootNamespace>MVC</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

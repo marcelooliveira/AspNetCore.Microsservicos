@@ -38,8 +38,8 @@ namespace Identity.API
                 // OpenID Connect hybrid flow and client credentials client (MVC)
                 new Client
                 {
-                    ClientId = "CasaDoCodigo.MVC",
-                    ClientName = "CasaDoCodigo MVC",
+                    ClientId = "MVC",
+                    ClientName = "MVC",
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
 
                     RequireConsent = true,

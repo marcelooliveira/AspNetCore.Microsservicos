@@ -25,7 +25,7 @@ namespace CasaDoCodigo.Controllers
             ILogger<CarrinhoController> logger,
             ICatalogoService catalogoService,
             ICarrinhoService carrinhoService)
-            : base(contextAccessor, logger)
+            : base(logger)
         {
             this.appUserParser = appUserParser;
             this.catalogoService = catalogoService;
@@ -37,7 +37,6 @@ namespace CasaDoCodigo.Controllers
             try
             {
                 string idUsuario = GetUserId();
-                int pedidoId = GetPedidoId() ?? 0;
                 var produto = await catalogoService.GetProduto(codigo);
                 ItemCarrinho itemCarrinho = new ItemCarrinho(produto.Codigo, produto.Codigo, produto.Nome, produto.Preco, 1, produto.UrlImagem);
                 var carrinho = await carrinhoService.AddItem(idUsuario, itemCarrinho);
