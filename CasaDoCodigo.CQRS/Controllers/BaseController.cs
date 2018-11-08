@@ -38,19 +38,16 @@ namespace CasaDoCodigo.Controllers
 
         protected string GetUserId()
         {
-            var claims = User.Claims;
-            var userIdClaim = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Subject);
-            if (userIdClaim == null)
-            {
-                userIdClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
-            }
-            if (userIdClaim == null)
-            {
-                throw new Exception("Usuário desconhecido");
-            }
+            var userIdClaim = User.Claims.FirstOrDefault(x
+                => new[] {
+                    JwtClaimTypes.Subject, ClaimTypes.NameIdentifier
+                }.Contains(x.Type)
+                && !string.IsNullOrWhiteSpace(x.Value));
 
-            var idUsuario = userIdClaim.Value;
-            return idUsuario;
+            if (userIdClaim != null)
+                return userIdClaim.Value;
+
+            throw new Exception("Usuário desconhecido");
         }
 
     }
