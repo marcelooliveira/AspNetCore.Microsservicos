@@ -13,7 +13,7 @@ using Xunit;
 
 namespace MVC.Test
 {
-    public class CatalogoControllerTest
+    public class CatalogoControllerTest : BaseControllerTest
     {
         private readonly Mock<ICatalogoService> catalogoServiceMock;
         private readonly Mock<ILogger<CatalogoController>> loggerMock;
@@ -85,16 +85,6 @@ namespace MVC.Test
             //assert
             Assert.Null(model);
             Assert.True(!string.IsNullOrWhiteSpace(catalogoController.ViewBag.MsgServicoIndisponivel));
-        }
-
-        private IList<Produto> GetFakeProdutos()
-        {
-            return new List<Produto>
-            {
-                new Produto("001", "produto 001", 12.34m),
-                new Produto("002", "produto 002", 23.45m),
-                new Produto("003", "produto 003", 34.56m)
-            };
         }
     }
 }
