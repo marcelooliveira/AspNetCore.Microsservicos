@@ -4,6 +4,7 @@ using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Core;
 using Microsoft.Extensions.Logging;
 using Polly.CircuitBreaker;
 using System;
