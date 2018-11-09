@@ -2,22 +2,18 @@
 using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
-using IdentityModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Security.Principal;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace MVC.Test
 {
-    public class CarrinhoControllerTest
+    public class CarrinhoControllerTest : BaseControllerTest
     {
         private readonly Mock<IHttpContextAccessor> contextAccessorMock;
         private readonly Mock<IIdentityParser<ApplicationUser>> appUserParserMock;
@@ -35,67 +31,72 @@ namespace MVC.Test
         }
 
         [Fact]
-        public async Task Index_success()
+        public async Task CarrinhoController_Index()
         {
-            var produtos = GetFakeProdutos();
-
             //arrange
-            string userId = "user_id";
-
+            var clienteId = "cliente_id";
+            var produtos = GetFakeProdutos();
+            var testProduct = produtos[0];
             catalogoServiceMock
-                .Setup(c => c.GetProduto(produtos[0].Codigo))
-                .ReturnsAsync(produtos[0]);
+                .Setup(c => c.GetProduto(testProduct.Codigo))
+                .ReturnsAsync(testProduct);
 
+            var itemCarrinho = new ItemCarrinho(testProduct.Codigo, testProduct.Codigo, testProduct.Nome, testProduct.Preco, 1, testProduct.UrlImagem);
             carrinhoServiceMock
-                .Setup(c => c.AddItem(userId, It.IsAny<ItemCarrinho>()))
-                .ReturnsAsync(new CarrinhoCliente
-                {
-                     ClienteId = userId,
-                     Itens = new List<ItemCarrinho>
-                     {
-                         new ItemCarrinho()
-                     }
-                });
+                .Setup(c => c.AddItem(clienteId, It.IsAny<ItemCarrinho>()))
+                .ReturnsAsync(
+                new CarrinhoCliente(clienteId,
+                    new List<ItemCarrinho>
+                    {
+                        itemCarrinho
+                    }));
 
             //act
-            var carrinhoController = GetCarrinhoController();
-            SetupUser(carrinhoController, userId, "user_name");
+            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
+            SetControllerUser(clienteId, controller);
 
-            var result = await carrinhoController.Index(produtos[0].Codigo);
+            var result = await controller.Index(testProduct.Codigo);
 
             //assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<CarrinhoCliente>(viewResult);
+            var model = Assert.IsAssignableFrom<CarrinhoCliente>(viewResult.Model);
+            Assert.Equal(model.Itens[0].ProdutoNome, produtos[0].Nome);
         }
 
-        private CarrinhoController GetCarrinhoController()
+        [Fact]
+        public async Task CarrinhoController_ProductNotFound()
         {
-            return new CarrinhoController(
-            contextAccessorMock.Object,
-            appUserParserMock.Object,
-            loggerMock.Object,
-            catalogoServiceMock.Object,
-            carrinhoServiceMock.Object);
+            //arrange
+            var clienteId = "cliente_id";
+            var produtos = GetFakeProdutos();
+            var testProduct = produtos[0];
+            catalogoServiceMock
+                .Setup(c => c.GetProduto(testProduct.Codigo))
+                .ReturnsAsync((Produto)null);
+
+            //act
+            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
+            SetControllerUser(clienteId, controller);
+
+            var result = await controller.Index(testProduct.Codigo);
+
+            //assert
+            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("ProdutoNaoEncontrado", redirectToActionResult.ActionName);
+            Assert.Equal("Carrinho", redirectToActionResult.ControllerName);
+            Assert.Equal(redirectToActionResult.Fragment, testProduct.Codigo);
         }
 
-        private IList<Produto> GetFakeProdutos()
+        private static void SetControllerUser(string clienteId, CarrinhoController controller)
         {
-            return new List<Produto>
+            var user = new ClaimsPrincipal(
+                new ClaimsIdentity(
+                    new Claim[] { new Claim("sub", clienteId) }
+                ));
+
+            controller.ControllerContext = new ControllerContext
             {
-                new Produto("001", "produto 001", 12.34m),
-                new Produto("002", "produto 002", 23.45m),
-                new Produto("003", "produto 003", 34.56m)
-            };
-        }
-
-        private void SetupUser(Controller controller, string userId, string username)
-        {
-            var mockContext = new Mock<HttpContext>(MockBehavior.Strict);
-            mockContext.SetupGet(hc => hc.User.Identity.Name).Returns(username);
-            mockContext.SetupGet(hc => hc.User.Claims).Returns(new List<Claim> { new Claim("sub", userId) });
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = mockContext.Object
+                HttpContext = new DefaultHttpContext { User = user }
             };
         }
     }

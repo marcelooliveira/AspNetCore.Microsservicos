@@ -39,6 +39,11 @@ namespace CasaDoCodigo.Controllers
             {
                 string idUsuario = GetUserId();
                 var produto = await catalogoService.GetProduto(codigo);
+                if (produto == null)
+                {
+                    return RedirectToAction("ProdutoNaoEncontrado", "Carrinho", codigo);
+                }
+
                 ItemCarrinho itemCarrinho = new ItemCarrinho(produto.Codigo, produto.Codigo, produto.Nome, produto.Preco, 1, produto.UrlImagem);
                 var carrinho = await carrinhoService.AddItem(idUsuario, itemCarrinho);
                 return View(carrinho);
@@ -54,6 +59,11 @@ namespace CasaDoCodigo.Controllers
                 HandleException();
             }
             return View();
+        }
+
+        public IActionResult ProdutoNaoEncontrado(string codigo)
+        {
+            return View(codigo);
         }
 
         [HttpPost]
