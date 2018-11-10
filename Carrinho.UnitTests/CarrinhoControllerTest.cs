@@ -68,70 +68,20 @@ namespace Carrinho.UnitTests
             _carrinhoServiceMock.Setup(x => x.AtualizarCarrinho(It.IsAny<CarrinhoClienteMVC>()))
                 .Returns(Task.FromResult(fakeCarrinho));
 
-            //Act
             var carrinhoController = new CarrinhoController(
                 _contextAccessorMock.Object,
                 _appUserParserMock.Object,
                 _logger,
                 _catalogoServiceMock.Object,
                 _carrinhoServiceMock.Object);
-
             carrinhoController.ControllerContext.HttpContext = _contextMock.Object;
+
+            //Act
             var actionResult = await carrinhoController.Index(fakeQuantidades, action);
 
             //Assert
             var viewResult = Assert.IsType<ViewResult>(actionResult);
         }
-
-        //[Fact]
-        //public async Task Post_carrinho_checkout_sucesso()
-        //{
-        //    //Arrange
-        //    var fakeBuyerId = "1";
-        //    var action = "[ Checkout ]";
-        //    var fakeBasket = GetFakeBasket(fakeBuyerId);
-        //    var fakeQuantities = new Dictionary<string, int>()
-        //    {
-        //        ["produtoFakeA"] = 1,
-        //        ["produtoFakeB"] = 2
-        //    };
-
-        //    _basketServiceMock.Setup(x => x.SetQuantities(It.IsAny<ApplicationUser>(), It.IsAny<Dictionary<string, int>>()))
-        //        .Returns(Task.FromResult(fakeBasket));
-
-        //    _basketServiceMock.Setup(x => x.UpdateBasket(It.IsAny<BasketModel>()))
-        //        .Returns(Task.FromResult(fakeBasket));
-
-        //    //Act
-        //    var orderController = new CartController(_basketServiceMock.Object, _catalogServiceMock.Object, _identityParserMock.Object);
-        //    orderController.ControllerContext.HttpContext = _contextMock.Object;
-        //    var actionResult = await orderController.Index(fakeQuantities, action);
-
-        //    //Assert
-        //    var redirectToActionResult = Assert.IsType<RedirectToActionResult>(actionResult);
-        //    Assert.Equal("Order", redirectToActionResult.ControllerName);
-        //    Assert.Equal("Create", redirectToActionResult.ActionName);
-        //}
-
-        //[Fact]
-        //public async Task Adicionar_ao_carrinho_sucesso()
-        //{
-        //    //Arrange
-        //    var fakeCatalogItem = GetFakeCatalogItem();
-
-        //    _basketServiceMock.Setup(x => x.AddItemToBasket(It.IsAny<ApplicationUser>(), It.IsAny<Int32>()))
-        //        .Returns(Task.FromResult(1));
-
-        //    //Act
-        //    var orderController = new CartController(_basketServiceMock.Object, _catalogServiceMock.Object, _identityParserMock.Object);
-        //    orderController.ControllerContext.HttpContext = _contextMock.Object;
-        //    var actionResult = await orderController.AddToCart(fakeCatalogItem);
-
-        //    //Assert
-        //    var redirectToActionResult = Assert.IsType<RedirectToActionResult>(actionResult);
-        //    Assert.Equal("Catalog", redirectToActionResult.ControllerName);
-        //    Assert.Equal("Index", redirectToActionResult.ActionName);
-        //}
 
         private CarrinhoClienteMVC GetFakeCarrinho(string clienteId)
         {
@@ -140,19 +90,5 @@ namespace Carrinho.UnitTests
                 ClienteId = clienteId
             };
         }
-
-        //private CatalogItem GetFakeItemCatalogo()
-        //{
-        //    return new Produto()
-        //    {
-        //        Id = 1,
-        //        Name = "fakeName",
-        //        CatalogBrand = "fakeBrand",
-        //        CatalogType = "fakeType",
-        //        CatalogBrandId = 2,
-        //        CatalogTypeId = 5,
-        //        Price = 20
-        //    };
-        //}
     }
 }

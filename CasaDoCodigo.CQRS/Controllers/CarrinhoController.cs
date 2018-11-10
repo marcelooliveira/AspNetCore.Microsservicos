@@ -37,13 +37,13 @@ namespace CasaDoCodigo.Controllers
         {
             try
             {
-                string idUsuario = GetUserId();
                 var produto = await catalogoService.GetProduto(codigo);
                 if (produto == null)
                 {
                     return RedirectToAction("ProdutoNaoEncontrado", "Carrinho", codigo);
                 }
 
+                string idUsuario = GetUserId();
                 ItemCarrinho itemCarrinho = new ItemCarrinho(produto.Codigo, produto.Codigo, produto.Nome, produto.Preco, 1, produto.UrlImagem);
                 var carrinho = await carrinhoService.AddItem(idUsuario, itemCarrinho);
                 return View(carrinho);

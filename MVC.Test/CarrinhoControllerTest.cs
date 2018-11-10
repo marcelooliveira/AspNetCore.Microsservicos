@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Polly.CircuitBreaker;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace MVC.Test
         }
 
         [Fact]
-        public async Task CarrinhoController_Index()
+        public async Task CarrinhoController_Index_Success()
         {
             //arrange
             var clienteId = "cliente_id";
@@ -50,10 +51,10 @@ namespace MVC.Test
                     {
                         itemCarrinho
                     }));
-
-            //act
             var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
             SetControllerUser(clienteId, controller);
+
+            //act
 
             var result = await controller.Index(testProduct.Codigo);
 
@@ -61,6 +62,37 @@ namespace MVC.Test
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<CarrinhoCliente>(viewResult.Model);
             Assert.Equal(model.Itens[0].ProdutoNome, produtos[0].Nome);
+        }
+
+        [Fact]
+        public async Task CarrinhoController_Index_BrokenCircuitException()
+        {
+            //arrange
+            var clienteId = "cliente_id";
+            var produtos = GetFakeProdutos();
+            var testProduct = produtos[0];
+            catalogoServiceMock
+                .Setup(c => c.GetProduto(It.IsAny<string>()))
+                .ThrowsAsync(new BrokenCircuitException());
+
+            var itemCarrinho = new ItemCarrinho(testProduct.Codigo, testProduct.Codigo, testProduct.Nome, testProduct.Preco, 1, testProduct.UrlImagem);
+            carrinhoServiceMock
+                .Setup(c => c.AddItem(clienteId, It.IsAny<ItemCarrinho>()))
+                .ReturnsAsync(
+                new CarrinhoCliente(clienteId,
+                    new List<ItemCarrinho>
+                    {
+                        itemCarrinho
+                    }));
+            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
+
+            //act
+            SetControllerUser(clienteId, controller);
+
+            var result = await controller.Index(testProduct.Codigo);
+
+            //assert
+            var viewResult = Assert.IsType<ViewResult>(result);
         }
 
         [Fact]
@@ -73,9 +105,9 @@ namespace MVC.Test
             catalogoServiceMock
                 .Setup(c => c.GetProduto(testProduct.Codigo))
                 .ReturnsAsync((Produto)null);
+            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
 
             //act
-            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
             SetControllerUser(clienteId, controller);
 
             var result = await controller.Index(testProduct.Codigo);
