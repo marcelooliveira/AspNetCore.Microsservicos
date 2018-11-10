@@ -33,19 +33,27 @@ namespace CasaDoCodigo.Controllers
             this.carrinhoService = carrinhoService;
         }
 
-        public async Task<IActionResult> Index(string codigo)
+        public async Task<IActionResult> Index(string codigo = null)
         {
             try
             {
-                var produto = await catalogoService.GetProduto(codigo);
-                if (produto == null)
-                {
-                    return RedirectToAction("ProdutoNaoEncontrado", "Carrinho", codigo);
-                }
-
                 string idUsuario = GetUserId();
-                ItemCarrinho itemCarrinho = new ItemCarrinho(produto.Codigo, produto.Codigo, produto.Nome, produto.Preco, 1, produto.UrlImagem);
-                var carrinho = await carrinhoService.AddItem(idUsuario, itemCarrinho);
+                CarrinhoCliente carrinho;
+                if (!string.IsNullOrWhiteSpace(codigo))
+                {
+                    var produto = await catalogoService.GetProduto(codigo);
+                    if (produto == null)
+                    {
+                        return RedirectToAction("ProdutoNaoEncontrado", "Carrinho", codigo);
+                    }
+
+                    ItemCarrinho itemCarrinho = new ItemCarrinho(produto.Codigo, produto.Codigo, produto.Nome, produto.Preco, 1, produto.UrlImagem);
+                    carrinho = await carrinhoService.AddItem(idUsuario, itemCarrinho);
+                }
+                else
+                {
+                    carrinho = await carrinhoService.GetCarrinho(idUsuario);
+                }
                 return View(carrinho);
             }
             catch (BrokenCircuitException e)
@@ -73,10 +81,6 @@ namespace CasaDoCodigo.Controllers
             {
                 var usuario = appUserParser.Parse(HttpContext.User);
                 var carrinho = carrinhoService.DefinirQuantidades(usuario, quantidades);
-                //if (action == "[ Checkout ]")
-                //{
-                //    RedirectToAction("Create", "Order");
-                //}
             }
             catch (BrokenCircuitException e)
             {
