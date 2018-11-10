@@ -131,6 +131,7 @@ namespace MVC.Test
             //assert
             var viewResult = Assert.IsType<ViewResult>(result);
             loggerMock.Verify(l => l.Log(LogLevel.Error, It.IsAny<EventId>(), It.IsAny<FormattedLogValues>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), Times.Once);
+            Assert.True(!string.IsNullOrWhiteSpace(controller.ViewBag.MsgServicoIndisponivel as string));
         }
 
         [Fact]
