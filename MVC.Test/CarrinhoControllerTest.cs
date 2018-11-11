@@ -57,8 +57,7 @@ namespace MVC.Test
                         itemCarrinho
                     }))
                 .Verifiable();
-
-            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
+            var controller = GetCarrinhoController();
             SetControllerUser(clienteId, controller);
 
             //act
@@ -89,7 +88,7 @@ namespace MVC.Test
                     }))
                 .Verifiable();
 
-            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
+            var controller = GetCarrinhoController();
             SetControllerUser(clienteId, controller);
 
             //act
@@ -124,7 +123,7 @@ namespace MVC.Test
                     }))
                 .Verifiable();
 
-            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
+            var controller = GetCarrinhoController();
             SetControllerUser(clienteId, controller);
 
             //act
@@ -148,7 +147,7 @@ namespace MVC.Test
                 .ReturnsAsync((Produto)null)
                 .Verifiable();
 
-            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
+            var controller = GetCarrinhoController();
             SetControllerUser(clienteId, controller);
 
             //act
@@ -168,7 +167,7 @@ namespace MVC.Test
         {
             //arrange
             var clienteId = "cliente_id";
-            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
+            var controller = GetCarrinhoController();
             SetControllerUser(clienteId, controller);
             var itemCarrinho = GetFakeItemCarrinho();
             UpdateQuantidadeInput updateQuantidadeInput = new UpdateQuantidadeInput("001", 7);
@@ -195,7 +194,7 @@ namespace MVC.Test
                 .Setup(c => c.UpdateItem(clienteId, It.IsAny<UpdateQuantidadeInput>()))
                 .ReturnsAsync(new UpdateQuantidadeOutput(new ItemCarrinho(), new CarrinhoCliente()));
 
-            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
+            var controller = GetCarrinhoController();
             SetControllerUser(clienteId, controller);
             controller.ModelState.AddModelError("ProdutoId", "Required");
 
@@ -217,7 +216,7 @@ namespace MVC.Test
                 .Setup(c => c.UpdateItem(clienteId, It.IsAny<UpdateQuantidadeInput>()))
                 .ReturnsAsync((UpdateQuantidadeOutput)null);
 
-            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
+            var controller = GetCarrinhoController();
             SetControllerUser(clienteId, controller);
 
             //act
@@ -226,6 +225,73 @@ namespace MVC.Test
             //assert
             var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
             Assert.Equal(updateQuantidadeInput, notFoundObjectResult.Value);
+        }
+        #endregion
+
+        #region Checkout
+        [Fact]
+        public async Task Checkout_success()
+        {
+            //arrange
+            var carrinho = GetCarrinhoController();
+
+            //act
+            IActionResult actionResult = await carrinho.Checkout(new Cadastro());
+
+            //assert
+            ViewResult viewResult = Assert.IsType<ViewResult>(actionResult);
+        }
+
+        [Fact]
+        public async Task Checkout_Invalid_Cadastro()
+        {
+            //arrange
+            var carrinho = GetCarrinhoController();
+            carrinho.ModelState.AddModelError("Email", "Required");
+
+            //act
+            IActionResult actionResult = await carrinho.Checkout(new Cadastro());
+
+            //assert
+            RedirectToActionResult redirectToActionResult = Assert.IsType<RedirectToActionResult>(actionResult);
+            redirectToActionResult.ControllerName = "CarrinhoController";
+            redirectToActionResult.ActionName = "Checkout";
+        }
+
+        [Fact]
+        public async Task Checkout_Service_Error()
+        {
+            //arrange
+            carrinhoServiceMock
+                .Setup(c => c.Checkout(It.IsAny<string>(), It.IsAny<CadastroViewModel>()))
+                .ThrowsAsync(new Exception());
+            var controller = GetCarrinhoController();
+
+            //act
+            IActionResult actionResult = await controller.Checkout(new Cadastro());
+
+            //assert
+            ViewResult viewResult = Assert.IsType<ViewResult>(actionResult);
+            loggerMock.Verify(l => l.Log(LogLevel.Error, It.IsAny<EventId>(), It.IsAny<FormattedLogValues>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), Times.Once);
+            Assert.True(!string.IsNullOrWhiteSpace(controller.ViewBag.MsgServicoIndisponivel as string));
+        }
+
+        [Fact]
+        public async Task Checkout_Service_BrokenCircuitException()
+        {
+            //arrange
+            carrinhoServiceMock
+                .Setup(c => c.Checkout(It.IsAny<string>(), It.IsAny<CadastroViewModel>()))
+                .ThrowsAsync(new BrokenCircuitException());
+            var controller = GetCarrinhoController();
+
+            //act
+            IActionResult actionResult = await controller.Checkout(new Cadastro());
+
+            //assert
+            ViewResult viewResult = Assert.IsType<ViewResult>(actionResult);
+            loggerMock.Verify(l => l.Log(LogLevel.Error, It.IsAny<EventId>(), It.IsAny<FormattedLogValues>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), Times.Once);
+            Assert.True(!string.IsNullOrWhiteSpace(controller.ViewBag.MsgServicoIndisponivel as string));
         }
         #endregion
 
@@ -248,6 +314,11 @@ namespace MVC.Test
             {
                 HttpContext = new DefaultHttpContext { User = user }
             };
+        }
+
+        private CarrinhoController GetCarrinhoController()
+        {
+            return new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
         }
     }
 }
