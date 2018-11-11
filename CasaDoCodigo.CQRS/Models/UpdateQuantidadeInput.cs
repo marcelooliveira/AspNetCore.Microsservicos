@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace MVC.Models
 {
-    [DataContract]
     public class UpdateQuantidadeInput
     {
         public UpdateQuantidadeInput()

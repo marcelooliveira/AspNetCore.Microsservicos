@@ -180,7 +180,9 @@ namespace MVC.Test
             var result = await controller.UpdateQuantidade(updateQuantidadeInput);
 
             //assert
-            Assert.IsType<UpdateQuantidadeOutput>(result);
+            var okObjectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.IsType<UpdateQuantidadeOutput>(okObjectResult.Value);
+
         }
 
         [Fact]

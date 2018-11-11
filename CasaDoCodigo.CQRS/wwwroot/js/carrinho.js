@@ -22,7 +22,6 @@
         var novaQuantidade = $(linhaDoItem).find('input.quantidade').val();
 
         return {
-            Id: itemId,
             ProdutoId: itemId,
             Quantidade: novaQuantidade
         };
