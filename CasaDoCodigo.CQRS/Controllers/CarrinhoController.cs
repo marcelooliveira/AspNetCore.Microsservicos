@@ -107,6 +107,11 @@ namespace CasaDoCodigo.Controllers
                 return BadRequest(ModelState);
             }
             UpdateQuantidadeOutput value = await carrinhoService.UpdateItem(GetUserId(), input);
+            if (value == null)
+            {
+                return NotFound(input);
+            }
+
             return base.Ok(value);
         }
 

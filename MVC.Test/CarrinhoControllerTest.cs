@@ -204,6 +204,27 @@ namespace MVC.Test
             var badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.IsType<SerializableError>(badRequestObjectResult.Value);
         }
+
+        [Fact]
+        public async Task UpdateQuantidade_ProdutoId_NotFound()
+        {
+            //arrange
+            var clienteId = "cliente_id";
+            UpdateQuantidadeInput updateQuantidadeInput = new UpdateQuantidadeInput("001", 7);
+            carrinhoServiceMock
+                .Setup(c => c.UpdateItem(clienteId, It.IsAny<UpdateQuantidadeInput>()))
+                .ReturnsAsync((UpdateQuantidadeOutput)null);
+
+            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
+            SetControllerUser(clienteId, controller);
+
+            //act
+            var result = await controller.UpdateQuantidade(updateQuantidadeInput);
+
+            //assert
+            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal(updateQuantidadeInput, notFoundObjectResult.Value);
+        }
         #endregion
 
         private ItemCarrinho GetFakeItemCarrinho()
