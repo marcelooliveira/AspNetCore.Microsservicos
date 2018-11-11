@@ -12,6 +12,7 @@ using Polly.CircuitBreaker;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -173,7 +174,8 @@ namespace MVC.Test
             UpdateQuantidadeInput updateQuantidadeInput = new UpdateQuantidadeInput("001", 7);
             carrinhoServiceMock
                 .Setup(c => c.UpdateItem(clienteId, It.IsAny<UpdateQuantidadeInput>()))
-                .ReturnsAsync(new UpdateQuantidadeOutput(itemCarrinho, new CarrinhoCliente()));
+                .ReturnsAsync(new UpdateQuantidadeOutput(itemCarrinho, new CarrinhoCliente()))
+                .Verifiable();
 
             //act
             var result = await controller.UpdateQuantidade(updateQuantidadeInput);
@@ -192,7 +194,8 @@ namespace MVC.Test
             UpdateQuantidadeInput updateQuantidadeInput = new UpdateQuantidadeInput(null, 7);
             carrinhoServiceMock
                 .Setup(c => c.UpdateItem(clienteId, It.IsAny<UpdateQuantidadeInput>()))
-                .ReturnsAsync(new UpdateQuantidadeOutput(new ItemCarrinho(), new CarrinhoCliente()));
+                .ReturnsAsync(new UpdateQuantidadeOutput(new ItemCarrinho(), new CarrinhoCliente()))
+                .Verifiable();
 
             var controller = GetCarrinhoController();
             SetControllerUser(clienteId, controller);
@@ -214,7 +217,8 @@ namespace MVC.Test
             UpdateQuantidadeInput updateQuantidadeInput = new UpdateQuantidadeInput("001", 7);
             carrinhoServiceMock
                 .Setup(c => c.UpdateItem(clienteId, It.IsAny<UpdateQuantidadeInput>()))
-                .ReturnsAsync((UpdateQuantidadeOutput)null);
+                .ReturnsAsync((UpdateQuantidadeOutput)null)
+                .Verifiable();
 
             var controller = GetCarrinhoController();
             SetControllerUser(clienteId, controller);
@@ -228,7 +232,7 @@ namespace MVC.Test
         }
         #endregion
 
-        #region Checkout
+        #region Checkout (POST)
         [Fact]
         public async Task Checkout_success()
         {
@@ -264,7 +268,8 @@ namespace MVC.Test
             //arrange
             carrinhoServiceMock
                 .Setup(c => c.Checkout(It.IsAny<string>(), It.IsAny<CadastroViewModel>()))
-                .ThrowsAsync(new Exception());
+                .ThrowsAsync(new Exception())
+                .Verifiable();
             var controller = GetCarrinhoController();
 
             //act
@@ -282,7 +287,8 @@ namespace MVC.Test
             //arrange
             carrinhoServiceMock
                 .Setup(c => c.Checkout(It.IsAny<string>(), It.IsAny<CadastroViewModel>()))
-                .ThrowsAsync(new BrokenCircuitException());
+                .ThrowsAsync(new BrokenCircuitException())
+                .Verifiable();
             var controller = GetCarrinhoController();
 
             //act
@@ -292,6 +298,45 @@ namespace MVC.Test
             ViewResult viewResult = Assert.IsType<ViewResult>(actionResult);
             loggerMock.Verify(l => l.Log(LogLevel.Error, It.IsAny<EventId>(), It.IsAny<FormattedLogValues>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), Times.Once);
             Assert.True(!string.IsNullOrWhiteSpace(controller.ViewBag.MsgServicoIndisponivel as string));
+        }
+        #endregion
+
+        #region Checkout (GET)
+        [Fact]
+        public async Task Checkout_Index_Get_Success()
+        {
+            //arrange
+            appUserParserMock
+                .Setup(a => a.Parse(It.IsAny<IPrincipal>()))
+                .Returns(new ApplicationUser())
+                .Verifiable();
+
+            var controller = GetCarrinhoController();
+
+            //act
+            IActionResult actionResult = await controller.Checkout();
+
+            //assert
+            Assert.IsType<ViewResult>(actionResult);
+        }
+
+        [Fact]
+        public async Task Checkout_Index_Get_Error()
+        {
+            //arrange
+            appUserParserMock
+                .Setup(a => a.Parse(It.IsAny<IPrincipal>()))
+                .Throws(new Exception())
+                .Verifiable();
+
+            var controller = GetCarrinhoController();
+
+            //act
+            IActionResult actionResult = await controller.Checkout();
+
+            //assert
+            Assert.IsType<ViewResult>(actionResult);
+            loggerMock.Verify(l => l.Log(LogLevel.Error, It.IsAny<EventId>(), It.IsAny<FormattedLogValues>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), Times.Once);
         }
         #endregion
 
