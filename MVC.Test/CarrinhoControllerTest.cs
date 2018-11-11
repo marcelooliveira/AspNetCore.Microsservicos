@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Internal;
 using Moq;
+using MVC.Models;
 using Polly.CircuitBreaker;
 using System;
 using System.Collections.Generic;
@@ -33,8 +34,9 @@ namespace MVC.Test
             carrinhoServiceMock = new Mock<ICarrinhoService>();
         }
 
+        #region Index
         [Fact]
-        public async Task CarrinhoController_Index_Success()
+        public async Task Index_Success()
         {
             //arrange
             var clienteId = "cliente_id";
@@ -69,7 +71,7 @@ namespace MVC.Test
         }
 
         [Fact]
-        public async Task CarrinhoController_Index_Without_Product_Success()
+        public async Task Index_Without_Product_Success()
         {
             //arrange
             var clienteId = "cliente_id";
@@ -100,7 +102,7 @@ namespace MVC.Test
         }
 
         [Fact]
-        public async Task CarrinhoController_Index_BrokenCircuitException()
+        public async Task Index_BrokenCircuitException()
         {
             //arrange
             var clienteId = "cliente_id";
@@ -135,7 +137,7 @@ namespace MVC.Test
         }
 
         [Fact]
-        public async Task CarrinhoController_ProductNotFound()
+        public async Task Index_ProductNotFound()
         {
             //arrange
             var clienteId = "cliente_id";
@@ -157,6 +159,59 @@ namespace MVC.Test
             Assert.Equal("ProdutoNaoEncontrado", redirectToActionResult.ActionName);
             Assert.Equal("Carrinho", redirectToActionResult.ControllerName);
             Assert.Equal(redirectToActionResult.Fragment, testProduct.Codigo);
+        }
+        #endregion
+
+        #region UpdateQuantidade
+        [Fact]
+        public async Task UpdateQuantidade_Success()
+        {
+            //arrange
+            var clienteId = "cliente_id";
+            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
+            SetControllerUser(clienteId, controller);
+            var itemCarrinho = GetFakeItemCarrinho();
+            UpdateQuantidadeInput updateQuantidadeInput = new UpdateQuantidadeInput("001", 7);
+            carrinhoServiceMock
+                .Setup(c => c.UpdateItem(clienteId, It.IsAny<UpdateQuantidadeInput>()))
+                .ReturnsAsync(new UpdateQuantidadeOutput(itemCarrinho, new CarrinhoCliente()));
+
+            //act
+            var result = await controller.UpdateQuantidade(updateQuantidadeInput);
+
+            //assert
+            Assert.IsType<UpdateQuantidadeOutput>(result);
+        }
+
+        [Fact]
+        public async Task UpdateQuantidade_Invalid_ProdutoId()
+        {
+            //arrange
+            var clienteId = "cliente_id";
+            UpdateQuantidadeInput updateQuantidadeInput = new UpdateQuantidadeInput(null, 7);
+            carrinhoServiceMock
+                .Setup(c => c.UpdateItem(clienteId, It.IsAny<UpdateQuantidadeInput>()))
+                .ReturnsAsync(new UpdateQuantidadeOutput(new ItemCarrinho(), new CarrinhoCliente()));
+
+            var controller = new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
+            SetControllerUser(clienteId, controller);
+            controller.ModelState.AddModelError("ProdutoId", "Required");
+
+            //act
+            var result = await controller.UpdateQuantidade(updateQuantidadeInput);
+
+            //assert
+            var badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<SerializableError>(badRequestObjectResult.Value);
+        }
+        #endregion
+
+        private ItemCarrinho GetFakeItemCarrinho()
+        {
+            var produtos = GetFakeProdutos();
+            var testProduct = produtos[0];
+            var itemCarrinho = new ItemCarrinho(testProduct.Codigo, testProduct.Codigo, testProduct.Nome, testProduct.Preco, 7, testProduct.UrlImagem);
+            return itemCarrinho;
         }
 
         private static void SetControllerUser(string clienteId, CarrinhoController controller)

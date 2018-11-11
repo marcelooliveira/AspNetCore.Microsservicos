@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Core;
 using Microsoft.Extensions.Logging;
+using MVC.Models;
 using Polly.CircuitBreaker;
 using System;
 using System.Collections.Generic;
@@ -99,9 +100,14 @@ namespace CasaDoCodigo.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<UpdateQuantidadeOutput> UpdateQuantidade([FromBody]ItemCarrinho itemCarrinho)
+        public async Task<IActionResult> UpdateQuantidade([FromBody]UpdateQuantidadeInput input)
         {
-            return await carrinhoService.UpdateItem(GetUserId(), itemCarrinho);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            UpdateQuantidadeOutput value = await carrinhoService.UpdateItem(GetUserId(), input);
+            return base.Ok(value);
         }
 
         [HttpPost]

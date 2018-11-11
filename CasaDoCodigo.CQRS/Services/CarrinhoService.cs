@@ -3,6 +3,7 @@ using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using MVC.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +51,7 @@ namespace CasaDoCodigo.Services
             return await PostAsync<CarrinhoCliente>(uri, input);
         }
 
-        public async Task<UpdateQuantidadeOutput> UpdateItem(string clienteId, ItemCarrinho input)
+        public async Task<UpdateQuantidadeOutput> UpdateItem(string clienteId, UpdateQuantidadeInput input)
         {
             var uri = $"{CarrinhoUris.UpdateItem}/{clienteId}";
             return await PutAsync<UpdateQuantidadeOutput>(uri, input);
