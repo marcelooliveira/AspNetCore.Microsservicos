@@ -5,8 +5,11 @@ using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Internal;
 using Moq;
+using System;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -25,6 +28,7 @@ namespace MVC.Test
             contextMock = new Mock<HttpContext>();
         }
 
+        #region Index
         [Fact]
         public async Task Index_success()
         {
@@ -67,5 +71,25 @@ namespace MVC.Test
                     UF = "uuu"
                 });
         }
+
+        [Fact]
+        public async Task Index_No_User()
+        {
+            //arrange
+            appUserParserMock
+                .Setup(a => a.Parse(It.IsAny<IPrincipal>()))
+                .Returns((ApplicationUser)null);                
+
+            var controller =
+                new CadastroController(appUserParserMock.Object, loggerMock.Object);
+
+            //act
+            IActionResult result = await controller.Index();
+
+            //assert
+            Assert.IsType<ViewResult>(result);
+            loggerMock.Verify(l => l.Log(LogLevel.Error, It.IsAny<EventId>(), It.IsAny<FormattedLogValues>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), Times.Once);
+        }
+        #endregion
     }
 }

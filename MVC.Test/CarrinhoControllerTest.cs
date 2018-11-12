@@ -326,7 +326,7 @@ namespace MVC.Test
             //arrange
             appUserParserMock
                 .Setup(a => a.Parse(It.IsAny<IPrincipal>()))
-                .Throws(new Exception())
+                .Returns((ApplicationUser)null)
                 .Verifiable();
 
             var controller = GetCarrinhoController();
