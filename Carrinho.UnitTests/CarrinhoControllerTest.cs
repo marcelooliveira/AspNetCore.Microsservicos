@@ -9,6 +9,7 @@ using Moq;
 using Rebus.Bus;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
@@ -192,8 +193,29 @@ namespace Carrinho.API.Tests
 
             //Assert
             BadRequestObjectResult badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(actionResult.Result);
-            CadastroViewModel cadastroViewModel = Assert.IsAssignableFrom<CadastroViewModel>(badRequestObjectResult.Value);
+            Assert.IsAssignableFrom<SerializableError>(badRequestObjectResult.Value);
         }
+
+        [Fact]
+        public async Task Fazer_Checkout_Carrinho_Not_Found()
+        {
+            //Arrange
+            var fakeClienteId = "123";
+            _carrinhoRepositoryMock.Setup(x => x.GetCarrinhoAsync(It.IsAny<string>()))
+                .ThrowsAsync(new KeyNotFoundException());
+            var carrinhoController = new CarrinhoController(
+                _carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object,
+                _serviceBusMock.Object);
+            CadastroViewModel input = new CadastroViewModel();
+
+            //Act
+            ActionResult<bool> actionResult = await carrinhoController.Checkout(fakeClienteId, input);
+
+            //Assert
+            Assert.IsType<NotFoundResult>(actionResult.Result);
+        }
+
 
         [Fact]
         public async Task Fazer_Checkout_Com_Carrinho_Deveria_Publicar_CheckoutEvent()
@@ -227,6 +249,156 @@ namespace Carrinho.API.Tests
             Assert.NotNull(actionResult);
         }
 
+        #endregion
+
+        #region AddItem
+        [Fact]
+        public async Task AddItem_success()
+        {
+            //arrange
+            var clienteId = "123";
+            var carrinho = GetCarrinhoClienteFake(clienteId);
+            ItemCarrinho input = new ItemCarrinho("004", "004", "produto 004", 45.67m, 4);
+            var itens = carrinho.Itens;
+            itens.Add(input);
+            _carrinhoRepositoryMock
+                .Setup(c => c.AddCarrinhoAsync(clienteId, It.IsAny<ItemCarrinho>()))
+                .ReturnsAsync(new CarrinhoCliente
+                {
+                    ClienteId = clienteId,
+                    Itens = itens
+                });
+            var controller = new CarrinhoController(
+                _carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object,
+                _serviceBusMock.Object);
+
+            //act
+            ActionResult<CarrinhoCliente> actionResult = await controller.AddItem(clienteId, input);
+
+            //assert
+            OkObjectResult okObjectResult = Assert.IsType<OkObjectResult>(actionResult.Result);
+            CarrinhoCliente carrinhoCliente = Assert.IsAssignableFrom<CarrinhoCliente>(okObjectResult.Value);
+            Assert.Equal(4, carrinhoCliente.Itens.Count());
+        }
+
+        [Fact]
+        public async Task AddItem_carrinho_notfound()
+        {
+            //arrange
+            var clienteId = "123";
+            ItemCarrinho input = new ItemCarrinho("004", "004", "produto 004", 45.67m, 4);
+            _carrinhoRepositoryMock
+                .Setup(c => c.AddCarrinhoAsync(clienteId, It.IsAny<ItemCarrinho>()))
+                .ThrowsAsync(new KeyNotFoundException());
+            var controller = new CarrinhoController(
+                _carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object,
+                _serviceBusMock.Object);
+
+            //act
+            ActionResult<CarrinhoCliente> actionResult = await controller.AddItem(clienteId, input);
+
+            //assert
+            NotFoundObjectResult notFoundObjectResult =  Assert.IsType<NotFoundObjectResult>(actionResult.Result);
+            Assert.Equal(clienteId, notFoundObjectResult.Value);
+        }
+
+        [Fact]
+        public async Task AddItem_carrinho_invalid_model()
+        {
+            //arrange
+            var clienteId = "123";
+            ItemCarrinho input = new ItemCarrinho("004", "004", "produto 004", 45.67m, 4);
+            _carrinhoRepositoryMock
+                .Setup(c => c.AddCarrinhoAsync(clienteId, It.IsAny<ItemCarrinho>()))
+                .ThrowsAsync(new KeyNotFoundException());
+            var controller = new CarrinhoController(
+                _carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object,
+                _serviceBusMock.Object);
+            controller.ModelState.AddModelError("ProdutoId", "Required");
+            
+            //act
+            ActionResult<CarrinhoCliente> actionResult = await controller.AddItem(clienteId, input);
+
+            //assert
+            Assert.IsType<BadRequestObjectResult>(actionResult.Result);
+        }
+        #endregion
+
+        #region UpdateItem
+        [Fact]
+        public async Task UpdateItem_success()
+        {
+            //arrange
+            var clienteId = "123";
+            var carrinho = GetCarrinhoClienteFake(clienteId);
+            ItemCarrinho input = new ItemCarrinho("004", "004", "produto 004", 45.67m, 4);
+            var itens = carrinho.Itens;
+            itens.Add(input);
+            _carrinhoRepositoryMock
+                .Setup(c => c.UpdateCarrinhoAsync(clienteId, It.IsAny<ItemCarrinho>()))
+                .ReturnsAsync(new UpdateQuantidadeOutput(input,
+                new CarrinhoCliente
+                {
+                    ClienteId = clienteId,
+                    Itens = itens
+                }));
+            var controller = new CarrinhoController(
+                _carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object,
+                _serviceBusMock.Object);
+
+            //act
+            ActionResult<UpdateQuantidadeOutput> actionResult = await controller.UpdateItem(clienteId, input);
+
+            //assert
+            OkObjectResult okObjectResult = Assert.IsType<OkObjectResult>(actionResult.Result);
+            UpdateQuantidadeOutput updateQuantidadeOutput = Assert.IsAssignableFrom<UpdateQuantidadeOutput>(okObjectResult.Value);
+            Assert.Equal(input.ProdutoId, updateQuantidadeOutput.ItemPedido.ProdutoId);
+        }
+
+        [Fact]
+        public async Task UpdateItem_carrinho_notfound()
+        {
+            //arrange
+            var clienteId = "123";
+            ItemCarrinho input = new ItemCarrinho("004", "004", "produto 004", 45.67m, 4);
+            _carrinhoRepositoryMock
+                .Setup(c => c.UpdateCarrinhoAsync(clienteId, It.IsAny<ItemCarrinho>()))
+                .ThrowsAsync(new KeyNotFoundException());
+            var controller = new CarrinhoController(
+                _carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object,
+                _serviceBusMock.Object);
+
+            //act
+            ActionResult<UpdateQuantidadeOutput> actionResult = await controller.UpdateItem(clienteId, input);
+
+            //assert
+            NotFoundObjectResult notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(actionResult.Result);
+            Assert.Equal(clienteId, notFoundObjectResult.Value);
+        }
+
+        [Fact]
+        public async Task UpdateItem_carrinho_invalid_model()
+        {
+            //arrange
+            var clienteId = "123";
+            ItemCarrinho input = new ItemCarrinho("004", "004", "produto 004", 45.67m, 4);
+            var controller = new CarrinhoController(
+                _carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object,
+                _serviceBusMock.Object);
+            controller.ModelState.AddModelError("ProdutoId", "Required");
+
+            //act
+            ActionResult<UpdateQuantidadeOutput> actionResult = await controller.UpdateItem(clienteId, input);
+
+            //assert
+            Assert.IsType<BadRequestObjectResult>(actionResult.Result);
+        }
         #endregion
 
         private CarrinhoCliente GetCarrinhoClienteFake(string fakeClienteId)

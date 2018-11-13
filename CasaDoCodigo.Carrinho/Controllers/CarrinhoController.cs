@@ -95,10 +95,22 @@ namespace Carrinho.API.Controllers
         [HttpPost]
         [Route("[action]/{clienteId}")]
         [ProducesResponseType(typeof(ItemCarrinho), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddItem(string clienteId, [FromBody] ItemCarrinho input)
+        public async Task<ActionResult<CarrinhoCliente>> AddItem(string clienteId, [FromBody] ItemCarrinho input)
         {
-            var carrinho = await _repository.AddCarrinhoAsync(clienteId, input);
-            return Ok(carrinho);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var carrinho = await _repository.AddCarrinhoAsync(clienteId, input);
+                return Ok(carrinho);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(clienteId);
+            }
         }
 
         /// <summary>
@@ -110,10 +122,23 @@ namespace Carrinho.API.Controllers
         [HttpPut]
         [Route("[action]/{clienteId}")]
         [ProducesResponseType(typeof(ItemCarrinho), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> UpdateItem(string clienteId, [FromBody] ItemCarrinho input)
+        public async Task<ActionResult<UpdateQuantidadeOutput>> UpdateItem(string clienteId, [FromBody] ItemCarrinho input)
         {
-            var carrinho = await _repository.UpdateCarrinhoAsync(clienteId, input);
-            return Ok(carrinho);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var carrinho = await _repository.UpdateCarrinhoAsync(clienteId, input);
+                return Ok(carrinho);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(clienteId);
+            }
+
         }
 
         /// <summary>
@@ -134,14 +159,17 @@ namespace Carrinho.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(input);
+                return BadRequest(ModelState);
             }
 
-            var carrinho = await _repository.GetCarrinhoAsync(clienteId);
-
-            if (carrinho == null)
+            CarrinhoCliente carrinho;
+            try
             {
-                return BadRequest(ModelState);
+                carrinho = await _repository.GetCarrinhoAsync(clienteId);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
             }
 
             var itens = carrinho.Itens.Select(i =>

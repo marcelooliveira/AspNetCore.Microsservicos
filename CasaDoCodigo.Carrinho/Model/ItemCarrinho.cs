@@ -20,9 +20,13 @@ namespace Carrinho.API.Model
         }
 
         public string Id { get; set; }
+        [Required]
         public string ProdutoId { get; set; }
+        [Required]
         public string ProdutoNome { get; set; }
+        [Required]
         public int Quantidade { get; set; }
+        [Required]
         public decimal PrecoUnitario { get; set; }
         public decimal Subtotal => Quantidade * PrecoUnitario;
         public string UrlImagem { get { return $"/images/produtos/large_{ProdutoId}.jpg"; } }
