@@ -205,6 +205,7 @@ namespace Carrinho.API.Tests
         [Fact]
         public async Task Fazer_Checkout_Com_Carrinho_Deveria_Publicar_CheckoutEvent()
         {
+            //arrange
             var fakeClienteId = "1";
             var fakeCarrinhoCliente = GetCarrinhoClienteFake(fakeClienteId);
 
@@ -228,8 +229,8 @@ namespace Carrinho.API.Tests
             //Act
             ActionResult<bool> actionResult = await carrinhoController.Checkout(fakeClienteId, new CadastroViewModel());
 
+            //assert
             _serviceBusMock.Verify(mock => mock.Publish(It.IsAny<CheckoutEvent>(), null), Times.Once);
-
             Assert.NotNull(actionResult);
         }
 
