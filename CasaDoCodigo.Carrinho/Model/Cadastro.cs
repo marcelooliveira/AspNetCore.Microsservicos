@@ -10,7 +10,9 @@ namespace Carrinho.API.Model
     {
         public int Id { get; set; }
         public int PedidoId { get; set; }
+        [Required]
         public string Nome { get; set; } = "";
+        [Required]
         public string Email { get; set; } = "";
         public string Telefone { get; set; } = "";
         public string Endereco { get; set; } = "";

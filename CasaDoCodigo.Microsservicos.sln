@@ -38,7 +38,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testes", "testes", "{FC7C3B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testes", "testes", "{4AF230EC-1E24-4C55-89C7-74FD6A4578A4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carrinho.UnitTests", "Carrinho.UnitTests\Carrinho.UnitTests.csproj", "{4A77ECDE-85A7-4D53-BDEE-FF05AB7D3494}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carrinho.API.Tests", "Carrinho.UnitTests\Carrinho.API.Tests.csproj", "{4A77ECDE-85A7-4D53-BDEE-FF05AB7D3494}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carrinho.FunctionalTests", "Carrinho.FunctionalTests\Carrinho.FunctionalTests.csproj", "{242840D6-2E19-40C6-816B-78FEDA11D418}"
 EndProject
@@ -50,7 +50,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testes", "testes", "{23569E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdemDeCompra.API", "OrdemDeCompra.API\OrdemDeCompra.API.csproj", "{EA09CDC8-0E95-433B-832E-6A1BEF3EAB23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC.Test", "MVC.Test\MVC.Test.csproj", "{5EB9497A-2EE0-4135-AA25-71AD4D475841}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC.Test", "MVC.Test\MVC.Test.csproj", "{5EB9497A-2EE0-4135-AA25-71AD4D475841}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

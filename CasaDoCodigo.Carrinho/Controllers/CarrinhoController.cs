@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Rebus.Bus;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -46,8 +47,14 @@ namespace Carrinho.API.Controllers
         /// <returns>O carrinho de compras</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(CarrinhoCliente), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Get(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return BadRequest(ModelState);
+            }
+
             var carrinho = await _repository.GetCarrinhoAsync(id);
             if (carrinho == null)
             {
@@ -64,10 +71,24 @@ namespace Carrinho.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(CarrinhoCliente), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Post([FromBody] CarrinhoCliente input)
         {
-            var carrinho = await _repository.UpdateCarrinhoAsync(input);
-            return Ok(carrinho);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(input);
+            }
+
+            try
+            {
+                var carrinho = await _repository.UpdateCarrinhoAsync(input);
+                return Ok(carrinho);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         /// <summary>
@@ -114,13 +135,18 @@ namespace Carrinho.API.Controllers
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Checkout(string clienteId, [FromBody] CadastroViewModel input)
+        public async Task<ActionResult<bool>> Checkout(string clienteId, [FromBody] CadastroViewModel input)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(input);
+            }
+
             var carrinho = await _repository.GetCarrinhoAsync(clienteId);
 
             if (carrinho == null)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             var itens = carrinho.Itens.Select(i =>

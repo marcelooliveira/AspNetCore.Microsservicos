@@ -1,94 +1,253 @@
-﻿using CasaDoCodigo;
-using CasaDoCodigo.Controllers;
-using CasaDoCodigo.Models.ViewModels;
-using CasaDoCodigo.Services;
+using Carrinho.API.Controllers;
+using Carrinho.API.Model;
+using CasaDoCodigo.Mensagens.Events;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Rebus.Bus;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
-using CarrinhoClienteMVC = CasaDoCodigo.Models.ViewModels.CarrinhoCliente;
+using ICarrinhoIdentityService = Carrinho.API.Services.IIdentityService;
 
-namespace Carrinho.UnitTests
+namespace Carrinho.API.Tests
 {
     public class CarrinhoControllerTest
     {
-        private readonly Mock<HttpContext> _contextMock;
-        private readonly ILogger<CarrinhoController> _logger;
-        private readonly Mock<IHttpContextAccessor> _contextAccessorMock;
-        private readonly Mock<HttpClient> _httpClientMock;
-        private readonly Mock<ISessionHelper> _sessionHelperMock;
-        private readonly Mock<IConfiguration> _configurationMock;
-        private readonly Mock<ICatalogoService> _catalogoServiceMock;
-        private readonly Mock<ICarrinhoService> _carrinhoServiceMock;
-        private readonly Mock<IIdentityParser<ApplicationUser>> _appUserParserMock;
+        private readonly Mock<ICarrinhoRepository> _carrinhoRepositoryMock;
+        private readonly Mock<ICarrinhoIdentityService> _identityServiceMock;
+        private readonly Mock<IBus> _serviceBusMock;
+        private readonly Mock<ILoggerFactory> _loggerFactoryMock;
 
         public CarrinhoControllerTest()
         {
-            _contextMock = new Mock<HttpContext>();
-            _contextAccessorMock = new Mock<IHttpContextAccessor>();
-            _httpClientMock = new Mock<HttpClient>();
-            _sessionHelperMock = new Mock<ISessionHelper>();
-            _configurationMock = new Mock<IConfiguration>();
-            _catalogoServiceMock = new Mock<ICatalogoService>();
-            _carrinhoServiceMock = new Mock<ICarrinhoService>();
-            _appUserParserMock = new Mock<IIdentityParser<ApplicationUser>>();
-
-            var serviceProvider = new ServiceCollection()
-                .AddLogging()
-                .BuildServiceProvider();
-
-            var factory = serviceProvider.GetService<ILoggerFactory>();
-            _logger = factory.CreateLogger<CarrinhoController>();
+            _carrinhoRepositoryMock = new Mock<ICarrinhoRepository>();
+            _identityServiceMock = new Mock<ICarrinhoIdentityService>();
+            _serviceBusMock = new Mock<IBus>();
+            _loggerFactoryMock = new Mock<ILoggerFactory>();
         }
 
+        #region Get
+
         [Fact]
-        public async Task Post_carrinho_sucesso()
+        public async Task Get_carrinho_cliente_sucesso()
         {
             //Arrange
             var fakeClienteId = "1";
-            var action = string.Empty;
-            var fakeCarrinho = GetFakeCarrinho(fakeClienteId);
-            var fakeQuantidades = new Dictionary<string, int>()
-            {
-                ["produtoFakeA"] = 1,
-                ["produtoFakeB"] = 2
-            };
+            var carrinhoFake = GetCarrinhoClienteFake(fakeClienteId);
 
-            _carrinhoServiceMock.Setup(x => x.DefinirQuantidades(It.IsAny<ApplicationUser>(), It.IsAny<Dictionary<string, int>>()))
-                .Returns(Task.FromResult(fakeCarrinho));
+            _carrinhoRepositoryMock.Setup(x => x.GetCarrinhoAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(carrinhoFake));
+            _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId);
 
-            _carrinhoServiceMock.Setup(x => x.AtualizarCarrinho(It.IsAny<CarrinhoClienteMVC>()))
-                .Returns(Task.FromResult(fakeCarrinho));
-
-            var carrinhoController = new CarrinhoController(
-                _contextAccessorMock.Object,
-                _appUserParserMock.Object,
-                _logger,
-                _catalogoServiceMock.Object,
-                _carrinhoServiceMock.Object);
-            carrinhoController.ControllerContext.HttpContext = _contextMock.Object;
+            _serviceBusMock.Setup(x => x.Publish(It.IsAny<CheckoutEvent>(), null));
 
             //Act
-            var actionResult = await carrinhoController.Index(fakeQuantidades, action);
+            var carrinhoController = new CarrinhoController(
+                _carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object,
+                _serviceBusMock.Object,
+                _loggerFactoryMock.Object);
+
+            var actionResult = await carrinhoController.Get(fakeClienteId) as OkObjectResult;
 
             //Assert
-            var viewResult = Assert.IsType<ViewResult>(actionResult);
+            OkObjectResult okObjectResult = Assert.IsType<OkObjectResult>(actionResult);
+            CarrinhoCliente carrinhoCliente = Assert.IsAssignableFrom<CarrinhoCliente>(okObjectResult.Value);
+            Assert.Equal(fakeClienteId, carrinhoCliente.ClienteId);
+            Assert.Equal(carrinhoFake.Itens[0].ProdutoId, carrinhoCliente.Itens[0].ProdutoId);
+            Assert.Equal(carrinhoFake.Itens[1].ProdutoId, carrinhoCliente.Itens[1].ProdutoId);
+            Assert.Equal(carrinhoFake.Itens[2].ProdutoId, carrinhoCliente.Itens[2].ProdutoId);
         }
 
-        private CarrinhoClienteMVC GetFakeCarrinho(string clienteId)
+        [Fact]
+        public async Task Get_carrinho_cliente_no_client()
         {
-            return new CarrinhoClienteMVC()
+            //arrange
+            var controller =
+                new CarrinhoController(_carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object, _serviceBusMock.Object, _loggerFactoryMock.Object);
+
+            //act
+            IActionResult actionResult = await controller.Get(null);
+
+            //assert
+            BadRequestObjectResult badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(actionResult);
+            Assert.IsType<SerializableError>(badRequestObjectResult.Value);
+        }
+
+        [Fact]
+        public async Task Get_carrinho_cliente_carrinho_not_found()
+        {
+            //arrange
+            string clienteId = "123";
+            CarrinhoCliente carrinhoFake = GetCarrinhoClienteFake(clienteId);
+            _carrinhoRepositoryMock
+                .Setup(r => r.GetCarrinhoAsync(clienteId))
+                .ReturnsAsync((CarrinhoCliente)null);
+
+            var controller =
+                new CarrinhoController(_carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object, _serviceBusMock.Object, _loggerFactoryMock.Object);
+
+            //act
+            IActionResult actionResult = await controller.Get(clienteId);
+
+            //assert
+            OkObjectResult okObjectResult = Assert.IsType<OkObjectResult>(actionResult);
+            CarrinhoCliente carrinhoCliente = Assert.IsAssignableFrom<CarrinhoCliente>(okObjectResult.Value);
+            Assert.Equal(clienteId, carrinhoCliente.ClienteId);
+        }
+        #endregion
+
+        #region Post
+        [Fact]
+        public async Task Post_carrinho_cliente_sucesso()
+        {
+            //Arrange
+            var fakeClienteId = "1";
+            var fakeCarrinhoCliente = GetCarrinhoClienteFake(fakeClienteId);
+
+            _carrinhoRepositoryMock.Setup(x => x.UpdateCarrinhoAsync(It.IsAny<CarrinhoCliente>()))
+                .Returns(Task.FromResult(fakeCarrinhoCliente));
+            _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId);
+            _serviceBusMock.Setup(x => x.Publish(It.IsAny<CheckoutEvent>(), null));
+
+            //Act
+            var carrinhoController = new CarrinhoController(
+                _carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object,
+                _serviceBusMock.Object,
+                _loggerFactoryMock.Object);
+
+            var actionResult = await carrinhoController.Post(fakeCarrinhoCliente) as OkObjectResult;
+
+            //Assert
+            Assert.Equal(actionResult.StatusCode, (int)System.Net.HttpStatusCode.OK);
+            Assert.Equal(((CarrinhoCliente)actionResult.Value).ClienteId, fakeClienteId);
+        }
+
+        [Fact]
+        public async Task Post_carrinho_cliente_not_found()
+        {
+            //Arrange
+            var fakeClienteId = "1";
+            var fakeCarrinhoCliente = GetCarrinhoClienteFake(fakeClienteId);
+
+            _carrinhoRepositoryMock.Setup(x => x.UpdateCarrinhoAsync(It.IsAny<CarrinhoCliente>()))
+                .ThrowsAsync(new KeyNotFoundException())
+                .Verifiable();
+            _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId);
+            _serviceBusMock.Setup(x => x.Publish(It.IsAny<CheckoutEvent>(), null));
+
+            //Act
+            var carrinhoController = new CarrinhoController(
+                _carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object,
+                _serviceBusMock.Object,
+                _loggerFactoryMock.Object);
+
+            var actionResult = await carrinhoController.Post(fakeCarrinhoCliente);
+
+            //Assert
+            NotFoundResult notFoundResult = Assert.IsType<NotFoundResult>(actionResult);
+        }
+
+        [Fact]
+        public async Task Post_carrinho_cliente_invalid_model()
+        {
+            //Arrange
+            var controller = new CarrinhoController(
+                _carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object,
+                _serviceBusMock.Object,
+                _loggerFactoryMock.Object);
+            controller.ModelState.AddModelError("ClienteId", "Required");
+
+            //Act
+            var actionResult = await controller.Post(new CarrinhoCliente());
+
+            //Assert
+            BadRequestObjectResult badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(actionResult);
+        }
+        
+        #endregion
+
+        #region Checkout
+        [Fact]
+        public async Task Fazer_Checkout_Sem_Cesta_Deve_Retornar_BadRequest()
+        {
+            //Arrange
+            var fakeClienteId = "2";
+            _carrinhoRepositoryMock.Setup(x => x.GetCarrinhoAsync(It.IsAny<string>()))
+                .ReturnsAsync((CarrinhoCliente)null);
+            _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId);
+            var carrinhoController = new CarrinhoController(
+                _carrinhoRepositoryMock.Object,
+                _identityServiceMock.Object,
+                _serviceBusMock.Object,
+                _loggerFactoryMock.Object);
+            CadastroViewModel input = new CadastroViewModel();
+            carrinhoController.ModelState.AddModelError("Email", "Required");
+
+            //Act
+            ActionResult<bool> actionResult = await carrinhoController.Checkout(fakeClienteId, input);
+
+            //Assert
+            BadRequestObjectResult badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(actionResult.Result);
+            CadastroViewModel cadastroViewModel = Assert.IsAssignableFrom<CadastroViewModel>(badRequestObjectResult.Value);
+        }
+
+        [Fact]
+        public async Task Fazer_Checkout_Com_Carrinho_Deveria_Publicar_CheckoutEvent()
+        {
+            var fakeClienteId = "1";
+            var fakeCarrinhoCliente = GetCarrinhoClienteFake(fakeClienteId);
+
+            _carrinhoRepositoryMock.Setup(x => x.GetCarrinhoAsync(It.IsAny<string>()))
+                 .Returns(Task.FromResult(fakeCarrinhoCliente));
+
+            _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId);
+
+            var carrinhoController = new CarrinhoController(
+                _carrinhoRepositoryMock.Object, _identityServiceMock.Object, _serviceBusMock.Object, _loggerFactoryMock.Object);
+
+            carrinhoController.ControllerContext = new ControllerContext()
             {
-                ClienteId = clienteId
+                HttpContext = new DefaultHttpContext()
+                {
+                    User = new ClaimsPrincipal(
+                        new ClaimsIdentity(new Claim[] { new Claim("unique_name", "testuser") }))
+                }
+            };
+
+            //Act
+            ActionResult<bool> actionResult = await carrinhoController.Checkout(fakeClienteId, new CadastroViewModel());
+
+            _serviceBusMock.Verify(mock => mock.Publish(It.IsAny<CheckoutEvent>(), null), Times.Once);
+
+            Assert.NotNull(actionResult);
+        }
+
+        #endregion
+
+        private CarrinhoCliente GetCarrinhoClienteFake(string fakeClienteId)
+        {
+            return new CarrinhoCliente(fakeClienteId)
+            {
+                ClienteId = fakeClienteId,
+                Itens = new List<ItemCarrinho>()
+                {
+                    new ItemCarrinho("001", "001", "produto 001", 12.34m, 1),
+                    new ItemCarrinho("002", "002", "produto 002", 23.45m, 2),
+                    new ItemCarrinho("003", "003", "produto 003", 34.56m, 3)
+                }
             };
         }
+
     }
 }
