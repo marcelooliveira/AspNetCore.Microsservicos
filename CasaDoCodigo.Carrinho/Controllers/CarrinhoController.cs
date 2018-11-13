@@ -23,20 +23,15 @@ namespace Carrinho.API.Controllers
         private readonly ICarrinhoRepository _repository;
         private readonly IIdentityService _identityService;
         private readonly IBus _bus;
-        private readonly ILoggerFactory _loggerFactory;
         
         public CarrinhoController(ICarrinhoRepository repository
             , IIdentityService identityService
             , IBus bus
-            , ILoggerFactory loggerFactory
             )
         {
             _repository = repository;
             _identityService = identityService;
-            //_endpoint = endpoint;
             _bus = bus;
-            _loggerFactory = loggerFactory;
-            _loggerFactory.AddDebug();
         }
 
         //GET /id
