@@ -122,7 +122,7 @@ namespace Carrinho.API.Controllers
         [HttpPut]
         [Route("[action]/{clienteId}")]
         [ProducesResponseType(typeof(ItemCarrinho), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<UpdateQuantidadeOutput>> UpdateItem(string clienteId, [FromBody] ItemCarrinho input)
+        public async Task<ActionResult<UpdateQuantidadeOutput>> UpdateItem(string clienteId, [FromBody] UpdateQuantidadeInput input)
         {
             if (!ModelState.IsValid)
             {

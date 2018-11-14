@@ -31,7 +31,7 @@
             <param name="input">Novo item a inserir no carrinho de compras</param>
             <returns></returns>
         </member>
-        <member name="M:Carrinho.API.Controllers.CarrinhoController.UpdateItem(System.String,Carrinho.API.Model.ItemCarrinho)">
+        <member name="M:Carrinho.API.Controllers.CarrinhoController.UpdateItem(System.String,Carrinho.API.Model.UpdateQuantidadeInput)">
             <summary>
             Atualiza a quantidade do item do carrinho de compras
             </summary>

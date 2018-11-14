@@ -14,9 +14,9 @@ namespace Carrinho.API.Model
         private readonly ConnectionMultiplexer _redis;
         private readonly IDatabase _database;
 
-        public RedisCarrinhoRepository(ILoggerFactory loggerFactory, ConnectionMultiplexer redis)
+        public RedisCarrinhoRepository(ILogger<RedisCarrinhoRepository> logger, ConnectionMultiplexer redis)
         {
-            _logger = loggerFactory.CreateLogger<RedisCarrinhoRepository>();
+            _logger = logger;
             _redis = redis;
             _database = redis.GetDatabase();
         }
@@ -66,7 +66,7 @@ namespace Carrinho.API.Model
             return await UpdateCarrinhoAsync(carrinho);
         }
 
-        public async Task<UpdateQuantidadeOutput> UpdateCarrinhoAsync(string clienteId, ItemCarrinho item)
+        public async Task<UpdateQuantidadeOutput> UpdateCarrinhoAsync(string clienteId, UpdateQuantidadeInput item)
         {
             var carrinho = await GetCarrinhoAsync(clienteId);
             ItemCarrinho itemDB = carrinho.Itens.Where(i => i.ProdutoId == item.ProdutoId).SingleOrDefault();
