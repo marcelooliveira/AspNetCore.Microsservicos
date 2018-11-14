@@ -8,6 +8,17 @@ namespace Carrinho.API.Model
 {
     public class UpdateQuantidadeInput
     {
+        public UpdateQuantidadeInput()
+        {
+
+        }
+
+        public UpdateQuantidadeInput(string produtoId, int quantidade)
+        {
+            ProdutoId = produtoId;
+            Quantidade = quantidade;
+        }
+
         [Required]
         public string ProdutoId { get; set; }
         [Required]

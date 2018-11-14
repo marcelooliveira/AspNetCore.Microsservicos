@@ -338,7 +338,7 @@ namespace Carrinho.API.Tests
             var itens = carrinho.Itens;
             itens.Add(input);
             _carrinhoRepositoryMock
-                .Setup(c => c.UpdateCarrinhoAsync(clienteId, It.IsAny<ItemCarrinho>()))
+                .Setup(c => c.UpdateCarrinhoAsync(clienteId, It.IsAny<UpdateQuantidadeInput>()))
                 .ReturnsAsync(new UpdateQuantidadeOutput(input,
                 new CarrinhoCliente
                 {
@@ -351,7 +351,7 @@ namespace Carrinho.API.Tests
                 _serviceBusMock.Object);
 
             //act
-            ActionResult<UpdateQuantidadeOutput> actionResult = await controller.UpdateItem(clienteId, input);
+            ActionResult<UpdateQuantidadeOutput> actionResult = await controller.UpdateItem(clienteId, new UpdateQuantidadeInput(input.ProdutoId, input.Quantidade));
 
             //assert
             OkObjectResult okObjectResult = Assert.IsType<OkObjectResult>(actionResult.Result);
@@ -366,7 +366,7 @@ namespace Carrinho.API.Tests
             var clienteId = "123";
             ItemCarrinho input = new ItemCarrinho("004", "004", "produto 004", 45.67m, 4);
             _carrinhoRepositoryMock
-                .Setup(c => c.UpdateCarrinhoAsync(clienteId, It.IsAny<ItemCarrinho>()))
+                .Setup(c => c.UpdateCarrinhoAsync(clienteId, It.IsAny<UpdateQuantidadeInput>()))
                 .ThrowsAsync(new KeyNotFoundException());
             var controller = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
@@ -374,7 +374,7 @@ namespace Carrinho.API.Tests
                 _serviceBusMock.Object);
 
             //act
-            ActionResult<UpdateQuantidadeOutput> actionResult = await controller.UpdateItem(clienteId, input);
+            ActionResult<UpdateQuantidadeOutput> actionResult = await controller.UpdateItem(clienteId, new UpdateQuantidadeInput(input.ProdutoId, input.Quantidade));
 
             //assert
             NotFoundObjectResult notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(actionResult.Result);
@@ -394,7 +394,7 @@ namespace Carrinho.API.Tests
             controller.ModelState.AddModelError("ProdutoId", "Required");
 
             //act
-            ActionResult<UpdateQuantidadeOutput> actionResult = await controller.UpdateItem(clienteId, input);
+            ActionResult<UpdateQuantidadeOutput> actionResult = await controller.UpdateItem(clienteId, new UpdateQuantidadeInput(input.ProdutoId, input.Quantidade));
 
             //assert
             Assert.IsType<BadRequestObjectResult>(actionResult.Result);
