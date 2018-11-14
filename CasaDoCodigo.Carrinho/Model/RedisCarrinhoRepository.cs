@@ -28,6 +28,9 @@ namespace Carrinho.API.Model
 
         public async Task<CarrinhoCliente> GetCarrinhoAsync(string clienteId)
         {
+            if (string.IsNullOrWhiteSpace(clienteId))
+                throw new ArgumentException();
+
             var data = await _database.StringGetAsync(clienteId);
             if (data.IsNullOrEmpty)
             {

@@ -64,6 +64,19 @@ namespace Carrinho.API.Tests
         }
 
         [Fact]
+        public async Task GetCarrinhoAsync_invalid_clienteId()
+        {
+            //arrange
+            string clienteId = "";
+            var repository
+                = new RedisCarrinhoRepository(loggerMock.Object, redisMock.Object);
+
+            //act - assert
+            await Assert.ThrowsAsync<ArgumentException>(() 
+                => repository.GetCarrinhoAsync(clienteId));
+        }
+
+        [Fact]
         public async Task GetCarrinhoAsync_clienteId_NotFound()
         {
             //arrange
@@ -107,6 +120,17 @@ namespace Carrinho.API.Tests
 
         #region GetUsuarios
 
+        public async Task GetUsuarios_success()
+        {
+            //arrange
+            var repository
+                    = new RedisCarrinhoRepository(loggerMock.Object, redisMock.Object);
+
+            //act
+            var usuarios = repository.GetUsuarios();
+
+            //assert
+        }
         #endregion
 
         #region GetCarrinhoAsync
