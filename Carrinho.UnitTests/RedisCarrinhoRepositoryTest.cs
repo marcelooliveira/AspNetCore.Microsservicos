@@ -14,7 +14,13 @@ namespace Carrinho.API.Tests
     public class RedisCarrinhoRepositoryTest
     {
         private readonly Mock<ILogger<RedisCarrinhoRepository>> loggerMock;
-        private readonly Mock<ConnectionMultiplexer> redisMock;
+        private readonly Mock<IConnectionMultiplexer> redisMock;
+
+        public RedisCarrinhoRepositoryTest()
+        {
+            loggerMock = new Mock<ILogger<RedisCarrinhoRepository>>();
+            redisMock = new Mock<IConnectionMultiplexer>();
+        }
 
         #region GetCarrinhoAsync
         [Fact]
@@ -41,7 +47,7 @@ namespace Carrinho.API.Tests
                 .Setup(r => r.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
                 .Returns(databaseMock.Object);
 
-            var repository 
+            var repository
                 = new RedisCarrinhoRepository(loggerMock.Object, redisMock.Object);
 
             //act
@@ -49,9 +55,12 @@ namespace Carrinho.API.Tests
 
             //assert
             Assert.Equal(clienteId, carrinhoCliente.ClienteId);
-            Assert.Collection(carrinhoCliente.Itens, 
-                item => Assert.Equal("001", item.ProdutoId),
-                item => Assert.Equal(7, item.Quantidade));
+            Assert.Collection(carrinhoCliente.Itens,
+                item =>
+                {
+                    Assert.Equal("001", item.ProdutoId);
+                    Assert.Equal(7, item.Quantidade);
+                });
         }
         #endregion
 
