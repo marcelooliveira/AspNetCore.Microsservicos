@@ -102,7 +102,7 @@ namespace Carrinho.API
             //and then creating the connection it seems reasonable to move
             //that cost to startup instead of having the first request pay the
             //penalty.
-            services.AddSingleton<ConnectionMultiplexer>(sp =>
+            services.AddSingleton<IConnectionMultiplexer>(sp =>
             {
                 var settings = sp.GetRequiredService<IOptions<CarrinhoConfig>>().Value;
                 var configuration = ConfigurationOptions.Parse("localhost", true);

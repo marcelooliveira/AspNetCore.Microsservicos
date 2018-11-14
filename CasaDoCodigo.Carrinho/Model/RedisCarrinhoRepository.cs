@@ -11,10 +11,10 @@ namespace Carrinho.API.Model
     public class RedisCarrinhoRepository : ICarrinhoRepository
     {
         private readonly ILogger<RedisCarrinhoRepository> _logger;
-        private readonly ConnectionMultiplexer _redis;
+        private readonly IConnectionMultiplexer _redis;
         private readonly IDatabase _database;
 
-        public RedisCarrinhoRepository(ILogger<RedisCarrinhoRepository> logger, ConnectionMultiplexer redis)
+        public RedisCarrinhoRepository(ILogger<RedisCarrinhoRepository> logger, IConnectionMultiplexer redis)
         {
             _logger = logger;
             _redis = redis;
