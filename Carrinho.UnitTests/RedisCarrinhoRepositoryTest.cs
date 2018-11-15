@@ -1,10 +1,12 @@
 ﻿using Carrinho.API.Model;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -72,7 +74,7 @@ namespace Carrinho.API.Tests
                 = new RedisCarrinhoRepository(loggerMock.Object, redisMock.Object);
 
             //act - assert
-            await Assert.ThrowsAsync<ArgumentException>(() 
+            await Assert.ThrowsAsync<ArgumentException>(()
                 => repository.GetCarrinhoAsync(clienteId));
         }
 
@@ -118,35 +120,58 @@ namespace Carrinho.API.Tests
         }
         #endregion
 
-        #region GetUsuarios
-
-        public async Task GetUsuarios_success()
+        #region AddCarrinhoAsync
+        [Fact]
+        public async Task AddCarrinhoAsync_success()
         {
             //arrange
+            var json1 = JsonConvert.SerializeObject(new CarrinhoCliente("123") { Itens = new List<ItemCarrinho> { new ItemCarrinho("001", "001", "produto 001", 12.34m, 1) }});
+            var json2 = JsonConvert.SerializeObject(new CarrinhoCliente("123") { Itens = new List<ItemCarrinho> { new ItemCarrinho("001", "001", "produto 001", 12.34m, 1), new ItemCarrinho("002", "002", "produto 002", 12.34m, 2) } });
+
+            string clienteId = "123";
+            var databaseMock = new Mock<IDatabase>();
+            databaseMock
+                .Setup(d => d.StringSetAsync(
+                        It.IsAny<RedisKey>(),
+                        It.IsAny<RedisValue>(),
+                        null,
+                        When.Always,
+                        CommandFlags.None
+                    ))
+               .ReturnsAsync(true);
+
+            databaseMock
+                .SetupSequence(d => d.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+                .ReturnsAsync("")
+                .ReturnsAsync(json1)
+                .ReturnsAsync(json2);
+
+            redisMock
+                .Setup(r => r.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
+                .Returns(databaseMock.Object);
+
             var repository
-                    = new RedisCarrinhoRepository(loggerMock.Object, redisMock.Object);
+                = new RedisCarrinhoRepository(loggerMock.Object, redisMock.Object);
+
+            ItemCarrinho item = new ItemCarrinho("002", "002", "produto 002", 12.34m, 2);
 
             //act
-            var usuarios = repository.GetUsuarios();
+            var carrinhoCliente = await repository.AddCarrinhoAsync(clienteId, item);
 
             //assert
+            Assert.Equal(clienteId, carrinhoCliente.ClienteId);
+            Assert.Collection(carrinhoCliente.Itens,
+                i =>
+                {
+                    Assert.Equal("001", i.ProdutoId);
+                    Assert.Equal(1, i.Quantidade);
+                },
+                i =>
+                {
+                    Assert.Equal("002", i.ProdutoId);
+                    Assert.Equal(2, i.Quantidade);
+                });
         }
-        #endregion
-
-        #region GetCarrinhoAsync
-
-        #endregion
-
-        #region GetUsuarios
-
-        #endregion
-
-        #region UpdateCarrinhoAsync
-
-        #endregion
-
-        #region AddCarrinhoAsync
-
         #endregion
 
         #region UpdateCarrinhoAsync
