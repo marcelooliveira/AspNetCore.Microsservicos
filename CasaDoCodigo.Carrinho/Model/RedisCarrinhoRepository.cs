@@ -59,6 +59,15 @@ namespace Carrinho.API.Model
 
         public async Task<CarrinhoCliente> AddCarrinhoAsync(string clienteId, ItemCarrinho item)
         {
+            if (item == null)
+                throw new ArgumentNullException();
+
+            if (string.IsNullOrWhiteSpace(item.ProdutoId))
+                throw new ArgumentException();
+
+            if (item.Quantidade <= 0)
+                throw new ArgumentOutOfRangeException();
+
             var carrinho = await GetCarrinhoAsync(clienteId);
             ItemCarrinho itemDB = carrinho.Itens.Where(i => i.ProdutoId == item.ProdutoId).SingleOrDefault();
             if (itemDB == null)
@@ -71,6 +80,15 @@ namespace Carrinho.API.Model
 
         public async Task<UpdateQuantidadeOutput> UpdateCarrinhoAsync(string clienteId, UpdateQuantidadeInput item)
         {
+            if (item == null)
+                throw new ArgumentNullException();
+
+            if (string.IsNullOrWhiteSpace(item.ProdutoId))
+                throw new ArgumentException();
+
+            if (item.Quantidade <= 0)
+                throw new ArgumentOutOfRangeException();
+
             var carrinho = await GetCarrinhoAsync(clienteId);
             ItemCarrinho itemDB = carrinho.Itens.Where(i => i.ProdutoId == item.ProdutoId).SingleOrDefault();
             itemDB.Quantidade = item.Quantidade;
