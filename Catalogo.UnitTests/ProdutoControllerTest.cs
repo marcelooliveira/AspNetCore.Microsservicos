@@ -10,12 +10,12 @@ using Xunit;
 
 namespace Catalogo.UnitTests
 {
-    public class UnitTest1
+    public class ProdutoControllerTest
     {
         private readonly Mock<ILogger<ProdutoController>> loggerMock;
         private readonly Mock<IProdutoQueries> produtoQueriesMock;
 
-        public UnitTest1()
+        public ProdutoControllerTest()
         {
             this.loggerMock = new Mock<ILogger<ProdutoController>>();
             this.produtoQueriesMock = new Mock<IProdutoQueries>();
