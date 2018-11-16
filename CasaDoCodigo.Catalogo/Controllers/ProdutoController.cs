@@ -8,13 +8,15 @@ namespace Catalogo.API.Controllers
 {
     [Route("api/[controller]")]
     //[ApiController]
-    public class ProdutoController : BaseApiController
+    public class ProdutoController : ControllerBase
     {
+        private readonly ILogger logger;
         private readonly IProdutoQueries produtoQueries;
 
         public ProdutoController(ILogger<ProdutoController> logger,
-            IProdutoQueries produtoQueries) : base(logger)
+            IProdutoQueries produtoQueries)
         {
+            this.logger = logger;
             this.produtoQueries = produtoQueries;
         }
 
