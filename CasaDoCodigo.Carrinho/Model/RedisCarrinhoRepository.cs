@@ -86,7 +86,7 @@ namespace Carrinho.API.Model
             if (string.IsNullOrWhiteSpace(item.ProdutoId))
                 throw new ArgumentException();
 
-            if (item.Quantidade <= 0)
+            if (item.Quantidade < 0)
                 throw new ArgumentOutOfRangeException();
 
             var carrinho = await GetCarrinhoAsync(clienteId);

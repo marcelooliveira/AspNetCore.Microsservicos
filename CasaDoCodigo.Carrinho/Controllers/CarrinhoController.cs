@@ -2,6 +2,7 @@
 using Carrinho.API.Services;
 using CasaDoCodigo.Mensagens.Events;
 using CasaDoCodigo.Mensagens.IntegrationEvents.Events;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Rebus.Bus;
@@ -17,7 +18,7 @@ namespace Carrinho.API.Controllers
     /// Fornece funcionalidades do carrinho de compras da Casa do Código
     /// </summary>
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class CarrinhoController : Controller
     {
         private readonly ICarrinhoRepository _repository;
