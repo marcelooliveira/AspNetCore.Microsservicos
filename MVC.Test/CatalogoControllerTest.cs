@@ -33,18 +33,21 @@ namespace MVC.Test
                 .Setup(s => s.GetProdutos())
                 .ReturnsAsync(fakeProdutos);
 
-            //act
             var catalogoController = 
                 new CatalogoController(catalogoServiceMock.Object, loggerMock.Object);
+
+            //act
             var resultado = await catalogoController.Index();
 
             //assert
             var viewResult = Assert.IsType<ViewResult>(resultado);
             var model = Assert.IsAssignableFrom<IList<Produto>>(viewResult.ViewData.Model);
 
-            Assert.Equal(fakeProdutos[0].Codigo, model[0].Codigo);
-            Assert.Equal(fakeProdutos[1].Codigo, model[1].Codigo);
-            Assert.Equal(fakeProdutos[2].Codigo, model[2].Codigo);
+            Assert.Collection(model,
+                               item => Assert.Equal(fakeProdutos[0].Codigo, item.Codigo),
+                               item => Assert.Equal(fakeProdutos[1].Codigo, item.Codigo),
+                               item => Assert.Equal(fakeProdutos[2].Codigo, item.Codigo)
+                );
         }
 
         [Fact]
