@@ -21,14 +21,10 @@ namespace Catalogo.UnitTests
             this.produtoQueriesMock = new Mock<IProdutoQueries>();
         }
 
-        [Fact]
-        public async Task GetProdutos_successAsync()
+        public async Task GetProdutos_success()
         {
             //arrange
-            IList<Produto> produtos = GetFakeProdutos();
-            produtoQueriesMock
-                .Setup(q => q.GetProdutosAsync())
-                .ReturnsAsync(produtos);
+            var produtos = new List<Produto>();
             var controller = new ProdutoController(loggerMock.Object, produtoQueriesMock.Object);
 
             //act
@@ -37,7 +33,7 @@ namespace Catalogo.UnitTests
             //assert
             OkObjectResult okObjectResult = Assert.IsType<OkObjectResult>(actionResult.Result);
             List<Produto> catalogo = Assert.IsType<List<Produto>>(okObjectResult.Value);
-            Assert.Collection(produtos,
+            Assert.Collection(catalogo,
                 item => Assert.Equal(produtos[0].Codigo, catalogo[0].Codigo),
                 item => Assert.Equal(produtos[1].Codigo, catalogo[1].Codigo),
                 item => Assert.Equal(produtos[2].Codigo, catalogo[2].Codigo)
@@ -88,7 +84,7 @@ namespace Catalogo.UnitTests
         {
             //arrange
             const string produtoCodigo = "001";
-            IList<Produto> produtos = GetFakeProdutos();
+            var produtos = GetFakeProdutos();
             produtoQueriesMock
                 .Setup(q => q.GetProdutoAsync(produtoCodigo))
                 .ReturnsAsync((Produto)null);
