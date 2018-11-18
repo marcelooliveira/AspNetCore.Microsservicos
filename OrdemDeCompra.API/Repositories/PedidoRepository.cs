@@ -14,6 +14,9 @@ namespace CasaDoCodigo.OrdemDeCompra.Repositories
 
         public async Task<Pedido> CreateOrUpdate(Pedido pedido)
         {
+            if (pedido == null)
+                throw new ArgumentNullException();
+
             EntityEntry<Pedido> entityEntry;
             try
             {

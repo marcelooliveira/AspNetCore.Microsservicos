@@ -6,6 +6,11 @@ namespace CasaDoCodigo.OrdemDeCompra
 {
     public class ApplicationContext : DbContext
     {
+        public ApplicationContext()
+        {
+
+        }
+
         public ApplicationContext(DbContextOptions options) : base(options)
         {
         }
