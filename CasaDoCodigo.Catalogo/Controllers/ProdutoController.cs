@@ -37,7 +37,10 @@ namespace Catalogo.API.Controllers
         [HttpGet("{codigo}")]
         public async Task<ActionResult<IEnumerable<Produto>>> GetProdutos(string codigo = null)
         {
-            return Ok(await produtoQueries.GetProdutoAsync(codigo));
+            Produto value = await produtoQueries.GetProdutoAsync(codigo);
+            if (value == null)
+                return new NotFoundResult();
+            return base.Ok(value);
         }
     }
 }
