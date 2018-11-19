@@ -28,9 +28,33 @@ namespace Identity.API.Commands
 
         public async Task<bool> Handle(IdentifiedCommand<CadastroCommand, bool> request, CancellationToken cancellationToken)
         {
+            if (request == null)
+                throw new ArgumentNullException();
+
+            var command = request.Command;
+            var guid = request.Id;
+
+            if (command == null)
+                throw new ArgumentNullException();
+
+            if (guid == Guid.Empty)
+                throw new ArgumentException();
+
+            if (string.IsNullOrWhiteSpace(command.UsuarioId)
+                 || string.IsNullOrWhiteSpace(command.Nome)
+                 || string.IsNullOrWhiteSpace(command.Email)
+                 || string.IsNullOrWhiteSpace(command.Telefone)
+                 || string.IsNullOrWhiteSpace(command.Endereco)
+                 || string.IsNullOrWhiteSpace(command.Complemento)
+                 || string.IsNullOrWhiteSpace(command.Bairro)
+                 || string.IsNullOrWhiteSpace(command.Municipio)
+                 || string.IsNullOrWhiteSpace(command.UF)
+                 || string.IsNullOrWhiteSpace(command.CEP)
+                )
+                throw new InvalidUserDataException();
+
             try
             {
-                var command = request.Command;
                 IDictionary<string, string> claims = new Dictionary<string, string>
                 {
                     ["name"] = command.Nome,
@@ -53,5 +77,16 @@ namespace Identity.API.Commands
                 throw;
             }
         }
+    }
+
+    [Serializable]
+    public class InvalidUserDataException : Exception
+    {
+        public InvalidUserDataException() { }
+        public InvalidUserDataException(string message) : base(message) { }
+        public InvalidUserDataException(string message, Exception inner) : base(message, inner) { }
+        protected InvalidUserDataException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
 }
