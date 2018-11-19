@@ -2,6 +2,11 @@
 {
     public class Produto
     {
+        public Produto()
+        {
+
+        }
+
         public Produto(string codigo, string nome, decimal preco)
         {
             Codigo = codigo;
