@@ -48,7 +48,6 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
         public CreatePedidoCommand Pedido { get; set; }
         public string ProdutoCodigo { get; set; }
         public string ProdutoNome { get; set; }
-        public decimal ProdutoPreco { get; set; }
         public int ProdutoQuantidade { get; set; }
         public decimal ProdutoPrecoUnitario { get; set; }
         public decimal Subtotal => ProdutoQuantidade * ProdutoPrecoUnitario;
@@ -58,11 +57,10 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
 
         }
 
-        public CreatePedidoCommandItem(string produtoCodigo, string produtoNome, decimal produtoPreco, int produtoQuantidade, decimal produtoPrecoUnitario)
+        public CreatePedidoCommandItem(string produtoCodigo, string produtoNome, int produtoQuantidade, decimal produtoPrecoUnitario)
         {
             ProdutoCodigo = produtoCodigo;
             ProdutoNome = produtoNome;
-            ProdutoPreco = produtoPreco;
             ProdutoQuantidade = produtoQuantidade;
             ProdutoPrecoUnitario = produtoPrecoUnitario;
         }
@@ -72,5 +70,4 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
             ProdutoQuantidade = produtoQuantidade;
         }
     }
-
 }

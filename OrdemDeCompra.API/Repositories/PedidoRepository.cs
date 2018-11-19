@@ -48,15 +48,8 @@ namespace CasaDoCodigo.OrdemDeCompra.Repositories
                 throw new InvalidUserDataException();
 
             EntityEntry<Pedido> entityEntry;
-            try
-            {
-                entityEntry = await dbSet.AddAsync(pedido);
-                await contexto.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            entityEntry = await dbSet.AddAsync(pedido);
+            await contexto.SaveChangesAsync();
             return entityEntry.Entity;
         }
     }

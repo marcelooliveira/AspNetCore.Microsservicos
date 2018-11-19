@@ -33,11 +33,54 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
 
         public async Task<bool> Handle(IdentifiedCommand<CreatePedidoCommand, bool> request, CancellationToken cancellationToken)
         {
+            if (request == null)
+                throw new ArgumentNullException("Request cannot be empty");
+
             var cmd = request.Command;
+            var guid = request.Id;
+
+            if (cmd == null)
+                throw new ArgumentNullException("Command cannot be empty");
+
+            if (guid == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty");
 
             var itens = cmd.Itens.Select(
                     i => new ItemPedido(i.ProdutoCodigo, i.ProdutoNome, i.ProdutoQuantidade, i.ProdutoPrecoUnitario)
                 ).ToList();
+
+            if (itens.Count == 0)
+            {
+                throw new NoItemsException();
+            }
+
+
+            foreach (var item in itens)
+            {
+                if (
+                    string.IsNullOrWhiteSpace(item.ProdutoCodigo)
+                    || string.IsNullOrWhiteSpace(item.ProdutoNome)
+                    || item.ProdutoQuantidade <= 0
+                    || item.ProdutoPrecoUnitario <= 0
+                    )
+                {
+                    throw new InvalidItemException();
+                }
+            }
+
+
+            if (string.IsNullOrWhiteSpace(cmd.ClienteId)
+                 || string.IsNullOrWhiteSpace(cmd.ClienteNome)
+                 || string.IsNullOrWhiteSpace(cmd.ClienteEmail)
+                 || string.IsNullOrWhiteSpace(cmd.ClienteTelefone)
+                 || string.IsNullOrWhiteSpace(cmd.ClienteEndereco)
+                 || string.IsNullOrWhiteSpace(cmd.ClienteComplemento)
+                 || string.IsNullOrWhiteSpace(cmd.ClienteBairro)
+                 || string.IsNullOrWhiteSpace(cmd.ClienteMunicipio)
+                 || string.IsNullOrWhiteSpace(cmd.ClienteUF)
+                 || string.IsNullOrWhiteSpace(cmd.ClienteCEP)
+                )
+                throw new InvalidUserDataException();
 
             var pedido = new Pedido(itens, cmd.ClienteId,
                 cmd.ClienteNome, cmd.ClienteEmail, cmd.ClienteTelefone, 
