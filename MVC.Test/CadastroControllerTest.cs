@@ -15,17 +15,13 @@ using Xunit;
 
 namespace MVC.Test
 {
-    public class CadastroControllerTest
+    public class CadastroControllerTest : BaseControllerTest
     {
-        private readonly Mock<IIdentityParser<ApplicationUser>> appUserParserMock;
         private readonly Mock<ILogger<CadastroController>> loggerMock;
-        private readonly Mock<HttpContext> contextMock;
 
-        public CadastroControllerTest()
+        public CadastroControllerTest() : base()
         {
-            appUserParserMock = new Mock<IIdentityParser<ApplicationUser>>();
             loggerMock = new Mock<ILogger<CadastroController>>();
-            contextMock = new Mock<HttpContext>();
         }
 
         #region Index
@@ -46,7 +42,8 @@ namespace MVC.Test
                     Nome = "nnn",
                     Telefone = "ttt",
                     UF = "uuu"
-                });
+                })
+               .Verifiable();
 
             //act
             var cadastroController = 
@@ -70,6 +67,7 @@ namespace MVC.Test
                     Telefone = "ttt",
                     UF = "uuu"
                 });
+            appUserParserMock.Verify();
         }
 
         [Fact]
@@ -78,10 +76,13 @@ namespace MVC.Test
             //arrange
             appUserParserMock
                 .Setup(a => a.Parse(It.IsAny<IPrincipal>()))
-                .Returns((ApplicationUser)null);                
+                .Returns((ApplicationUser)null)
+               .Verifiable();
 
             var controller =
                 new CadastroController(appUserParserMock.Object, loggerMock.Object);
+
+            SetControllerUser("001", controller);
 
             //act
             IActionResult result = await controller.Index();
@@ -89,6 +90,8 @@ namespace MVC.Test
             //assert
             Assert.IsType<ViewResult>(result);
             loggerMock.Verify(l => l.Log(LogLevel.Error, It.IsAny<EventId>(), It.IsAny<FormattedLogValues>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), Times.Once);
+            appUserParserMock.Verify();
+
         }
         #endregion
     }

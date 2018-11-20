@@ -18,7 +18,7 @@ namespace MVC.Test
         private readonly Mock<ICatalogoService> catalogoServiceMock;
         private readonly Mock<ILogger<CatalogoController>> loggerMock;
 
-        public CatalogoControllerTest()
+        public CatalogoControllerTest() : base()
         {
             catalogoServiceMock = new Mock<ICatalogoService>();
             loggerMock = new Mock<ILogger<CatalogoController>>();
@@ -31,7 +31,8 @@ namespace MVC.Test
             IList<Produto> fakeProdutos = GetFakeProdutos();
             catalogoServiceMock
                 .Setup(s => s.GetProdutos())
-                .ReturnsAsync(fakeProdutos);
+                .ReturnsAsync(fakeProdutos)
+               .Verifiable();
 
             var catalogoController = 
                 new CatalogoController(catalogoServiceMock.Object, loggerMock.Object);
@@ -48,6 +49,7 @@ namespace MVC.Test
                                item => Assert.Equal(fakeProdutos[1].Codigo, item.Codigo),
                                item => Assert.Equal(fakeProdutos[2].Codigo, item.Codigo)
                 );
+            catalogoServiceMock.Verify();
         }
 
         [Fact]

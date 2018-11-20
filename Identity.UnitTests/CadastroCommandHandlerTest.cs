@@ -93,7 +93,8 @@ namespace Identity.UnitTests
             //arrange
             claimsManagerMock
                 .Setup(c => c.AddUpdateClaim(It.IsAny<string>(), It.IsAny<IDictionary<string, string>>()))
-                .Returns(Task.CompletedTask);
+                .Returns(Task.CompletedTask)
+               .Verifiable();
 
             var handler = new CadastroCommandHandler(mediatorMock.Object, loggerMock.Object, claimsManagerMock.Object);
             CadastroCommand command = new CadastroCommand("clienteId", "clienteNome", "cliente@email.com", "fone", "endereco", "complemento", "bairro", "municipio", "uf", "12345-678");
@@ -106,6 +107,7 @@ namespace Identity.UnitTests
 
             //assert
             Assert.True(result);
+            claimsManagerMock.Verify();
         }
     }
 }

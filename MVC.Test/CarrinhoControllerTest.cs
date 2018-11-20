@@ -20,16 +20,12 @@ namespace MVC.Test
 {
     public class CarrinhoControllerTest : BaseControllerTest
     {
-        private readonly Mock<IHttpContextAccessor> contextAccessorMock;
-        private readonly Mock<IIdentityParser<ApplicationUser>> appUserParserMock;
         private readonly Mock<ILogger<CarrinhoController>> loggerMock;
         private readonly Mock<ICatalogoService> catalogoServiceMock;
         private readonly Mock<ICarrinhoService> carrinhoServiceMock;
 
-        public CarrinhoControllerTest()
+        public CarrinhoControllerTest() : base()
         {
-            contextAccessorMock = new Mock<IHttpContextAccessor>();
-            appUserParserMock = new Mock<IIdentityParser<ApplicationUser>>();
             loggerMock = new Mock<ILogger<CarrinhoController>>();
             catalogoServiceMock = new Mock<ICatalogoService>();
             carrinhoServiceMock = new Mock<ICarrinhoService>();
@@ -68,6 +64,7 @@ namespace MVC.Test
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<CarrinhoCliente>(viewResult.Model);
             Assert.Equal(model.Itens[0].ProdutoNome, produtos[0].Nome);
+            catalogoServiceMock.Verify();
         }
 
         [Fact]
@@ -99,6 +96,7 @@ namespace MVC.Test
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<CarrinhoCliente>(viewResult.Model);
             Assert.Equal(model.Itens[0].ProdutoNome, produtos[0].Nome);
+            carrinhoServiceMock.Verify();
         }
 
         [Fact]
@@ -134,6 +132,7 @@ namespace MVC.Test
             var viewResult = Assert.IsType<ViewResult>(result);
             loggerMock.Verify(l => l.Log(LogLevel.Error, It.IsAny<EventId>(), It.IsAny<FormattedLogValues>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), Times.Once);
             Assert.True(!string.IsNullOrWhiteSpace(controller.ViewBag.MsgServicoIndisponivel as string));
+            catalogoServiceMock.Verify();
         }
 
         [Fact]
@@ -159,6 +158,7 @@ namespace MVC.Test
             Assert.Equal("ProdutoNaoEncontrado", redirectToActionResult.ActionName);
             Assert.Equal("Carrinho", redirectToActionResult.ControllerName);
             Assert.Equal(redirectToActionResult.Fragment, testProduct.Codigo);
+            catalogoServiceMock.Verify();
         }
         #endregion
 
@@ -183,6 +183,7 @@ namespace MVC.Test
             //assert
             var okObjectResult = Assert.IsType<OkObjectResult>(result);
             Assert.IsType<UpdateQuantidadeOutput>(okObjectResult.Value);
+            catalogoServiceMock.Verify();
 
         }
 
@@ -207,6 +208,8 @@ namespace MVC.Test
             //assert
             var badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.IsType<SerializableError>(badRequestObjectResult.Value);
+            catalogoServiceMock.Verify();
+
         }
 
         [Fact]
@@ -229,6 +232,8 @@ namespace MVC.Test
             //assert
             var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
             Assert.Equal(updateQuantidadeInput, notFoundObjectResult.Value);
+            catalogoServiceMock.Verify();
+
         }
         #endregion
 
@@ -279,6 +284,8 @@ namespace MVC.Test
             ViewResult viewResult = Assert.IsType<ViewResult>(actionResult);
             loggerMock.Verify(l => l.Log(LogLevel.Error, It.IsAny<EventId>(), It.IsAny<FormattedLogValues>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), Times.Once);
             Assert.True(!string.IsNullOrWhiteSpace(controller.ViewBag.MsgServicoIndisponivel as string));
+            catalogoServiceMock.Verify();
+
         }
 
         [Fact]
@@ -298,6 +305,8 @@ namespace MVC.Test
             ViewResult viewResult = Assert.IsType<ViewResult>(actionResult);
             loggerMock.Verify(l => l.Log(LogLevel.Error, It.IsAny<EventId>(), It.IsAny<FormattedLogValues>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), Times.Once);
             Assert.True(!string.IsNullOrWhiteSpace(controller.ViewBag.MsgServicoIndisponivel as string));
+            catalogoServiceMock.Verify();
+
         }
         #endregion
 
@@ -312,12 +321,13 @@ namespace MVC.Test
                 .Verifiable();
 
             var controller = GetCarrinhoController();
-
+            SetControllerUser("001", controller);
             //act
             IActionResult actionResult = await controller.Checkout();
 
             //assert
             Assert.IsType<ViewResult>(actionResult);
+            appUserParserMock.Verify();
         }
 
         [Fact]
@@ -330,6 +340,7 @@ namespace MVC.Test
                 .Verifiable();
 
             var controller = GetCarrinhoController();
+            SetControllerUser("001", controller);
 
             //act
             IActionResult actionResult = await controller.Checkout();
@@ -337,29 +348,10 @@ namespace MVC.Test
             //assert
             Assert.IsType<ViewResult>(actionResult);
             loggerMock.Verify(l => l.Log(LogLevel.Error, It.IsAny<EventId>(), It.IsAny<FormattedLogValues>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), Times.Once);
+            appUserParserMock.Verify();
+
         }
         #endregion
-
-        private ItemCarrinho GetFakeItemCarrinho()
-        {
-            var produtos = GetFakeProdutos();
-            var testProduct = produtos[0];
-            var itemCarrinho = new ItemCarrinho(testProduct.Codigo, testProduct.Codigo, testProduct.Nome, testProduct.Preco, 7, testProduct.UrlImagem);
-            return itemCarrinho;
-        }
-
-        private static void SetControllerUser(string clienteId, CarrinhoController controller)
-        {
-            var user = new ClaimsPrincipal(
-                new ClaimsIdentity(
-                    new Claim[] { new Claim("sub", clienteId) }
-                ));
-
-            controller.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext { User = user }
-            };
-        }
 
         private CarrinhoController GetCarrinhoController()
         {

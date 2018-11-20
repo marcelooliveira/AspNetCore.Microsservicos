@@ -43,11 +43,12 @@ namespace Carrinho.API.Tests
             var databaseMock = new Mock<IDatabase>();
             databaseMock
                 .Setup(d => d.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
-                .ReturnsAsync(json);
-
+                .ReturnsAsync(json)
+                .Verifiable();
             redisMock
                 .Setup(r => r.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
-                .Returns(databaseMock.Object);
+                .Returns(databaseMock.Object)
+                .Verifiable();
 
             var repository
                 = new RedisCarrinhoRepository(loggerMock.Object, redisMock.Object);
@@ -63,6 +64,9 @@ namespace Carrinho.API.Tests
                     Assert.Equal("001", item.ProdutoId);
                     Assert.Equal(7, item.Quantidade);
                 });
+
+            databaseMock.Verify();
+            redisMock.Verify();
         }
 
         [Fact]
@@ -97,17 +101,18 @@ namespace Carrinho.API.Tests
                         When.Always,
                         CommandFlags.None
                     ))
-               .ReturnsAsync(true);
+               .ReturnsAsync(true)
+               .Verifiable();
 
             databaseMock.SetupSequence(d => d.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
                     .ReturnsAsync("")
-                    .ReturnsAsync(json);
+                    .ReturnsAsync(json);                 
 
 
             redisMock
                 .Setup(r => r.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
-                .Returns(databaseMock.Object);
-
+                .Returns(databaseMock.Object)
+                .Verifiable();
             var repository
                 = new RedisCarrinhoRepository(loggerMock.Object, redisMock.Object);
 
@@ -117,6 +122,8 @@ namespace Carrinho.API.Tests
             //assert
             Assert.Equal(clienteId, carrinhoCliente.ClienteId);
             Assert.Empty(carrinhoCliente.Itens);
+            databaseMock.Verify();
+            redisMock.Verify();
         }
         #endregion
 
@@ -139,7 +146,6 @@ namespace Carrinho.API.Tests
                         CommandFlags.None
                     ))
                .ReturnsAsync(true);
-
             databaseMock
                 .SetupSequence(d => d.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
                 .ReturnsAsync("")
@@ -148,7 +154,8 @@ namespace Carrinho.API.Tests
 
             redisMock
                 .Setup(r => r.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
-                .Returns(databaseMock.Object);
+                .Returns(databaseMock.Object)
+                .Verifiable();
 
             var repository
                 = new RedisCarrinhoRepository(loggerMock.Object, redisMock.Object);
@@ -171,6 +178,8 @@ namespace Carrinho.API.Tests
                     Assert.Equal("002", i.ProdutoId);
                     Assert.Equal(2, i.Quantidade);
                 });
+            databaseMock.Verify();
+            redisMock.Verify();
         }
 
         [Fact]
@@ -235,8 +244,8 @@ namespace Carrinho.API.Tests
                         When.Always,
                         CommandFlags.None
                     ))
-               .ReturnsAsync(true);
-
+               .ReturnsAsync(true)
+               .Verifiable();
             databaseMock
                 .SetupSequence(d => d.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
                 .ReturnsAsync("")
@@ -245,7 +254,8 @@ namespace Carrinho.API.Tests
 
             redisMock
                 .Setup(r => r.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
-                .Returns(databaseMock.Object);
+                .Returns(databaseMock.Object)
+               .Verifiable();
 
             var repository
                 = new RedisCarrinhoRepository(loggerMock.Object, redisMock.Object);
@@ -263,6 +273,9 @@ namespace Carrinho.API.Tests
                     Assert.Equal("001", i.ProdutoId);
                     Assert.Equal(2, i.Quantidade);
                 });
+
+            databaseMock.Verify();
+            redisMock.Verify();
         }
 
         [Fact]
@@ -318,12 +331,12 @@ namespace Carrinho.API.Tests
             var databaseMock = new Mock<IDatabase>();
             databaseMock
                 .Setup(d => d.KeyDeleteAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
-                .ReturnsAsync(true);
-
+                .ReturnsAsync(true)
+                .Verifiable();
             redisMock
                 .Setup(r => r.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
-                .Returns(databaseMock.Object);
-
+                .Returns(databaseMock.Object)
+                .Verifiable();
             var repository
                 = new RedisCarrinhoRepository(loggerMock.Object, redisMock.Object);
 
@@ -332,6 +345,8 @@ namespace Carrinho.API.Tests
 
             //assert
             Assert.True(result);
+            databaseMock.Verify();
+            redisMock.Verify();
         }
 
         [Fact]
@@ -342,11 +357,12 @@ namespace Carrinho.API.Tests
             var databaseMock = new Mock<IDatabase>();
             databaseMock
                 .Setup(d => d.KeyDeleteAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
-                .ReturnsAsync(false);
-
+                .ReturnsAsync(false)
+               .Verifiable();
             redisMock
                 .Setup(r => r.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
-                .Returns(databaseMock.Object);
+                .Returns(databaseMock.Object)
+               .Verifiable();
 
             var repository
                 = new RedisCarrinhoRepository(loggerMock.Object, redisMock.Object);
@@ -356,6 +372,8 @@ namespace Carrinho.API.Tests
 
             //assert
             Assert.False(result);
+            databaseMock.Verify();
+            redisMock.Verify();
         }
         #endregion
     }

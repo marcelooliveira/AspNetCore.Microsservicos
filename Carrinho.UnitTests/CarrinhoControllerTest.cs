@@ -36,10 +36,11 @@ namespace Carrinho.API.Tests
             var fakeClienteId = "1";
             var carrinhoFake = GetCarrinhoClienteFake(fakeClienteId);
 
-            _carrinhoRepositoryMock.Setup(x => x.GetCarrinhoAsync(It.IsAny<string>()))
-                .Returns(Task.FromResult(carrinhoFake));
+            _carrinhoRepositoryMock
+                .Setup(x => x.GetCarrinhoAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(carrinhoFake))
+                .Verifiable();
             _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId);
-
             _serviceBusMock.Setup(x => x.Publish(It.IsAny<CheckoutEvent>(), null));
 
             //Act
@@ -57,6 +58,9 @@ namespace Carrinho.API.Tests
             Assert.Equal(carrinhoFake.Itens[0].ProdutoId, carrinhoCliente.Itens[0].ProdutoId);
             Assert.Equal(carrinhoFake.Itens[1].ProdutoId, carrinhoCliente.Itens[1].ProdutoId);
             Assert.Equal(carrinhoFake.Itens[2].ProdutoId, carrinhoCliente.Itens[2].ProdutoId);
+            _carrinhoRepositoryMock.Verify();
+            _identityServiceMock.Verify();
+            _serviceBusMock.Verify();
         }
 
         [Fact]
@@ -83,7 +87,8 @@ namespace Carrinho.API.Tests
             CarrinhoCliente carrinhoFake = GetCarrinhoClienteFake(clienteId);
             _carrinhoRepositoryMock
                 .Setup(r => r.GetCarrinhoAsync(clienteId))
-                .ReturnsAsync((CarrinhoCliente)null);
+                .ReturnsAsync((CarrinhoCliente)null)
+                .Verifiable();
 
             var controller =
                 new CarrinhoController(_carrinhoRepositoryMock.Object,
@@ -96,6 +101,7 @@ namespace Carrinho.API.Tests
             OkObjectResult okObjectResult = Assert.IsType<OkObjectResult>(actionResult);
             CarrinhoCliente carrinhoCliente = Assert.IsAssignableFrom<CarrinhoCliente>(okObjectResult.Value);
             Assert.Equal(clienteId, carrinhoCliente.ClienteId);
+            _carrinhoRepositoryMock.Verify();
         }
         #endregion
 
@@ -108,9 +114,10 @@ namespace Carrinho.API.Tests
             var fakeCarrinhoCliente = GetCarrinhoClienteFake(fakeClienteId);
 
             _carrinhoRepositoryMock.Setup(x => x.UpdateCarrinhoAsync(It.IsAny<CarrinhoCliente>()))
-                .Returns(Task.FromResult(fakeCarrinhoCliente));
-            _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId);
-            _serviceBusMock.Setup(x => x.Publish(It.IsAny<CheckoutEvent>(), null));
+                .Returns(Task.FromResult(fakeCarrinhoCliente))
+                .Verifiable();
+            _serviceBusMock.Setup(x => x.Publish(It.IsAny<CheckoutEvent>(), null))
+                .Verifiable();
 
             //Act
             var carrinhoController = new CarrinhoController(
@@ -123,6 +130,8 @@ namespace Carrinho.API.Tests
             //Assert
             Assert.Equal(actionResult.StatusCode, (int)System.Net.HttpStatusCode.OK);
             Assert.Equal(((CarrinhoCliente)actionResult.Value).ClienteId, fakeClienteId);
+
+            _carrinhoRepositoryMock.Verify();
         }
 
         [Fact]
@@ -148,6 +157,9 @@ namespace Carrinho.API.Tests
 
             //Assert
             NotFoundResult notFoundResult = Assert.IsType<NotFoundResult>(actionResult);
+            _carrinhoRepositoryMock.Verify();
+            _identityServiceMock.Verify();
+            _serviceBusMock.Verify();
         }
 
         [Fact]
@@ -175,9 +187,7 @@ namespace Carrinho.API.Tests
         {
             //Arrange
             var fakeClienteId = "2";
-            _carrinhoRepositoryMock.Setup(x => x.GetCarrinhoAsync(It.IsAny<string>()))
-                .ReturnsAsync((CarrinhoCliente)null);
-            _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId);
+
             var carrinhoController = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
@@ -222,9 +232,11 @@ namespace Carrinho.API.Tests
             var fakeCarrinhoCliente = GetCarrinhoClienteFake(fakeClienteId);
 
             _carrinhoRepositoryMock.Setup(x => x.GetCarrinhoAsync(It.IsAny<string>()))
-                 .Returns(Task.FromResult(fakeCarrinhoCliente));
+                 .Returns(Task.FromResult(fakeCarrinhoCliente))
+                .Verifiable();
 
-            _identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId);
+            //_identityServiceMock.Setup(x => x.GetUserIdentity()).Returns(fakeClienteId)
+            //    .Verifiable();
 
             var carrinhoController = new CarrinhoController(
                 _carrinhoRepositoryMock.Object, _identityServiceMock.Object, _serviceBusMock.Object);
@@ -244,6 +256,8 @@ namespace Carrinho.API.Tests
             //assert
             _serviceBusMock.Verify(mock => mock.Publish(It.IsAny<CheckoutEvent>(), null), Times.Once);
             Assert.NotNull(actionResult);
+            _carrinhoRepositoryMock.Verify();
+            //_identityServiceMock.Verify();
         }
 
         #endregion
@@ -264,7 +278,9 @@ namespace Carrinho.API.Tests
                 {
                     ClienteId = clienteId,
                     Itens = itens
-                });
+                })
+                .Verifiable();
+
             var controller = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
@@ -277,6 +293,9 @@ namespace Carrinho.API.Tests
             OkObjectResult okObjectResult = Assert.IsType<OkObjectResult>(actionResult.Result);
             CarrinhoCliente carrinhoCliente = Assert.IsAssignableFrom<CarrinhoCliente>(okObjectResult.Value);
             Assert.Equal(4, carrinhoCliente.Itens.Count());
+            _carrinhoRepositoryMock.Verify();
+            _identityServiceMock.Verify();
+            _serviceBusMock.Verify();
         }
 
         [Fact]
@@ -341,7 +360,9 @@ namespace Carrinho.API.Tests
                 {
                     ClienteId = clienteId,
                     Itens = itens
-                }));
+                }))
+                .Verifiable();
+
             var controller = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
@@ -354,6 +375,9 @@ namespace Carrinho.API.Tests
             OkObjectResult okObjectResult = Assert.IsType<OkObjectResult>(actionResult.Result);
             UpdateQuantidadeOutput updateQuantidadeOutput = Assert.IsAssignableFrom<UpdateQuantidadeOutput>(okObjectResult.Value);
             Assert.Equal(input.ProdutoId, updateQuantidadeOutput.ItemPedido.ProdutoId);
+            _carrinhoRepositoryMock.Verify();
+            _identityServiceMock.Verify();
+            _serviceBusMock.Verify();
         }
 
         [Fact]

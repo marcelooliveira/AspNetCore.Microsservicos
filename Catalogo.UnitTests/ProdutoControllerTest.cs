@@ -3,7 +3,6 @@ using Catalogo.API.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -47,7 +46,9 @@ namespace Catalogo.UnitTests
             IList<Produto> produtos = new List<Produto>();
             produtoQueriesMock
                 .Setup(q => q.GetProdutosAsync())
-                .ReturnsAsync(produtos);
+                .ReturnsAsync(produtos)
+               .Verifiable();
+
             var controller = new ProdutoController(loggerMock.Object, produtoQueriesMock.Object);
 
             //act
@@ -57,6 +58,7 @@ namespace Catalogo.UnitTests
             OkObjectResult okObjectResult = Assert.IsType<OkObjectResult>(actionResult.Result);
             List<Produto> catalogo = Assert.IsType<List<Produto>>(okObjectResult.Value);
             Assert.Empty(catalogo);
+            produtoQueriesMock.Verify();
         }
 
         [Fact]
@@ -67,7 +69,9 @@ namespace Catalogo.UnitTests
             IList<Produto> produtos = GetFakeProdutos();
             produtoQueriesMock
                 .Setup(q => q.GetProdutoAsync(produtoCodigo))
-                .ReturnsAsync(produtos[0]);
+                .ReturnsAsync(produtos[0])
+               .Verifiable();
+
             var controller = new ProdutoController(loggerMock.Object, produtoQueriesMock.Object);
 
             //act
@@ -77,6 +81,7 @@ namespace Catalogo.UnitTests
             OkObjectResult okObjectResult = Assert.IsType<OkObjectResult>(actionResult.Result);
             Produto produto = Assert.IsType<Produto>(okObjectResult.Value);
             Assert.Equal(produtos[0].Codigo, produto.Codigo);
+            produtoQueriesMock.Verify();
         }
 
         [Fact]
@@ -87,14 +92,17 @@ namespace Catalogo.UnitTests
             var produtos = GetFakeProdutos();
             produtoQueriesMock
                 .Setup(q => q.GetProdutoAsync(produtoCodigo))
-                .ReturnsAsync((Produto)null);
-            var controller = new ProdutoController(loggerMock.Object, produtoQueriesMock.Object);
+                .ReturnsAsync((Produto)null)
+               .Verifiable();
 
+            var controller = new ProdutoController(loggerMock.Object, produtoQueriesMock.Object);
+            
             //act
-            var actionResult = await controller.GetProdutos("xyz");
+            var actionResult = await controller.GetProdutos(produtoCodigo);
 
             //assert
             Assert.IsType<NotFoundResult>(actionResult.Result);
+            produtoQueriesMock.Verify();
         }
 
         protected IList<Produto> GetFakeProdutos()
