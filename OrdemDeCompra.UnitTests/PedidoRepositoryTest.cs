@@ -13,11 +13,11 @@ namespace OrdemDeCompra.UnitTests
 {
     public class PedidoRepositoryTest
     {
-        private readonly Mock<FakeContext> contextoMock;
+        private readonly Mock<ApplicationContext> contextoMock;
 
         public PedidoRepositoryTest()
         {
-            this.contextoMock = new Mock<FakeContext>();
+            this.contextoMock = new Mock<ApplicationContext>();
         }
 
         [Fact]
@@ -122,26 +122,26 @@ namespace OrdemDeCompra.UnitTests
 
         }
 
-        public class FakeContext : DbContext
-        {
-            public FakeContext()
-            {
+        //public class FakeContext : DbContext
+        //{
+        //    public FakeContext()
+        //    {
 
-            }
+        //    }
 
-            public FakeContext(DbContextOptions options) : base(options)
-            {
+        //    public FakeContext(DbContextOptions options) : base(options)
+        //    {
                 
-            }
+        //    }
 
-            protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            {
-                base.OnConfiguring(optionsBuilder);
-            }
+        //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //    {
+        //        base.OnConfiguring(optionsBuilder);
+        //    }
 
-            public DbSet<Pedido> Pedidos { get; set; }
-            public DbSet<ItemPedido> ItemPedidos { get; set; }
-        }
+        //    public DbSet<Pedido> Pedidos { get; set; }
+        //    public DbSet<ItemPedido> ItemPedidos { get; set; }
+        //}
 
     }
 }

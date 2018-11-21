@@ -6,10 +6,10 @@ namespace CasaDoCodigo.OrdemDeCompra.Repositories
 {
     public abstract class BaseRepository<T> where T : BaseModel
     {
-        protected readonly DbContext contexto;
+        protected readonly ApplicationContext contexto;
         protected readonly DbSet<T> dbSet;
 
-        public BaseRepository(DbContext contexto)
+        public BaseRepository(ApplicationContext contexto)
         {
             this.contexto = contexto;
             dbSet = contexto.Set<T>();

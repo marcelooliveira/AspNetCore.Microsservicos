@@ -9,7 +9,7 @@ namespace CasaDoCodigo.OrdemDeCompra.Repositories
 {
     public class PedidoRepository : BaseRepository<Pedido>, IPedidoRepository
     {
-        public PedidoRepository(DbContext contexto) : base(contexto)
+        public PedidoRepository(ApplicationContext contexto) : base(contexto)
         {
         }
 
@@ -48,8 +48,15 @@ namespace CasaDoCodigo.OrdemDeCompra.Repositories
                 throw new InvalidUserDataException();
 
             EntityEntry<Pedido> entityEntry;
-            entityEntry = await dbSet.AddAsync(pedido);
-            await contexto.SaveChangesAsync();
+            try
+            {
+                entityEntry = await dbSet.AddAsync(pedido);
+                await contexto.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
             return entityEntry.Entity;
         }
     }
