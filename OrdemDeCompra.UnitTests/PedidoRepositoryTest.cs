@@ -101,9 +101,9 @@ namespace OrdemDeCompra.UnitTests
                 },
                 "clienteId", "clienteNome", "cliente@email.com", "fone", "endereco", "complemento", "bairro", "municipio", "uf", "12345-678");
 
-            var options = new DbContextOptionsBuilder<FakeContext>().UseInMemoryDatabase(databaseName: "database_name").Options;
+            var options = new DbContextOptionsBuilder<ApplicationContext>().UseInMemoryDatabase(databaseName: "database_name").Options;
 
-            using (var context = new FakeContext(options))
+            using (var context = new ApplicationContext(options))
             {
                 var pedidoEntity = await context.AddAsync(pedido);
 
