@@ -10,6 +10,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,7 +55,8 @@ namespace NewIdentity
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AppClaimsPrincipalFactory>();
             services.AddScoped<IClaimsManager, ClaimsManager>();
             //services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
-            services.AddMvc();
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<IProfileService, ProfileService>();
 
             services.Configure<IISOptions>(iis =>
@@ -125,9 +127,20 @@ namespace NewIdentity
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseHttpsRedirection();
+
             app.UseStaticFiles();
+            app.UseCookiePolicy();
+
             app.UseIdentityServer();
-            app.UseMvcWithDefaultRoute();
+            //app.UseMvcWithDefaultRoute();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }
