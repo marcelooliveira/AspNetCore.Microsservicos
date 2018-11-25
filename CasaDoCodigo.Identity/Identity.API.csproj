@@ -38,4 +38,10 @@
     <ProjectReference Include="..\CasaDoCodigo.Mensagens\CasaDoCodigo.Mensagens.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Account\Register.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

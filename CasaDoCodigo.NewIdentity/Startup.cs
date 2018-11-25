@@ -9,6 +9,7 @@ using IdentityServer4.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -44,26 +45,29 @@ namespace NewIdentity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
             services.AddScoped<UserManager<ApplicationUser>>();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+            //services.AddDefaultIdentity<ApplicationUser>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AppClaimsPrincipalFactory>();
-            services.AddScoped<IClaimsManager, ClaimsManager>();
-            //services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddSingleton<IProfileService, ProfileService>();
+            //services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AppClaimsPrincipalFactory>();
+            //services.AddScoped<IClaimsManager, ClaimsManager>();
 
-            services.Configure<IISOptions>(iis =>
-            {
-                iis.AuthenticationDisplayName = "Windows";
-                iis.AutomaticAuthentication = false;
-            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             var builder = services.AddIdentityServer(options =>
             {
@@ -72,12 +76,12 @@ namespace NewIdentity
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
             })
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryClients(Config.GetClients(Configuration["CallbackUrl"]))
-                .AddInMemoryPersistedGrants()
-                .AddInMemoryApiResources(Config.GetApiResources())
-                .AddAspNetIdentity<ApplicationUser>()
-                .AddProfileService<ProfileService>();
+            .AddInMemoryIdentityResources(Config.GetIdentityResources())
+            .AddInMemoryClients(Config.GetClients(Configuration["CallbackUrl"]))
+            .AddInMemoryPersistedGrants()
+            .AddInMemoryApiResources(Config.GetApiResources())
+            .AddAspNetIdentity<ApplicationUser>()
+            .AddProfileService<ProfileService>();
 
             if (Environment.IsDevelopment())
             {
@@ -125,15 +129,15 @@ namespace NewIdentity
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
-
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            //app.UseAuthentication();
             app.UseIdentityServer();
-            //app.UseMvcWithDefaultRoute();
 
             app.UseMvc(routes =>
             {

@@ -26,6 +26,7 @@ namespace IdentityServer4.Quickstart.UI
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
@@ -256,6 +257,100 @@ namespace IdentityServer4.Quickstart.UI
             return View("LoggedOut", vm);
         }
 
+        /// <summary>
+        /// Show register page
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> Register(string returnUrl)
+        {
+            // build a model so we know what to show on the login page
+            var vm = await BuildRegisterViewModelAsync(returnUrl);
+
+            if (vm.IsExternalLoginOnly)
+            {
+                // we only have one option for logging in and it's an external provider
+                return await ExternalLogin(vm.ExternalLoginScheme, returnUrl);
+            }
+
+            return View(vm);
+        }
+
+        /// <summary>
+        /// Handle postback from username/password register
+        /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterInputModel model, string button)
+        {
+            if (button != "register")
+            {
+                // the user clicked the "cancel" button
+                var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
+                if (context != null)
+                {
+                    // if the user cancels, send a result back into IdentityServer as if they 
+                    // denied the consent (even if this client does not require consent).
+                    // this will send back an access denied OIDC error response to the client.
+                    await _interaction.GrantConsentAsync(context, ConsentResponse.Denied);
+
+                    // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
+                    return Redirect(model.ReturnUrl);
+                }
+                else
+                {
+                    // since we don't have a valid context, then we just go back to the home page
+                    return Redirect("~/");
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                //var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, lockoutOnFailure: true);
+                //if (result.Succeeded)
+                //{
+                //    var user = await _userManager.FindByNameAsync(model.Username);
+                //    await _events.RaiseAsync(new UserRegisterSuccessEvent(user.UserName, user.Id, user.UserName));
+
+                //    // make sure the returnUrl is still valid, and if so redirect back to authorize endpoint or a local page
+                //    // the IsLocalUrl check is only necessary if you want to support additional local pages, otherwise IsValidReturnUrl is more strict
+                //    if (_interaction.IsValidReturnUrl(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl))
+                //    {
+                //        return Redirect(model.ReturnUrl);
+                //    }
+
+                //    return Redirect("~/");
+                //}
+
+                //await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials"));
+
+                //ModelState.AddModelError("", AccountOptions.InvalidCredentialsErrorMessage);
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    return Redirect("~/");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+            }
+
+            // something went wrong, show form with error
+            var vm = await BuildRegisterViewModelAsync(model);
+            return View(vm);
+        }
+
+
         /*****************************************/
         /* helper APIs for the AccountController */
         /*****************************************/
@@ -378,6 +473,66 @@ namespace IdentityServer4.Quickstart.UI
                 }
             }
 
+            return vm;
+        }
+
+        private async Task<RegisterViewModel> BuildRegisterViewModelAsync(string returnUrl)
+        {
+            var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
+            if (context?.IdP != null)
+            {
+                // this is meant to short circuit the UI and only trigger the one external IdP
+                return new RegisterViewModel
+                {
+                    EnableLocalLogin = false,
+                    ReturnUrl = returnUrl,
+                    Username = context?.LoginHint,
+                    ExternalProviders = new ExternalProvider[] { new ExternalProvider { AuthenticationScheme = context.IdP } }
+                };
+            }
+
+            var schemes = await _schemeProvider.GetAllSchemesAsync();
+
+            var providers = schemes
+                .Where(x => x.DisplayName != null ||
+                            (x.Name.Equals(AccountOptions.WindowsAuthenticationSchemeName, StringComparison.OrdinalIgnoreCase))
+                )
+                .Select(x => new ExternalProvider
+                {
+                    DisplayName = x.DisplayName,
+                    AuthenticationScheme = x.Name
+                }).ToList();
+
+            var allowLocal = true;
+            if (context?.ClientId != null)
+            {
+                var client = await _clientStore.FindEnabledClientByIdAsync(context.ClientId);
+                if (client != null)
+                {
+                    allowLocal = client.EnableLocalLogin;
+
+                    if (client.IdentityProviderRestrictions != null && client.IdentityProviderRestrictions.Any())
+                    {
+                        providers = providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
+                    }
+                }
+            }
+
+            return new RegisterViewModel
+            {
+                AllowRememberLogin = AccountOptions.AllowRememberLogin,
+                EnableLocalLogin = allowLocal && AccountOptions.AllowLocalLogin,
+                ReturnUrl = returnUrl,
+                Username = context?.LoginHint,
+                ExternalProviders = providers.ToArray()
+            };
+        }
+
+        private async Task<RegisterViewModel> BuildRegisterViewModelAsync(RegisterInputModel model)
+        {
+            var vm = await BuildRegisterViewModelAsync(model.ReturnUrl);
+            vm.Username = model.Username;
+            vm.RememberLogin = model.RememberLogin;
             return vm;
         }
 
