@@ -254,7 +254,7 @@ namespace IdentityServer4.Quickstart.UI
                 return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
             }
 
-            return View("LoggedOut", vm);
+            return Redirect(vm.PostLogoutRedirectUri);// View("LoggedOut", vm);
         }
 
         /// <summary>
@@ -336,7 +336,19 @@ namespace IdentityServer4.Quickstart.UI
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("login", "account");
+                    var claimsResult = _userManager.AddClaimsAsync(user, new Claim[]{
+                        new Claim("name", user.Email),
+                        new Claim(JwtClaimTypes.GivenName, ""),
+                        new Claim(JwtClaimTypes.FamilyName, ""),
+                        new Claim("email", user.Email),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                    }).Result;
+                    if (!claimsResult.Succeeded)
+                    {
+                        throw new Exception(result.Errors.First().Description);
+                    }
+
+                    return Redirect(model.ReturnUrl);
                 }
 
                 foreach (var error in result.Errors)

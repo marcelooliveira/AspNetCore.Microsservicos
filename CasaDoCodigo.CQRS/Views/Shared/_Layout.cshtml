@@ -5,9 +5,11 @@
     string name = null;
     if (!true.Equals(ViewData["signed-out"]))
     {
-        //var claim = Context.User?.Claims.Where(c => c.Type == ClaimTypes.Name).SingleOrDefault();
-        //name = claim?.Value;
         name = @User.FindFirst("name")?.Value;
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            name = @User.FindFirst("email")?.Value;
+        }
     }
 }
 

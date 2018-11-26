@@ -50,11 +50,15 @@
                                 </div>
                             </fieldset>
                         </form>
+                        <div>
+                            Click to <a asp-controller="account" asp-action="register" asp-route-returnUrl="@Model.ReturnUrl" class="PostLogoutRedirectUri"><b>Register</b></a> a new user.
+                        </div>
                     </div>
                 </div>
             </div>
         }
 
+        
         @if (Model.VisibleExternalProviders.Any())
         {
             <div class="col-md-6 col-sm-6 external-providers">
