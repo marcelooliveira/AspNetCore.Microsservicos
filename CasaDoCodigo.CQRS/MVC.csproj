@@ -57,6 +57,12 @@
     <ProjectReference Include="..\CasaDoCodigo.Mensagens\CasaDoCodigo.Mensagens.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Pedido\Historico.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="dotnet restore" />
   </Target>
