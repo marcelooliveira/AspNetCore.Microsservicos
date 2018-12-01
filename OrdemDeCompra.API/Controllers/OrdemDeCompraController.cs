@@ -31,5 +31,16 @@ namespace CasaDoCodigo.OrdemDeCompra.Controllers
             var resultado = await pedidoRepository.CreateOrUpdate(pedido);
             return Ok(resultado);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> Get(string clienteId)
+        {
+            if (string.IsNullOrWhiteSpace(clienteId))
+            {
+                return BadRequest();
+            }
+
+            throw new NotImplementedException();
+        }
     }
 }

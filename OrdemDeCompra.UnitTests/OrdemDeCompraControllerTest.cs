@@ -95,5 +95,21 @@ namespace OrdemDeCompra.UnitTests
             Pedido pedidoCriado  = Assert.IsType<Pedido>(okObjectResult.Value);
             Assert.Equal(123, pedidoCriado.Id);
         }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public async Task Get_Invalid_ClienteId(string clienteId)
+        {
+            //arrange
+            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object);
+
+            //act
+            ActionResult result = await controller.Get(clienteId);
+
+            //assert
+            Assert.IsType<BadRequestResult>(result);
+        }
     }
 }
