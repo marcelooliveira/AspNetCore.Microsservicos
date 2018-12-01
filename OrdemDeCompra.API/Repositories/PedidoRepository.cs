@@ -3,6 +3,7 @@ using CasaDoCodigo.OrdemDeCompra.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.OrdemDeCompra.Repositories
@@ -58,6 +59,15 @@ namespace CasaDoCodigo.OrdemDeCompra.Repositories
                 throw;
             }
             return entityEntry.Entity;
+        }
+
+        public Task<IList<Pedido>> GetPedidos(string clienteId)
+        {
+            if (string.IsNullOrWhiteSpace(clienteId))
+            {
+                throw new ArgumentNullException();
+            }
+            throw new NotImplementedException();
         }
     }
 

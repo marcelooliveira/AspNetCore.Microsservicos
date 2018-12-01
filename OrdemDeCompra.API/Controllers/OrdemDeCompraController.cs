@@ -23,6 +23,11 @@ namespace CasaDoCodigo.OrdemDeCompra.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Pedido pedido)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var resultado = await pedidoRepository.CreateOrUpdate(pedido);
             return Ok(resultado);
         }

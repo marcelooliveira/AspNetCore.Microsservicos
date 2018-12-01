@@ -122,6 +122,20 @@ namespace OrdemDeCompra.UnitTests
 
         }
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public async Task GetPedidos_Invalid_Client(string clienteId)
+        {
+            //arrange
+            var repository = new PedidoRepository(contextoMock.Object);
+
+            //act
+            //assert
+            await Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetPedidos(clienteId));
+        }
+
         //public class FakeContext : DbContext
         //{
         //    public FakeContext()
@@ -131,7 +145,7 @@ namespace OrdemDeCompra.UnitTests
 
         //    public FakeContext(DbContextOptions options) : base(options)
         //    {
-                
+
         //    }
 
         //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
