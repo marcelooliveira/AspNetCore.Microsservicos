@@ -92,7 +92,7 @@ namespace OrdemDeCompra.UnitTests
 
             //assert
             OkObjectResult okObjectResult = Assert.IsType<OkObjectResult>(actionResult);
-            Pedido pedidoCriado  = Assert.IsType<Pedido>(okObjectResult.Value);
+            Pedido pedidoCriado = Assert.IsType<Pedido>(okObjectResult.Value);
             Assert.Equal(123, pedidoCriado.Id);
         }
 
@@ -110,6 +110,58 @@ namespace OrdemDeCompra.UnitTests
 
             //assert
             Assert.IsType<BadRequestResult>(result);
+        }
+
+        [Fact]
+        public async Task Get_Not_Found()
+        {
+            //arrange
+            pedidoRepositoryMock
+                .Setup(r => r.GetPedidos(It.IsAny<string>()))
+                .ReturnsAsync((List<Pedido>)null)
+                .Verifiable();
+
+            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object);
+
+            //act
+            ActionResult result = await controller.Get("xpto");
+
+            //assert
+            Assert.IsType<NotFoundObjectResult>(result);
+
+            pedidoRepositoryMock.Verify();
+        }
+
+        [Fact]
+        public async Task Get_Ok()
+        {
+            //arrange
+            List<ItemPedido> itens = new List<ItemPedido> {
+                new ItemPedido("001", "produto 001", 1, 12.34m)
+            };
+            Pedido pedido = new Pedido(itens, "clienteId", "clienteNome", "cliente@email.com", "fone", "endereco", "complemento", "bairro", "municipio", "uf", "12345-678");
+            pedido.Id = 123;
+
+            pedidoRepositoryMock
+                .Setup(r => r.GetPedidos(It.IsAny<string>()))
+                .ReturnsAsync(new List<Pedido> { pedido })
+                .Verifiable();
+
+            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object);
+
+            //act
+            ActionResult result = await controller.Get("xpto");
+
+            //assert
+            var objectResult = Assert.IsAssignableFrom<OkObjectResult>(result);
+            var pedidos = Assert.IsType<List<Pedido>>(objectResult.Value);
+            Assert.Collection(pedidos,
+                (p) => Assert.Equal(123, p.Id));
+
+            Assert.Collection(pedidos[0].Itens,
+                (i) => Assert.Equal("001", i.ProdutoCodigo));
+
+            pedidoRepositoryMock.Verify();
         }
     }
 }

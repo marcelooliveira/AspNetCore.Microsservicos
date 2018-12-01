@@ -40,7 +40,14 @@ namespace CasaDoCodigo.OrdemDeCompra.Controllers
                 return BadRequest();
             }
 
-            throw new NotImplementedException();
+            IList<Pedido> pedidos = await pedidoRepository.GetPedidos(clienteId);
+
+            if (pedidos == null)
+            {
+                return NotFound(clienteId);
+            }
+
+            return base.Ok(pedidos);
         }
     }
 }
