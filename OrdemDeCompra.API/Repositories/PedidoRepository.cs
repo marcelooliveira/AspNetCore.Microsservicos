@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.OrdemDeCompra.Repositories
@@ -61,13 +62,17 @@ namespace CasaDoCodigo.OrdemDeCompra.Repositories
             return entityEntry.Entity;
         }
 
-        public Task<IList<Pedido>> GetPedidos(string clienteId)
+        public async Task<IList<Pedido>> GetPedidos(string clienteId)
         {
             if (string.IsNullOrWhiteSpace(clienteId))
             {
                 throw new ArgumentNullException();
             }
-            throw new NotImplementedException();
+            return await 
+                dbSet
+                .Include(p => p.Itens)
+                .Where(p => p.ClienteId == clienteId)
+                .ToListAsync();
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using CasaDoCodigo.Mensagens.EventHandling;
+﻿using AutoMapper;
+using CasaDoCodigo.Mensagens.EventHandling;
 using CasaDoCodigo.Mensagens.Events;
 using CasaDoCodigo.OrdemDeCompra.Commands;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
@@ -12,18 +13,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Rebus.Config;
-using Rebus.Routing.TypeBased;
 using Rebus.ServiceProvider;
-using Rebus.Transport.InMem;
-using Serilog;
-using Serilog.AspNetCore;
-using Serilog.Events;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CasaDoCodigo.OrdemDeCompra
 {
@@ -46,6 +40,7 @@ namespace CasaDoCodigo.OrdemDeCompra
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -102,7 +97,6 @@ namespace CasaDoCodigo.OrdemDeCompra
             services.AddScoped<IMediator, NoMediator>();
             services.AddScoped<IRequest<bool>, CreatePedidoCommand>();
             services.AddMediatR(typeof(CreatePedidoCommand).GetTypeInfo().Assembly);
-
             RegisterRebus(services);
 
         }
