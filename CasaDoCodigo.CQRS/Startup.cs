@@ -1,13 +1,8 @@
-﻿using CasaDoCodigo.Infrastructure;
-using CasaDoCodigo.Models;
-using CasaDoCodigo.Models.ViewModels;
+﻿using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
-using IdentityModel;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
@@ -41,6 +36,7 @@ namespace CasaDoCodigo
 
             services.AddSingleton(typeof(HttpClient), httpClient);
             services.AddHttpContextAccessor();
+            services.AddTransient<IPedidoService, PedidoService>();
             services.AddTransient<ICatalogoService, CatalogoService>();
             services.AddTransient<ICarrinhoService, CarrinhoService>();
             services.AddTransient<ISessionHelper, SessionHelper>();

@@ -1,14 +1,8 @@
-﻿using CasaDoCodigo.Controllers;
-using CasaDoCodigo.Models.ViewModels;
-using CasaDoCodigo.OrdemDeCompra.Models.DTOs;
+﻿using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Moq;
-using MVC.Services;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Controllers

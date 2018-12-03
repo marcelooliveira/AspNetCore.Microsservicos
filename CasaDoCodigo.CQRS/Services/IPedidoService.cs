@@ -1,11 +1,11 @@
-﻿using CasaDoCodigo.OrdemDeCompra.Models.DTOs;
+﻿using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MVC.Services
+namespace CasaDoCodigo.Services
 {
     public interface IPedidoService : IService
     {

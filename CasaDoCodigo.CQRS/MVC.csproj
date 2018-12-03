@@ -56,7 +56,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CasaDoCodigo.Mensagens\CasaDoCodigo.Mensagens.csproj" />
-    <ProjectReference Include="..\OrdemDeCompra.API\OrdemDeCompra.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

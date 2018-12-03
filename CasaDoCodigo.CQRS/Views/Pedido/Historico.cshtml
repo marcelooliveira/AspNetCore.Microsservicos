@@ -1,4 +1,6 @@
-﻿<h3>Histórico de Pedidos</h3>
+﻿@model List<PedidoDTO>;
+
+<h3>Histórico de Pedidos</h3>
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -21,70 +23,33 @@
     </div>
     <div class="panel-body">
 
+        @foreach (var pedido in Model)
+        {
         <div class="row row-center linha-produto">
             <div class="col-md-2">
-                00001
+                @pedido.Id
             </div>
             <div class="col-md-2">
                 01/12/2018
             </div>
             <div class="col-md-6 text-center">
-                aaaaaaaaaaaaa
-                <br />
-                bbbbbbbbbbbbb
-                <br />
-                ccccccccccc
-                <br />
+                @foreach (var item in pedido.Itens)
+                {
+                    @(item.ProdutoNome) 
+                    <span>-</span> 
+                    @(item.ProdutoQuantidade) 
+                    <span>-</span> 
+                    @(item.Subtotal)
+                    <br />
+                }
             </div>
             <div class="col-md-2">
                 <span class="pull-right">
-                    R$ 100,00
+                    @pedido.Total
                 </span>
             </div>
         </div>
-        <div class="row row-center linha-produto">
-            <div class="col-md-2">
-                00001
-            </div>
-            <div class="col-md-2">
-                01/12/2018
-            </div>
-            <div class="col-md-6 text-center">
-                aaaaaaaaaaaaa
-                <br />
-                bbbbbbbbbbbbb
-                <br />
-                ccccccccccc
-                <br />
-            </div>
-            <div class="col-md-2">
-                <span class="pull-right">
-                    R$ 100,00
-                </span>
-            </div>
-        </div>
-        <div class="row row-center linha-produto">
-            <div class="col-md-2">
-                00001
-            </div>
-            <div class="col-md-2">
-                01/12/2018
-            </div>
-            <div class="col-md-6 text-center">
-                aaaaaaaaaaaaa
-                <br />
-                bbbbbbbbbbbbb
-                <br />
-                ccccccccccc
-                <br />
-            </div>
-            <div class="col-md-2">
-                <span class="pull-right">
-                    R$ 100,00
-                </span>
-            </div>
-        </div>
-
+        }
     </div>
     <div class="panel-footer">
         <div class="row">
@@ -93,7 +58,7 @@
             </div>
             <div class="col-md-2">
                 <span class="pull-right">
-                    R$ 500,00
+                    @Model.Sum(p => p.Total)
                 </span>
             </div>
         </div>

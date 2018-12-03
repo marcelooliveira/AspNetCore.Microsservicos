@@ -4,11 +4,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CasaDoCodigo;
-using CasaDoCodigo.OrdemDeCompra.Models.DTOs;
+using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
 using Microsoft.Extensions.Configuration;
 
-namespace MVC.Services
+namespace CasaDoCodigo.Services
 {
     public class PedidoService : BaseHttpService, IPedidoService
     {
@@ -24,11 +24,12 @@ namespace MVC.Services
             this.configuration = configuration;
             this.httpClient = httpClient;
             this.sessionHelper = sessionHelper;
+            _baseUri = _configuration["OrdemDeCompraUrl"];
         }
 
         class Uris
         {
-            public static string GetPedidos => "api/pedido";
+            public static string GetPedidos => "api/ordemdecompra";
         }
 
         public async Task<List<PedidoDTO>> GetAsync(string clienteId)

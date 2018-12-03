@@ -1,19 +1,14 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration;
 using CasaDoCodigo.Controllers;
-using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
-using CasaDoCodigo.OrdemDeCompra.Models.DTOs;
 using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using MVC.Services;
 using OrdemDeCompra.API.Models;
-using System;
 using System.Collections.Generic;
 using System.Security.Principal;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
