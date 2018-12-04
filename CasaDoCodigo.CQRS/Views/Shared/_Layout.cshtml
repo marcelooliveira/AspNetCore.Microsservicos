@@ -22,6 +22,7 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link href="~/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
@@ -43,22 +44,34 @@
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"></a>
             </div>
-
+            <div class="navbar-collapse collapse">
             @if (!string.IsNullOrWhiteSpace(name))
             {
                 <ul class="nav navbar-nav pull-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle text-white" data-toggle="dropdown">
-                            <span style="color: #fff;">@name</span>
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a asp-action="Historico" asp-controller="Pedido" target="_blank">Meus Pedidos</a></li>
-                            <li><a asp-action="Logout" asp-controller="Account">Logout</a></li>
+                    <li>
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle text-white" data-toggle="dropdown">
+                                    <span style="color: #fff;">@name</span>
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-action="Historico" asp-controller="Pedido" target="_blank">Meus Pedidos</a></li>
+                                    <li><a asp-action="Logout" asp-controller="Account">Logout</a></li>
+                                </ul>
+                            </li>
                         </ul>
+                    </li>
+                    <li>
+                        <div class="container-notification">
+                            <div class="notification"></div>
+                            @*<button class="button-notification">Increment Notifications</button>*@
+                        </div>
                     </li>
                 </ul>
             }
+            </div>
+
         </div>
     </nav>
     <div class="container body-content">
