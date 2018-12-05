@@ -25,9 +25,17 @@ namespace CasaDoCodigo.Services
             _sessionHelper = sessionHelper;
         }
 
+        protected async Task<T> GetAuthenticatedAsync<T>(string uri, params object[] param)
+        {
+            var accessToken = await _sessionHelper.GetAccessToken(Scope);
+            _httpClient.SetBearerToken(accessToken);
+
+            return await GetAsync<T>(uri, param);
+        }
+
         protected async Task<T> GetAsync<T>(string uri, params object[] param)
         {
-            string requestUri = 
+            string requestUri =
                 string.Format(new Uri(new Uri(_baseUri), uri).ToString(), param);
 
             foreach (var par in param)

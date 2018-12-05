@@ -32,9 +32,9 @@ namespace CasaDoCodigo.Services
             public static string GetPedidos => "api/ordemdecompra";
         }
 
-        public async Task<List<PedidoDTO>> GetAsync(string clienteId)
+        public async Task<List<PedidoDTO>> GetAsync()
         {
-            return await GetAsync<List<PedidoDTO>>(Uris.GetPedidos, clienteId);
+            return await GetAuthenticatedAsync<List<PedidoDTO>>(Uris.GetPedidos);
         }
 
         public override string Scope => "OrdemDeCompra.API";

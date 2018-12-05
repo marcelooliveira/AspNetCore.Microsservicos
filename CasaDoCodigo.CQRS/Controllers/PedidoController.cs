@@ -23,8 +23,7 @@ namespace CasaDoCodigo.Controllers
 
         public async Task<ActionResult> Historico()
         {
-            var usuario = appUserParser.Parse(HttpContext.User);
-            List<PedidoDTO> model = await pedidoService.GetAsync(usuario.Id);
+            List<PedidoDTO> model = await pedidoService.GetAsync();
             return base.View(model);
         }
     }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CasaDoCodigo.OrdemDeCompra.Models;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CasaDoCodigo.OrdemDeCompra.Controllers
@@ -13,6 +15,8 @@ namespace CasaDoCodigo.OrdemDeCompra.Controllers
     public class OrdemDeCompraController : ControllerBase
     {
         private readonly IPedidoRepository pedidoRepository;
+
+        public object JwtClaimTypes { get; private set; }
 
         public OrdemDeCompraController(IPedidoRepository pedidoRepository)
         {
@@ -32,13 +36,11 @@ namespace CasaDoCodigo.OrdemDeCompra.Controllers
             return Ok(resultado);
         }
 
+        [Authorize]
         [HttpGet]
-        public async Task<ActionResult> Get(string clienteId)
+        public async Task<ActionResult> Get()
         {
-            if (string.IsNullOrWhiteSpace(clienteId))
-            {
-                return BadRequest();
-            }
+            string clienteId = GetUserId();
 
             IList<Pedido> pedidos = await pedidoRepository.GetPedidos(clienteId);
 
@@ -48,6 +50,23 @@ namespace CasaDoCodigo.OrdemDeCompra.Controllers
             }
 
             return base.Ok(pedidos);
+        }
+
+        private string GetUserId()
+        {
+            var userIdClaim = 
+                User
+                .Claims
+                .FirstOrDefault(x => new[] 
+                    {
+                        "sub", ClaimTypes.NameIdentifier
+                    }.Contains(x.Type)
+                && !string.IsNullOrWhiteSpace(x.Value));
+
+            if (userIdClaim != null)
+                return userIdClaim.Value;
+
+            throw new InvalidUserDataException("Usuário desconhecido");
         }
     }
 }

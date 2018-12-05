@@ -43,6 +43,15 @@ namespace CasaDoCodigo.OrdemDeCompra
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services
+                .AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.ApiName = "OrdemDeCompra.API";
+                    options.ApiSecret = "secret";
+                    options.Authority = Configuration["IdentityUrl"];
+                });
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -138,6 +147,7 @@ namespace CasaDoCodigo.OrdemDeCompra
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Casa do Código - Ordem de Compra v1");
             });
 
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

@@ -1,10 +1,12 @@
 ﻿using CasaDoCodigo.OrdemDeCompra.Controllers;
 using CasaDoCodigo.OrdemDeCompra.Models;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -97,19 +99,18 @@ namespace OrdemDeCompra.UnitTests
         }
 
         [Theory]
-        [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
         public async Task Get_Invalid_ClienteId(string clienteId)
         {
             //arrange
             var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object);
+            SetControllerUser(clienteId, controller);
 
             //act
-            ActionResult result = await controller.Get(clienteId);
-
             //assert
-            Assert.IsType<BadRequestResult>(result);
+            await Assert.ThrowsAsync<InvalidUserDataException>(async () => await controller.Get());
+
         }
 
         [Fact]
@@ -122,9 +123,10 @@ namespace OrdemDeCompra.UnitTests
                 .Verifiable();
 
             var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object);
+            SetControllerUser("xpto", controller);
 
             //act
-            ActionResult result = await controller.Get("xpto");
+            ActionResult result = await controller.Get();
 
             //assert
             Assert.IsType<NotFoundObjectResult>(result);
@@ -148,9 +150,10 @@ namespace OrdemDeCompra.UnitTests
                 .Verifiable();
 
             var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object);
+            SetControllerUser("xpto", controller);
 
             //act
-            ActionResult result = await controller.Get("xpto");
+            ActionResult result = await controller.Get();
 
             //assert
             var objectResult = Assert.IsAssignableFrom<OkObjectResult>(result);
@@ -163,5 +166,19 @@ namespace OrdemDeCompra.UnitTests
 
             pedidoRepositoryMock.Verify();
         }
+
+        protected static void SetControllerUser(string clienteId, ControllerBase controller)
+        {
+            var user = new ClaimsPrincipal(
+                new ClaimsIdentity(
+                    new Claim[] { new Claim("sub", clienteId) }
+                ));
+
+            controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = user }
+            };
+        }
+
     }
 }
