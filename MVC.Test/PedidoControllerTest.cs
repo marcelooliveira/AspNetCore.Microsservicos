@@ -54,7 +54,7 @@ namespace MVC.Test
             SetControllerUser(clienteId, controller);
 
             //act
-            ActionResult actionResult = await controller.Historico();
+            ActionResult actionResult = await controller.Historico(clienteId);
 
             //assert
             ViewResult viewResult = Assert.IsAssignableFrom<ViewResult>(actionResult);

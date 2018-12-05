@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.Configuration;
 using CasaDoCodigo.OrdemDeCompra.Models;
+using CasaDoCodigo.OrdemDeCompra.Models.DTOs;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OrdemDeCompra.API.Models;
 
 namespace CasaDoCodigo.OrdemDeCompra.Controllers
 {
@@ -15,12 +19,14 @@ namespace CasaDoCodigo.OrdemDeCompra.Controllers
     public class OrdemDeCompraController : ControllerBase
     {
         private readonly IPedidoRepository pedidoRepository;
+        private readonly IMapper mapper;
 
         public object JwtClaimTypes { get; private set; }
 
-        public OrdemDeCompraController(IPedidoRepository pedidoRepository)
+        public OrdemDeCompraController(IPedidoRepository pedidoRepository, IMapper mapper)
         {
             this.pedidoRepository = pedidoRepository;
+            this.mapper = mapper;
         }
 
         // POST api/ordemdecompra
@@ -40,6 +46,11 @@ namespace CasaDoCodigo.OrdemDeCompra.Controllers
         [HttpGet("{clienteId}")]
         public async Task<ActionResult> Get(string clienteId)
         {
+            if (string.IsNullOrWhiteSpace(clienteId))
+            {
+                throw new ArgumentNullException();
+            }
+
             IList<Pedido> pedidos = await pedidoRepository.GetPedidos(clienteId);
 
             if (pedidos == null)
@@ -47,7 +58,7 @@ namespace CasaDoCodigo.OrdemDeCompra.Controllers
                 return NotFound(clienteId);
             }
 
-            return base.Ok(pedidos);
+            return base.Ok(mapper.Map<List<PedidoDTO>>(pedidos));
         }
 
         private string GetUserId()

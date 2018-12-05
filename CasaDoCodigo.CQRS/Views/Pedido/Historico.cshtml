@@ -2,67 +2,105 @@
 
 <h3>Histórico de Pedidos</h3>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-md-2">
-                Pedido
-            </div>
-            <div class="col-md-2">
-                Data
-            </div>
-            <div class="col-md-6 text-center">
-                Itens
-            </div>
-            <div class="col-md-2">
-                <span class="pull-right">
-                    Total
-                </span>
-            </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right">
+            <a class="btn btn-success" asp-action="index" asp-controller="catalogo">
+                Voltar ao Catálogo
+            </a>
         </div>
     </div>
-    <div class="panel-body">
+</div>
 
-        @foreach (var pedido in Model)
-        {
-        <div class="row row-center linha-produto">
-            <div class="col-md-2">
-                @pedido.Id
+<div class="panel-body">
+    @foreach (var pedido in Model)
+    {
+        <h4>
+            <span>Pedido: </span>@pedido.Id
+        </h4>
+        <h4>
+            <span>Data: </span>01/12/2018
+        </h4>
+        <h4>
+            <span>Total: </span>
+            <span>
+                @pedido.Total
+            </span>
+        </h4>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        Item
+                    </div>
+                    <div class="col-md-2 text-center">
+                        Preço Unitário
+                    </div>
+                    <div class="col-md-2 text-center">
+                        Quantidade
+                    </div>
+                    <div class="col-md-2">
+                        <span class="pull-right">
+                            Subtotal
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-2">
-                01/12/2018
-            </div>
-            <div class="col-md-6 text-center">
+            <div class="panel-body">
+
                 @foreach (var item in pedido.Itens)
                 {
-                    @(item.ProdutoNome) 
-                    <span>-</span> 
-                    @(item.ProdutoQuantidade) 
-                    <span>-</span> 
-                    @(item.Subtotal)
-                    <br />
+
+                    <div class="row row-center linha-produto" item-id="@item.ProdutoCodigo">
+                        <div class="col-md-3">
+                            @*<img class="img-produto-carrinho" src="@(item.UrlImagem)" />*@
+                        </div>
+                        <input type="hidden" name="produtoId" value="@(item.ProdutoCodigo)" />
+                        <div class="col-md-3">@(item.ProdutoNome)</div>
+                        <div class="col-md-2 text-center">R$ @(item.ProdutoPrecoUnitario.ToString("0.00"))</div>
+                        <div class="col-md-2 text-center">
+                            <div class="input-group">
+                                <input type="text" value="@(item.ProdutoQuantidade)"
+                                        class="form-control text-center quantidade" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="pull-right">
+                                R$ <span class="pull-right" subtotal>
+                                    @(item.Subtotal.ToString("0.00"))
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
                 }
+
             </div>
-            <div class="col-md-2">
-                <span class="pull-right">
-                    @pedido.Total
-                </span>
-            </div>
-        </div>
-        }
-    </div>
-    <div class="panel-footer">
-        <div class="row">
-            <div class="col-md-10">
-                -
-            </div>
-            <div class="col-md-2">
-                <span class="pull-right">
-                    @Model.Sum(p => p.Total)
-                </span>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-10">
+                        <span numero-itens>
+                            Total: @(pedido.Itens.Count())
+                            itens
+                        </span>
+                    </div>
+                    <div class="col-md-2">
+                        Total: R$ <span class="pull-right" total>
+                            @((pedido.Total).ToString("0.00"))
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    }
+</div>
+<div>
+    <span>Total Geral: </span>
+    <span>
+        @Model.Sum(p => p.Total)
+    </span>
 </div>
 
 <div class="row">

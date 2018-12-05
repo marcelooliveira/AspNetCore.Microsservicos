@@ -1,9 +1,13 @@
-﻿using CasaDoCodigo.OrdemDeCompra.Controllers;
+﻿using AutoMapper;
+using AutoMapper.Configuration;
+using CasaDoCodigo.OrdemDeCompra.Controllers;
 using CasaDoCodigo.OrdemDeCompra.Models;
+using CasaDoCodigo.OrdemDeCompra.Models.DTOs;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using OrdemDeCompra.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -109,7 +113,7 @@ namespace OrdemDeCompra.UnitTests
 
             //act
             //assert
-            await Assert.ThrowsAsync<InvalidUserDataException>(async () => await controller.Get(clienteId));
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await controller.Get(clienteId));
 
         }
 
@@ -138,6 +142,10 @@ namespace OrdemDeCompra.UnitTests
         public async Task Get_Ok()
         {
             //arrange
+            var mappings = new MapperConfigurationExpression();
+            mappings.AddProfile<MappingProfile>();
+            Mapper.Initialize(mappings);
+
             List<ItemPedido> itens = new List<ItemPedido> {
                 new ItemPedido("001", "produto 001", 1, 12.34m)
             };
@@ -157,9 +165,9 @@ namespace OrdemDeCompra.UnitTests
 
             //assert
             var objectResult = Assert.IsAssignableFrom<OkObjectResult>(result);
-            var pedidos = Assert.IsType<List<Pedido>>(objectResult.Value);
+            var pedidos = Assert.IsType<List<PedidoDTO>>(objectResult.Value);
             Assert.Collection(pedidos,
-                (p) => Assert.Equal(123, p.Id));
+                (p) => Assert.Equal("123", p.Id));
 
             Assert.Collection(pedidos[0].Itens,
                 (i) => Assert.Equal("001", i.ProdutoCodigo));
