@@ -117,6 +117,7 @@ namespace CasaDoCodigo
                     };
 
                     options.Scope.Add("Carrinho.API");
+                    options.Scope.Add("OrdemDeCompra.API");
                     options.Scope.Add("CasaDoCodigo.API");
                     options.Scope.Add("offline_access");
                 });

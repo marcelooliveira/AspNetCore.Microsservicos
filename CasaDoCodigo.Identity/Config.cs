@@ -26,7 +26,7 @@ namespace Identity.API
             {
                 new ApiResource("Carrinho.API", "Carrinho da CasaDoCodigo"),
                 new ApiResource("CasaDoCodigo.API", "API CasaDoCodigo"),
-                new ApiResource("OrdemDeCompra.API", "API CasaDoCodigo")
+                new ApiResource("OrdemDeCompra.API", "Ordem de Compra da CasaDoCodigo")
             };
         }
 
