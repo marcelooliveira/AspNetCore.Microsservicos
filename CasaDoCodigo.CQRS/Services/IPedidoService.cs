@@ -9,6 +9,6 @@ namespace CasaDoCodigo.Services
 {
     public interface IPedidoService : IService
     {
-        Task<List<PedidoDTO>> GetAsync();
+        Task<List<PedidoDTO>> GetAsync(string clienteId);
     }
 }

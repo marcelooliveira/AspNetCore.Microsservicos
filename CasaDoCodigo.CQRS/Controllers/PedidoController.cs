@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Controllers
 {
+    [Route("[controller]")]
     public class PedidoController : BaseController
     {
         private readonly IIdentityParser<ApplicationUser> appUserParser;
@@ -21,9 +22,10 @@ namespace CasaDoCodigo.Controllers
             this.pedidoService = pedidoService;
         }
 
-        public async Task<ActionResult> Historico()
+        [HttpGet("{clienteId}")]
+        public async Task<ActionResult> Historico(string clienteId)
         {
-            List<PedidoDTO> model = await pedidoService.GetAsync();
+            List<PedidoDTO> model = await pedidoService.GetAsync(clienteId);
             return base.View(model);
         }
     }

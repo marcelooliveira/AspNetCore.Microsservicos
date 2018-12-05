@@ -3,6 +3,7 @@
 @using System.Security.Claims;
 @{
     string name = null;
+    string clienteId = null;
     if (!true.Equals(ViewData["signed-out"]))
     {
         name = @User.FindFirst("name")?.Value;
@@ -10,6 +11,8 @@
         {
             name = @User.FindFirst("email")?.Value;
         }
+
+        clienteId = @User.FindFirst("sub")?.Value;
     }
 }
 
@@ -56,7 +59,7 @@
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a asp-action="Historico" asp-controller="Pedido" target="_blank">Meus Pedidos</a></li>
+                                    <li><a asp-action="Historico" asp-controller="Pedido" asp-route-clienteId="@clienteId" target="_blank">Meus Pedidos</a></li>
                                     <li><a asp-action="Logout" asp-controller="Account">Logout</a></li>
                                 </ul>
                             </li>

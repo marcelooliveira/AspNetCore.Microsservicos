@@ -37,11 +37,9 @@ namespace CasaDoCodigo.OrdemDeCompra.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        public async Task<ActionResult> Get()
+        [HttpGet("{clienteId}")]
+        public async Task<ActionResult> Get(string clienteId)
         {
-            string clienteId = GetUserId();
-
             IList<Pedido> pedidos = await pedidoRepository.GetPedidos(clienteId);
 
             if (pedidos == null)
@@ -54,6 +52,8 @@ namespace CasaDoCodigo.OrdemDeCompra.Controllers
 
         private string GetUserId()
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var userIdClaim = 
                 User
                 .Claims

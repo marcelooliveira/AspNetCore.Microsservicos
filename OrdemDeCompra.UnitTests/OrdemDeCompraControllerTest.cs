@@ -109,7 +109,7 @@ namespace OrdemDeCompra.UnitTests
 
             //act
             //assert
-            await Assert.ThrowsAsync<InvalidUserDataException>(async () => await controller.Get());
+            await Assert.ThrowsAsync<InvalidUserDataException>(async () => await controller.Get(clienteId));
 
         }
 
@@ -126,7 +126,7 @@ namespace OrdemDeCompra.UnitTests
             SetControllerUser("xpto", controller);
 
             //act
-            ActionResult result = await controller.Get();
+            ActionResult result = await controller.Get("xpto");
 
             //assert
             Assert.IsType<NotFoundObjectResult>(result);
@@ -153,7 +153,7 @@ namespace OrdemDeCompra.UnitTests
             SetControllerUser("xpto", controller);
 
             //act
-            ActionResult result = await controller.Get();
+            ActionResult result = await controller.Get("xpto");
 
             //assert
             var objectResult = Assert.IsAssignableFrom<OkObjectResult>(result);
