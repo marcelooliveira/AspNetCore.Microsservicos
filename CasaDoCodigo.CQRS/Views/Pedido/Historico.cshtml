@@ -19,12 +19,12 @@
             <span>Pedido: </span>@pedido.Id
         </h4>
         <h4>
-            <span>Data: </span>01/12/2018
+            <span>Data: </span>@pedido.DateCreated.ToShortDateString()
         </h4>
         <h4>
             <span>Total: </span>
             <span>
-                @pedido.Total
+                @pedido.Total.ToString("C")
             </span>
         </h4>
 
@@ -99,7 +99,7 @@
 <div>
     <span>Total Geral: </span>
     <span>
-        @Model.Sum(p => p.Total)
+        @Model.Sum(p => p.Total).ToString("C")
     </span>
 </div>
 

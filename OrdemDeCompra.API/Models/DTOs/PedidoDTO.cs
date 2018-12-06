@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace CasaDoCodigo.OrdemDeCompra.Models.DTOs
@@ -35,5 +36,6 @@ namespace CasaDoCodigo.OrdemDeCompra.Models.DTOs
         public string Municipio { get; set; }
         public string UF { get; set; }
         public string CEP { get; set; }
+        public DateTime DateCreated { get; set; }
     }
 }

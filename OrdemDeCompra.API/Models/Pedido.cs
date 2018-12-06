@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -48,5 +49,6 @@ namespace CasaDoCodigo.OrdemDeCompra.Models
         public string ClienteUF { get; set; } = "";
         [Required(ErrorMessage = "CEP é obrigatório")]
         public string ClienteCEP { get; set; } = "";
+        public DateTime DateCreated { get; set; } = DateTime.Now;
     }
 }

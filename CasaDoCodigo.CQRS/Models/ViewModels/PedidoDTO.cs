@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -36,7 +37,7 @@ namespace CasaDoCodigo.Models.ViewModels
         public string Municipio { get; set; }
         public string UF { get; set; }
         public string CEP { get; set; }
-
+        public DateTime DateCreated { get; set; }
         public decimal Total => Itens.Sum(i => i.Subtotal);
     }
 }
