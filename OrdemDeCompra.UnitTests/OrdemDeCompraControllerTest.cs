@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.Configuration;
 using CasaDoCodigo.OrdemDeCompra.Controllers;
 using CasaDoCodigo.OrdemDeCompra.Models;
 using CasaDoCodigo.OrdemDeCompra.Models.DTOs;
@@ -11,7 +10,6 @@ using OrdemDeCompra.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -19,11 +17,18 @@ namespace OrdemDeCompra.UnitTests
 {
     public class OrdemDeCompraControllerTest
     {
-        Mock<IPedidoRepository> pedidoRepositoryMock;
+        private readonly Mock<IPedidoRepository> pedidoRepositoryMock;
+        private readonly IMapper mapper;
 
         public OrdemDeCompraControllerTest()
         {
             pedidoRepositoryMock = new Mock<IPedidoRepository>();
+            //auto mapper configuration
+            var mockMapper = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MappingProfile());
+            });
+            mapper = mockMapper.CreateMapper();
         }
 
         [Theory]
@@ -43,7 +48,7 @@ namespace OrdemDeCompra.UnitTests
                 new ItemPedido("001", "produto 001", 1, 12.34m)
             };
             Pedido pedido = new Pedido(itens, clienteId, clienteNome, clienteEmail, clienteTelefone, clienteEndereco, clienteComplemento, clienteBairro, clienteMunicipio, clienteUF, clienteCEP);
-            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object);
+            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object, mapper);
             controller.ModelState.AddModelError("cliente", "Required");
             //act
             IActionResult actionResult = await controller.Post(pedido);
@@ -57,7 +62,7 @@ namespace OrdemDeCompra.UnitTests
         {
             //arrange
             Pedido pedido = new Pedido(new List<ItemPedido>(), "clienteId", "clienteNome", "cliente@email.com", "fone", "endereco", "complemento", "bairro", "municipio", "uf", "12345-678");
-            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object);
+            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object, mapper);
             controller.ModelState.AddModelError("cliente", "Required");
             //act
             IActionResult actionResult = await controller.Post(pedido);
@@ -71,7 +76,7 @@ namespace OrdemDeCompra.UnitTests
         {
             //arrange
             Pedido pedido = new Pedido(null, "clienteId", "clienteNome", "cliente@email.com", "fone", "endereco", "complemento", "bairro", "municipio", "uf", "12345-678");
-            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object);
+            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object, mapper);
             controller.ModelState.AddModelError("cliente", "Required");
             //act
             IActionResult actionResult = await controller.Post(pedido);
@@ -92,7 +97,7 @@ namespace OrdemDeCompra.UnitTests
             pedidoRepositoryMock
                 .Setup(r => r.CreateOrUpdate(It.IsAny<Pedido>()))
                 .ReturnsAsync(pedido);
-            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object);
+            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object, mapper);
             //act
             IActionResult actionResult = await controller.Post(pedido);
 
@@ -108,7 +113,7 @@ namespace OrdemDeCompra.UnitTests
         public async Task Get_Invalid_ClienteId(string clienteId)
         {
             //arrange
-            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object);
+            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object, mapper);
             SetControllerUser(clienteId, controller);
 
             //act
@@ -126,7 +131,7 @@ namespace OrdemDeCompra.UnitTests
                 .ReturnsAsync((List<Pedido>)null)
                 .Verifiable();
 
-            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object);
+            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object, mapper);
             SetControllerUser("xpto", controller);
 
             //act
@@ -142,10 +147,6 @@ namespace OrdemDeCompra.UnitTests
         public async Task Get_Ok()
         {
             //arrange
-            var mappings = new MapperConfigurationExpression();
-            mappings.AddProfile<MappingProfile>();
-            Mapper.Initialize(mappings);
-
             List<ItemPedido> itens = new List<ItemPedido> {
                 new ItemPedido("001", "produto 001", 1, 12.34m)
             };
@@ -157,7 +158,7 @@ namespace OrdemDeCompra.UnitTests
                 .ReturnsAsync(new List<Pedido> { pedido })
                 .Verifiable();
 
-            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object);
+            var controller = new OrdemDeCompraController(pedidoRepositoryMock.Object, mapper);
             SetControllerUser("xpto", controller);
 
             //act

@@ -58,7 +58,8 @@ namespace CasaDoCodigo.OrdemDeCompra.Controllers
                 return NotFound(clienteId);
             }
 
-            return base.Ok(mapper.Map<List<PedidoDTO>>(pedidos));
+            List<PedidoDTO> dto = mapper.Map<List<PedidoDTO>>(pedidos);
+            return base.Ok(dto);
         }
 
         private string GetUserId()
