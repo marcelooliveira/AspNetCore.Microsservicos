@@ -3,8 +3,10 @@ using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MVC.SignalR;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -47,6 +49,9 @@ namespace CasaDoCodigo
             services.AddSession();
             services.AddAuthorization();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services.AddSignalR();
+            services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
             services
                 .AddAuthentication(options =>
@@ -142,6 +147,11 @@ namespace CasaDoCodigo
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Catalogo}/{action=Index}/{codigo?}");
+            });
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<UserNotificationHub>("/usernotificationhub");
             });
         }
     }

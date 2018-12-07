@@ -1,13 +1,13 @@
 ﻿using CasaDoCodigo.Mensagens.Commands;
-using CasaDoCodigo.Mensagens.Events;
-using CasaDoCodigo.Mensagens.IntegrationEvents.Events;
 using CasaDoCodigo.OrdemDeCompra.Models;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
 using MediatR;
+using Microsoft.AspNet.SignalR.Client.Hubs;
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Rebus.Bus;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,15 +20,31 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
         private readonly IPedidoRepository _pedidoRepository;
         private readonly ILogger<CreatePedidoCommandHandler> _logger;
         private readonly IBus _bus;
+        private readonly IConfiguration _configuration;
+        private readonly HubConnection _connection;
 
         public CreatePedidoCommandHandler(
             ILogger<CreatePedidoCommandHandler> logger
             , IPedidoRepository pedidoRepository
-            , IBus bus)
+            , IBus bus
+            , IConfiguration configuration
+            )
         {
             this._pedidoRepository = pedidoRepository;
             this._logger = logger;
             this._bus = bus;
+            this._configuration = configuration;
+
+            this._connection = new HubConnectionBuilder()
+                .WithUrl($"{_configuration["SignalRServerUrl"]}usernotificationhub")
+                .Build();
+            this._connection.Closed += async (error) =>
+            {
+                await Task.Delay(new Random().Next(0, 5) * 1000);
+                await this._connection.StartAsync();
+            };
+
+            this._connection.StartAsync().GetAwaiter();
         }
 
         public async Task<bool> Handle(IdentifiedCommand<CreatePedidoCommand, bool> request, CancellationToken cancellationToken)
@@ -89,7 +105,10 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
 
             try
             {
-                await this._pedidoRepository.CreateOrUpdate(pedido);
+                Pedido novoPedido = await this._pedidoRepository.CreateOrUpdate(pedido);
+
+                await this._connection.InvokeAsync("SendUserNotification",
+                    $"{novoPedido.ClienteId}", $"Novo pedido gerado com sucesso: {novoPedido.Id}");
 
                 return true;
             }

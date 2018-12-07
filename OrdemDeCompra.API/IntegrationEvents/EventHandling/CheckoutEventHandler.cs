@@ -1,13 +1,10 @@
-﻿using CasaDoCodigo.Mensagens.Commands;
-using CasaDoCodigo.Mensagens.Events;
+﻿using CasaDoCodigo.Mensagens.Events;
 using CasaDoCodigo.Mensagens.IntegrationEvents;
 using CasaDoCodigo.OrdemDeCompra.Commands;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Rebus.Handlers;
-using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Mensagens.EventHandling
 {
