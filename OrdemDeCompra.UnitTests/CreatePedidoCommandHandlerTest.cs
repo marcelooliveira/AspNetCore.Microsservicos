@@ -2,6 +2,7 @@
 using CasaDoCodigo.OrdemDeCompra.Commands;
 using CasaDoCodigo.OrdemDeCompra.Models;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Rebus.Bus;
@@ -19,12 +20,14 @@ namespace OrdemDeCompra.UnitTests
         private readonly Mock<ILogger<CreatePedidoCommandHandler>> loggerMock;
         private readonly Mock<IPedidoRepository> pedidoRepositoryMock;
         private readonly Mock<IBus> busMock;
+        private readonly Mock<IConfiguration> configurationMock;
 
         public CreatePedidoCommandHandlerTest()
         {
             this.loggerMock = new Mock<ILogger<CreatePedidoCommandHandler>>();
             this.pedidoRepositoryMock = new Mock<IPedidoRepository>();
             this.busMock = new Mock<IBus>();
+            this.configurationMock = new Mock<IConfiguration>();
         }
 
         [Fact]
@@ -33,7 +36,7 @@ namespace OrdemDeCompra.UnitTests
             //arrange
             CancellationToken token = default(System.Threading.CancellationToken);
             IdentifiedCommand<CreatePedidoCommand, bool> request = null;
-            var handler = new CreatePedidoCommandHandler(loggerMock.Object, pedidoRepositoryMock.Object, busMock.Object);
+            var handler = new CreatePedidoCommandHandler(loggerMock.Object, pedidoRepositoryMock.Object, busMock.Object, configurationMock.Object);
 
             //act
             //assert
@@ -46,7 +49,7 @@ namespace OrdemDeCompra.UnitTests
             //arrange
             CancellationToken token = default(System.Threading.CancellationToken);
             IdentifiedCommand<CreatePedidoCommand, bool> request = new IdentifiedCommand<CreatePedidoCommand, bool>(null, new Guid());
-            var handler = new CreatePedidoCommandHandler(loggerMock.Object, pedidoRepositoryMock.Object, busMock.Object);
+            var handler = new CreatePedidoCommandHandler(loggerMock.Object, pedidoRepositoryMock.Object, busMock.Object, configurationMock.Object);
 
             //act
             //assert
@@ -59,7 +62,7 @@ namespace OrdemDeCompra.UnitTests
             //arrange
             CancellationToken token = default(System.Threading.CancellationToken);
             IdentifiedCommand<CreatePedidoCommand, bool> request = new IdentifiedCommand<CreatePedidoCommand, bool>(new CreatePedidoCommand(), Guid.Empty);
-            var handler = new CreatePedidoCommandHandler(loggerMock.Object, pedidoRepositoryMock.Object, busMock.Object);
+            var handler = new CreatePedidoCommandHandler(loggerMock.Object, pedidoRepositoryMock.Object, busMock.Object, configurationMock.Object);
 
             //act
             //assert
@@ -73,7 +76,7 @@ namespace OrdemDeCompra.UnitTests
             CancellationToken token = default(CancellationToken);
             CreatePedidoCommand command = new CreatePedidoCommand();
             IdentifiedCommand<CreatePedidoCommand, bool> request = new IdentifiedCommand<CreatePedidoCommand, bool>(command, Guid.NewGuid());
-            var handler = new CreatePedidoCommandHandler(loggerMock.Object, pedidoRepositoryMock.Object, busMock.Object);
+            var handler = new CreatePedidoCommandHandler(loggerMock.Object, pedidoRepositoryMock.Object, busMock.Object, configurationMock.Object);
 
             //act
             //assert
@@ -96,7 +99,7 @@ namespace OrdemDeCompra.UnitTests
             }
             , "clienteId", "clienteNome", "cliente@email.com", "fone", "endereco", "complemento", "bairro", "municipio", "uf", "12345-678");
             IdentifiedCommand<CreatePedidoCommand, bool> request = new IdentifiedCommand<CreatePedidoCommand, bool>(command, Guid.NewGuid());
-            var handler = new CreatePedidoCommandHandler(loggerMock.Object, pedidoRepositoryMock.Object, busMock.Object);
+            var handler = new CreatePedidoCommandHandler(loggerMock.Object, pedidoRepositoryMock.Object, busMock.Object, configurationMock.Object);
 
             //act
             //assert
@@ -123,7 +126,7 @@ namespace OrdemDeCompra.UnitTests
             }
             , clienteId, clienteNome, clienteEmail, clienteTelefone, clienteEndereco, clienteComplemento, clienteBairro, clienteMunicipio, clienteUF, clienteCEP);
             IdentifiedCommand<CreatePedidoCommand, bool> request = new IdentifiedCommand<CreatePedidoCommand, bool>(command, Guid.NewGuid());
-            var handler = new CreatePedidoCommandHandler(loggerMock.Object, pedidoRepositoryMock.Object, busMock.Object);
+            var handler = new CreatePedidoCommandHandler(loggerMock.Object, pedidoRepositoryMock.Object, busMock.Object, configurationMock.Object);
 
             //act
             //assert
@@ -154,7 +157,7 @@ namespace OrdemDeCompra.UnitTests
                 .ReturnsAsync(pedido)
                 .Verifiable();
 
-            var handler = new CreatePedidoCommandHandler(loggerMock.Object, pedidoRepositoryMock.Object, busMock.Object);
+            var handler = new CreatePedidoCommandHandler(loggerMock.Object, pedidoRepositoryMock.Object, busMock.Object, configurationMock.Object);
 
             //act
             bool result = await handler.Handle(request, token);

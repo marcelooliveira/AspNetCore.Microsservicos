@@ -1,11 +1,13 @@
 ﻿using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using MVC.SignalR;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -49,9 +51,6 @@ namespace CasaDoCodigo
             services.AddSession();
             services.AddAuthorization();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
-            services.AddSignalR();
-            services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
             services
                 .AddAuthentication(options =>
@@ -126,6 +125,7 @@ namespace CasaDoCodigo
                     options.Scope.Add("CasaDoCodigo.API");
                     options.Scope.Add("offline_access");
                 });
+            services.AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

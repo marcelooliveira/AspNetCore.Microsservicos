@@ -102,6 +102,7 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
                 cmd.ClienteNome, cmd.ClienteEmail, cmd.ClienteTelefone, 
                 cmd.ClienteEndereco, cmd.ClienteComplemento, cmd.ClienteBairro, 
                 cmd.ClienteMunicipio, cmd.ClienteUF, cmd.ClienteCEP);
+            pedido.DateCreated = DateTime.Now;
 
             try
             {
