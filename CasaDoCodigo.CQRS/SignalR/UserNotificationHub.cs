@@ -6,9 +6,11 @@ namespace MVC.SignalR
 {
     public class UserNotificationHub : Hub
     {
-        public Task SendUserNotification(string user, string message)
+        public async Task SendUserNotification(string user, string message)
         {
-            return Clients.User(user).SendAsync("ReceiveUserNotification", message);
+            //Clients.User(user).SendAsync("ReceiveUserNotification", message);
+            await Task.Delay(2000);
+            await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
     }
 
