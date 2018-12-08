@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Internal;
 using Moq;
+using MVC.Model.Redis;
 using System;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -18,10 +19,12 @@ namespace MVC.Test
     public class CadastroControllerTest : BaseControllerTest
     {
         private readonly Mock<ILogger<CadastroController>> loggerMock;
+        private readonly Mock<IUserRedisRepository> userRedisRepositoryMock;
 
         public CadastroControllerTest() : base()
         {
             loggerMock = new Mock<ILogger<CadastroController>>();
+            userRedisRepositoryMock = new Mock<IUserRedisRepository>();
         }
 
         #region Index
@@ -47,7 +50,7 @@ namespace MVC.Test
 
             //act
             var cadastroController = 
-                new CadastroController(appUserParserMock.Object, loggerMock.Object);
+                new CadastroController(appUserParserMock.Object, loggerMock.Object, userRedisRepositoryMock.Object);
             cadastroController.ControllerContext.HttpContext = contextMock.Object;
             var result = await cadastroController.Index();
 
@@ -80,7 +83,7 @@ namespace MVC.Test
                .Verifiable();
 
             var controller =
-                new CadastroController(appUserParserMock.Object, loggerMock.Object);
+                new CadastroController(appUserParserMock.Object, loggerMock.Object, userRedisRepositoryMock.Object);
 
             SetControllerUser("001", controller);
 

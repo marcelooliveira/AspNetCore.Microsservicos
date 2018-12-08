@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Internal;
 using Moq;
+using MVC.Model.Redis;
 using MVC.Models;
 using Polly.CircuitBreaker;
 using System;
@@ -23,12 +24,14 @@ namespace MVC.Test
         private readonly Mock<ILogger<CarrinhoController>> loggerMock;
         private readonly Mock<ICatalogoService> catalogoServiceMock;
         private readonly Mock<ICarrinhoService> carrinhoServiceMock;
+        private readonly Mock<IUserRedisRepository> userRedisRepositoryMock;
 
         public CarrinhoControllerTest() : base()
         {
             loggerMock = new Mock<ILogger<CarrinhoController>>();
             catalogoServiceMock = new Mock<ICatalogoService>();
             carrinhoServiceMock = new Mock<ICarrinhoService>();
+            userRedisRepositoryMock = new Mock<IUserRedisRepository>();
         }
 
         #region Index
@@ -355,7 +358,7 @@ namespace MVC.Test
 
         private CarrinhoController GetCarrinhoController()
         {
-            return new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object);
+            return new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object, userRedisRepositoryMock.Object);
         }
     }
 }

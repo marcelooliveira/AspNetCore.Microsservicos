@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MVC.Model.Redis;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -14,10 +15,12 @@ namespace CasaDoCodigo.Controllers
     public abstract class BaseController : Controller
     {
         protected readonly ILogger logger;
+        protected readonly IUserRedisRepository userRedisRepository;
 
-        protected BaseController(ILogger logger)
+        protected BaseController(ILogger logger, IUserRedisRepository repository)
         {
             this.logger = logger;
+            this.userRedisRepository = repository;
         }
 
         protected void HandleBrokenCircuitException(IService service)

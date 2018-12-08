@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Core;
 using Microsoft.Extensions.Logging;
+using MVC.Model.Redis;
 using MVC.Models;
 using Polly.CircuitBreaker;
 using System;
@@ -29,8 +30,9 @@ namespace CasaDoCodigo.Controllers
             IIdentityParser<ApplicationUser> appUserParser,
             ILogger<CarrinhoController> logger,
             ICatalogoService catalogoService,
-            ICarrinhoService carrinhoService)
-            : base(logger)
+            ICarrinhoService carrinhoService,
+            IUserRedisRepository repository)
+            : base(logger, repository)
         {
             this.appUserParser = appUserParser;
             this.catalogoService = catalogoService;

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MVC.Model.Redis;
 using Polly.CircuitBreaker;
 using System;
 using System.Threading.Tasks;
@@ -17,8 +18,9 @@ namespace CasaDoCodigo.Controllers
 
         public CadastroController(
             IIdentityParser<ApplicationUser> appUserParser,
-            ILogger<CadastroController> logger)
-            : base(logger)
+            ILogger<CadastroController> logger,
+            IUserRedisRepository repository)
+            : base(logger, repository)
         {
             this.appUserParser = appUserParser;
         }

@@ -7,10 +7,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MVC;
+using MVC.Model.Redis;
 using MVC.SignalR;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -49,6 +53,21 @@ namespace CasaDoCodigo
                 .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.AddDistributedMemoryCache();
             services.AddSession();
+            //By connecting here we are making sure that our service
+            //cannot start until redis is ready. This might slow down startup,
+            //but given that there is a delay on resolving the ip address
+            //and then creating the connection it seems reasonable to move
+            //that cost to startup instead of having the first request pay the
+            //penalty.
+            services.AddSingleton<IConnectionMultiplexer>(sp =>
+            {
+                var settings = sp.GetRequiredService<IOptions<RedisConfig>>().Value;
+                var configuration = ConfigurationOptions.Parse("localhost", true);
+
+                configuration.ResolveDns = true;
+
+                return ConnectionMultiplexer.Connect(configuration);
+            });
             services.AddAuthorization();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -127,6 +146,7 @@ namespace CasaDoCodigo
                 });
             services.AddSignalR();
             services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
+            services.AddTransient<IUserRedisRepository, UserRedisRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

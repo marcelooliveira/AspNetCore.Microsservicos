@@ -6,6 +6,7 @@ using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using MVC.Model.Redis;
 using OrdemDeCompra.API.Models;
 using System.Collections.Generic;
 using System.Security.Principal;
@@ -18,11 +19,13 @@ namespace MVC.Test
     {
         private readonly Mock<ILogger<PedidoController>> loggerMock;
         private readonly Mock<IPedidoService> pedidoServiceMock;
+        private readonly Mock<IUserRedisRepository> userRedisRepositoryMock;
 
         public PedidoControllerTest() :base()
         {
             loggerMock = new Mock<ILogger<PedidoController>>();
             pedidoServiceMock = new Mock<IPedidoService>();
+            userRedisRepositoryMock = new Mock<IUserRedisRepository>();
 
             var mappings = new MapperConfigurationExpression();
             mappings.AddProfile<MappingProfile>();
@@ -50,7 +53,8 @@ namespace MVC.Test
 
             var controller = new PedidoController(appUserParserMock.Object
                 , pedidoServiceMock.Object
-                , loggerMock.Object);
+                , loggerMock.Object
+                , userRedisRepositoryMock.Object);
             SetControllerUser(clienteId, controller);
 
             //act

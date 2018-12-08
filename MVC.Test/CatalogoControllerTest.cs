@@ -5,6 +5,7 @@ using Castle.Core.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using MVC.Model.Redis;
 using Polly.CircuitBreaker;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,16 @@ namespace MVC.Test
     {
         private readonly Mock<ICatalogoService> catalogoServiceMock;
         private readonly Mock<ILogger<CatalogoController>> loggerMock;
+        private readonly Mock<IUserRedisRepository> userRedisRepositoryMock;
 
         public CatalogoControllerTest() : base()
         {
             catalogoServiceMock = new Mock<ICatalogoService>();
             loggerMock = new Mock<ILogger<CatalogoController>>();
-        }
+            userRedisRepositoryMock = new Mock<IUserRedisRepository>(); ;
+    }
 
-        [Fact]
+    [Fact]
         public async Task Index_sucesso()
         {
             //arrange
@@ -35,7 +38,7 @@ namespace MVC.Test
                .Verifiable();
 
             var catalogoController = 
-                new CatalogoController(catalogoServiceMock.Object, loggerMock.Object);
+                new CatalogoController(catalogoServiceMock.Object, loggerMock.Object, userRedisRepositoryMock.Object);
 
             //act
             var resultado = await catalogoController.Index();
@@ -62,7 +65,7 @@ namespace MVC.Test
 
             //act
             var catalogoController =
-                new CatalogoController(catalogoServiceMock.Object, loggerMock.Object);
+                new CatalogoController(catalogoServiceMock.Object, loggerMock.Object, userRedisRepositoryMock.Object);
 
             var result = await catalogoController.Index();
             var model = result as IList<Produto>;
@@ -82,7 +85,7 @@ namespace MVC.Test
 
             //act
             var catalogoController =
-                new CatalogoController(catalogoServiceMock.Object, loggerMock.Object);
+                new CatalogoController(catalogoServiceMock.Object, loggerMock.Object, userRedisRepositoryMock.Object);
 
             var result = await catalogoController.Index();
             var model = result as IList<Produto>;
