@@ -126,6 +126,7 @@ namespace CasaDoCodigo
                     options.Scope.Add("offline_access");
                 });
             services.AddSignalR();
+            services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
