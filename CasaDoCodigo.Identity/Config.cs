@@ -52,7 +52,7 @@ namespace Identity.API
 
                     RedirectUris = { callbackUrl + "signin-oidc" },
                     PostLogoutRedirectUris = { callbackUrl + "signout-callback-oidc" },
-
+                    AlwaysIncludeUserClaimsInIdToken = true,
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,

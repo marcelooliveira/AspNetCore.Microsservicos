@@ -4,6 +4,8 @@ using CasaDoCodigo.Mensagens.Events;
 using CasaDoCodigo.OrdemDeCompra.Commands;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +15,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using OrdemDeCompra.API.SignalR;
 using Rebus.Config;
 using Rebus.ServiceProvider;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace CasaDoCodigo.OrdemDeCompra
 {
@@ -56,6 +63,8 @@ namespace CasaDoCodigo.OrdemDeCompra
                     options.ApiName = "OrdemDeCompra.API";
                     options.ApiSecret = "secret";
                     options.Authority = Configuration["IdentityUrl"];
+                    options.SupportedTokens = IdentityServer4.AccessTokenValidation.SupportedTokens.Both;
+                    options.SaveToken = true;
                 });
 
             // Register the Swagger generator, defining 1 or more Swagger documents

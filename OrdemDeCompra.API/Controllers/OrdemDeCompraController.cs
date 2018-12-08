@@ -46,6 +46,8 @@ namespace CasaDoCodigo.OrdemDeCompra.Controllers
         [HttpGet("{clienteId}")]
         public async Task<ActionResult> Get(string clienteId)
         {
+            var testeClienteId = GetUserId();
+
             if (string.IsNullOrWhiteSpace(clienteId))
             {
                 throw new ArgumentNullException();
@@ -64,8 +66,6 @@ namespace CasaDoCodigo.OrdemDeCompra.Controllers
 
         private string GetUserId()
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             var userIdClaim = 
                 User
                 .Claims

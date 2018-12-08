@@ -9,7 +9,6 @@ namespace MVC.SignalR
     {
         public async Task SendUserNotification(string user, string message)
         {
-            //await Task.Delay(5000);
             await Clients.User(user).SendAsync("ReceiveMessage", message);
         }
     }
