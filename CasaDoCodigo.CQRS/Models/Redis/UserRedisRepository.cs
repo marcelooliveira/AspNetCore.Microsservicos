@@ -10,6 +10,7 @@ namespace MVC.Model.Redis
 {
     public class UserRedisRepository : IUserRedisRepository
     {
+        private const int USER_DB_INDEX = 1;
         private readonly ILogger<UserRedisRepository> _logger;
         private readonly IConnectionMultiplexer _redis;
         private readonly IDatabase _database;
@@ -18,7 +19,7 @@ namespace MVC.Model.Redis
         {
             _logger = logger;
             _redis = redis;
-            _database = redis.GetDatabase();
+            _database = redis.GetDatabase(USER_DB_INDEX);
         }
 
         private IServer GetServer()

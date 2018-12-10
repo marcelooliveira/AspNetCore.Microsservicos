@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MVC.Model.Redis;
+using MVC.SignalR;
 using Polly.CircuitBreaker;
 using System;
 using System.Threading.Tasks;
@@ -19,8 +20,9 @@ namespace CasaDoCodigo.Controllers
         public CadastroController(
             IIdentityParser<ApplicationUser> appUserParser,
             ILogger<CadastroController> logger,
-            IUserRedisRepository repository)
-            : base(logger, repository)
+            IUserRedisRepository repository,
+            ISignalRClient signalRClient)
+            : base(logger, repository, signalRClient)
         {
             this.appUserParser = appUserParser;
         }

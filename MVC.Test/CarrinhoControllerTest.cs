@@ -358,7 +358,7 @@ namespace MVC.Test
 
         private CarrinhoController GetCarrinhoController()
         {
-            return new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object, userRedisRepositoryMock.Object);
+            return new CarrinhoController(contextAccessorMock.Object, appUserParserMock.Object, loggerMock.Object, catalogoServiceMock.Object, carrinhoServiceMock.Object, userRedisRepositoryMock.Object, signalRClientMock.Object);
         }
     }
 }

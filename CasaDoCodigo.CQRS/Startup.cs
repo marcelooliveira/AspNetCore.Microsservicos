@@ -1,4 +1,5 @@
-﻿using CasaDoCodigo.Models.ViewModels;
+﻿using CasaDoCodigo.Controllers;
+using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -49,6 +50,9 @@ namespace CasaDoCodigo
             services.AddTransient<ICarrinhoService, CarrinhoService>();
             services.AddTransient<ISessionHelper, SessionHelper>();
             services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();
+
+            ConfigureSignalRClient(services);
+
             services.AddMvc()
                 .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.AddDistributedMemoryCache();
@@ -147,6 +151,11 @@ namespace CasaDoCodigo
             services.AddSignalR();
             services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
             services.AddTransient<IUserRedisRepository, UserRedisRepository>();
+        }
+
+        private static void ConfigureSignalRClient(IServiceCollection services)
+        {
+            services.AddSingleton<ISignalRClient, SignalRClient>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

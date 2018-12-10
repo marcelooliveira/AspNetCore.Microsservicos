@@ -14,11 +14,6 @@
 
         clienteId = @User.FindFirst("sub")?.Value;
     }
-
-    if (ViewBag.UserNotificationCount == null)
-    {
-        ViewBag.UserNotificationCount = 7;
-    }
 }
 
 <!DOCTYPE html>
@@ -72,7 +67,8 @@
                     </li>
                     <li>
                         <div class="container-notification">
-                            <div class="notification notify@(ViewBag.UserNotificationCount > 0 ? " show-count": "")" data-count="@ViewBag.UserNotificationCount"></div>
+                            <div class="notification"></div>
+                            @*<div class="notification notify@(ViewBag.UserNotificationCount > 0 ? " show-count": "")" data-count="@ViewBag.UserNotificationCount"></div>*@
                         </div>
                     </li>
                 </ul>

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Internal;
 using Moq;
 using MVC.Model.Redis;
+using MVC.SignalR;
 using System;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -50,7 +51,7 @@ namespace MVC.Test
 
             //act
             var cadastroController = 
-                new CadastroController(appUserParserMock.Object, loggerMock.Object, userRedisRepositoryMock.Object);
+                new CadastroController(appUserParserMock.Object, loggerMock.Object, userRedisRepositoryMock.Object, signalRClientMock.Object);
             cadastroController.ControllerContext.HttpContext = contextMock.Object;
             var result = await cadastroController.Index();
 
@@ -83,7 +84,7 @@ namespace MVC.Test
                .Verifiable();
 
             var controller =
-                new CadastroController(appUserParserMock.Object, loggerMock.Object, userRedisRepositoryMock.Object);
+                new CadastroController(appUserParserMock.Object, loggerMock.Object, userRedisRepositoryMock.Object, signalRClientMock.Object);
 
             SetControllerUser("001", controller);
 

@@ -3,6 +3,7 @@ using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MVC.Model.Redis;
+using MVC.SignalR;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -18,7 +19,9 @@ namespace CasaDoCodigo.Controllers
             IIdentityParser<ApplicationUser> appUserParser,
             IPedidoService pedidoService,
             ILogger<PedidoController> logger,
-            IUserRedisRepository repository) : base(logger, repository)
+            IUserRedisRepository repository,
+            ISignalRClient signalRClient) 
+            : base(logger, repository, signalRClient)
         {
             this.appUserParser = appUserParser;
             this.pedidoService = pedidoService;

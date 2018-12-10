@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Core;
 using Microsoft.Extensions.Logging;
 using MVC.Model.Redis;
 using MVC.Models;
+using MVC.SignalR;
 using Polly.CircuitBreaker;
 using System;
 using System.Collections.Generic;
@@ -31,8 +32,9 @@ namespace CasaDoCodigo.Controllers
             ILogger<CarrinhoController> logger,
             ICatalogoService catalogoService,
             ICarrinhoService carrinhoService,
-            IUserRedisRepository repository)
-            : base(logger, repository)
+            IUserRedisRepository repository,
+            ISignalRClient signalRClient)
+            : base(logger, repository, signalRClient)
         {
             this.appUserParser = appUserParser;
             this.catalogoService = catalogoService;
@@ -44,6 +46,9 @@ namespace CasaDoCodigo.Controllers
             try
             {
                 string idUsuario = GetUserId();
+
+                await StartSignalR(idUsuario);
+
                 CarrinhoCliente carrinho;
                 if (!string.IsNullOrWhiteSpace(codigo))
                 {
@@ -73,6 +78,13 @@ namespace CasaDoCodigo.Controllers
                 HandleException();
             }
             return View();
+        }
+
+        private async Task StartSignalR(string idUsuario)
+        {
+            var userNotificationCount = await userRedisRepository.GetUserNotificationCountAsync(idUsuario);
+            ViewBag.UserNotificationCount = userNotificationCount;
+            await signalRClient.Start(idUsuario);
         }
 
         public IActionResult ProdutoNaoEncontrado(string codigo)

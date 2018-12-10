@@ -17,8 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Adapters\ServiceHost\TinyIoCHandlerFactory.cs" />
-    <Compile Remove="Adapters\ServiceHost\TinyIoCMessageMapperFactory.cs" />
     <Compile Remove="ArrayCache.cs" />
     <Compile Remove="TinyIoC.cs" />
   </ItemGroup>

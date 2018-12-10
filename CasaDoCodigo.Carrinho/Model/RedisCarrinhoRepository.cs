@@ -10,6 +10,7 @@ namespace Carrinho.API.Model
 {
     public class RedisCarrinhoRepository : ICarrinhoRepository
     {
+        private const int CARRINHO_DB_INDEX = 0;
         private readonly ILogger<RedisCarrinhoRepository> _logger;
         private readonly IConnectionMultiplexer _redis;
         private readonly IDatabase _database;
@@ -18,7 +19,7 @@ namespace Carrinho.API.Model
         {
             _logger = logger;
             _redis = redis;
-            _database = redis.GetDatabase();
+            _database = redis.GetDatabase(CARRINHO_DB_INDEX);
         }
 
         public async Task<bool> DeleteCarrinhoAsync(string id)

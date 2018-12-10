@@ -1,8 +1,10 @@
 ﻿using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using MVC.Model.Redis;
+using MVC.SignalR;
 using Polly.CircuitBreaker;
 using System;
 using System.Threading.Tasks;
@@ -15,21 +17,16 @@ namespace CasaDoCodigo.Controllers
 
         public CatalogoController
             (ICatalogoService catalogoService,
-            ILogger<CatalogoController> logger, IUserRedisRepository repository) 
-            : base(logger, repository)
+            ILogger<CatalogoController> logger,
+            IUserRedisRepository repository,
+            ISignalRClient signalRClient) 
+            : base(logger, repository, signalRClient)
         {
             this.catalogoService = catalogoService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var userId = GetUserId();
-            if (userId != null)
-            {
-                var userNotificationCount =  await userRedisRepository.GetUserNotificationCountAsync(userId);
-                ViewBag.UserNotificationCount = userNotificationCount;
-            }
-
             try
             {
                 return View(await catalogoService.GetProdutos());
@@ -49,3 +46,4 @@ namespace CasaDoCodigo.Controllers
         }
     }
 }
+

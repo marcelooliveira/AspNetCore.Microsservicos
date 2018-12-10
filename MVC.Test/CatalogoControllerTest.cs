@@ -38,7 +38,7 @@ namespace MVC.Test
                .Verifiable();
 
             var catalogoController = 
-                new CatalogoController(catalogoServiceMock.Object, loggerMock.Object, userRedisRepositoryMock.Object);
+                new CatalogoController(catalogoServiceMock.Object, loggerMock.Object, userRedisRepositoryMock.Object, signalRClientMock.Object);
 
             //act
             var resultado = await catalogoController.Index();
@@ -65,7 +65,7 @@ namespace MVC.Test
 
             //act
             var catalogoController =
-                new CatalogoController(catalogoServiceMock.Object, loggerMock.Object, userRedisRepositoryMock.Object);
+                new CatalogoController(catalogoServiceMock.Object, loggerMock.Object, userRedisRepositoryMock.Object, signalRClientMock.Object);
 
             var result = await catalogoController.Index();
             var model = result as IList<Produto>;
@@ -85,7 +85,7 @@ namespace MVC.Test
 
             //act
             var catalogoController =
-                new CatalogoController(catalogoServiceMock.Object, loggerMock.Object, userRedisRepositoryMock.Object);
+                new CatalogoController(catalogoServiceMock.Object, loggerMock.Object, userRedisRepositoryMock.Object, signalRClientMock.Object);
 
             var result = await catalogoController.Index();
             var model = result as IList<Produto>;

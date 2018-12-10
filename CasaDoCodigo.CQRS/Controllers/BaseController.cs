@@ -3,8 +3,10 @@ using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using MVC.Model.Redis;
+using MVC.SignalR;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -16,12 +18,23 @@ namespace CasaDoCodigo.Controllers
     {
         protected readonly ILogger logger;
         protected readonly IUserRedisRepository userRedisRepository;
+        protected readonly ISignalRClient signalRClient;
 
-        protected BaseController(ILogger logger, IUserRedisRepository repository)
+        protected BaseController(ILogger logger, IUserRedisRepository repository, ISignalRClient signalRClient)
         {
             this.logger = logger;
             this.userRedisRepository = repository;
+            this.signalRClient = signalRClient;
         }
+
+        //public override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        //{
+        //    return new Task(async () =>
+        //    {
+        //        await this.signalRClient.Start(GetUserId());
+        //        await base.OnActionExecutionAsync(context, next);
+        //    });
+        //}
 
         protected void HandleBrokenCircuitException(IService service)
         {
