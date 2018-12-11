@@ -47,8 +47,6 @@ namespace CasaDoCodigo.Controllers
             {
                 string idUsuario = GetUserId();
 
-                await StartSignalR(idUsuario);
-
                 CarrinhoCliente carrinho;
                 if (!string.IsNullOrWhiteSpace(codigo))
                 {
@@ -78,13 +76,6 @@ namespace CasaDoCodigo.Controllers
                 HandleException();
             }
             return View();
-        }
-
-        private async Task StartSignalR(string idUsuario)
-        {
-            var userNotificationCount = await userRedisRepository.GetUserNotificationCountAsync(idUsuario);
-            ViewBag.UserNotificationCount = userNotificationCount;
-            await signalRClient.Start(idUsuario);
         }
 
         public IActionResult ProdutoNaoEncontrado(string codigo)
@@ -163,6 +154,9 @@ namespace CasaDoCodigo.Controllers
         {
             try
             {
+                string idUsuario = GetUserId();
+                await StartSignalR(idUsuario);
+
                 var usuario = appUserParser.Parse(HttpContext.User);
                 return View(new PedidoConfirmado(usuario.Email));
             }

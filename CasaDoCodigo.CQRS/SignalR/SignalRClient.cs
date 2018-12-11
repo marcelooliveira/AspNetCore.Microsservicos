@@ -57,10 +57,11 @@ namespace MVC.SignalR
             try
             {
                 await connection.StartAsync();
+                Console.WriteLine("**** Connection started");
             }
             catch (Exception ex)
             {
-                //messagesList.Items.Add(ex.Message);
+                Console.WriteLine(ex.Message);
             }
         }
     }

@@ -66,5 +66,11 @@ namespace CasaDoCodigo.Controllers
             throw new Exception("Usuário desconhecido");
         }
 
+        protected async Task StartSignalR(string idUsuario)
+        {
+            var userNotificationCount = await userRedisRepository.GetUserNotificationCountAsync(idUsuario);
+            ViewBag.UserNotificationCount = userNotificationCount;
+            await signalRClient.Start(idUsuario);
+        }
     }
 }
