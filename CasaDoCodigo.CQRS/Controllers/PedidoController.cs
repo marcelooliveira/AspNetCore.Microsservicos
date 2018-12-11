@@ -19,9 +19,8 @@ namespace CasaDoCodigo.Controllers
             IIdentityParser<ApplicationUser> appUserParser,
             IPedidoService pedidoService,
             ILogger<PedidoController> logger,
-            IUserRedisRepository repository,
-            ISignalRClient signalRClient) 
-            : base(logger, repository, signalRClient)
+            IUserRedisRepository repository) 
+            : base(logger, repository)
         {
             this.appUserParser = appUserParser;
             this.pedidoService = pedidoService;

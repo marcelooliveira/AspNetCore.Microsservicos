@@ -18,23 +18,12 @@ namespace CasaDoCodigo.Controllers
     {
         protected readonly ILogger logger;
         protected readonly IUserRedisRepository userRedisRepository;
-        protected readonly ISignalRClient signalRClient;
 
-        protected BaseController(ILogger logger, IUserRedisRepository repository, ISignalRClient signalRClient)
+        protected BaseController(ILogger logger, IUserRedisRepository repository)
         {
             this.logger = logger;
             this.userRedisRepository = repository;
-            this.signalRClient = signalRClient;
         }
-
-        //public override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-        //{
-        //    return new Task(async () =>
-        //    {
-        //        await this.signalRClient.Start(GetUserId());
-        //        await base.OnActionExecutionAsync(context, next);
-        //    });
-        //}
 
         protected void HandleBrokenCircuitException(IService service)
         {
@@ -64,13 +53,6 @@ namespace CasaDoCodigo.Controllers
                 return userIdClaim.Value;
 
             throw new Exception("Usuário desconhecido");
-        }
-
-        protected async Task StartSignalR(string idUsuario)
-        {
-            var userNotificationCount = await userRedisRepository.GetUserNotificationCountAsync(idUsuario);
-            ViewBag.UserNotificationCount = userNotificationCount;
-            await signalRClient.Start(idUsuario);
         }
     }
 }

@@ -32,9 +32,8 @@ namespace CasaDoCodigo.Controllers
             ILogger<CarrinhoController> logger,
             ICatalogoService catalogoService,
             ICarrinhoService carrinhoService,
-            IUserRedisRepository repository,
-            ISignalRClient signalRClient)
-            : base(logger, repository, signalRClient)
+            IUserRedisRepository repository)
+            : base(logger, repository)
         {
             this.appUserParser = appUserParser;
             this.catalogoService = catalogoService;
@@ -155,7 +154,6 @@ namespace CasaDoCodigo.Controllers
             try
             {
                 string idUsuario = GetUserId();
-                await StartSignalR(idUsuario);
 
                 var usuario = appUserParser.Parse(HttpContext.User);
                 return View(new PedidoConfirmado(usuario.Email));

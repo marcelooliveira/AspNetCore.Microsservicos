@@ -54,8 +54,7 @@ namespace MVC.Test
             var controller = new PedidoController(appUserParserMock.Object
                 , pedidoServiceMock.Object
                 , loggerMock.Object
-                , userRedisRepositoryMock.Object, 
-                signalRClientMock.Object);
+                , userRedisRepositoryMock.Object);
             SetControllerUser(clienteId, controller);
 
             //act

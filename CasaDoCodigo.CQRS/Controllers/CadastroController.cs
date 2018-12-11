@@ -20,9 +20,8 @@ namespace CasaDoCodigo.Controllers
         public CadastroController(
             IIdentityParser<ApplicationUser> appUserParser,
             ILogger<CadastroController> logger,
-            IUserRedisRepository repository,
-            ISignalRClient signalRClient)
-            : base(logger, repository, signalRClient)
+            IUserRedisRepository repository)
+            : base(logger, repository)
         {
             this.appUserParser = appUserParser;
         }

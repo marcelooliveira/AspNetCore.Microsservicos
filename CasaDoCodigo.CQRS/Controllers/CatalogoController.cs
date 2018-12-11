@@ -18,9 +18,8 @@ namespace CasaDoCodigo.Controllers
         public CatalogoController
             (ICatalogoService catalogoService,
             ILogger<CatalogoController> logger,
-            IUserRedisRepository repository,
-            ISignalRClient signalRClient) 
-            : base(logger, repository, signalRClient)
+            IUserRedisRepository repository) 
+            : base(logger, repository)
         {
             this.catalogoService = catalogoService;
         }

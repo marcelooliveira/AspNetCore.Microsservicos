@@ -1,4 +1,5 @@
 ﻿using CasaDoCodigo.Mensagens.Commands;
+using CasaDoCodigo.Mensagens.IntegrationEvents.Events;
 using CasaDoCodigo.OrdemDeCompra.Models;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
 using MediatR;
@@ -108,8 +109,11 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
             {
                 Pedido novoPedido = await this._pedidoRepository.CreateOrUpdate(pedido);
 
+                string notificationText = $"Novo pedido gerado com sucesso: {novoPedido.Id}";
                 await this._connection.InvokeAsync("SendUserNotification",
-                    $"{novoPedido.ClienteId}", $"Novo pedido gerado com sucesso: {novoPedido.Id}");
+                    $"{novoPedido.ClienteId}", notificationText);
+
+                await _bus.Publish(new UserNotificationEvent(novoPedido.ClienteId, notificationText, DateTime.Now));
 
                 return true;
             }

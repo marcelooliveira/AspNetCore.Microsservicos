@@ -1,6 +1,8 @@
 ﻿using CasaDoCodigo.Controllers;
+using CasaDoCodigo.Mensagens.IntegrationEvents.Events;
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -11,16 +13,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MVC;
+using MVC.Commands;
 using MVC.Model.Redis;
 using MVC.SignalR;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using Rebus.Config;
+using Rebus.ServiceProvider;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -28,6 +34,9 @@ namespace CasaDoCodigo
 {
     public class Startup
     {
+        private const string RMQ_CONNECTION_STRING = "amqp://localhost";
+        private const string INPUT_QUEUE_NAME = "UserNotificationEvent";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -50,8 +59,6 @@ namespace CasaDoCodigo
             services.AddTransient<ICarrinhoService, CarrinhoService>();
             services.AddTransient<ISessionHelper, SessionHelper>();
             services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();
-
-            ConfigureSignalRClient(services);
 
             services.AddMvc()
                 .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new DefaultContractResolver());
@@ -151,15 +158,27 @@ namespace CasaDoCodigo
             services.AddSignalR();
             services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
             services.AddTransient<IUserRedisRepository, UserRedisRepository>();
+            services.AddMediatR(typeof(UserNotificationCommand).GetTypeInfo().Assembly);
+
+            ConfigureRebus(services);
         }
 
-        private static void ConfigureSignalRClient(IServiceCollection services)
+        private static void ConfigureRebus(IServiceCollection services)
         {
-            services.AddSingleton<ISignalRClient, SignalRClient>();
+            services.AutoRegisterHandlersFromAssemblyOf<UserNotificationEvent>();
+            services.AddRebus(configure => configure
+                .Transport(t => t.UseRabbitMq(RMQ_CONNECTION_STRING, INPUT_QUEUE_NAME)))
+                .AutoRegisterHandlersFromAssemblyOf<UserNotificationEvent>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseRebus(
+                async (bus) =>
+                {
+                    await bus.Subscribe<UserNotificationEvent>();
+                });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
