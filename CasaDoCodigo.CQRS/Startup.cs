@@ -16,7 +16,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MVC;
 using MVC.Commands;
-using MVC.Mensagens.EventHandling;
 using MVC.Model.Redis;
 using MVC.SignalR;
 using Newtonsoft.Json.Linq;
@@ -166,28 +165,10 @@ namespace CasaDoCodigo
             services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
             services.AddTransient<IUserRedisRepository, UserRedisRepository>();
             services.AddMediatR(typeof(UserNotificationCommand).GetTypeInfo().Assembly);
-
-            ConfigureRebus(services);
-        }
-
-        private void ConfigureRebus(IServiceCollection services)
-        {
-            services.AutoRegisterHandlersFromAssemblyOf<UserNotificationEventHandler>();
-            services.AddRebus(configure => configure
-                .Logging(l => l.Use(new MSLoggerFactoryAdapter(_loggerFactory)))
-                .Transport(t => t.UseRabbitMq(RMQ_CONNECTION_STRING, INPUT_QUEUE_NAME)))
-                .AddTransient<DbContext, ApplicationContext>()
-                .AutoRegisterHandlersFromAssemblyOf<UserNotificationEvent>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseRebus(
-                async (bus) =>
-                {
-                    await bus.Subscribe<UserNotificationEvent>();
-                });
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

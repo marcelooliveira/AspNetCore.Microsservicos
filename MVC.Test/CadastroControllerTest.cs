@@ -51,7 +51,7 @@ namespace MVC.Test
 
             //act
             var cadastroController = 
-                new CadastroController(appUserParserMock.Object, loggerMock.Object, userRedisRepositoryMock.Object, signalRClientMock.Object);
+                new CadastroController(appUserParserMock.Object, loggerMock.Object, userRedisRepositoryMock.Object);
             cadastroController.ControllerContext.HttpContext = contextMock.Object;
             var result = await cadastroController.Index();
 
@@ -84,7 +84,7 @@ namespace MVC.Test
                .Verifiable();
 
             var controller =
-                new CadastroController(appUserParserMock.Object, loggerMock.Object, userRedisRepositoryMock.Object, signalRClientMock.Object);
+                new CadastroController(appUserParserMock.Object, loggerMock.Object, userRedisRepositoryMock.Object);
 
             SetControllerUser("001", controller);
 

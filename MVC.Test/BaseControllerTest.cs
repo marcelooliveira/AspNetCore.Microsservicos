@@ -19,14 +19,12 @@ namespace MVC.Test
         protected readonly Mock<IHttpContextAccessor> contextAccessorMock;
         protected readonly Mock<IIdentityParser<ApplicationUser>> appUserParserMock;
         protected readonly Mock<HttpContext> contextMock;
-        protected readonly Mock<SignalRClient> signalRClientMock;
 
         public BaseControllerTest()
         {
             this.contextAccessorMock = new Mock<IHttpContextAccessor>();
             this.appUserParserMock = new Mock<IIdentityParser<ApplicationUser>>();
             this.contextMock = new Mock<HttpContext>();
-            this.signalRClientMock = new Mock<SignalRClient>();
         }
 
         protected ItemCarrinho GetFakeItemCarrinho()

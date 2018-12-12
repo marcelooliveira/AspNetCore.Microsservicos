@@ -113,8 +113,6 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
                 await this._connection.InvokeAsync("SendUserNotification",
                     $"{novoPedido.ClienteId}", notificationText);
 
-                await _bus.Publish(new UserNotificationEvent(novoPedido.ClienteId, notificationText, DateTime.Now));
-
                 return true;
             }
             catch (Exception e)
