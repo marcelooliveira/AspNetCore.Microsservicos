@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -35,6 +36,7 @@ namespace Carrinho.API
         {
             Configuration = configuration;
             _loggerFactory = loggerFactory;
+            _loggerFactory.AddDebug(); // logs to the debug output window in VS.
         }
 
         public IConfiguration Configuration { get; }
