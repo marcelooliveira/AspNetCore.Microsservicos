@@ -6,5 +6,6 @@ namespace MVC.Model.Redis
     {
         Task<int> GetUserNotificationCountAsync(string clienteId);
         Task UpdateUserNotificationCountAsync(string clienteId, int userNotificationCount);
+        Task IncrementUserNotificationCountAsync(string clienteId);
     }
 }

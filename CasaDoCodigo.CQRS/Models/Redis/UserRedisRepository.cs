@@ -46,5 +46,11 @@ namespace MVC.Model.Redis
         {
             await _database.StringSetAsync(clienteId, userNotificationCount);
         }
+
+        public async Task IncrementUserNotificationCountAsync(string clienteId)
+        {
+            var count = await GetUserNotificationCountAsync(clienteId);
+            await UpdateUserNotificationCountAsync(clienteId, count + 1);
+        }
     }
 }

@@ -42,6 +42,8 @@ namespace CasaDoCodigo.Controllers
 
         public async Task<IActionResult> Index(string codigo = null)
         {
+            await CheckUserNotificationCount();
+
             try
             {
                 string idUsuario = GetUserId();
@@ -151,6 +153,8 @@ namespace CasaDoCodigo.Controllers
 
         public async Task<IActionResult> Checkout()
         {
+            await CheckUserNotificationCount();
+
             try
             {
                 string idUsuario = GetUserId();

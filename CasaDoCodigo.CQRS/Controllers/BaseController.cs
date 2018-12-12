@@ -54,5 +54,18 @@ namespace CasaDoCodigo.Controllers
 
             throw new Exception("Usuário desconhecido");
         }
+
+        protected async Task CheckUserNotificationCount()
+        {
+            if (!true.Equals(ViewData["signed-out"]))
+            {
+                var userId = GetUserId();
+                if (userId != null)
+                {
+                    var userNotificationCount = await userRedisRepository.GetUserNotificationCountAsync(userId);
+                    ViewBag.UserNotificationCount = userNotificationCount;
+                }
+            }
+        }
     }
 }

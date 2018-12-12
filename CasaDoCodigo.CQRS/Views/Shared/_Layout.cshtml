@@ -4,6 +4,7 @@
 @{
     string name = null;
     string clienteId = null;
+    int userNotificationCount = 0;
     if (!true.Equals(ViewData["signed-out"]))
     {
         name = @User.FindFirst("name")?.Value;
@@ -13,6 +14,11 @@
         }
 
         clienteId = @User.FindFirst("sub")?.Value;
+
+        if (ViewBag.UserNotificationCount != null)
+        {
+            userNotificationCount = ViewBag?.UserNotificationCount;
+        }
     }
 }
 
@@ -67,8 +73,14 @@
                     </li>
                     <li>
                         <div class="container-notification">
-                            <div class="notification" data-count="@ViewBag.UserNotificationCount"></div>
-                            @*<div class="notification notify@(ViewBag.UserNotificationCount > 0 ? " show-count": "")" data-count="@ViewBag.UserNotificationCount"></div>*@
+                            @if (userNotificationCount > 0)
+                            {
+                                <div class="notification show-count" data-count="@userNotificationCount"></div>
+                            }
+                            else
+                            {
+                                <div class="notification"></div>
+                            }
                         </div>
                     </li>
                 </ul>

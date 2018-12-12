@@ -29,6 +29,8 @@ namespace CasaDoCodigo.Controllers
         [HttpGet("{clienteId}")]
         public async Task<ActionResult> Historico(string clienteId)
         {
+            await CheckUserNotificationCount();
+
             List<PedidoDTO> model = await pedidoService.GetAsync(clienteId);
             return base.View(model);
         }

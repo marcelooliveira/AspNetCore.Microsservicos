@@ -18,7 +18,7 @@ namespace CasaDoCodigo.Controllers
         public CatalogoController
             (ICatalogoService catalogoService,
             ILogger<CatalogoController> logger,
-            IUserRedisRepository repository) 
+            IUserRedisRepository repository)
             : base(logger, repository)
         {
             this.catalogoService = catalogoService;
@@ -26,6 +26,8 @@ namespace CasaDoCodigo.Controllers
 
         public async Task<IActionResult> Index()
         {
+            await CheckUserNotificationCount();
+
             try
             {
                 return View(await catalogoService.GetProdutos());
@@ -43,6 +45,7 @@ namespace CasaDoCodigo.Controllers
 
             return View();
         }
+
     }
 }
 

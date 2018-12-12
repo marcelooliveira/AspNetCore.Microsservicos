@@ -29,6 +29,8 @@ namespace CasaDoCodigo.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
+            await CheckUserNotificationCount();
+
             try
             {
                 var usuario = appUserParser.Parse(HttpContext.User);
