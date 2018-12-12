@@ -8,12 +8,15 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MVC;
 using MVC.Commands;
+using MVC.Mensagens.EventHandling;
 using MVC.Model.Redis;
 using MVC.SignalR;
 using Newtonsoft.Json.Linq;
@@ -36,10 +39,14 @@ namespace CasaDoCodigo
     {
         private const string RMQ_CONNECTION_STRING = "amqp://localhost";
         private const string INPUT_QUEUE_NAME = "UserNotificationEvent";
+        private readonly ILoggerFactory _loggerFactory;
 
-        public Startup(IConfiguration configuration)
+        public Startup(ILoggerFactory loggerFactory,
+            IConfiguration configuration)
         {
             Configuration = configuration;
+            _loggerFactory = loggerFactory;
+            _loggerFactory.AddDebug(); // logs to the debug output window in VS.
         }
 
         public IConfiguration Configuration { get; }
@@ -163,11 +170,13 @@ namespace CasaDoCodigo
             ConfigureRebus(services);
         }
 
-        private static void ConfigureRebus(IServiceCollection services)
+        private void ConfigureRebus(IServiceCollection services)
         {
-            services.AutoRegisterHandlersFromAssemblyOf<UserNotificationEvent>();
+            services.AutoRegisterHandlersFromAssemblyOf<UserNotificationEventHandler>();
             services.AddRebus(configure => configure
+                .Logging(l => l.Use(new MSLoggerFactoryAdapter(_loggerFactory)))
                 .Transport(t => t.UseRabbitMq(RMQ_CONNECTION_STRING, INPUT_QUEUE_NAME)))
+                .AddTransient<DbContext, ApplicationContext>()
                 .AutoRegisterHandlersFromAssemblyOf<UserNotificationEvent>();
         }
 

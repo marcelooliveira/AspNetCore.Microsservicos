@@ -44,13 +44,13 @@ namespace CasaDoCodigo.OrdemDeCompra
 
             return 
                 WebHost.CreateDefaultBuilder(args)
-                        .UseStartup<Startup>()
-                            .ConfigureLogging(builder =>
-                            {
-                                builder.ClearProviders();
-                                builder.AddSerilog();
-                            })
-                        .Build();
+                .UseStartup<Startup>()
+                .ConfigureLogging(builder =>
+                {
+                    builder.ClearProviders();
+                    builder.AddSerilog();
+                })
+                .Build();
         }
     }
 }

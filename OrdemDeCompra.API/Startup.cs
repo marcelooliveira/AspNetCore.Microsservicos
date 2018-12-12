@@ -127,7 +127,6 @@ namespace CasaDoCodigo.OrdemDeCompra
 
         private void RegisterRebus(IServiceCollection services)
         {
-            // Register handlers 
             services.AutoRegisterHandlersFromAssemblyOf<CheckoutEventHandler>();
 
             // Configure and register Rebus
