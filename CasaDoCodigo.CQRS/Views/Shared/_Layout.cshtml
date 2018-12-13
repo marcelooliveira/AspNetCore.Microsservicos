@@ -5,6 +5,7 @@
     string name = null;
     string clienteId = null;
     int userNotificationCount = 0;
+    List<UserNotification> userNotifications = new List<UserNotification>();
     if (!true.Equals(ViewData["signed-out"]))
     {
         name = @User.FindFirst("name")?.Value;
@@ -15,9 +16,10 @@
 
         clienteId = @User.FindFirst("sub")?.Value;
 
-        if (ViewBag.UserNotificationCount != null)
+        if (ViewBag.UserNotifications != null)
         {
-            userNotificationCount = ViewBag?.UserNotificationCount;
+            userNotifications = ViewBag?.UserNotifications;
+            userNotificationCount = userNotifications.Count;
         }
     }
 }

@@ -8,9 +8,9 @@ var connection =
         .build();
 
 connection.on("ReceiveMessage", function (user, message) {
+    var count = parseInt(message);
     var el = document.querySelector('.notification');
-    var count = Number(el.getAttribute('data-count')) || 0;
-    el.setAttribute('data-count', count + 1);
+    el.setAttribute('data-count', count);
     el.classList.remove('notify');
     el.classList.add('notify');
     if (count === 0) {

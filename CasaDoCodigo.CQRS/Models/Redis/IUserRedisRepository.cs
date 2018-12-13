@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using CasaDoCodigo.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MVC.Model.Redis
 {
     public interface IUserRedisRepository
     {
-        Task<int> GetUserNotificationCountAsync(string clienteId);
-        Task UpdateUserNotificationCountAsync(string clienteId, int userNotificationCount);
-        Task IncrementUserNotificationCountAsync(string clienteId);
+        Task<List<UserNotification>> GetUserNotificationsAsync(string clienteId);
+        Task AddUserNotificationAsync(string clienteId, UserNotification userNotification);
     }
 }

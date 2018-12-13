@@ -62,8 +62,8 @@ namespace CasaDoCodigo.Controllers
                 var userId = GetUserId();
                 if (userId != null)
                 {
-                    var userNotificationCount = await userRedisRepository.GetUserNotificationCountAsync(userId);
-                    ViewBag.UserNotificationCount = userNotificationCount;
+                    var userNotifications = await userRedisRepository.GetUserNotificationsAsync(userId);
+                    ViewBag.UserNotifications = userNotifications;
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CasaDoCodigo.Models;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
@@ -28,7 +29,7 @@ namespace MVC.Model.Redis
             return _redis.GetServer(endpoints.First());
         }
 
-        public async Task<int> GetUserNotificationCountAsync(string clienteId)
+        public async Task<List<UserNotification>> GetUserNotificationsAsync(string clienteId)
         {
             if (string.IsNullOrWhiteSpace(clienteId))
                 throw new ArgumentException();
@@ -36,21 +37,24 @@ namespace MVC.Model.Redis
             var data = await _database.StringGetAsync(clienteId);
             if (data.IsNullOrEmpty)
             {
-                await UpdateUserNotificationCountAsync(clienteId, 0);
-                return 0;
+                var userNotifications = new List<UserNotification>();
+                await UpdateUserNotificationAsync(clienteId, userNotifications);
+                return new List<UserNotification>();
             }
-            return JsonConvert.DeserializeObject<int>(data);
+            return JsonConvert.DeserializeObject<List<UserNotification>>(data);
         }
 
-        public async Task UpdateUserNotificationCountAsync(string clienteId, int userNotificationCount)
+        public async Task AddUserNotificationAsync(string clienteId, UserNotification userNotification)
         {
-            await _database.StringSetAsync(clienteId, userNotificationCount);
+            var userNotifications = await GetUserNotificationsAsync(clienteId);
+            userNotifications.Add(userNotification);
+            await UpdateUserNotificationAsync(clienteId, userNotifications);
         }
 
-        public async Task IncrementUserNotificationCountAsync(string clienteId)
+        private async Task UpdateUserNotificationAsync(string clienteId, List<UserNotification> userNotifications)
         {
-            var count = await GetUserNotificationCountAsync(clienteId);
-            await UpdateUserNotificationCountAsync(clienteId, count + 1);
+            var json = JsonConvert.SerializeObject(userNotifications);
+            await _database.StringSetAsync(clienteId, json);
         }
     }
 }
