@@ -74,16 +74,21 @@
                         </ul>
                     </li>
                     <li>
-                        <div class="container-notification">
-                            @if (userNotificationCount > 0)
-                            {
-                                <div class="notification show-count" data-count="@userNotificationCount"></div>
-                            }
-                            else
-                            {
-                                <div class="notification"></div>
-                            }
-                        </div>
+                        @if (!true.Equals(ViewData["signed-out"]))
+                        {
+                            <div class="container-notification">
+                                <a asp-action="notificacoes" asp-controller="pedido">
+                                    @if (userNotificationCount > 0)
+                                    {
+                                        <div class="notification show-count" data-count="@userNotificationCount"></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="notification"></div>
+                                    }
+                                </a>
+                            </div>
+                        }
                     </li>
                 </ul>
             }

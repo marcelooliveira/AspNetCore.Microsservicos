@@ -221,3 +221,19 @@ textarea {
         transform: rotate(0deg);
     }
 }
+
+.notification-message.unread::after {
+    content: "\f0e0";
+    font-family: "FontAwesome";
+    font-weight: 400;
+    font-size: 1.5em;
+    vertical-align: central;
+}
+
+.notification-message.read::after {
+    content: "\f2b6";
+    font-family: "FontAwesome";
+    font-weight: 400;
+    font-size: 1.5em;
+    vertical-align: central;
+}

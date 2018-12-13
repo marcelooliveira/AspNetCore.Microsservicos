@@ -62,7 +62,7 @@ namespace CasaDoCodigo.Controllers
                 var userId = GetUserId();
                 if (userId != null)
                 {
-                    var userNotifications = await userRedisRepository.GetUserNotificationsAsync(userId);
+                    var userNotifications = await userRedisRepository.GetUnreadUserNotificationsAsync(userId);
                     ViewBag.UserNotifications = userNotifications;
                 }
             }

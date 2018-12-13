@@ -1,0 +1,72 @@
+﻿@model List<UserNotification>;
+
+<h3>Notificações do Usuário</h3>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right">
+            <a class="btn btn-success" asp-action="index" asp-controller="catalogo">
+                Voltar ao Catálogo
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="panel-body">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-2 text-center">
+                    <!--NOVO?-->
+                </div>
+                <div class="col-md-8">
+                    Mensagem
+                </div>
+                <div class="col-md-2 text-center">
+                    Data / Hora
+                </div>
+            </div>
+        </div>
+        <div class="panel-body notifications">
+            @foreach (var notification in Model)
+            {
+                <div class="row">
+                    <div class="col-md-2 text-center">
+                        @if (notification.DateVisualized.HasValue)
+                        {
+                            <span class="notification-message read"></span>
+                        }
+                        else
+                        {
+                            <span class="notification-message unread"></span>
+                        }
+                    </div>
+                    <div class="col-md-8">
+                        @notification.Mensagem
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <span>
+                            @notification.DateCreated.ToShortDateString()
+                        </span>
+                        &nbsp;
+                        <span>
+                            @notification.DateCreated.ToShortTimeString()
+                        </span>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right">
+            <a class="btn btn-success" asp-action="index" asp-controller="catalogo">
+                Voltar ao Catálogo
+            </a>
+        </div>
+    </div>
+</div>
+

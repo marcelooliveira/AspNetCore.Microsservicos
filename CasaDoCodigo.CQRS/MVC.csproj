@@ -75,6 +75,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Pedido\Notificacoes.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Pedido\Historico.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

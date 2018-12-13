@@ -34,5 +34,14 @@ namespace CasaDoCodigo.Controllers
             List<PedidoDTO> model = await pedidoService.GetAsync(clienteId);
             return base.View(model);
         }
+
+        [Route("Notificacoes")]
+        public async Task<ActionResult> Notificacoes()
+        {
+            string clienteId = GetUserId();
+            List<Models.UserNotification> notifications = await userRedisRepository.GetUserNotificationsAsync(clienteId);
+            await userRedisRepository.MarkAllAsReadAsync(clienteId);
+            return View(notifications);
+        }
     }
 }

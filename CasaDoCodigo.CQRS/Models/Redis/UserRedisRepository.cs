@@ -39,9 +39,15 @@ namespace MVC.Model.Redis
             {
                 var userNotifications = new List<UserNotification>();
                 await UpdateUserNotificationAsync(clienteId, userNotifications);
-                return new List<UserNotification>();
+                return userNotifications;
             }
             return JsonConvert.DeserializeObject<List<UserNotification>>(data);
+        }
+
+        public async Task<List<UserNotification>> GetUnreadUserNotificationsAsync(string clienteId)
+        {
+            var notifications = await GetUserNotificationsAsync(clienteId);
+            return notifications.Where(n => !n.DateVisualized.HasValue).ToList();
         }
 
         public async Task AddUserNotificationAsync(string clienteId, UserNotification userNotification)
@@ -49,6 +55,16 @@ namespace MVC.Model.Redis
             var userNotifications = await GetUserNotificationsAsync(clienteId);
             userNotifications.Add(userNotification);
             await UpdateUserNotificationAsync(clienteId, userNotifications);
+        }
+
+        public async Task MarkAllAsReadAsync(string clienteId)
+        {
+            var notifications = await GetUserNotificationsAsync(clienteId);
+            foreach (var notification in notifications.Where(n => !n.DateVisualized.HasValue))
+            {
+                notification.DateVisualized = DateTime.Now;
+            }
+            await UpdateUserNotificationAsync(clienteId, notifications);
         }
 
         private async Task UpdateUserNotificationAsync(string clienteId, List<UserNotification> userNotifications)
