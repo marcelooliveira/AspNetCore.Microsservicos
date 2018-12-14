@@ -26,8 +26,8 @@ namespace MVC.SignalR
         {
             var userNotification = new UserNotification(user, message, DateTime.Now, null);
             await userRedisRepository.AddUserNotificationAsync(user, userNotification);
-            var userNotifications = await userRedisRepository.GetUserNotificationsAsync(user);
-            await Task.Delay(3000);
+            var userNotifications = await userRedisRepository.GetUnreadUserNotificationsAsync(user);
+            await Task.Delay(1000);
             return userNotifications.Count;
         }
     }

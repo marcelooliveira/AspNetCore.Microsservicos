@@ -34,14 +34,18 @@ namespace MVC.Model.Redis
             if (string.IsNullOrWhiteSpace(clienteId))
                 throw new ArgumentException();
 
+            List<UserNotification> userNotifications;
             var data = await _database.StringGetAsync(clienteId);
             if (data.IsNullOrEmpty)
             {
-                var userNotifications = new List<UserNotification>();
+                userNotifications = new List<UserNotification>();
                 await UpdateUserNotificationAsync(clienteId, userNotifications);
                 return userNotifications;
             }
-            return JsonConvert.DeserializeObject<List<UserNotification>>(data);
+
+            userNotifications = JsonConvert.DeserializeObject<List<UserNotification>>(data);
+            userNotifications = userNotifications.OrderByDescending(n => n.DateCreated).ToList();
+            return userNotifications;
         }
 
         public async Task<List<UserNotification>> GetUnreadUserNotificationsAsync(string clienteId)
