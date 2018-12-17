@@ -125,7 +125,6 @@ namespace Carrinho.API
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
 
-            //ConfigureBrighter(services);
             ConfigureRebus(services);
         }
 
