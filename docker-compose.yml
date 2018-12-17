@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  catalogo.api:
+    image: ${DOCKER_REGISTRY}catalogoapi
+    build:
+      context: .
+      dockerfile: CasaDoCodigo.Catalogo\Dockerfile
+
+  carrinho.api:
+    image: ${DOCKER_REGISTRY}carrinhoapi
+    build:
+      context: .
+      dockerfile: CasaDoCodigo.Carrinho\Dockerfile
+
