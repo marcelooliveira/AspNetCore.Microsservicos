@@ -2,14 +2,20 @@ version: '3.4'
 
 services:
   catalogo.api:
-    image: ${DOCKER_REGISTRY}catalogoapi
+    image: catalogoapi
     build:
       context: .
       dockerfile: CasaDoCodigo.Catalogo\Dockerfile
 
-  carrinho.api:
-    image: ${DOCKER_REGISTRY}carrinhoapi
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
+  ordemdecompra.api:
+    image: ordemdecompraapi
     build:
       context: .
-      dockerfile: CasaDoCodigo.Carrinho\Dockerfile
+      dockerfile: OrdemDeCompra.API\Dockerfile
+    depends_on:
+      - rabbitmq
+  
 

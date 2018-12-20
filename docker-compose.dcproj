@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Windows</DockerTargetOS>
-    <ProjectGuid>eb3a405f-e8d1-4566-bac7-3eb034c614e4</ProjectGuid>
+    <ProjectGuid>838397e5-1b52-48b7-bab6-2308bb6b31e7</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://{ServiceIPAddress}{ServicePort}/swagger/index.html</DockerServiceUrl>
     <DockerServiceName>catalogo.api</DockerServiceName>
