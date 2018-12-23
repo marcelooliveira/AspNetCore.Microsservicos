@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    hostname: rabbit
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  carrinho.api:
+    image: carrinhoapi
+    build:
+      context: .
+      dockerfile: CasaDoCodigo.Carrinho/Dockerfile
+    depends_on:
+      - rabbitmq
+
+  catalogo.api:
+    image: catalogoapi
+    build:
+      context: .
+      dockerfile: CasaDoCodigo.Catalogo/Dockerfile
+
