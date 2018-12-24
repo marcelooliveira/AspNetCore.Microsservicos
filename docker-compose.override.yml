@@ -1,6 +1,10 @@
 version: '3.4'
 
 services:
+  mvc.data:
+    ports:
+      - "6379:6379"    # Important: In a production environment your should remove the external port
+
   rabbitmq:
     ports:
       - "15672:15672"  # Important: In a production environment your should remove the external port
@@ -45,10 +49,10 @@ services:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
-
   mvc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=${ESHOP_AZURE_REDIS_BASKET_DB:-mvc.data}
     ports:
-      - "80"
+      - "50517:80"
 

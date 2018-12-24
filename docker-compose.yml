@@ -1,6 +1,11 @@
 version: '3.4'
 
 services:
+  mvc.data:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
   rabbitmq:
     hostname: rabbit
     image: rabbitmq:3-management-alpine
@@ -39,11 +44,10 @@ services:
     depends_on:
       - rabbitmq
 
-
-
   mvc:
     image: mvc
     build:
       context: .
       dockerfile: CasaDoCodigo.CQRS/Dockerfile
-
+    depends_on:
+      - mvc.data

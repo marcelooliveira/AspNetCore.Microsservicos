@@ -79,8 +79,9 @@ namespace CasaDoCodigo
             //penalty.
             services.AddSingleton<IConnectionMultiplexer>(sp =>
             {
-                var settings = sp.GetRequiredService<IOptions<RedisConfig>>().Value;
-                var configuration = ConfigurationOptions.Parse("localhost", true);
+                //var settings = sp.GetRequiredService<IOptions<RedisConfig>>().Value;
+                //var configuration = ConfigurationOptions.Parse("localhost", true);
+                var configuration = ConfigurationOptions.Parse("mvc.data:6379", true);
 
                 configuration.ResolveDns = true;
 
