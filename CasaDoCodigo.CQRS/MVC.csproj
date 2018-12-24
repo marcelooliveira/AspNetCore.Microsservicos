@@ -4,8 +4,9 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RootNamespace>MVC</RootNamespace>
     <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
-    <DockerTargetOS>Windows</DockerTargetOS>
+    <DockerTargetOS>Linux</DockerTargetOS>
     <UserSecretsId>d1fa3832-7744-4e04-8898-76964139290c</UserSecretsId>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>

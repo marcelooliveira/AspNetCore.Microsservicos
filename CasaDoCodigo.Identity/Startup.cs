@@ -24,7 +24,8 @@ namespace Identity.API
 {
     public class Startup
     {
-        private const string RMQ_CONNECTION_STRING = "amqp://localhost";
+        //private const string RMQ_CONNECTION_STRING = "amqp://localhost";
+        private const string RMQ_CONNECTION_STRING = "amqp://rabbitmq";
         private const string INPUT_QUEUE_NAME = "CadastroEvent";
         private readonly ILoggerFactory _loggerFactory;
 

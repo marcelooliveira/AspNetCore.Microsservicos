@@ -36,7 +36,8 @@ namespace CasaDoCodigo
 {
     public class Startup
     {
-        private const string RMQ_CONNECTION_STRING = "amqp://localhost";
+        //private const string RMQ_CONNECTION_STRING = "amqp://localhost";
+        private const string RMQ_CONNECTION_STRING = "amqp://rabbitmq";
         private const string INPUT_QUEUE_NAME = "UserNotificationEvent";
         private readonly ILoggerFactory _loggerFactory;
 
@@ -100,7 +101,7 @@ namespace CasaDoCodigo
                     options.SignInScheme = "Cookies";
 
                     options.Authority = Configuration["IdentityUrl"];
-                    options.RequireHttpsMetadata = false;
+                    //options.RequireHttpsMetadata = false;
 
                     options.ClientId = "MVC";
                     options.ClientSecret = "secret";

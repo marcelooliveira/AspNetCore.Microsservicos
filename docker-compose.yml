@@ -22,3 +22,21 @@ services:
       context: .
       dockerfile: CasaDoCodigo.Catalogo/Dockerfile
 
+
+  identity.api:
+    image: identityapi
+    build:
+      context: .
+      dockerfile: CasaDoCodigo.Identity/Dockerfile
+    depends_on:
+      - rabbitmq
+
+  ordemdecompra.api:
+    image: ordemdecompraapi
+    build:
+      context: .
+      dockerfile: OrdemDeCompra.API/Dockerfile
+    depends_on:
+      - rabbitmq
+
+
