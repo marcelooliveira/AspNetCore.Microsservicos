@@ -40,3 +40,10 @@ services:
       - rabbitmq
 
 
+
+  mvc:
+    image: mvc
+    build:
+      context: .
+      dockerfile: CasaDoCodigo.CQRS/Dockerfile
+
