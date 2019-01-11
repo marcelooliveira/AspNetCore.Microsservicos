@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  mvc.data:
+  ecommerce.data:
     ports:
       - "6379:6379"    # Important: In a production environment your should remove the external port
 
@@ -19,8 +19,9 @@ services:
   catalogo.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_HTTPS_PORT=44375
+      # - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      # - ASPNETCORE_HTTPS_PORT=44375
     ports:
       - "50518:80"
     volumes:
@@ -31,7 +32,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_HTTPS_PORT=44338
+      # - ASPNETCORE_HTTPS_PORT=44338
     ports:
       - "50519:80"
     volumes:
@@ -42,7 +43,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_HTTPS_PORT=44398
+      # - ASPNETCORE_HTTPS_PORT=44398
     ports:
       - "50516:80"
     volumes:
@@ -52,7 +53,7 @@ services:
   mvc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionString=${ESHOP_AZURE_REDIS_BASKET_DB:-mvc.data}
+      - ConnectionString=${ESHOP_AZURE_REDIS_BASKET_DB:-ecommerce.data}
     ports:
       - "50517:80"
 
