@@ -22,6 +22,7 @@ services:
       # - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_URLS=http://0.0.0.0:80
       # - ASPNETCORE_HTTPS_PORT=44375
+
     ports:
       - "50518:80"
     volumes:
@@ -54,6 +55,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=${ESHOP_AZURE_REDIS_BASKET_DB:-ecommerce.data}
+      - CatalogoUrl=http://catalogo.api/
     ports:
       - "50517:80"
 
