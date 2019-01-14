@@ -14,7 +14,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "50520:80"
+      - "5103:80"
 
   catalogo.api:
     environment:
@@ -32,10 +32,12 @@ services:
   identity.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=http://0.0.0.0:80
       # - ASPNETCORE_HTTPS_PORT=44338
+      - CallBackUrl=http://localhost:50517/
+      - MvcClient=http://${CASADOCODIGO_EXTERNAL_DNS_NAME_OR_IP}:50517              #Local: You need to open your local dev-machine firewall at range 5100-5110. 
     ports:
-      - "50519:80"
+      - "5105:80"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
@@ -56,6 +58,12 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=${ESHOP_AZURE_REDIS_BASKET_DB:-ecommerce.data}
       - CatalogoUrl=http://catalogo.api/
+      # - IdentityUrl=http://127.0.0.1:50519/
+      - IdentityUrl=http://10.0.75.1:5105
+      - ApiUrl=https://localhost:44359/
+      - ApiUrlHC=https://localhost:44359/hc
+      - OrdemDeCompraUrl=http://ordemdecompra.api/
+      - CallBackUrl=http://localhost:50517/
     ports:
       - "50517:80"
 

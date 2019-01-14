@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Security.Claims;
@@ -102,7 +103,9 @@ namespace CasaDoCodigo
                     options.SignInScheme = "Cookies";
 
                     options.Authority = Configuration["IdentityUrl"];
-                    //options.RequireHttpsMetadata = false;
+                    //options.BackchannelHttpHandler = new HttpClientHandler() { Proxy = new WebProxy(Configuration["System:Proxy"]) };
+                    options.BackchannelHttpHandler = new HttpClientHandler() { Proxy = new WebProxy() };
+                    options.RequireHttpsMetadata = false;
 
                     options.ClientId = "MVC";
                     options.ClientSecret = "secret";

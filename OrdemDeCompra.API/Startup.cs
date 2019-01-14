@@ -24,6 +24,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -64,6 +66,8 @@ namespace CasaDoCodigo.OrdemDeCompra
                     options.ApiName = "OrdemDeCompra.API";
                     options.ApiSecret = "secret";
                     options.Authority = Configuration["IdentityUrl"];
+                    //options.BackchannelHttpHandler = new HttpClientHandler() { Proxy = new WebProxy(Configuration["System:Proxy"]) };
+                    options.RequireHttpsMetadata = false;
                     options.SupportedTokens = IdentityServer4.AccessTokenValidation.SupportedTokens.Both;
                     options.SaveToken = true;
                 });

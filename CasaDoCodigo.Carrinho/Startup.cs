@@ -20,6 +20,8 @@ using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
+using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -57,6 +59,8 @@ namespace Carrinho.API
                     options.ApiName = "Carrinho.API";
                     options.ApiSecret = "secret";
                     options.Authority = Configuration["IdentityUrl"];
+                    //options.BackchannelHttpHandler = new HttpClientHandler() { Proxy = new WebProxy(Configuration["System:Proxy"]) };
+                    options.RequireHttpsMetadata = false;
                 });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
