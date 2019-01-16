@@ -13,6 +13,8 @@ services:
   carrinho.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - IdentityUrl=http://10.0.75.1:5105
+      # - IdentityUrl=http://identity.api
     ports:
       - "5103:80"
 
@@ -59,9 +61,10 @@ services:
       - ConnectionString=${ESHOP_AZURE_REDIS_BASKET_DB:-ecommerce.data}
       - CatalogoUrl=http://catalogo.api/
       # - IdentityUrl=http://127.0.0.1:50519/
-      - IdentityUrl=http://10.0.75.1:5105
+      - IdentityUrl=http://10.0.75.1:5105/
       - ApiUrl=https://localhost:44359/
       - ApiUrlHC=https://localhost:44359/hc
+      - CarrinhoUrl=http://carrinho.api/
       - OrdemDeCompraUrl=http://ordemdecompra.api/
       - CallBackUrl=http://localhost:50517/
     ports:
