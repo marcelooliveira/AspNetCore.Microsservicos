@@ -112,7 +112,8 @@ namespace Carrinho.API
             services.AddSingleton<IConnectionMultiplexer>(sp =>
             {
                 var settings = sp.GetRequiredService<IOptions<CarrinhoConfig>>().Value;
-                var configuration = ConfigurationOptions.Parse("localhost", true);
+                var configuration = ConfigurationOptions.Parse(Configuration["ConnectionString"], true);
+                //var configuration = ConfigurationOptions.Parse("ecommerce.data:6379", true);
 
                 configuration.ResolveDns = true;
 

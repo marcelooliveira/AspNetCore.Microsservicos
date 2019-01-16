@@ -14,6 +14,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://10.0.75.1:5105
+      - ConnectionString=ecommerce.data:6379
       # - IdentityUrl=http://identity.api
     ports:
       - "5103:80"
