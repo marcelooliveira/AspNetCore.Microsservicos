@@ -1,6 +1,13 @@
 version: '3.4'
 
 services:
+  sql.data:
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "5433:1433"    # Important: In a production environment your should remove the external port
+
   ecommerce.data:
     ports:
       - "6379:6379"    # Important: In a production environment your should remove the external port
@@ -37,8 +44,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
       # - ASPNETCORE_HTTPS_PORT=44338
-      - CallBackUrl=http://localhost:50517/
-      - MvcClient=http://${CASADOCODIGO_EXTERNAL_DNS_NAME_OR_IP}:50517              #Local: You need to open your local dev-machine firewall at range 5100-5110. 
+      - CallBackUrl=http://localhost:5100/
+      # - MvcClient=http://${CASADOCODIGO_EXTERNAL_DNS_NAME_OR_IP}:5100              #Local: You need to open your local dev-machine firewall at range 5100-5110. 
     ports:
       - "5105:80"
     volumes:
@@ -50,6 +57,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       # - ASPNETCORE_HTTPS_PORT=44398
+      # - ConnectionString=${CASADOCODIGO_ORDERING_DB:-sql.data}
     ports:
       - "50516:80"
     volumes:
@@ -59,7 +67,7 @@ services:
   mvc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionString=${ESHOP_AZURE_REDIS_BASKET_DB:-ecommerce.data}
+      # - ConnectionString=${CASADOCODIGO_REDIS_BASKET_DB:-ecommerce.data}
       - CatalogoUrl=http://catalogo.api/
       # - IdentityUrl=http://127.0.0.1:50519/
       - IdentityUrl=http://10.0.75.1:5105/
@@ -67,7 +75,7 @@ services:
       - ApiUrlHC=https://localhost:44359/hc
       - CarrinhoUrl=http://carrinho.api/
       - OrdemDeCompraUrl=http://ordemdecompra.api/
-      - CallBackUrl=http://localhost:50517/
+      - CallBackUrl=http://localhost:5100/
     ports:
-      - "50517:80"
+      - "5100:80"
 

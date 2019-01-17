@@ -1,6 +1,9 @@
 version: '3.4'
 
 services:
+  sql.data:
+    image: microsoft/mssql-server-linux:2017-latest
+
   ecommerce.data:
     image: redis:alpine
     ports:
@@ -43,6 +46,7 @@ services:
       dockerfile: OrdemDeCompra.API/Dockerfile
     depends_on:
       - rabbitmq
+      - sql.data
 
   mvc:
     image: mvc
