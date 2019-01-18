@@ -22,6 +22,10 @@ namespace CasaDoCodigo.OrdemDeCompra
 
             var host = BuildWebHost(args);
 
+#if SEED
+    seed = true;
+#endif
+
             if (seed)
             {
                 await SeedData.EnsureSeedData(host.Services);
