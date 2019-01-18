@@ -55,6 +55,7 @@ namespace CasaDoCodigo.OrdemDeCompra
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSignalR();
+
             services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
             services.AddAutoMapper();
