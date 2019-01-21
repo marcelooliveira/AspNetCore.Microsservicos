@@ -16,22 +16,8 @@ namespace CasaDoCodigo.OrdemDeCompra
         public static async Task Main(string[] args)
         {
             Console.Title = "OrdemDeCompra.API";
-
-            var seed = args.Any(x => x == "/seed");
-            if (seed) args = args.Except(new[] { "/seed" }).ToArray();
-
             var host = BuildWebHost(args);
-
-#if SEED
-    seed = true;
-#endif
-
-            if (seed)
-            {
-                await SeedData.EnsureSeedData(host.Services);
-                return;
-            }
-
+            await SeedData.EnsureSeedData(host.Services);
             host.Run();
         }
 

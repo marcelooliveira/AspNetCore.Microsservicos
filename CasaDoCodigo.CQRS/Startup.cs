@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -195,7 +196,11 @@ namespace CasaDoCodigo
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<UserNotificationHub>("/usernotificationhub");
+                routes.MapHub<UserNotificationHub>("/usernotificationhub",
+                    options =>
+                    {
+                        options.Transports = HttpTransportType.WebSockets;
+                    });
             });
         }
     }
