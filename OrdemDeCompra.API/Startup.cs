@@ -111,7 +111,7 @@ namespace CasaDoCodigo.OrdemDeCompra
             services.AddDistributedMemoryCache();
             services.AddSession();
 
-            string connectionString = Configuration.GetConnectionString("Default");
+            string connectionString = Configuration["ConnectionString"];
 
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connectionString)
