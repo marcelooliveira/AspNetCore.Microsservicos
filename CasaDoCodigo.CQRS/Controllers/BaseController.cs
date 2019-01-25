@@ -52,7 +52,7 @@ namespace CasaDoCodigo.Controllers
             if (userIdClaim != null)
                 return userIdClaim.Value;
 
-            throw new Exception("Usuário desconhecido");
+            return null;
         }
 
         protected async Task CheckUserNotificationCount()

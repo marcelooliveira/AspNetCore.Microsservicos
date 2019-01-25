@@ -26,7 +26,7 @@ namespace CasaDoCodigo.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //await CheckUserNotificationCount();
+            await CheckUserNotificationCount();
 
             try
             {
