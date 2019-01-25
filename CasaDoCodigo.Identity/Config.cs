@@ -42,9 +42,7 @@ namespace Identity.API
                     ClientId = "MVC",
                     ClientName = "MVC",
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-
-                    RequireConsent = true,
-
+                    RequireConsent = false,
                     ClientSecrets = 
                     {
                         new Secret("secret".Sha256())

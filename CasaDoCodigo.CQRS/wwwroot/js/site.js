@@ -13,9 +13,7 @@ connection.on("ReceiveMessage", function (user, message) {
     el.setAttribute('data-count', count);
     el.classList.remove('notify');
     el.classList.add('notify');
-    if (count === 0) {
-        el.classList.add('show-count');
-    }
+    el.classList.add('show-count');
 });
 
 connection.start().catch(function (err) {

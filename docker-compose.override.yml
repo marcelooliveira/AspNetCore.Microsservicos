@@ -59,6 +59,7 @@ services:
       # - ASPNETCORE_HTTPS_PORT=44398
       # - ConnectionString=${CASADOCODIGO_ORDERING_DB:-sql.data}
       - ConnectionString=${CASADOCODIGO_ORDERING_DB:-Server=sql.data;Database=Microsoft.eShopOnContainers.Services.OrderingDb;User Id=sa;Password=Pass@word}
+      - SignalRServerUrl=http://mvc/
     ports:
       - "50516:80"
     volumes:
