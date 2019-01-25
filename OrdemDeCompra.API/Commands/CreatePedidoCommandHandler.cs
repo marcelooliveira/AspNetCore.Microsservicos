@@ -5,6 +5,7 @@ using CasaDoCodigo.OrdemDeCompra.Repositories;
 using MediatR;
 using Microsoft.AspNet.SignalR.Client.Hubs;
 using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -39,8 +40,12 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
             this._bus = bus;
             this._configuration = configuration;
 
+            _logger.LogInformation("new CreatePedidoCommandHandler created.");
+
+            string userNotificationHubUrl = $"{_configuration["SignalRServerUrl"]}usernotificationhub";
+            
             this._connection = new HubConnectionBuilder()
-                .WithUrl($"{_configuration["SignalRServerUrl"]}usernotificationhub", HttpTransportType.WebSockets)
+                .WithUrl(userNotificationHubUrl, HttpTransportType.WebSockets)
                 .Build();
             this._connection.Closed += async (error) =>
             {
@@ -114,10 +119,8 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
 
                 string notificationText = $"Novo pedido gerado com sucesso: {novoPedido.Id}";
 
-                //HttpClient httpClient = new HttpClient();
-                //HttpResponseMessage httpResponseMessage = await httpClient.GetAsync($"{_configuration["SignalRServerUrl"]}usernotificationhub");
-                //HttpStatusCode httpStatusCode = httpResponseMessage.StatusCode;
-                //string reasonPhrase = httpResponseMessage.ReasonPhrase;
+                HttpClient httpClient = new HttpClient();
+                string userNotificationHubUrl = $"{_configuration["SignalRServerUrl"]}usernotificationhub";
 
                 await this._connection.InvokeAsync("SendUserNotification",
                     $"{novoPedido.ClienteId}", notificationText);

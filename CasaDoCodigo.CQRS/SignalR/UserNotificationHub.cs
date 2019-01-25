@@ -1,5 +1,6 @@
 ﻿using CasaDoCodigo.Models;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using MVC.Model.Redis;
 using Newtonsoft.Json;
 using System;
@@ -10,10 +11,13 @@ namespace MVC.SignalR
     public class UserNotificationHub : Hub
     {
         private readonly IUserRedisRepository userRedisRepository;
+        protected readonly ILogger logger;
 
-        public UserNotificationHub(IUserRedisRepository userRedisRepository)
+        public UserNotificationHub(IUserRedisRepository userRedisRepository,
+            ILogger<UserNotificationHub> logger)
         {
             this.userRedisRepository = userRedisRepository;
+            this.logger = logger;
         }
 
         public async Task SendUserNotification(string user, string message)

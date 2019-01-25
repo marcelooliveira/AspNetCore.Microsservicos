@@ -77,6 +77,7 @@ services:
       - CarrinhoUrl=http://carrinho.api/
       - OrdemDeCompraUrl=http://ordemdecompra.api/
       - CallBackUrl=http://localhost:5100/
+      - SignalRServerUrl=http://mvc/
     ports:
       - "5100:80"
 
