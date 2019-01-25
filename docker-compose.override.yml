@@ -22,16 +22,13 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://10.0.75.1:5105
       - ConnectionString=ecommerce.data:6379
-      # - IdentityUrl=http://identity.api
     ports:
       - "5103:80"
 
   catalogo.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      # - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      # - ASPNETCORE_HTTPS_PORT=44375
 
     ports:
       - "50518:80"
@@ -43,9 +40,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      # - ASPNETCORE_HTTPS_PORT=44338
       - CallBackUrl=http://localhost:5100/
-      # - MvcClient=http://${CASADOCODIGO_EXTERNAL_DNS_NAME_OR_IP}:5100              #Local: You need to open your local dev-machine firewall at range 5100-5110. 
     ports:
       - "5105:80"
     volumes:
@@ -56,7 +51,6 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      # - ASPNETCORE_HTTPS_PORT=44398
       - ConnectionString=${CASADOCODIGO_ORDERING_DB:-Server=sql.data;Database=CasaDoCodigo.OrdemDeCompra;User Id=sa;Password=Pass@word;}
       - SignalRServerUrl=http://mvc/
     ports:
@@ -68,7 +62,6 @@ services:
   mvc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      # - ConnectionString=${CASADOCODIGO_REDIS_BASKET_DB:-ecommerce.data}
       - CatalogoUrl=http://catalogo.api/
       - IdentityUrl=http://10.0.75.1:5105/
       - ApiUrl=https://localhost:44359/
