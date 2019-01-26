@@ -1,10 +1,20 @@
 ﻿body {
-  margin-top: 65px;
+    margin-top: 65px;
 }
+
+.navbar-inverse {
+    background-color: #F8965D;
+}
+
 .navbar-header {
   position: relative;
   top: -4px;
 }
+
+.navbar-brand {
+    color: white;
+}
+
 .navbar-brand > .icon-banner {
   position: relative;
   top: -2px;
