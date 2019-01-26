@@ -34,9 +34,6 @@ namespace CasaDoCodigo.OrdemDeCompra
 {
     public class Startup
     {
-        //private const string RMQ_CONNECTION_STRING = "amqp://localhost";
-        private const string RMQ_CONNECTION_STRING = "amqp://rabbitmq";
-        private const string INPUT_QUEUE_NAME = "CheckoutEvent";
         private readonly ILoggerFactory _loggerFactory;
 
         public Startup(ILoggerFactory loggerFactory,
@@ -138,7 +135,7 @@ namespace CasaDoCodigo.OrdemDeCompra
             // Configure and register Rebus
             services.AddRebus(configure => configure
                 .Logging(l => l.Use(new MSLoggerFactoryAdapter(_loggerFactory)))
-                .Transport(t => t.UseRabbitMq(RMQ_CONNECTION_STRING, INPUT_QUEUE_NAME)))
+                .Transport(t => t.UseRabbitMq(Configuration["RabbitMQConnectionString"], Configuration["RabbitMQInputQueueName"])))
                 .AddTransient<DbContext, ApplicationContext>()
                 .AutoRegisterHandlersFromAssemblyOf<CheckoutEvent>();
         }

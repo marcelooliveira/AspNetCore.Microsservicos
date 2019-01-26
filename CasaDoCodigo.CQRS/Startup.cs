@@ -38,9 +38,6 @@ namespace CasaDoCodigo
 {
     public class Startup
     {
-        //private const string RMQ_CONNECTION_STRING = "amqp://localhost";
-        private const string RMQ_CONNECTION_STRING = "amqp://rabbitmq";
-        private const string INPUT_QUEUE_NAME = "UserNotificationEvent";
         private readonly ILoggerFactory _loggerFactory;
 
         public Startup(ILoggerFactory loggerFactory,

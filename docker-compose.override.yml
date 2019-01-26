@@ -22,6 +22,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://10.0.75.1:5105
       - ConnectionString=ecommerce.data:6379
+      - RabbitMQConnectionString=amqp://rabbitmq
     ports:
       - "5103:80"
 
@@ -41,6 +42,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - CallBackUrl=http://localhost:5100/
+      - RabbitMQConnectionString=amqp://rabbitmq
     ports:
       - "5105:80"
     volumes:
@@ -53,6 +55,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ConnectionString=${CASADOCODIGO_ORDERING_DB:-Server=sql.data;Database=CasaDoCodigo.OrdemDeCompra;User Id=sa;Password=Pass@word;}
       - SignalRServerUrl=http://mvc/
+      - RabbitMQConnectionString=amqp://rabbitmq
     ports:
       - "50516:80"
     volumes:
