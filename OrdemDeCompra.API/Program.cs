@@ -32,8 +32,9 @@ namespace CasaDoCodigo.OrdemDeCompra
                 .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();
 
-            return 
+            return
                 WebHost.CreateDefaultBuilder(args)
+                .UseHealthChecks("/hc")
                 .UseStartup<Startup>()
                 .ConfigureLogging(builder =>
                 {

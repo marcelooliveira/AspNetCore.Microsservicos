@@ -37,6 +37,7 @@ namespace Catalogo.API
         {
             return WebHost
                     .CreateDefaultBuilder(args)
+                    .UseHealthChecks("/hc")
                     .UseStartup<Startup>()
                     .ConfigureLogging(builder =>
                     {

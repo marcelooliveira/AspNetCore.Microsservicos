@@ -27,6 +27,7 @@ namespace CasaDoCodigo
                 .CreateLogger();
 
             return WebHost.CreateDefaultBuilder(args)
+                .UseHealthChecks("/hc")
                 .UseStartup<Startup>()
                 .ConfigureAppConfiguration((builderContext, config) =>
                 {

@@ -61,18 +61,27 @@ services:
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-
   mvc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - CatalogoUrl=http://catalogo.api/
       - IdentityUrl=http://10.0.75.1:5105/
-      - ApiUrl=https://localhost:44359/
-      - ApiUrlHC=https://localhost:44359/hc
       - CarrinhoUrl=http://carrinho.api/
       - OrdemDeCompraUrl=http://ordemdecompra.api/
       - CallBackUrl=http://localhost:5100/
       - SignalRServerUrl=http://mvc/
     ports:
       - "5100:80"
+
+  webstatus:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - CarrinhoHC=http://carrinho.api/hc
+      - MvcHC=http://mvc/hc
+      - CatalogoHC=http://catalogo.api/hc
+      - IdentityHC=http://10.0.75.1:5105/hc
+      - OrdemDeCompraHC=http://ordemdecompra.api/hc
+    ports:
+      - "5107:80"
 

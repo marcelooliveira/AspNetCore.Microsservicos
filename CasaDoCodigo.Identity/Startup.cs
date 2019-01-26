@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -19,6 +20,7 @@ using Rebus.ServiceProvider;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Identity.API
 {
@@ -89,6 +91,11 @@ namespace Identity.API
 
             services.AddScoped<IMediator, NoMediator>();
             services.AddScoped<IRequest<bool>, CadastroCommand>();
+            services.AddHealthChecks(checks =>
+            {
+                checks.AddValueTaskCheck("HTTP Endpoint", () => new
+                    ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
+            });
             services.AddMediatR(typeof(CadastroCommand).GetTypeInfo().Assembly);
 
             RegisterRebus(services);

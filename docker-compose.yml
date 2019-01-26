@@ -55,3 +55,9 @@ services:
       dockerfile: CasaDoCodigo.CQRS/Dockerfile
     depends_on:
       - ecommerce.data
+
+  webstatus:
+    image: webstatus
+    build:
+      context: .
+      dockerfile: CasaDoCodigo.Status/Dockerfile
