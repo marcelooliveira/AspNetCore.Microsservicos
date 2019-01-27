@@ -41,15 +41,28 @@ namespace Catalogo.API
 
         private static async Task SaveLivros(ApplicationDbContext context)
         {
-            var dbSet = context.Set<Produto>();
+            var produtoDbSet = context.Set<Produto>();
+            var categoriaDbSet = context.Set<Categoria>();
 
             var livros = await GetLivros();
 
             foreach (var livro in livros)
             {
-                if (!await dbSet.Where(p => p.Codigo == livro.Codigo).AnyAsync())
+                var categoriaDB =
+                categoriaDbSet
+                    .Where(c => c.Nome == livro.Categoria)
+                    .SingleOrDefault();
+
+                if (categoriaDB == null)
                 {
-                    await dbSet.AddAsync(new Produto(livro.Codigo, livro.Nome, livro.Preco));
+                    categoriaDB = new Categoria(livro.Categoria);
+                    await categoriaDbSet.AddAsync(categoriaDB);
+                    await context.SaveChangesAsync();
+                }
+
+                if (!produtoDbSet.Where(p => p.Codigo == livro.Codigo).Any())
+                {
+                    await produtoDbSet.AddAsync(new Produto(livro.Codigo, livro.Nome, livro.Preco, categoriaDB));
                 }
             }
             await context.SaveChangesAsync();
@@ -66,6 +79,8 @@ namespace Catalogo.API
     {
         public string Codigo { get; set; }
         public string Nome { get; set; }
+        public string Categoria { get; set; }
+        public string Subcategoria { get; set; }
         public decimal Preco { get; set; }
     }
 }

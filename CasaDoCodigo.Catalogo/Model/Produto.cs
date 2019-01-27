@@ -11,6 +11,8 @@ namespace Catalogo.API.Model
         }
 
         [Required]
+        public Categoria Categoria { get; private set; }
+        [Required]
         [DataMember]
         public string Codigo { get; private set; }
         [Required]
@@ -19,11 +21,12 @@ namespace Catalogo.API.Model
         [Required]
         public decimal Preco { get; private set; }
 
-        public Produto(string codigo, string nome, decimal preco)
+        public Produto(string codigo, string nome, decimal preco, Categoria categoria)
         {
             this.Codigo = codigo;
             this.Nome = nome;
             this.Preco = preco;
+            this.Categoria = categoria;
         }
     }
 }

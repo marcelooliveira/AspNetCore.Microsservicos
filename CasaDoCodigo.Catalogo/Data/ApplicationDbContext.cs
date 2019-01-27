@@ -13,6 +13,10 @@ namespace Catalogo.API.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            var categoria = modelBuilder.Entity<Categoria>();
+            categoria.HasKey(t => t.Id);
+            categoria.Property("Nome").HasColumnType("nvarchar(255)");
+
             var produto = modelBuilder.Entity<Produto>();
             produto.HasKey(t => t.Id);
             produto.Property("Codigo").HasColumnType("nvarchar(3)");

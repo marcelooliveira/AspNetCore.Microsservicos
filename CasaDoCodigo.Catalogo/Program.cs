@@ -17,19 +17,8 @@ namespace Catalogo.API
         {
             Console.Title = "Catalogo.API";
 
-            var seed = args.Any(a => a == "/seed");
-            if (seed)
-            {
-                args = args.Except(new[] { "/seed" }).ToArray();
-            }
-
             IWebHost host = BuildWebHost(args);
-
-            if (seed)
-            {
-                await SeedData.EnsureSeedData(host.Services);
-            }
-
+            await SeedData.EnsureSeedData(host.Services);
             host.Run();
         }
 
