@@ -1,4 +1,5 @@
-﻿using CasaDoCodigo.Services;
+﻿using CasaDoCodigo.Models.ViewModels;
+using CasaDoCodigo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -30,7 +31,9 @@ namespace CasaDoCodigo.Controllers
 
             try
             {
-                return View(await catalogoService.GetProdutos());
+                var produtos = await catalogoService.GetProdutos();
+                var resultado = new BuscaProdutosViewModel(produtos, "");
+                return base.View(resultado);
             }
             catch (BrokenCircuitException e)
             {
@@ -44,6 +47,30 @@ namespace CasaDoCodigo.Controllers
             }
 
             return View();
+        }
+
+        public async Task<IActionResult> BuscaProdutos(string pesquisa)
+        {
+            await CheckUserNotificationCount();
+
+            try
+            {
+                var produtos = await catalogoService.BuscaProdutos(pesquisa);
+                var resultado = new BuscaProdutosViewModel(produtos, pesquisa);
+                return View("Index", resultado);
+            }
+            catch (BrokenCircuitException e)
+            {
+                logger.LogError(e, e.Message);
+                HandleBrokenCircuitException(catalogoService);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, e.Message);
+                HandleException();
+            }
+
+            return View("Index");
         }
 
     }

@@ -4,6 +4,17 @@
         <name>Catalogo.API</name>
     </assembly>
     <members>
+        <member name="M:Catalogo.API.Controllers.BuscaController.GetProdutos(System.String)">
+            <summary>
+            Obtém a lista completa de produtos do catálogo.
+            </summary>
+            <returns>
+            A lista completa de produtos do catálogo
+            </returns>
+            <param name="pesquisa"></param>
+            <response code="401">Não autorizado</response> 
+            <returns></returns>
+        </member>
         <member name="M:Catalogo.API.Controllers.ProdutoController.GetProdutos">
             <summary>
             Obtém a lista completa de produtos do catálogo.

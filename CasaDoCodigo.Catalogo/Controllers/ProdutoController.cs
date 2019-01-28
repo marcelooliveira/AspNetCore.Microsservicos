@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace Catalogo.API.Controllers
 {
     [Route("api/[controller]")]
-    //[ApiController]
     public class ProdutoController : ControllerBase
     {
         private readonly ILogger logger;

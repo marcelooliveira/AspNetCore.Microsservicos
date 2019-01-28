@@ -2,20 +2,55 @@
     ViewData["Title"] = "Catálogo";
 }
 
-@model List<Produto>;
+@model BuscaProdutosViewModel;
 
-<h3>Catálogo</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Buscar produtos</h2>
+            <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <form asp-action="BuscaProdutos">
+                        <input type="text" asp-for="@Model.Pesquisa" name="pesquisa"
+                               class="form-control input-lg"
+                               placeholder="categoria ou produto" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-info btn-lg" type="submit">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-@if (Model != null)
+@{
+    var produtos = Model.Produtos;
+
+    var categorias =
+        produtos
+            .Select(m => m.Categoria)
+            .Distinct();
+}
+
+@foreach (var categoria in categorias)
 {
-    <div id="my-carousel" class="carousel slide" data-ride="carousel">
+    var produtosNaCategoria =
+        produtos
+        .Where(p => p.Categoria.Id == categoria.Id);
+
+    <h3>@categoria.Nome</h3>
+
+    <div id="my-carousel-@categoria.Id" class="carousel slide" data-ride="carousel">
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
 
             @{
                 const int TAMANHO_PAGINA = 4;
 
-                int paginas = (int)Math.Ceiling((double)Model.Count() / TAMANHO_PAGINA);
+                int paginas = (int)Math.Ceiling((double)produtosNaCategoria.Count() / TAMANHO_PAGINA);
             }
 
             @for (int pagina = 0; pagina < paginas; pagina++)
@@ -25,7 +60,7 @@
                     <div class="row">
 
                         @{
-                            var produtosDaPagina = Model.Skip(pagina * TAMANHO_PAGINA).Take(TAMANHO_PAGINA);
+                            var produtosDaPagina = produtosNaCategoria.Skip(pagina * TAMANHO_PAGINA).Take(TAMANHO_PAGINA);
                         }
 
                         @foreach (var produto in produtosDaPagina)
@@ -57,11 +92,11 @@
         </div>
 
         <!-- Controls -->
-        <a class="left carousel-control" href="#my-carousel" role="button" data-slide="prev">
+        <a class="left carousel-control" href="#my-carousel-@categoria.Id" role="button" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
-        <a class="right carousel-control" href="#my-carousel" role="button" data-slide="next">
+        <a class="right carousel-control" href="#my-carousel-@categoria.Id" role="button" data-slide="next">
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>

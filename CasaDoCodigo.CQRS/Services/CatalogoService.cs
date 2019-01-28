@@ -17,7 +17,8 @@ namespace CasaDoCodigo.Services
     {
         class ApiUris
         {
-            public static string GetProdutos => "api/produto";
+            public static string GetProduto => "api/produto";
+            public static string BuscaProdutos => "api/busca";
         }
 
         private readonly ILogger<CatalogoService> _logger;
@@ -35,16 +36,20 @@ namespace CasaDoCodigo.Services
 
         public async Task<IList<Models.Produto>> GetProdutos()
         {
-            var uri = _baseUri + ApiUris.GetProdutos;
+            var uri = _baseUri + ApiUris.GetProduto;
             var json = await _httpClient.GetStringAsync(uri);
             IList<Produto> result = JsonConvert.DeserializeObject<IList<Models.Produto>>(json);
             return result;
         }
 
+        public async Task<IList<Produto>> BuscaProdutos(string pesquisa)
+        {
+            return await GetAsync<List<Produto>>(ApiUris.BuscaProdutos, pesquisa);
+        }
+
         public async Task<Models.Produto> GetProduto(string codigo)
         {
-            Produto result = await GetAsync<Models.Produto>(ApiUris.GetProdutos, codigo);
-            return result;
+            return await GetAsync<Produto>(ApiUris.GetProduto, codigo);
         }
 
         public override string Scope => "Catalogo.API";

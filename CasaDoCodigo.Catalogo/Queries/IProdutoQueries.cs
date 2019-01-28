@@ -5,7 +5,7 @@ namespace Catalogo.API.Queries
 {
     public interface IProdutoQueries
     {
-        Task<IEnumerable<Produto>> GetProdutosAsync();
+        Task<IEnumerable<Produto>> GetProdutosAsync(string pesquisa = null);
         Task<Produto> GetProdutoAsync(string codigo);
     }
 }
