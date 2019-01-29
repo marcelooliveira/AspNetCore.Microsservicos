@@ -54,8 +54,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdemDeCompra.UnitTests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.UnitTests", "Identity.UnitTests\Identity.UnitTests.csproj", "{CD89406F-7DF8-4A03-859E-E754E9E7BE7A}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{90B84390-AECF-427A-B70E-64EE53E41E97}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebStatus", "WebStatus", "{E02DED12-324D-4B26-A5A7-37A121D0E7C4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStatus", "CasaDoCodigo.Status\WebStatus.csproj", "{23306A63-6C4A-469E-99E1-323DFEDF507E}"
@@ -110,10 +108,6 @@ Global
 		{CD89406F-7DF8-4A03-859E-E754E9E7BE7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD89406F-7DF8-4A03-859E-E754E9E7BE7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD89406F-7DF8-4A03-859E-E754E9E7BE7A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90B84390-AECF-427A-B70E-64EE53E41E97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90B84390-AECF-427A-B70E-64EE53E41E97}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90B84390-AECF-427A-B70E-64EE53E41E97}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90B84390-AECF-427A-B70E-64EE53E41E97}.Release|Any CPU.Build.0 = Release|Any CPU
 		{23306A63-6C4A-469E-99E1-323DFEDF507E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{23306A63-6C4A-469E-99E1-323DFEDF507E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23306A63-6C4A-469E-99E1-323DFEDF507E}.Release|Any CPU.ActiveCfg = Release|Any CPU

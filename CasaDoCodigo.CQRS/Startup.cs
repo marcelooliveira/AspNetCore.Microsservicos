@@ -86,7 +86,7 @@ namespace CasaDoCodigo
             {
                 //var settings = sp.GetRequiredService<IOptions<RedisConfig>>().Value;
                 //var configuration = ConfigurationOptions.Parse("localhost", true);
-                var configuration = ConfigurationOptions.Parse("ecommerce.data:6379", true);
+                var configuration = ConfigurationOptions.Parse(Configuration["ConnectionString"], true);
 
                 configuration.ResolveDns = true;
 
