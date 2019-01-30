@@ -84,8 +84,6 @@ namespace CasaDoCodigo
             //penalty.
             services.AddSingleton<IConnectionMultiplexer>(sp =>
             {
-                //var settings = sp.GetRequiredService<IOptions<RedisConfig>>().Value;
-                //var configuration = ConfigurationOptions.Parse("localhost", true);
                 var configuration = ConfigurationOptions.Parse(Configuration["ConnectionString"], true);
 
                 configuration.ResolveDns = true;
@@ -107,7 +105,6 @@ namespace CasaDoCodigo
                     options.SignInScheme = "Cookies";
 
                     options.Authority = Configuration["IdentityUrl"];
-                    //options.BackchannelHttpHandler = new HttpClientHandler() { Proxy = new WebProxy(Configuration["System:Proxy"]) };
                     options.BackchannelHttpHandler = new HttpClientHandler() { Proxy = new WebProxy() };
                     options.RequireHttpsMetadata = false;
 

@@ -70,6 +70,7 @@ services:
       - OrdemDeCompraUrl=http://ordemdecompra.api/
       - CallBackUrl=http://localhost:5100/
       - SignalRServerUrl=http://mvc/
+      - ConnectionString=ecommerce.data:6379
     ports:
       - "5100:80"
 
