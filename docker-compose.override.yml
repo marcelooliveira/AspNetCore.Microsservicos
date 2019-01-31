@@ -57,7 +57,7 @@ services:
       - SignalRServerUrl=http://mvc/
       - RabbitMQConnectionString=amqp://rabbitmq
     ports:
-      - "50516:80"
+      - "5106:80"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
@@ -70,7 +70,7 @@ services:
       - OrdemDeCompraUrl=http://ordemdecompra.api/
       - CallBackUrl=http://localhost:5100/
       - SignalRServerUrl=http://mvc/
-      - Redis'ecommerce.data:6379
+      - RedisConnectionString=ecommerce.data:6379
     ports:
       - "5100:80"
 
