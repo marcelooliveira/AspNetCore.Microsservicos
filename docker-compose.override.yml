@@ -21,7 +21,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://10.0.75.1:5105
-      - ConnectionString=ecommerce.data:6379
+      - RedisConnectionString=ecommerce.data:6379
       - RabbitMQConnectionString=amqp://rabbitmq
     ports:
       - "5103:80"
@@ -70,7 +70,7 @@ services:
       - OrdemDeCompraUrl=http://ordemdecompra.api/
       - CallBackUrl=http://localhost:5100/
       - SignalRServerUrl=http://mvc/
-      - ConnectionString=ecommerce.data:6379
+      - RedisConnectionString=ecommerce.data:6379
     ports:
       - "5100:80"
 

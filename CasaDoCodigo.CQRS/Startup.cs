@@ -84,7 +84,7 @@ namespace CasaDoCodigo
             //penalty.
             services.AddSingleton<IConnectionMultiplexer>(sp =>
             {
-                var configuration = ConfigurationOptions.Parse(Configuration["ConnectionString"], true);
+                var configuration = ConfigurationOptions.Parse(Configuration["RedisConnectionString"], true);
 
                 configuration.ResolveDns = true;
 
