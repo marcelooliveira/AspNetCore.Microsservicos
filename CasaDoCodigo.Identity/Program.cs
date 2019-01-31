@@ -14,18 +14,8 @@ namespace Identity.API
         public static void Main(string[] args)
         {
             Console.Title = "Identity.API";
-
-            var seed = args.Any(x => x == "/seed");
-            if (seed) args = args.Except(new[] { "/seed" }).ToArray();
-
             var host = BuildWebHost(args);
-
-            if (seed)
-            {
-                SeedData.EnsureSeedData(host.Services);
-                return;
-            }
-
+            SeedData.EnsureSeedData(host.Services);
             host.Run();
         }
 
