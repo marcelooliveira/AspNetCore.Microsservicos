@@ -41,9 +41,9 @@ namespace MVC.Test
 
             return new List<Produto>
             {
-                new Produto("001", "produto 001", 12.34m, categoria),
-                new Produto("002", "produto 002", 23.45m, categoria),
-                new Produto("003", "produto 003", 34.56m, categoria)
+                new Produto("001", "produto 001", 12.34m, categoria.Id, categoria.Nome),
+                new Produto("002", "produto 002", 23.45m, categoria.Id, categoria.Nome),
+                new Produto("003", "produto 003", 34.56m, categoria.Id, categoria.Nome)
             };
         }
 

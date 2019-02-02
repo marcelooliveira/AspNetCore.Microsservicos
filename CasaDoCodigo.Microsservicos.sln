@@ -58,8 +58,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebStatus", "WebStatus", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStatus", "CasaDoCodigo.Status\WebStatus.csproj", "{23306A63-6C4A-469E-99E1-323DFEDF507E}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{90B84390-AECF-427A-B70E-64EE53E41E97}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,10 +112,6 @@ Global
 		{23306A63-6C4A-469E-99E1-323DFEDF507E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23306A63-6C4A-469E-99E1-323DFEDF507E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23306A63-6C4A-469E-99E1-323DFEDF507E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90B84390-AECF-427A-B70E-64EE53E41E97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90B84390-AECF-427A-B70E-64EE53E41E97}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90B84390-AECF-427A-B70E-64EE53E41E97}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90B84390-AECF-427A-B70E-64EE53E41E97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

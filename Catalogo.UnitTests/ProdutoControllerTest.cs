@@ -45,7 +45,7 @@ namespace Catalogo.UnitTests
             //arrange
             IList<Produto> produtos = new List<Produto>();
             produtoQueriesMock
-                .Setup(q => q.GetProdutosAsync())
+                .Setup(q => q.GetProdutosAsync(It.IsAny<string>()))
                 .ReturnsAsync(produtos)
                .Verifiable();
 
@@ -75,7 +75,7 @@ namespace Catalogo.UnitTests
             var controller = new ProdutoController(loggerMock.Object, produtoQueriesMock.Object);
 
             //act
-            var actionResult = await controller.GetProduto(produtoCodigo);
+            var actionResult = await controller.GetProdutos(produtoCodigo);
 
             //assert
             OkObjectResult okObjectResult = Assert.IsType<OkObjectResult>(actionResult.Result);
@@ -98,7 +98,7 @@ namespace Catalogo.UnitTests
             var controller = new ProdutoController(loggerMock.Object, produtoQueriesMock.Object);
             
             //act
-            var actionResult = await controller.GetProduto(produtoCodigo);
+            var actionResult = await controller.GetProdutos(produtoCodigo);
 
             //assert
             Assert.IsType<NotFoundResult>(actionResult.Result);
