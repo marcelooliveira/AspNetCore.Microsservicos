@@ -2,7 +2,9 @@
 using Autofac.Extensions.DependencyInjection;
 using Carrinho.API.Model;
 using Carrinho.API.Services;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -10,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
@@ -119,12 +121,9 @@ namespace Carrinho.API
 
             services.AddTransient<ICarrinhoRepository, RedisCarrinhoRepository>();
             services.AddTransient<IIdentityService, IdentityService>();
-            services.AddHealthChecks(checks =>
-            {
-                checks.AddValueTaskCheck("HTTP Endpoint", () => new
-                    ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
-            });
-
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy());
+            
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
 
@@ -164,6 +163,18 @@ namespace Carrinho.API
             });
 
             app.UseAuthentication();
+
+            app.UseHealthChecks("/hc", new HealthCheckOptions()
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+
+            app.UseHealthChecks("/liveness", new HealthCheckOptions
+            {
+                Predicate = r => r.Name.Contains("self")
+            });
+
             app.UseStaticFiles();
             app.UseMvc();
             app.UseRebus();

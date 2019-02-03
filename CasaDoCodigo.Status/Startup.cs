@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CasaDoCodigo.Status.Extensions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace CasaDoCodigo.Status
 {
@@ -34,20 +33,10 @@ namespace CasaDoCodigo.Status
             });
 
             // Add framework services.
-            services.AddHealthChecks(checks =>
-            {
-                var minutes = 1;
-                if (int.TryParse(Configuration["HealthCheck:Timeout"], out var minutesParsed))
-                {
-                    minutes = minutesParsed;
-                }
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy());
 
-                checks.AddUrlCheckIfNotNull(Configuration["MvcHC"], TimeSpan.FromMinutes(minutes));
-                checks.AddUrlCheckIfNotNull(Configuration["CarrinhoHC"], TimeSpan.FromMinutes(minutes));
-                checks.AddUrlCheckIfNotNull(Configuration["CatalogoHC"], TimeSpan.FromMinutes(minutes));
-                checks.AddUrlCheckIfNotNull(Configuration["IdentityHC"], TimeSpan.FromMinutes(minutes));
-                checks.AddUrlCheckIfNotNull(Configuration["OrdemDeCompraHC"], TimeSpan.FromMinutes(minutes));
-            });
+            services.AddHealthChecksUI();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -66,6 +55,18 @@ namespace CasaDoCodigo.Status
             }
 
             app.UseHttpsRedirection();
+
+            app.UseHealthChecks("/liveness", new HealthCheckOptions
+            {
+                Predicate = r => r.Name.Contains("self")
+            });
+
+            var pathBase = Configuration["PATH_BASE"];
+            app.UseHealthChecksUI(config => {
+                config.ResourcesPath = string.IsNullOrEmpty(pathBase) ? "/ui/resources" : $"{pathBase}/ui/resources";
+                config.UIPath = "/hc-ui";
+            });
+
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
@@ -77,4 +78,5 @@ namespace CasaDoCodigo.Status
             });
         }
     }
+
 }

@@ -5,31 +5,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CasaDoCodigo.Status.Models;
-using Microsoft.Extensions.HealthChecks;
-using CasaDoCodigo.Status.ViewModels;
+using Microsoft.Extensions.Configuration;
 
 namespace CasaDoCodigo.Status.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IHealthCheckService healthCheckService;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(IHealthCheckService healthCheckService)
+        public HomeController(IConfiguration configuration)
         {
-            this.healthCheckService = healthCheckService;
+            this._configuration = configuration;
         }
 
         public async Task<IActionResult> Index()
         {
-            var result = await healthCheckService.CheckHealthAsync();
-            var data = new HealthStatusViewModel(result.CheckStatus);
-
-            foreach (var item in result.Results)
-            {
-                data.AddResult(item.Key, item.Value);
-            }
-
-            return View(data);
+            var basePath = _configuration["PATH_BASE"];
+            return Redirect($"{basePath}/hc-ui");
         }
 
         public IActionResult Error()

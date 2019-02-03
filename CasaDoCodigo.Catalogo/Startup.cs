@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.HealthChecks;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
@@ -28,11 +27,6 @@ namespace Catalogo.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IProdutoQueries, ProdutoQueries>();
-            services.AddHealthChecks(checks =>
-            {
-                checks.AddValueTaskCheck("HTTP Endpoint", () => new
-                    ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
-            });
 
             services
                 .AddMvc()
@@ -102,6 +96,7 @@ namespace Catalogo.API
 
             SQLitePCL.Batteries_V2.Init();
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
             app.UseMvc();
         }
