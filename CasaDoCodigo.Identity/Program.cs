@@ -32,7 +32,6 @@ namespace Identity.API
                 .CreateLogger();
 
             return WebHost.CreateDefaultBuilder(args)
-                    .UseHealthChecks("/hc")
                     .UseStartup<Startup>()
                     .ConfigureLogging(builder =>
                     {

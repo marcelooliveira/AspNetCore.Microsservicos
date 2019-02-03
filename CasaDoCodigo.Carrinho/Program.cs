@@ -33,7 +33,6 @@ namespace Carrinho.API
                 .CreateLogger();
 
             return WebHost.CreateDefaultBuilder(args)
-                    .UseHealthChecks("/hc")
                     .UseStartup<Startup>()
                     .ConfigureLogging((hostingContext, logging) =>
                     {

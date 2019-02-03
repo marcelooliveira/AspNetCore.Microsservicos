@@ -12,6 +12,9 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using HealthChecks.UI.Client;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace Catalogo.API
 {
@@ -27,6 +30,9 @@ namespace Catalogo.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IProdutoQueries, ProdutoQueries>();
+
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy());
 
             services
                 .AddMvc()
@@ -96,6 +102,17 @@ namespace Catalogo.API
 
             SQLitePCL.Batteries_V2.Init();
             app.UseHttpsRedirection();
+
+            app.UseHealthChecks("/hc", new HealthCheckOptions()
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+
+            app.UseHealthChecks("/liveness", new HealthCheckOptions
+            {
+                Predicate = r => r.Name.Contains("self")
+            });
 
             app.UseStaticFiles();
             app.UseMvc();

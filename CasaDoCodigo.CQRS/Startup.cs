@@ -2,16 +2,19 @@
 using CasaDoCodigo.Mensagens.IntegrationEvents.Events;
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
+//using HealthChecks.UI.Client;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
+//using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+//using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -65,6 +68,9 @@ namespace CasaDoCodigo
             services.AddTransient<ICarrinhoService, CarrinhoService>();
             services.AddTransient<ISessionHelper, SessionHelper>();
             services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();
+
+            //services.AddHealthChecks()
+            //    .AddCheck("self", () => HealthCheckResult.Healthy());
 
             services.AddMvc()
                 .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new DefaultContractResolver());
@@ -179,6 +185,18 @@ namespace CasaDoCodigo
             }
 
             app.UseAuthentication();
+
+            //app.UseHealthChecks("/hc", new HealthCheckOptions()
+            //{
+            //    Predicate = _ => true,
+            //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            //});
+
+            //app.UseHealthChecks("/liveness", new HealthCheckOptions
+            //{
+            //    Predicate = r => r.Name.Contains("self")
+            //});
+
             app.UseStaticFiles();
             app.UseSession();
             app.UseMvc(routes =>

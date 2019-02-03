@@ -27,15 +27,40 @@ namespace Catalogo.API
 
         private static async Task CreateTables(ApplicationDbContext context)
         {
-            var createTableSql
+            await CreateTableCategoria(context);
+            await CreateTableProduto(context);
+        }
+
+        private static async Task CreateTableCategoria(ApplicationDbContext context)
+        {
+            var sql
+                = @"CREATE TABLE IF NOT EXISTS 
+                        'Categoria' (
+                            'Id'        INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                            'Nome'      TEXT NOT NULL
+                        );";
+
+            await ExecuteSqlCommandAsync(context, sql);
+        }
+
+        private static async Task CreateTableProduto(ApplicationDbContext context)
+        {
+            var sql
                 = @"CREATE TABLE IF NOT EXISTS 
                         'Produto' (
                             'Id'        INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	                        'Codigo'	TEXT NOT NULL,
                             'Nome'      TEXT NOT NULL,
-	                        'Preco'     NUMERIC NOT NULL
+	                        'Preco'     NUMERIC NOT NULL,
+                            'CategoriaId' INTEGER NOT NULL,
+                                FOREIGN KEY(CategoriaId) REFERENCES Categoria(Id)
                         );";
 
+            await ExecuteSqlCommandAsync(context, sql);
+        }
+
+        private static async Task ExecuteSqlCommandAsync(ApplicationDbContext context, string createTableSql)
+        {
             await context.Database.ExecuteSqlCommandAsync(createTableSql);
         }
 

@@ -3,10 +3,12 @@ using CasaDoCodigo.Mensagens.EventHandling;
 using CasaDoCodigo.Mensagens.Events;
 using CasaDoCodigo.OrdemDeCompra.Commands;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
+using HealthChecks.UI.Client;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -169,6 +171,18 @@ namespace CasaDoCodigo.OrdemDeCompra
 
             app.UseAuthentication();
             app.UseHttpsRedirection();
+
+            app.UseHealthChecks("/hc", new HealthCheckOptions()
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+
+            app.UseHealthChecks("/liveness", new HealthCheckOptions
+            {
+                Predicate = r => r.Name.Contains("self")
+            });
+
             app.UseMvc();
         }
     }

@@ -123,7 +123,7 @@ namespace Carrinho.API
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy());
-            
+
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
 
