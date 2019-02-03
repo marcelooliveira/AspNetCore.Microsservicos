@@ -1,5 +1,6 @@
 ﻿using CasaDoCodigo.Identity.API;
 using CasaDoCodigo.Mensagens.IntegrationEvents.Events;
+using HealthChecks.UI.Client;
 //using HealthChecks.UI.Client;
 using Identity.API.Commands;
 using Identity.API.Data;
@@ -9,13 +10,13 @@ using Identity.API.Models;
 using IdentityServer4.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
-//using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-//using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Rebus.Config;
 using Rebus.ServiceProvider;
@@ -93,8 +94,8 @@ namespace Identity.API
 
             services.AddScoped<IMediator, NoMediator>();
             services.AddScoped<IRequest<bool>, CadastroCommand>();
-            //services.AddHealthChecks()
-            //    .AddCheck("self", () => HealthCheckResult.Healthy());
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy());
 
             services.AddMediatR(typeof(CadastroCommand).GetTypeInfo().Assembly);
 
@@ -133,16 +134,16 @@ namespace Identity.API
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            //app.UseHealthChecks("/hc", new HealthCheckOptions()
-            //{
-            //    Predicate = _ => true,
-            //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            //});
+            app.UseHealthChecks("/hc", new HealthCheckOptions()
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
 
-            //app.UseHealthChecks("/liveness", new HealthCheckOptions
-            //{
-            //    Predicate = r => r.Name.Contains("self")
-            //});
+            app.UseHealthChecks("/liveness", new HealthCheckOptions
+            {
+                Predicate = r => r.Name.Contains("self")
+            });
 
             app.UseStaticFiles();
             app.UseIdentityServer();
