@@ -58,7 +58,10 @@ namespace CasaDoCodigo.OrdemDeCompra
 
             services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
             services.AddHealthChecks()
-                .AddCheck("self", () => HealthCheckResult.Healthy());
+                .AddCheck("self", () => HealthCheckResult.Healthy())
+                .AddSqlServer(Configuration["ConnectionString"],
+                    name: "Ordem de Compra DB Check",
+                    tags: new string[] { "OrdemDeCompraDB" });
 
             services.AddAutoMapper();
 

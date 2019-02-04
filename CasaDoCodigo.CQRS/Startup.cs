@@ -70,7 +70,11 @@ namespace CasaDoCodigo
             services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();
 
             services.AddHealthChecks()
-                .AddCheck("self", () => HealthCheckResult.Healthy());
+                .AddCheck("self", () => HealthCheckResult.Healthy())
+                .AddRedis(
+                    Configuration["RedisConnectionString"],
+                    name: "redis-check",
+                    tags: new string[] { "redis" });
 
             services.AddMvc()
                 .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new DefaultContractResolver());

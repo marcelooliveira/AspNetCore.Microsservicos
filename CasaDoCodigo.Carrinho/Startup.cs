@@ -122,7 +122,11 @@ namespace Carrinho.API
             services.AddTransient<ICarrinhoRepository, RedisCarrinhoRepository>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddHealthChecks()
-                .AddCheck("self", () => HealthCheckResult.Healthy());
+                .AddCheck("self", () => HealthCheckResult.Healthy())
+                .AddRedis(
+                    Configuration["RedisConnectionString"],
+                    name: "redis-check",
+                    tags: new string[] { "redis" });
 
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
