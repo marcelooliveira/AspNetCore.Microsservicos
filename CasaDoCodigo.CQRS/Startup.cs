@@ -1,31 +1,24 @@
-﻿using CasaDoCodigo.Controllers;
-using CasaDoCodigo.Mensagens.IntegrationEvents.Events;
-using CasaDoCodigo.Models.ViewModels;
+﻿using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Services;
 using HealthChecks.UI.Client;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using MVC;
 using MVC.Commands;
 using MVC.Model.Redis;
 using MVC.SignalR;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using Rebus.Config;
-using Rebus.ServiceProvider;
+using Polly;
+using Polly.Extensions.Http;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -175,6 +168,10 @@ namespace CasaDoCodigo
             services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
             services.AddTransient<IUserRedisRepository, UserRedisRepository>();
             services.AddMediatR(typeof(UserNotificationCommand).GetTypeInfo().Assembly);
+
+            services.AddHttpClient<ICatalogoService, CatalogoService>()
+                   .AddPolicyHandler(GetRetryPolicy())
+                   .AddPolicyHandler(GetCircuitBreakerPolicy());
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -218,6 +215,21 @@ namespace CasaDoCodigo
                         options.Transports = HttpTransportType.WebSockets;
                     });
             });
+        }
+
+        static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            return HttpPolicyExtensions
+              .HandleTransientHttpError()
+              .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+              .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
+        }
+        static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
         }
     }
 }
