@@ -169,7 +169,15 @@ namespace CasaDoCodigo
             services.AddTransient<IUserRedisRepository, UserRedisRepository>();
             services.AddMediatR(typeof(UserNotificationCommand).GetTypeInfo().Assembly);
 
+            services.AddHttpClient<ICarrinhoService, CarrinhoService>()
+                   .AddPolicyHandler(GetRetryPolicy())
+                   .AddPolicyHandler(GetCircuitBreakerPolicy());
+
             services.AddHttpClient<ICatalogoService, CatalogoService>()
+                   .AddPolicyHandler(GetRetryPolicy())
+                   .AddPolicyHandler(GetCircuitBreakerPolicy());
+
+            services.AddHttpClient<IPedidoService, PedidoService>()
                    .AddPolicyHandler(GetRetryPolicy())
                    .AddPolicyHandler(GetCircuitBreakerPolicy());
         }
