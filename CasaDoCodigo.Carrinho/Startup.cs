@@ -33,7 +33,7 @@ namespace Carrinho.API
     {
         private readonly ILoggerFactory _loggerFactory;
 
-        public Startup(ILoggerFactory loggerFactory, 
+        public Startup(ILoggerFactory loggerFactory,
             IConfiguration configuration)
         {
             Configuration = configuration;
@@ -126,7 +126,8 @@ namespace Carrinho.API
                 .AddRedis(
                     Configuration["RedisConnectionString"],
                     name: "redis-check",
-                    tags: new string[] { "redis" });
+                    tags: new string[] { "redis" })
+                .AddRabbitMQ(Configuration["RabbitMQConnectionString"]);
 
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);

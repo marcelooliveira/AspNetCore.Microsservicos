@@ -95,7 +95,9 @@ namespace Identity.API
             services.AddScoped<IMediator, NoMediator>();
             services.AddScoped<IRequest<bool>, CadastroCommand>();
             services.AddHealthChecks()
-                .AddCheck("self", () => HealthCheckResult.Healthy());
+                .AddCheck("self", () => HealthCheckResult.Healthy())
+                .AddSqlite(Configuration.GetConnectionString("DefaultConnection"))
+                .AddRabbitMQ(Configuration["RabbitMQConnectionString"]);
 
             services.AddMediatR(typeof(CadastroCommand).GetTypeInfo().Assembly);
 

@@ -61,7 +61,9 @@ namespace CasaDoCodigo.OrdemDeCompra
                 .AddCheck("self", () => HealthCheckResult.Healthy())
                 .AddSqlServer(Configuration["ConnectionString"],
                     name: "Ordem de Compra DB Check",
-                    tags: new string[] { "OrdemDeCompraDB" });
+                    tags: new string[] { "OrdemDeCompraDB" })
+                .AddRabbitMQ(Configuration["RabbitMQConnectionString"]);
+
 
             services.AddAutoMapper();
 
