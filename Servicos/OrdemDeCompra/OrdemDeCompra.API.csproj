@@ -61,16 +61,4 @@
     <ProjectReference Include="..\Mensagens\Mensagens.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Paramore.Brighter.Extensions.DependencyInjection">
-      <HintPath>..\BrighterExtensions\Paramore.Brighter.Extensions.DependencyInjection.dll</HintPath>
-    </Reference>
-    <Reference Include="Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection">
-      <HintPath>..\BrighterExtensions\Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection.dll</HintPath>
-    </Reference>
-    <Reference Include="Paramore.Brighter.ServiceActivator.Extensions.Hosting">
-      <HintPath>..\BrighterExtensions\Paramore.Brighter.ServiceActivator.Extensions.Hosting.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

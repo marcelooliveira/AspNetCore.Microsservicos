@@ -1,12 +1,9 @@
 ﻿using CasaDoCodigo.Mensagens.Commands;
 using CasaDoCodigo.Mensagens.Events;
-using CasaDoCodigo.Mensagens.IntegrationEvents.Events;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Mensagens.IntegrationEvents

@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
     <PackageReference Include="Rebus" Version="4.2.2" />
   </ItemGroup>
 
