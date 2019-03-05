@@ -1,14 +1,6 @@
 version: '3.4'
 
 services:
-  sql.data:
-    image: microsoft/mssql-server-linux:2017-latest
-
-  ecommerce.data:
-    image: redis:alpine
-    ports:
-      - "6379:6379"
-
   rabbitmq:
     hostname: rabbit
     image: rabbitmq:3-management-alpine
@@ -16,11 +8,20 @@ services:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
 
+  elasticsearch:
+    image: nshou/elasticsearch-kibana
+
+  sql.data:
+    image: microsoft/mssql-server-linux:2017-latest
+
+  ecommerce.data:
+    image: redis:alpine
+
   carrinho.api:
     image: carrinhoapi
     build:
       context: .
-      dockerfile: CasaDoCodigo.Carrinho/Dockerfile
+      dockerfile: Servicos/Carrinho/Dockerfile
     depends_on:
       - rabbitmq
 
@@ -28,14 +29,14 @@ services:
     image: catalogoapi
     build:
       context: .
-      dockerfile: CasaDoCodigo.Catalogo/Dockerfile
+      dockerfile: Servicos/Catalogo/Dockerfile
 
 
   identity.api:
     image: identityapi
     build:
       context: .
-      dockerfile: CasaDoCodigo.Identity/Dockerfile
+      dockerfile: Servicos/Identity/Dockerfile
     depends_on:
       - rabbitmq
 
@@ -43,21 +44,24 @@ services:
     image: ordemdecompraapi
     build:
       context: .
-      dockerfile: OrdemDeCompra.API/Dockerfile
+      dockerfile: Servicos/OrdemDeCompra/Dockerfile
     depends_on:
       - rabbitmq
       - sql.data
+      - elasticsearch
 
   mvc:
     image: mvc
     build:
       context: .
-      dockerfile: CasaDoCodigo.CQRS/Dockerfile
+      dockerfile: Web Apps/MVC/Dockerfile
     depends_on:
+      - rabbitmq
       - ecommerce.data
+      - elasticsearch
 
   webstatus:
     image: webstatus
     build:
       context: .
-      dockerfile: CasaDoCodigo.Status/Dockerfile
+      dockerfile: Web Apps/WebStatus/Dockerfile

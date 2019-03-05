@@ -1,14 +1,14 @@
-FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM microsoft/dotnet:2.1-sdk AS build
+FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
-COPY CasaDoCodigo.Carrinho/Carrinho.API.csproj CasaDoCodigo.Carrinho/
-COPY CasaDoCodigo.Mensagens/CasaDoCodigo.Mensagens.csproj CasaDoCodigo.Mensagens/
-RUN dotnet restore CasaDoCodigo.Carrinho/Carrinho.API.csproj
+COPY Carrinho/Carrinho.API.csproj Carrinho/
+COPY Mensagens/Mensagens.csproj Mensagens/
+RUN dotnet restore Carrinho/Carrinho.API.csproj
 COPY . .
-WORKDIR /src/CasaDoCodigo.Carrinho
+WORKDIR /src/Carrinho
 RUN dotnet build Carrinho.API.csproj -c Release -o /app
 
 FROM build AS publish

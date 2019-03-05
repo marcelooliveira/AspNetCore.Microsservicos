@@ -1,6 +1,6 @@
-﻿using CasaDoCodigo.Models;
-using CasaDoCodigo.Models.ViewModels;
-using CasaDoCodigo.Services;
+﻿using MVC.Models;
+using MVC.Models.ViewModels;
+using MVC.Services;
 using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +17,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Controllers
+namespace MVC.Controllers
 {
     [Authorize]
     public class CarrinhoController : BaseController

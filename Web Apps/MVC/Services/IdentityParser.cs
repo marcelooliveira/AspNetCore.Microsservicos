@@ -1,4 +1,4 @@
-﻿using CasaDoCodigo.Models.ViewModels;
+﻿using MVC.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Services
+namespace MVC.Services
 {
     public class IdentityParser : IIdentityParser<ApplicationUser>
     {

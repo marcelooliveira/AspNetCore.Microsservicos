@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 
-namespace CasaDoCodigo.Services
+namespace MVC.Services
 {
     delegate Task<HttpResponseMessage> HttpVerbMethod(Uri requestUri, HttpContent content);
     

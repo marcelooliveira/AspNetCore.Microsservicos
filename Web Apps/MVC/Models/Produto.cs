@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
-namespace CasaDoCodigo.Models
+namespace MVC.Models
 {
     public class Produto : BaseModel
     {

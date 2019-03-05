@@ -1,5 +1,5 @@
-﻿using CasaDoCodigo.Models.ViewModels;
-using CasaDoCodigo.Services;
+﻿using MVC.Models.ViewModels;
+using MVC.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -10,7 +10,7 @@ using Polly.CircuitBreaker;
 using System;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Controllers
+namespace MVC.Controllers
 {
     public class CatalogoController : BaseController
     {

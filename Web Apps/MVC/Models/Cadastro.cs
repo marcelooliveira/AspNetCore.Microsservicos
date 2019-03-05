@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CasaDoCodigo.Models
+namespace MVC.Models
 {
     public class Cadastro : BaseModel
     {

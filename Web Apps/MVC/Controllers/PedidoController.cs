@@ -1,5 +1,5 @@
-﻿using CasaDoCodigo.Models.ViewModels;
-using CasaDoCodigo.Services;
+﻿using MVC.Models.ViewModels;
+using MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MVC.Model.Redis;
@@ -7,7 +7,7 @@ using MVC.SignalR;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Controllers
+namespace MVC.Controllers
 {
     [Route("[controller]")]
     public class PedidoController : BaseController

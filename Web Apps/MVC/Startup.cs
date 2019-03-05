@@ -1,5 +1,5 @@
-﻿using CasaDoCodigo.Models.ViewModels;
-using CasaDoCodigo.Services;
+﻿using MVC.Models.ViewModels;
+using MVC.Services;
 using HealthChecks.UI.Client;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -31,7 +31,7 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo
+namespace MVC
 {
     public class Startup
     {
@@ -173,7 +173,6 @@ namespace CasaDoCodigo
 
                     options.Scope.Add("Carrinho.API");
                     options.Scope.Add("OrdemDeCompra.API");
-                    options.Scope.Add("CasaDoCodigo.API");
                     options.Scope.Add("offline_access");
                 });
             services.AddSignalR();

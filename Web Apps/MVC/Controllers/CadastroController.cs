@@ -1,6 +1,6 @@
-﻿using CasaDoCodigo.Models;
-using CasaDoCodigo.Models.ViewModels;
-using CasaDoCodigo.Services;
+﻿using MVC.Models;
+using MVC.Models.ViewModels;
+using MVC.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +11,7 @@ using Polly.CircuitBreaker;
 using System;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Controllers
+namespace MVC.Controllers
 {
     public class CadastroController : BaseController
     {

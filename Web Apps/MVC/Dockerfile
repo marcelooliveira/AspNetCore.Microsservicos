@@ -1,14 +1,14 @@
-FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM microsoft/dotnet:2.1-sdk AS build
+FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
-COPY CasaDoCodigo.CQRS/MVC.csproj CasaDoCodigo.CQRS/
-COPY CasaDoCodigo.Mensagens/CasaDoCodigo.Mensagens.csproj CasaDoCodigo.Mensagens/
+COPY MVC/MVC.csproj MVC/
+COPY Mensagens/Mensagens.csproj Mensagens/
 RUN dotnet restore CasaDoCodigo.CQRS/MVC.csproj
 COPY . .
-WORKDIR /src/CasaDoCodigo.CQRS
+WORKDIR /src/MVC
 RUN dotnet build MVC.csproj -c Release -o /app
 
 FROM build AS publish

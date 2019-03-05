@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Services
+namespace MVC.Services
 {
     public interface IIdentityParser<T>
     {

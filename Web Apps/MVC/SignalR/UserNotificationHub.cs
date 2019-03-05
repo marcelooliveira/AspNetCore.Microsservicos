@@ -1,4 +1,4 @@
-﻿using CasaDoCodigo.Models;
+﻿using MVC.Models;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using MVC.Model.Redis;

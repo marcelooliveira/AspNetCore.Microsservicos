@@ -1,10 +1,10 @@
-﻿using CasaDoCodigo.Models.ViewModels;
+﻿using MVC.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Models
+namespace MVC.Models
 {
     public class UpdateQuantidadeOutput
     {

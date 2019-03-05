@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace CasaDoCodigo.Models
+namespace MVC.Models
 {
     [DataContract]
     public abstract class BaseModel

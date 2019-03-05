@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace CasaDoCodigo
+namespace MVC
 {
     public interface ISessionHelper
     {

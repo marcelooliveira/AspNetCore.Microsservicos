@@ -1,4 +1,4 @@
-﻿namespace CasaDoCodigo.Models.ViewModels
+﻿namespace MVC.Models.ViewModels
 {
     public class ItemPedidoDTO
     {

@@ -1,13 +1,13 @@
-FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM microsoft/dotnet:2.1-sdk AS build
+FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
-COPY ["CasaDoCodigo.Status/WebStatus.csproj", "CasaDoCodigo.Status/"]
-RUN dotnet restore "CasaDoCodigo.Status/WebStatus.csproj"
+COPY ["Status/WebStatus.csproj", "Status/"]
+RUN dotnet restore "Status/WebStatus.csproj"
 COPY . .
-WORKDIR "/src/CasaDoCodigo.Status"
+WORKDIR "/src/Status"
 RUN dotnet build "WebStatus.csproj" -c Release -o /app
 
 FROM build AS publish

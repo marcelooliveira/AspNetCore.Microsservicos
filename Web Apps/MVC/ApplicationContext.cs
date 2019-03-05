@@ -1,4 +1,4 @@
-﻿using CasaDoCodigo.Models;
+﻿using MVC.Models;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo
+namespace MVC
 {
     public class ApplicationContext : DbContext
     {

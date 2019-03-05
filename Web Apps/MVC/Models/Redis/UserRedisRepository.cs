@@ -1,4 +1,4 @@
-﻿using CasaDoCodigo.Models;
+﻿using MVC.Models;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using StackExchange.Redis;

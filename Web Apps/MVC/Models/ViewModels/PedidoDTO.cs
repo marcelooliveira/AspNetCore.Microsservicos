@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CasaDoCodigo.Models.ViewModels
+namespace MVC.Models.ViewModels
 {
     public class PedidoDTO
     {

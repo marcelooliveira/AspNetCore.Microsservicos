@@ -1,6 +1,6 @@
-﻿using CasaDoCodigo.Infrastructure;
-using CasaDoCodigo.Models;
-using CasaDoCodigo.Models.ViewModels;
+﻿using MVC.Infrastructure;
+using MVC.Models;
+using MVC.Models.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MVC.Models;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Services
+namespace MVC.Services
 {
     public class CarrinhoService : BaseHttpService, ICarrinhoService
     {

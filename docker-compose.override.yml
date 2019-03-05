@@ -1,6 +1,20 @@
 version: '3.4'
 
 services:
+  rabbitmq:
+    ports:
+      - "15672:15672"  # Important: In a production environment your should remove the external port
+      - "5672:5672"    # Important: In a production environment your should remove the external port
+
+  elasticsearch:
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+      - "5601:5601"
+      - "12201:12201/udp"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+
   sql.data:
     environment:
       - SA_PASSWORD=Pass@word
@@ -11,11 +25,6 @@ services:
   ecommerce.data:
     ports:
       - "6379:6379"    # Important: In a production environment your should remove the external port
-
-  rabbitmq:
-    ports:
-      - "15672:15672"  # Important: In a production environment your should remove the external port
-      - "5672:5672"    # Important: In a production environment your should remove the external port
 
   carrinho.api:
     environment:
@@ -30,7 +39,6 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-
     ports:
       - "50518:80"
     volumes:
@@ -78,11 +86,16 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - CarrinhoHC=http://carrinho.api/hc
-      - MvcHC=http://mvc/hc
-      - CatalogoHC=http://catalogo.api/hc
-      - IdentityHC=http://10.0.75.1:5105/hc
-      - OrdemDeCompraHC=http://ordemdecompra.api/hc
+      - HealthChecks-UI__HealthChecks__1__Name=Carrinho HTTP Check
+      - HealthChecks-UI__HealthChecks__1__Uri=http://carrinho.api/hc
+      - HealthChecks-UI__HealthChecks__2__Name=Catalogo HTTP Check
+      - HealthChecks-UI__HealthChecks__2__Uri=http://catalogo.api/hc
+      - HealthChecks-UI__HealthChecks__3__Name=MVC HTTP Check
+      - HealthChecks-UI__HealthChecks__3__Uri=http://mvc/hc
+      - HealthChecks-UI__HealthChecks__4__Name=Identity HTTP Check
+      - HealthChecks-UI__HealthChecks__4__Uri=http://10.0.75.1:5105/hc
+      - HealthChecks-UI__HealthChecks__5__Name=Ordem de Compra HTTP Check
+      - HealthChecks-UI__HealthChecks__5__Uri=http://ordemdecompra.api/hc
     ports:
       - "5107:80"
 

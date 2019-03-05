@@ -1,15 +1,15 @@
-FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
 WORKDIR /app
 EXPOSE 50519
 EXPOSE 44338
 
-FROM microsoft/dotnet:2.1-sdk AS build
+FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
-COPY CasaDoCodigo.Identity/Identity.API.csproj CasaDoCodigo.Identity/
-COPY CasaDoCodigo.Mensagens/CasaDoCodigo.Mensagens.csproj CasaDoCodigo.Mensagens/
-RUN dotnet restore CasaDoCodigo.Identity/Identity.API.csproj
+COPY Identity/Identity.API.csproj Identity/
+COPY Mensagens/Mensagens.csproj Mensagens/
+RUN dotnet restore Identity/Identity.API.csproj
 COPY . .
-WORKDIR /src/CasaDoCodigo.Identity
+WORKDIR /src/Identity
 RUN dotnet build Identity.API.csproj -c Release -o /app
 
 FROM build AS publish

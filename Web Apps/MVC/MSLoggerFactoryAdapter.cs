@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Rebus.Logging;
 
-namespace CasaDoCodigo
+namespace MVC
 {
     public class MSLoggerFactoryAdapter : AbstractRebusLoggerFactory
     {

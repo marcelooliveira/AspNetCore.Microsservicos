@@ -1,12 +1,12 @@
-FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
 WORKDIR /app
 EXPOSE 5106
 EXPOSE 44398
 
-FROM microsoft/dotnet:2.1-sdk AS build
+FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
 COPY OrdemDeCompra.API/OrdemDeCompra.API.csproj OrdemDeCompra.API/
-COPY CasaDoCodigo.Mensagens/CasaDoCodigo.Mensagens.csproj CasaDoCodigo.Mensagens/
+COPY Mensagens/Mensagens.csproj Mensagens/
 RUN dotnet restore OrdemDeCompra.API/OrdemDeCompra.API.csproj
 COPY . .
 WORKDIR /src/OrdemDeCompra.API

@@ -1,4 +1,4 @@
-﻿using CasaDoCodigo.Models;
+﻿using MVC.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Models
+namespace MVC.Models
 {
     public class ProdutoViewModel
     {

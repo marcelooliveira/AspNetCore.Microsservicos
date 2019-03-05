@@ -1,14 +1,14 @@
-FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
 WORKDIR /app
 EXPOSE 50518
 EXPOSE 44375
 
-FROM microsoft/dotnet:2.1-sdk AS build
+FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
-COPY CasaDoCodigo.Catalogo/Catalogo.API.csproj CasaDoCodigo.Catalogo/
-RUN dotnet restore CasaDoCodigo.Catalogo/Catalogo.API.csproj
+COPY Catalogo/Catalogo.API.csproj Catalogo/
+RUN dotnet restore Catalogo/Catalogo.API.csproj
 COPY . .
-WORKDIR /src/CasaDoCodigo.Catalogo
+WORKDIR /src/Catalogo
 RUN dotnet build Catalogo.API.csproj -c Release -o /app
 
 FROM build AS publish

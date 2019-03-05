@@ -6,7 +6,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace CasaDoCodigo
+namespace MVC
 {
     public class Program
     {

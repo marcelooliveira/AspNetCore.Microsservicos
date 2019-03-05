@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using CasaDoCodigo;
-using CasaDoCodigo.Models.ViewModels;
-using CasaDoCodigo.Services;
+using MVC;
+using MVC.Models.ViewModels;
+using MVC.Services;
 using Microsoft.Extensions.Configuration;
 
-namespace CasaDoCodigo.Services
+namespace MVC.Services
 {
     public class PedidoService : BaseHttpService, IPedidoService
     {

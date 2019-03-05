@@ -1,4 +1,4 @@
-﻿namespace CasaDoCodigo.Services
+﻿namespace MVC.Services
 {
     public interface IService
     {

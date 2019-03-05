@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace CasaDoCodigo.Controllers
+namespace MVC.Controllers
 {
     public class AccountController : Controller
     {
