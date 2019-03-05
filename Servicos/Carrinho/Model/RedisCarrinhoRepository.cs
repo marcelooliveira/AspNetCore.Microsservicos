@@ -54,7 +54,6 @@ namespace Carrinho.API.Model
                 _logger.LogError("Erro ao atualizar o carrinho.");
                 return null;
             }
-            _logger.LogInformation("Carrinho atualizado.");
             return await GetCarrinhoAsync(carrinho.ClienteId);
         }
 

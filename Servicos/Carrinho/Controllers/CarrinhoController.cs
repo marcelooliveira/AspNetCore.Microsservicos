@@ -21,18 +21,22 @@ namespace Carrinho.API.Controllers
     [Authorize]
     public class CarrinhoController : Controller
     {
+        private EventId EventId_Checkout = new EventId(1001, "Checkout");
+        private EventId EventId_Registry = new EventId(1002, "Cadastro");
         private readonly ICarrinhoRepository _repository;
         private readonly IIdentityService _identityService;
         private readonly IBus _bus;
-        
+        private readonly ILogger<CarrinhoController> _logger;
+
         public CarrinhoController(ICarrinhoRepository repository
             , IIdentityService identityService
             , IBus bus
-            )
+            , ILogger<CarrinhoController> logger)
         {
             _repository = repository;
             _identityService = identityService;
             _bus = bus;
+            _logger = logger;
         }
 
         //GET /id
@@ -189,6 +193,8 @@ namespace Carrinho.API.Controllers
             // processo de criação de pedido
             await _bus.Publish(checkoutEvent);
 
+            _logger.LogInformation(eventId: EventId_Checkout, message: "Evento de check out foi enviado: {CheckoutEvent}", args: checkoutEvent);
+
             var cadastroEvent
                 = new CadastroEvent
                  (clienteId, input.Nome, input.Email, input.Telefone
@@ -196,6 +202,8 @@ namespace Carrinho.API.Controllers
                     , input.Municipio, input.UF, input.CEP);
 
             await _bus.Publish(cadastroEvent);
+
+            _logger.LogInformation(eventId: EventId_Registry, message: "Evento de Cadastro foi enviado: {RegistryEvent}", args: cadastroEvent);
 
             await _repository.DeleteCarrinhoAsync(clienteId);
 

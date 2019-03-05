@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -53,6 +54,11 @@ namespace CasaDoCodigo.Mensagens.Events
         public string Cep { get; set; }
         public Guid RequestId { get; set; }
         public List<CheckoutEventItem> Itens { get; } = new List<CheckoutEventItem>();
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 
     public class CheckoutEventItem

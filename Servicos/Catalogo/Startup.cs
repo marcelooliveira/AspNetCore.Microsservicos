@@ -1,34 +1,47 @@
 ﻿using Catalogo.API.Data;
 using Catalogo.API.Queries;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
-using HealthChecks.UI.Client;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace Catalogo.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration
+            , IHostingEnvironment environment)
         {
             Configuration = configuration;
+
+            var configurationByFile = new ConfigurationBuilder()
+                .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configurationByFile)
+                .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
+
             services.AddTransient<IProdutoQueries, ProdutoQueries>();
 
             services.AddHealthChecks()
@@ -79,8 +92,10 @@ namespace Catalogo.API
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddSerilog();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

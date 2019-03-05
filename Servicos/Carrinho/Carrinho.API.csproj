@@ -38,8 +38,11 @@
     <PackageReference Include="Rebus" Version="5.2.1" />
     <PackageReference Include="Rebus.RabbitMq" Version="4.4.2" />
     <PackageReference Include="Rebus.ServiceProvider" Version="4.0.2" />
-    <PackageReference Include="Serilog" Version="2.7.1" />
+    <PackageReference Include="Serilog" Version="2.8.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="7.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="3.0.0" />

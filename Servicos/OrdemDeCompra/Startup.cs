@@ -5,8 +5,6 @@ using CasaDoCodigo.OrdemDeCompra.Commands;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
 using HealthChecks.UI.Client;
 using MediatR;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -18,20 +16,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using OrdemDeCompra.API.SignalR;
 using Rebus.Config;
 using Rebus.ServiceProvider;
+using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Reflection;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace CasaDoCodigo.OrdemDeCompra
 {
@@ -40,11 +32,20 @@ namespace CasaDoCodigo.OrdemDeCompra
         private readonly ILoggerFactory _loggerFactory;
 
         public Startup(ILoggerFactory loggerFactory,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
         {
             Configuration = configuration;
             _loggerFactory = loggerFactory;
-            _loggerFactory.AddDebug(); // logs to the debug output window in VS.
+
+            var configurationByFile = new ConfigurationBuilder()
+                .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configurationByFile)
+                .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
@@ -52,6 +53,8 @@ namespace CasaDoCodigo.OrdemDeCompra
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSignalR();
@@ -150,8 +153,10 @@ namespace CasaDoCodigo.OrdemDeCompra
                 .AutoRegisterHandlersFromAssemblyOf<CheckoutEvent>();
         }
 
-        public void Configure(IServiceProvider serviceProvider, IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
+        public void Configure(IServiceProvider serviceProvider, IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddSerilog();
+
             app.UseRebus(
                 async (bus) =>
                 {

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace CasaDoCodigo.OrdemDeCompra.Models
@@ -7,7 +8,6 @@ namespace CasaDoCodigo.OrdemDeCompra.Models
     public class ItemPedido : BaseModel
     {
         [Required]
-        [DataMember]
         public Pedido Pedido { get; set; }
         [Required]
         [DataMember]
@@ -19,6 +19,7 @@ namespace CasaDoCodigo.OrdemDeCompra.Models
         [DataMember]
         public int ProdutoQuantidade { get; set; }
         [DataMember]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal ProdutoPrecoUnitario { get; set; }
         public decimal Subtotal => ProdutoQuantidade * ProdutoPrecoUnitario;
 

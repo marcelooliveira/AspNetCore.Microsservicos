@@ -18,6 +18,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using Rebus.Config;
 using Rebus.ServiceProvider;
+using Serilog;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
@@ -34,11 +35,20 @@ namespace Carrinho.API
         private readonly ILoggerFactory _loggerFactory;
 
         public Startup(ILoggerFactory loggerFactory,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IHostingEnvironment env)
         {
             Configuration = configuration;
             _loggerFactory = loggerFactory;
-            _loggerFactory.AddDebug(); // logs to the debug output window in VS.
+
+            var configurationByFile = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configurationByFile)
+                .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
@@ -46,6 +56,8 @@ namespace Carrinho.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
+
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
@@ -143,8 +155,10 @@ namespace Carrinho.API
                 .Transport(t => t.UseRabbitMq(Configuration["RabbitMQConnectionString"], Configuration["RabbitMQInputQueueName"])));
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddSerilog();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

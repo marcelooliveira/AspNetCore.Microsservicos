@@ -24,20 +24,6 @@ namespace CasaDoCodigo.Status
                 WebHost.CreateDefaultBuilder(args)
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
-                .ConfigureLogging((hostingContext, builder) =>
-                {
-                    builder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                    builder.AddConsole();
-                    builder.AddDebug();
-                })
-                .UseApplicationInsights()
-                .UseSerilog((builderContext, config) =>
-                {
-                    config
-                        .MinimumLevel.Information()
-                        .Enrich.FromLogContext()
-                        .WriteTo.Console();
-                })
                 .Build();
         }
     }

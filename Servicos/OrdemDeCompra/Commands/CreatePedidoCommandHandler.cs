@@ -1,18 +1,14 @@
 ﻿using CasaDoCodigo.Mensagens.Commands;
-using CasaDoCodigo.Mensagens.IntegrationEvents.Events;
 using CasaDoCodigo.OrdemDeCompra.Models;
 using CasaDoCodigo.OrdemDeCompra.Repositories;
 using MediatR;
-using Microsoft.AspNet.SignalR.Client.Hubs;
 using Microsoft.AspNetCore.Http.Connections;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Rebus.Bus;
 using System;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,6 +18,7 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
     public class CreatePedidoCommandHandler
         : IRequestHandler<IdentifiedCommand<CreatePedidoCommand, bool>, bool>
     {
+        private EventId EventId_CreateOrder = new EventId(1003, "Checkout");
         private readonly IPedidoRepository _pedidoRepository;
         private readonly ILogger<CreatePedidoCommandHandler> _logger;
         private readonly IBus _bus;
@@ -39,8 +36,6 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
             this._logger = logger;
             this._bus = bus;
             this._configuration = configuration;
-
-            _logger.LogInformation("new CreatePedidoCommandHandler created.");
 
             string userNotificationHubUrl = $"{_configuration["SignalRServerUrl"]}usernotificationhub";
             
@@ -118,6 +113,8 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
                 Pedido novoPedido = await this._pedidoRepository.CreateOrUpdate(pedido);
 
                 string notificationText = $"Novo pedido gerado com sucesso: {novoPedido.Id}";
+
+                _logger.LogInformation(eventId: EventId_CreateOrder, message: "Novo pedido foi criado: {Pedido}", novoPedido);
 
                 HttpClient httpClient = new HttpClient();
                 string userNotificationHubUrl = $"{_configuration["SignalRServerUrl"]}usernotificationhub";

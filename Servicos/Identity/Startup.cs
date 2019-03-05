@@ -1,7 +1,6 @@
 ﻿using CasaDoCodigo.Identity.API;
 using CasaDoCodigo.Mensagens.IntegrationEvents.Events;
 using HealthChecks.UI.Client;
-//using HealthChecks.UI.Client;
 using Identity.API.Commands;
 using Identity.API.Data;
 using Identity.API.IntegrationEvents.EventHandling;
@@ -20,10 +19,10 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Rebus.Config;
 using Rebus.ServiceProvider;
+using Serilog;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Identity.API
 {
@@ -34,16 +33,28 @@ namespace Identity.API
         public IConfiguration Configuration { get; }
         public IHostingEnvironment Environment { get; }
 
-        public Startup(ILoggerFactory loggerFactory, IConfiguration configuration, IHostingEnvironment environment)
+        public Startup(ILoggerFactory loggerFactory
+            , IConfiguration configuration
+            , IHostingEnvironment environment)
         {
             Configuration = configuration;
             Environment = environment;
             _loggerFactory = loggerFactory;
-            _loggerFactory.AddDebug(); // logs to the debug output window in VS.
+
+            var configurationByFile = new ConfigurationBuilder()
+                .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configurationByFile)
+                .CreateLogger();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
+
             services.AddScoped<UserManager<ApplicationUser>>();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
@@ -117,8 +128,10 @@ namespace Identity.API
                 .AutoRegisterHandlersFromAssemblyOf<CadastroEvent>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddSerilog();
+
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             app.UseRebus(
                 async (bus) =>

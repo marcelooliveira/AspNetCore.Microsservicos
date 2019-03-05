@@ -1,4 +1,5 @@
 ﻿using CasaDoCodigo.Mensagens.Events;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -36,5 +37,10 @@ namespace CasaDoCodigo.Mensagens.IntegrationEvents.Events
         public string Municipio { get; set; }
         public string UF { get; set; }
         public string CEP { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }

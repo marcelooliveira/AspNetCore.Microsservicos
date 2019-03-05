@@ -19,6 +19,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Polly;
 using Polly.Extensions.Http;
+using Serilog;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -37,17 +38,28 @@ namespace CasaDoCodigo
         private readonly ILoggerFactory _loggerFactory;
 
         public Startup(ILoggerFactory loggerFactory,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IHostingEnvironment environment)
         {
             Configuration = configuration;
             _loggerFactory = loggerFactory;
-            _loggerFactory.AddDebug(); // logs to the debug output window in VS.
+
+            var configurationByFile = new ConfigurationBuilder()
+                .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configurationByFile)
+                .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
+
             var uri = new Uri(Configuration["ApiUrl"]);
             HttpClient httpClient = new HttpClient()
             {
@@ -182,8 +194,10 @@ namespace CasaDoCodigo
                    .AddPolicyHandler(GetCircuitBreakerPolicy());
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddSerilog();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
