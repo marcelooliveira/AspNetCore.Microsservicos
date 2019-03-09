@@ -230,7 +230,7 @@ namespace MVC
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<UserNotificationHub>("/usernotificationhub",
+                routes.MapHub<UserCounterDataHub>("/usercounterdatahub",
                     options =>
                     {
                         options.Transports = HttpTransportType.WebSockets;

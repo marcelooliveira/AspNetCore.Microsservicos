@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Catalog.API</name>
+    </assembly>
+    <members>
+        <member name="M:Catalog.API.Controllers.ProductController.GetProducts">
+            <summary>
+            Gets the complete product catalog list
+            </summary>
+            <returns>
+            The complete product catalog list
+            </returns>
+            <response code="401">Not authorized</response> 
+        </member>
+        <member name="M:Catalog.API.Controllers.SearchController.GetProducts(System.String)">
+            <summary>
+            Gets the complete product catalog list
+            </summary>
+            <returns>
+            The complete product catalog list
+            </returns>
+            <param name="search"></param>
+            <response code="401">Not authorized</response> 
+            <returns></returns>
+        </member>
+    </members>
+</doc>

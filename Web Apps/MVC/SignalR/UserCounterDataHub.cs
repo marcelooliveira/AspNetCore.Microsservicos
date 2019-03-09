@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace MVC.SignalR
 {
-    public class UserNotificationHub : Hub
+    public class UserCounterDataHub : Hub
     {
         private readonly IUserRedisRepository userRedisRepository;
         protected readonly ILogger logger;
 
-        public UserNotificationHub(IUserRedisRepository userRedisRepository,
-            ILogger<UserNotificationHub> logger)
+        public UserCounterDataHub(IUserRedisRepository userRedisRepository,
+            ILogger<UserCounterDataHub> logger)
         {
             this.userRedisRepository = userRedisRepository;
             this.logger = logger;
@@ -30,9 +30,15 @@ namespace MVC.SignalR
         {
             var userNotification = new UserNotification(user, message, DateTime.Now, null);
             await userRedisRepository.AddUserNotificationAsync(user, userNotification);
-            var userNotifications = await userRedisRepository.GetUnreadUserNotificationsAsync(user);
+            var userCounterData = await userRedisRepository.GetUserCounterDataAsync(user);
             await Task.Delay(1000);
-            return userNotifications.Count;
+            return userCounterData.Notifications.Count;
+        }
+
+        public async Task UpdateUserBasketCount(string user, int basketCount)
+        {
+            await userRedisRepository.UpdateUserBasketCountAsync(user, basketCount);
+            await Clients.User(user).SendAsync("ReceiveUserBasketCount", user, basketCount);
         }
     }
 }

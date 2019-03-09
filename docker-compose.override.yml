@@ -31,6 +31,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://10.0.75.1:5105
       - RedisConnectionString=ecommerce.data:6379
+      - SignalRServerUrl=http://mvc/
       - RabbitMQConnectionString=amqp://rabbitmq
     ports:
       - "5103:80"

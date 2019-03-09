@@ -3,7 +3,10 @@ using Carrinho.API.Services;
 using CasaDoCodigo.Mensagens.Events;
 using CasaDoCodigo.Mensagens.IntegrationEvents.Events;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Rebus.Bus;
 using System;
@@ -27,16 +30,33 @@ namespace Carrinho.API.Controllers
         private readonly IIdentityService _identityService;
         private readonly IBus _bus;
         private readonly ILogger<CarrinhoController> _logger;
+        private readonly IConfiguration _configuration;
+        private readonly HubConnection _connection;
 
         public CarrinhoController(ICarrinhoRepository repository
             , IIdentityService identityService
             , IBus bus
-            , ILogger<CarrinhoController> logger)
+            , ILogger<CarrinhoController> logger
+            , IConfiguration configuration)
         {
             _repository = repository;
             _identityService = identityService;
             _bus = bus;
             _logger = logger;
+            _configuration = configuration;
+
+            string userCounterDataHubUrl = $"{_configuration["SignalRServerUrl"]}usercounterdatahub";
+
+            this._connection = new HubConnectionBuilder()
+                .WithUrl(userCounterDataHubUrl, HttpTransportType.WebSockets)
+                .Build();
+            this._connection.Closed += async (error) =>
+            {
+                await Task.Delay(new Random().Next(0, 5) * 1000);
+                await this._connection.StartAsync();
+            };
+
+            this._connection.StartAsync().GetAwaiter();
         }
 
         //GET /id
@@ -83,6 +103,10 @@ namespace Carrinho.API.Controllers
             try
             {
                 var carrinho = await _repository.UpdateCarrinhoAsync(input);
+
+                await this._connection
+                    .InvokeAsync("UpdateUserBasketCount", $"{input.ClienteId}", carrinho.Itens.Count);
+
                 return Ok(carrinho);
             }
             catch (KeyNotFoundException)
@@ -110,6 +134,10 @@ namespace Carrinho.API.Controllers
             try
             {
                 var carrinho = await _repository.AddCarrinhoAsync(clienteId, input);
+
+                await this._connection
+                    .InvokeAsync("UpdateUserBasketCount", $"{clienteId}", carrinho.Itens.Count);
+
                 return Ok(carrinho);
             }
             catch (KeyNotFoundException)
@@ -136,8 +164,12 @@ namespace Carrinho.API.Controllers
 
             try
             {
-                var carrinho = await _repository.UpdateCarrinhoAsync(clienteId, input);
-                return Ok(carrinho);
+                var output = await _repository.UpdateCarrinhoAsync(clienteId, input);
+
+                await this._connection
+                    .InvokeAsync("UpdateUserBasketCount", $"{clienteId}", output.CarrinhoCliente.Itens.Count);
+
+                return Ok(output);
             }
             catch (KeyNotFoundException)
             {
@@ -205,9 +237,20 @@ namespace Carrinho.API.Controllers
 
             _logger.LogInformation(eventId: EventId_Registry, message: "Evento de Cadastro foi enviado: {RegistryEvent}", args: cadastroEvent);
 
-            await _repository.DeleteCarrinhoAsync(clienteId);
+            try
+            {
+                await _repository.DeleteCarrinhoAsync(clienteId);
 
-            return Accepted(true);
+                await this._connection
+                    .InvokeAsync("UpdateUserBasketCount", $"{clienteId}", 0);
+
+                return Accepted(true);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                throw;
+            }
         }
     }
 }

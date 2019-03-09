@@ -3,6 +3,8 @@ using Carrinho.API.Model;
 using CasaDoCodigo.Mensagens.Events;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Rebus.Bus;
 using System.Collections.Generic;
@@ -19,12 +21,17 @@ namespace Carrinho.API.Tests
         private readonly Mock<ICarrinhoRepository> _carrinhoRepositoryMock;
         private readonly Mock<ICarrinhoIdentityService> _identityServiceMock;
         private readonly Mock<IBus> _serviceBusMock;
+        private readonly Mock<ILogger<CarrinhoController>> _loggerMock;        
+        private readonly Mock<IConfiguration> _configurationMock;
 
         public CarrinhoControllerTest()
         {
             _carrinhoRepositoryMock = new Mock<ICarrinhoRepository>();
             _identityServiceMock = new Mock<ICarrinhoIdentityService>();
             _serviceBusMock = new Mock<IBus>();
+            _loggerMock = new Mock<ILogger<CarrinhoController>>();
+            _loggerMock = new Mock<ILogger<CarrinhoController>>();
+            _configurationMock = new Mock<IConfiguration>();
         }
 
         #region Get
@@ -47,7 +54,9 @@ namespace Carrinho.API.Tests
             var carrinhoController = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
-                _serviceBusMock.Object);
+                _serviceBusMock.Object,
+                _loggerMock.Object,
+                _configurationMock.Object);
 
             var actionResult = await carrinhoController.Get(fakeClienteId) as OkObjectResult;
 
@@ -69,7 +78,8 @@ namespace Carrinho.API.Tests
             //arrange
             var controller =
                 new CarrinhoController(_carrinhoRepositoryMock.Object,
-                _identityServiceMock.Object, _serviceBusMock.Object);
+                _identityServiceMock.Object, _serviceBusMock.Object,
+                _loggerMock.Object, _configurationMock.Object);
 
             //act
             IActionResult actionResult = await controller.Get(null);
@@ -92,7 +102,8 @@ namespace Carrinho.API.Tests
 
             var controller =
                 new CarrinhoController(_carrinhoRepositoryMock.Object,
-                _identityServiceMock.Object, _serviceBusMock.Object);
+                _identityServiceMock.Object, _serviceBusMock.Object,
+                _loggerMock.Object, _configurationMock.Object);
 
             //act
             IActionResult actionResult = await controller.Get(clienteId);
@@ -123,7 +134,9 @@ namespace Carrinho.API.Tests
             var carrinhoController = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
-                _serviceBusMock.Object);
+                _serviceBusMock.Object,
+                _loggerMock.Object,
+                _configurationMock.Object);
 
             var actionResult = await carrinhoController.Post(fakeCarrinhoCliente) as OkObjectResult;
 
@@ -151,7 +164,9 @@ namespace Carrinho.API.Tests
             var carrinhoController = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
-                _serviceBusMock.Object);
+                _serviceBusMock.Object,
+                _loggerMock.Object,
+                _configurationMock.Object);
 
             var actionResult = await carrinhoController.Post(fakeCarrinhoCliente);
 
@@ -169,7 +184,9 @@ namespace Carrinho.API.Tests
             var controller = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
-                _serviceBusMock.Object);
+                _serviceBusMock.Object,
+                _loggerMock.Object,
+                _configurationMock.Object);
             controller.ModelState.AddModelError("ClienteId", "Required");
 
             //Act
@@ -191,7 +208,10 @@ namespace Carrinho.API.Tests
             var carrinhoController = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
-                _serviceBusMock.Object);
+                _serviceBusMock.Object,
+                _loggerMock.Object,
+                _configurationMock.Object);
+
             CadastroViewModel input = new CadastroViewModel();
             carrinhoController.ModelState.AddModelError("Email", "Required");
 
@@ -213,7 +233,10 @@ namespace Carrinho.API.Tests
             var carrinhoController = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
-                _serviceBusMock.Object);
+                _serviceBusMock.Object,
+                _loggerMock.Object,
+                _configurationMock.Object);
+
             CadastroViewModel input = new CadastroViewModel();
 
             //Act
@@ -239,7 +262,8 @@ namespace Carrinho.API.Tests
             //    .Verifiable();
 
             var carrinhoController = new CarrinhoController(
-                _carrinhoRepositoryMock.Object, _identityServiceMock.Object, _serviceBusMock.Object);
+                _carrinhoRepositoryMock.Object, _identityServiceMock.Object, _serviceBusMock.Object,
+                _loggerMock.Object, _configurationMock.Object);
 
             carrinhoController.ControllerContext = new ControllerContext()
             {
@@ -284,7 +308,9 @@ namespace Carrinho.API.Tests
             var controller = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
-                _serviceBusMock.Object);
+                _serviceBusMock.Object,
+                _loggerMock.Object,
+                _configurationMock.Object);
 
             //act
             ActionResult<CarrinhoCliente> actionResult = await controller.AddItem(clienteId, input);
@@ -310,7 +336,9 @@ namespace Carrinho.API.Tests
             var controller = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
-                _serviceBusMock.Object);
+                _serviceBusMock.Object,
+                _loggerMock.Object,
+                _configurationMock.Object);
 
             //act
             ActionResult<CarrinhoCliente> actionResult = await controller.AddItem(clienteId, input);
@@ -332,7 +360,10 @@ namespace Carrinho.API.Tests
             var controller = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
-                _serviceBusMock.Object);
+                _serviceBusMock.Object,
+                _loggerMock.Object,
+                _configurationMock.Object);
+
             controller.ModelState.AddModelError("ProdutoId", "Required");
             
             //act
@@ -366,7 +397,9 @@ namespace Carrinho.API.Tests
             var controller = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
-                _serviceBusMock.Object);
+                _serviceBusMock.Object,
+                _loggerMock.Object,
+                _configurationMock.Object);
 
             //act
             ActionResult<UpdateQuantidadeOutput> actionResult = await controller.UpdateItem(clienteId, new UpdateQuantidadeInput(input.ProdutoId, input.Quantidade));
@@ -392,7 +425,9 @@ namespace Carrinho.API.Tests
             var controller = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
-                _serviceBusMock.Object);
+                _serviceBusMock.Object,
+                _loggerMock.Object,
+                _configurationMock.Object);
 
             //act
             ActionResult<UpdateQuantidadeOutput> actionResult = await controller.UpdateItem(clienteId, new UpdateQuantidadeInput(input.ProdutoId, input.Quantidade));
@@ -411,7 +446,10 @@ namespace Carrinho.API.Tests
             var controller = new CarrinhoController(
                 _carrinhoRepositoryMock.Object,
                 _identityServiceMock.Object,
-                _serviceBusMock.Object);
+                _serviceBusMock.Object,
+                _loggerMock.Object,
+                _configurationMock.Object);
+
             controller.ModelState.AddModelError("ProdutoId", "Required");
 
             //act

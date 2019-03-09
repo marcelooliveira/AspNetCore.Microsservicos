@@ -1,20 +1,14 @@
-﻿using MVC.Models;
-using MVC.Models.ViewModels;
-using MVC.Services;
-using IdentityModel;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Core;
 using Microsoft.Extensions.Logging;
 using MVC.Model.Redis;
 using MVC.Models;
-using MVC.SignalR;
+using MVC.Models.ViewModels;
+using MVC.Services;
 using Polly.CircuitBreaker;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MVC.Controllers
@@ -42,8 +36,6 @@ namespace MVC.Controllers
 
         public async Task<IActionResult> Index(string codigo = null)
         {
-            await CheckUserNotificationCount();
-
             try
             {
                 string idUsuario = GetUserId();
@@ -64,6 +56,7 @@ namespace MVC.Controllers
                 {
                     carrinho = await carrinhoService.GetCarrinho(idUsuario);
                 }
+                await CheckUserCounterData();
                 return View(carrinho);
             }
             catch (BrokenCircuitException e)
@@ -90,7 +83,7 @@ namespace MVC.Controllers
             try
             {
                 var usuario = appUserParser.Parse(HttpContext.User);
-                var carrinho = carrinhoService.DefinirQuantidades(usuario, quantidades);
+                var carrinho = await carrinhoService.DefinirQuantidades(usuario, quantidades);
             }
             catch (BrokenCircuitException e)
             {
@@ -153,13 +146,12 @@ namespace MVC.Controllers
 
         public async Task<IActionResult> Checkout()
         {
-            await CheckUserNotificationCount();
-
             try
             {
                 string idUsuario = GetUserId();
 
                 var usuario = appUserParser.Parse(HttpContext.User);
+                await CheckUserCounterData();
                 return View(new PedidoConfirmado(usuario.Email));
             }
             catch (Exception e)

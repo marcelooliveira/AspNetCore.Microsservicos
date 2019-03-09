@@ -93,7 +93,7 @@ textarea {
 
 /* Notifications */
 
-.notification {
+.user-count {
     display: inline-block;
     position: relative;
     padding: 0.08em;
@@ -101,10 +101,17 @@ textarea {
     font-size: 1.2em;
 }
 
-.notification::before,
-.notification::after {
+.user-count::before,
+.user-count::after {
     color: #fff;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.user-count::before {
+    display: block;
+    content: "\f0f3";
+    font-family: "FontAwesome";
+    transform-origin: top center;
 }
 
 .notification::before {
@@ -114,7 +121,7 @@ textarea {
     transform-origin: top center;
 }
 
-.notification::after {
+.user-count::after {
     font-family: Arial;
     font-size: 0.7em;
     font-weight: 700;
@@ -140,10 +147,17 @@ textarea {
     animation: ring 1.5s ease;
 }
 
-.notification.show-count::after {
+.user-count.show-count::after {
     -webkit-transform: scale(1);
     transform: scale(1);
     opacity: 1;
+}
+
+.userbasket::before {
+    display: block;
+    content: "\f07a";
+    font-family: "FontAwesome";
+    transform-origin: top center;
 }
 
 @-webkit-keyframes ring {

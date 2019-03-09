@@ -37,10 +37,10 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
             this._bus = bus;
             this._configuration = configuration;
 
-            string userNotificationHubUrl = $"{_configuration["SignalRServerUrl"]}usernotificationhub";
+            string userCounterDataHubUrl = $"{_configuration["SignalRServerUrl"]}usercounterdatahub";
             
             this._connection = new HubConnectionBuilder()
-                .WithUrl(userNotificationHubUrl, HttpTransportType.WebSockets)
+                .WithUrl(userCounterDataHubUrl, HttpTransportType.WebSockets)
                 .Build();
             this._connection.Closed += async (error) =>
             {
@@ -116,8 +116,7 @@ namespace CasaDoCodigo.OrdemDeCompra.Commands
 
                 _logger.LogInformation(eventId: EventId_CreateOrder, message: "Novo pedido foi criado: {Pedido}", novoPedido);
 
-                HttpClient httpClient = new HttpClient();
-                string userNotificationHubUrl = $"{_configuration["SignalRServerUrl"]}usernotificationhub";
+                string userNotificationHubUrl = $"{_configuration["SignalRServerUrl"]}usercounterdatahub";
 
                 await this._connection.InvokeAsync("SendUserNotification",
                     $"{novoPedido.ClienteId}", notificationText);

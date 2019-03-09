@@ -29,7 +29,7 @@ namespace MVC.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            await CheckUserNotificationCount();
+            await CheckUserCounterData();
 
             try
             {

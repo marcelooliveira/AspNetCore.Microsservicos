@@ -55,15 +55,15 @@ namespace MVC.Controllers
             return null;
         }
 
-        protected async Task CheckUserNotificationCount()
+        protected async Task CheckUserCounterData()
         {
             if (!true.Equals(ViewData["signed-out"]))
             {
                 var userId = GetUserId();
                 if (userId != null)
                 {
-                    var userNotifications = await userRedisRepository.GetUnreadUserNotificationsAsync(userId);
-                    ViewBag.UserNotifications = userNotifications;
+                    ViewBag.UserCounterData 
+                        = await userRedisRepository.GetUserCounterDataAsync(userId);
                 }
             }
         }

@@ -4,7 +4,7 @@
 
 var connection =
     new signalR.HubConnectionBuilder()
-        .withUrl("/usernotificationhub")
+        .withUrl("/usercounterdatahub")
         .build();
 
 connection.on("ReceiveMessage", function (user, message) {
@@ -14,6 +14,19 @@ connection.on("ReceiveMessage", function (user, message) {
     el.classList.remove('notify');
     el.classList.add('notify');
     el.classList.add('show-count');
+});
+
+connection.on("ReceiveUserBasketCount", function (user, basketCount) {
+    var el = document.querySelector('.userbasket');
+    el.setAttribute('data-count', basketCount);
+    el.classList.remove('notify');
+    el.classList.add('notify');
+    if (basketCount) {
+        el.classList.add('show-count');
+    }
+    else {
+        el.classList.remove('show-count');
+    }
 });
 
 connection.start().catch(function (err) {

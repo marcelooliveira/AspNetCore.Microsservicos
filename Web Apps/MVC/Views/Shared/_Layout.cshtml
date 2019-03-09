@@ -4,8 +4,7 @@
 @{
     string name = null;
     string clienteId = null;
-    int userNotificationCount = 0;
-    List<UserNotification> userNotifications = new List<UserNotification>();
+    UserCounterData userCounterData = null;
     if (!true.Equals(ViewData["signed-out"]))
     {
         name = @User.FindFirst("name")?.Value;
@@ -16,10 +15,9 @@
 
         clienteId = @User.FindFirst("sub")?.Value;
 
-        if (ViewBag.UserNotifications != null)
+        if (ViewBag.UserCounterData != null)
         {
-            userNotifications = ViewBag?.UserNotifications;
-            userNotificationCount = userNotifications.Count;
+            userCounterData = ViewBag?.UserCounterData;
         }
     }
 }
@@ -56,42 +54,62 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"></a>
             </div>
             <div class="navbar-collapse collapse">
-            @if (!string.IsNullOrWhiteSpace(name))
-            {
-                <ul class="nav navbar-nav pull-right">
-                    <li>
-                        <ul class="nav navbar-nav">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle text-white" data-toggle="dropdown">
-                                    <span style="color: #fff;">@name</span>
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a asp-action="Historico" asp-controller="Pedido" asp-route-clienteId="@clienteId">Meus Pedidos</a></li>
-                                    <li><a asp-action="Logout" asp-controller="Account">Logout</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
+                @if (!string.IsNullOrWhiteSpace(name))
+                {
+                    <ul class="nav navbar-nav pull-right">
+                        <li>
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle text-white" data-toggle="dropdown">
+                                        <span style="color: #fff;">@name</span>
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a asp-action="Historico" asp-controller="Pedido" asp-route-clienteId="@clienteId">Meus Pedidos</a></li>
+                                        <li><a asp-action="Logout" asp-controller="Account">Logout</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
                         @if (!true.Equals(ViewData["signed-out"]))
                         {
-                            <div class="container-notification">
-                                <a asp-action="notificacoes" asp-controller="pedido">
-                                    @if (userNotificationCount > 0)
-                                    {
-                                        <div class="notification show-count" data-count="@userNotificationCount"></div>
-                                    }
-                                    else
-                                    {
-                                        <div class="notification"></div>
-                                    }
-                                </a>
-                            </div>
+                            <li>
+                                <div class="container-notification">
+                                    <a asp-action="notificacoes" asp-controller="pedido">
+                                        @if (userCounterData.Notifications.Count > 0)
+                                        {
+                                            <div class="user-count notification show-count" data-count="@userCounterData.Notifications.Count"></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="user-count notification"></div>
+                                        }
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <span>
+                                    &nbsp;
+                                    &nbsp;
+                                </span>
+                            </li>
+                            <li>
+                                <div class="container-notification">
+                                    <a asp-action="index" asp-controller="carrinho" asp-route-codigo="">
+                                        @if (userCounterData.BasketCount > 0)
+                                        {
+                                            <div class="user-count userbasket show-count" data-count="@userCounterData.BasketCount"></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="user-count userbasket"></div>
+                                        }
+                                    </a>
+                                </div>
+                            </li>
                         }
-                    </li>
-                </ul>
-            }
+                    </ul>
+                }
             </div>
 
         </div>

@@ -27,7 +27,7 @@ namespace MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            await CheckUserNotificationCount();
+            await CheckUserCounterData();
 
             try
             {
@@ -51,7 +51,7 @@ namespace MVC.Controllers
 
         public async Task<IActionResult> BuscaProdutos(string pesquisa)
         {
-            await CheckUserNotificationCount();
+            await CheckUserCounterData();
 
             try
             {
