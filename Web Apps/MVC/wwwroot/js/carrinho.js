@@ -11,6 +11,11 @@
         this.postQuantidade(data);
     }
 
+    clickAdicionarAoCarrinho(button) {
+        let code = $(button).attr('code');
+        this.adicionarAoCarrinho(code);
+    }
+
     updateQuantidade(input) {
         let data = this.getData(input);
         this.postQuantidade(data);

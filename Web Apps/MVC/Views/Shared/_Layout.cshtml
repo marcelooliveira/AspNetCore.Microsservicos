@@ -76,9 +76,10 @@
                             <li>
                                 <div class="container-notification">
                                     <a asp-action="notificacoes" asp-controller="pedido">
-                                        @if (userCounterData.Notifications.Count > 0)
+                                        @if (userCounterData != null
+                                           && userCounterData.UnreadNotificationCount > 0)
                                         {
-                                            <div class="user-count notification show-count" data-count="@userCounterData.Notifications.Count"></div>
+                                            <div class="user-count notification show-count" data-count="@userCounterData.UnreadNotificationCount"></div>
                                         }
                                         else
                                         {

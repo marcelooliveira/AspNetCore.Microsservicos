@@ -1,4 +1,4 @@
-﻿@model List<UserNotification>;
+﻿@model UserCounterData;
 
 <h3>Notificações do Usuário</h3>
 
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="panel-body notifications">
-            @foreach (var notification in Model)
+            @foreach (var notification in Model.Notifications)
             {
                 <div class="row">
                     <div class="col-md-2 text-center">

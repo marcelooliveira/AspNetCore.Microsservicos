@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace MVC.Models
 {
@@ -20,5 +21,15 @@ namespace MVC.Models
         public List<UserNotification> 
             Notifications { get; set; } = new List<UserNotification>();
         public int BasketCount { get; set; }
+
+        public int UnreadNotificationCount
+        {
+            get
+            {
+                return Notifications
+                    .Where(n => !n.DateVisualized.HasValue)
+                    .Count();
+            }
+        }
     }
 }

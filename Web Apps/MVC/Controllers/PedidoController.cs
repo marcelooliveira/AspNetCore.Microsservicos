@@ -20,7 +20,7 @@ namespace MVC.Controllers
             IIdentityParser<ApplicationUser> appUserParser,
             IPedidoService pedidoService,
             ILogger<PedidoController> logger,
-            IUserRedisRepository repository) 
+            IUserRedisRepository repository)
             : base(logger, repository)
         {
             this.appUserParser = appUserParser;
@@ -42,6 +42,7 @@ namespace MVC.Controllers
             string clienteId = GetUserId();
             UserCounterData userCounterData = await userRedisRepository.GetUserCounterDataAsync(clienteId);
             await userRedisRepository.MarkAllAsReadAsync(clienteId);
+            await CheckUserCounterData();
             return View(userCounterData);
         }
     }

@@ -20,8 +20,6 @@ namespace MVC.Services
             public static string AddItem => "api/carrinho/additem";
             public static string UpdateItem => "api/carrinho/updateitem";
             public static string Finalizar => "api/carrinho/checkout";
-            //public static string GetCarrinho => "carrinho"; //ApiGateway
-            //public static string PostItem => "carrinho"; //ApiGateway
         }
 
         private readonly HttpClient _apiClient;
@@ -42,7 +40,7 @@ namespace MVC.Services
 
         public async Task<CarrinhoCliente> GetCarrinho(string userId)
         {
-            return await GetAsync<CarrinhoCliente>(CarrinhoUris.GetCarrinho, userId);
+            return await GetAuthenticatedAsync<CarrinhoCliente>(CarrinhoUris.GetCarrinho, userId);
         }
 
         public async Task<CarrinhoCliente> AddItem(string clienteId, ItemCarrinho input)

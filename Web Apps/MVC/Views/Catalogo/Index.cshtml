@@ -75,10 +75,10 @@
                                         <div class="produto-nome">@produto.Nome</div>
                                         <div><h4><strong>R$ @produto.Preco.ToString("0.00")</strong></h4></div>
                                         <div class="text-center">
-                                            <a asp-controller="carrinho"
-                                               asp-action="index"
-                                               asp-route-codigo="@produto.Codigo"
-                                               class="btn btn-success">Adicionar</a>
+                                            <button class="btn btn-success btn-addtobasket" code="@produto.Codigo"
+                                                    onclick="catalogo.clickAdicionarAoCarrinho(this)">
+                                                Adicionar ao carrinho
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -101,4 +101,9 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+    <div id="snackbar">Produto foi adicionado com sucesso ao carrinho...</div>
+}
+@section Scripts
+    {
+    <script src="~/js/catalogo.js"></script>
 }

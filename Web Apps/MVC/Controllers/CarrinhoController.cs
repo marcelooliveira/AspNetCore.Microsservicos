@@ -72,6 +72,35 @@ namespace MVC.Controllers
             return View();
         }
 
+        async Task<CarrinhoCliente> AdicionarProdutoAsync(string codigo = null)
+        {
+            string idUsuario = GetUserId();
+            CarrinhoCliente carrinho;
+            if (!string.IsNullOrWhiteSpace(codigo))
+            {
+                var product = await catalogoService.GetProduto(codigo);
+                if (product == null)
+                {
+                    return null;
+                }
+
+                ItemCarrinho itemCarrinho =
+                    new ItemCarrinho(product.Codigo
+                    , product.Codigo
+                    , product.Nome
+                    , product.Preco
+                    , 1
+                    , product.UrlImagem);
+                carrinho = await carrinhoService.AddItem(idUsuario, itemCarrinho);
+                await CheckUserCounterData();
+            }
+            else
+            {
+                carrinho = await carrinhoService.GetCarrinho(idUsuario);
+            }
+            return carrinho;
+        }
+
         public IActionResult ProdutoNaoEncontrado(string codigo)
         {
             return View(codigo);
@@ -160,6 +189,22 @@ namespace MVC.Controllers
                 HandleException();
             }
             return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> AdicionarAoCarrinho([FromBody]string codigo)
+        {
+            if (string.IsNullOrWhiteSpace(codigo))
+            {
+                return NotFound(codigo);
+            }
+
+            CarrinhoCliente carrinho = await AdicionarProdutoAsync(codigo);
+
+            return base.Ok(carrinho);
         }
     }
 }
