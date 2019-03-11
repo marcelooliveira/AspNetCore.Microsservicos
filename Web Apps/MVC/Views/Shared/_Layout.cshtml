@@ -75,11 +75,14 @@
                         {
                             <li>
                                 <div class="container-notification">
-                                    <a asp-action="notificacoes" asp-controller="pedido">
+                                    <a asp-action="notificacoes" asp-controller="pedido"
+                                        title="Notificações">
                                         @if (userCounterData != null
                                            && userCounterData.UnreadNotificationCount > 0)
                                         {
-                                            <div class="user-count notification show-count" data-count="@userCounterData.UnreadNotificationCount"></div>
+                                            <div class="user-count notification show-count"
+                                                 data-count="@userCounterData.UnreadNotificationCount">
+                                            </div>
                                         }
                                         else
                                         {
@@ -96,10 +99,13 @@
                             </li>
                             <li>
                                 <div class="container-notification">
-                                    <a asp-action="index" asp-controller="carrinho" asp-route-codigo="">
+                                    <a asp-action="index" asp-controller="carrinho"
+                                        asp-route-codigo=""
+                                        title="Carrinho">
                                         @if (userCounterData.BasketCount > 0)
                                         {
-                                            <div class="user-count userbasket show-count" data-count="@userCounterData.BasketCount"></div>
+                                            <div class="user-count userbasket show-count"
+                                                 data-count="@userCounterData.BasketCount"></div>
                                         }
                                         else
                                         {

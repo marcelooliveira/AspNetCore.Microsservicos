@@ -32,7 +32,7 @@ namespace MVC.SignalR
             await userRedisRepository.AddUserNotificationAsync(user, userNotification);
             var userCounterData = await userRedisRepository.GetUserCounterDataAsync(user);
             await Task.Delay(1000);
-            return userCounterData.Notifications.Count;
+            return userCounterData.UnreadNotificationCount;
         }
 
         public async Task UpdateUserBasketCount(string user, int basketCount)

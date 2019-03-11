@@ -75,10 +75,20 @@
                                         <div class="produto-nome">@produto.Nome</div>
                                         <div><h4><strong>R$ @produto.Preco.ToString("0.00")</strong></h4></div>
                                         <div class="text-center">
+                                            @if (ViewBag.UserCounterData != null)
+                                            {
                                             <button class="btn btn-success btn-addtobasket" code="@produto.Codigo"
                                                     onclick="catalogo.clickAdicionarAoCarrinho(this)">
                                                 Adicionar ao carrinho
                                             </button>
+                                            }
+                                            else
+                                            {
+                                                <a asp-controller="carrinho" asp-action="index" asp-route-codigo="@produto.Codigo"
+                                                   class="btn btn-success btn-addtobasket">
+                                                    Adicionar ao carrinho
+                                                </a>
+                                            }
                                         </div>
                                     </div>
                                 </div>
