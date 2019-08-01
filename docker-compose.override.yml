@@ -29,7 +29,7 @@ services:
   carrinho.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - IdentityUrl=http://10.0.75.1:5105
+      - IdentityUrl=http://10.0.75.1:5100
       - RedisConnectionString=ecommerce.data:6379
       - SignalRServerUrl=http://mvc/
       - RabbitMQConnectionString=amqp://rabbitmq
@@ -50,7 +50,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - CallBackUrl=http://localhost:5100/
+      - MVCUrl=http://localhost:5101/
       - RabbitMQConnectionString=amqp://rabbitmq
     ports:
       - "5105:80"
@@ -74,10 +74,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - CatalogoUrl=http://catalogo.api/
-      - IdentityUrl=http://10.0.75.1:5105/
+      - IdentityUrl=http://10.0.75.1:5100/
       - CarrinhoUrl=http://carrinho.api/
       - OrdemDeCompraUrl=http://ordemdecompra.api/
-      - CallBackUrl=http://localhost:5100/
+      - MVCUrl=http://localhost:5101/
       - SignalRServerUrl=http://mvc/
       - RedisConnectionString=ecommerce.data:6379
     ports:

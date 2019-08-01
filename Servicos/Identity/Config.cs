@@ -31,7 +31,7 @@ namespace Identity.API
         }
 
         // clients want to access resources (aka scopes)
-        public static IEnumerable<Client> GetClients(string callbackUrl)
+        public static IEnumerable<Client> GetClients(string mvcUrl)
         {
             // client credentials client
             return new List<Client>
@@ -48,8 +48,8 @@ namespace Identity.API
                         new Secret("secret".Sha256())
                     },
 
-                    RedirectUris = { callbackUrl + "signin-oidc" },
-                    PostLogoutRedirectUris = { callbackUrl + "signout-callback-oidc" },
+                    RedirectUris = { mvcUrl + "signin-oidc" },
+                    PostLogoutRedirectUris = { mvcUrl + "signout-callback-oidc" },
                     AlwaysIncludeUserClaimsInIdToken = true,
                     AllowedScopes =
                     {

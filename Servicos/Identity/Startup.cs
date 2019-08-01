@@ -88,7 +88,7 @@ namespace Identity.API
                     options.Events.RaiseSuccessEvents = true;
                 })
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryClients(Config.GetClients(Configuration["CallbackUrl"]))
+                .AddInMemoryClients(Config.GetClients(Configuration["MVCUrl"]))
                 .AddInMemoryPersistedGrants()
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddAspNetIdentity<ApplicationUser>()
