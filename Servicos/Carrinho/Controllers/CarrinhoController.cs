@@ -31,7 +31,7 @@ namespace Carrinho.API.Controllers
         private readonly IBus _bus;
         private readonly ILogger<CarrinhoController> _logger;
         private readonly IConfiguration _configuration;
-        private readonly HubConnection _connection;
+        private HubConnection _connection;
 
         public CarrinhoController(ICarrinhoRepository repository
             , IIdentityService identityService
@@ -45,18 +45,7 @@ namespace Carrinho.API.Controllers
             _logger = logger;
             _configuration = configuration;
 
-            string userCounterDataHubUrl = $"{_configuration["SignalRServerUrl"]}usercounterdatahub";
-
-            this._connection = new HubConnectionBuilder()
-                .WithUrl(userCounterDataHubUrl, HttpTransportType.WebSockets)
-                .Build();
-            this._connection.Closed += async (error) =>
-            {
-                await Task.Delay(new Random().Next(0, 5) * 1000);
-                await this._connection.StartAsync();
-            };
-
-            this._connection.StartAsync().GetAwaiter();
+            SetupSignalRConnection();
         }
 
         //GET /id
@@ -192,7 +181,7 @@ namespace Carrinho.API.Controllers
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<bool>> Checkout(string clienteId, [FromBody] CadastroViewModel input)
+        public async Task<ActionResult<bool>> Checkout(string clienteId, [FromBody] CadastroViewModel cadastroViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -209,6 +198,28 @@ namespace Carrinho.API.Controllers
                 return NotFound();
             }
 
+            await PublicarEventoFechamentoDoCarrinho(clienteId, cadastroViewModel, carrinho);
+
+            await PublicarEventoAlteracaoDoCadastro(clienteId, cadastroViewModel);
+
+            try
+            {
+                await _repository.DeleteCarrinhoAsync(clienteId);
+
+                await this._connection
+                    .InvokeAsync("UpdateUserBasketCount", $"{clienteId}", 0);
+
+                return Accepted(true);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                throw;
+            }
+        }
+
+        private async Task PublicarEventoFechamentoDoCarrinho(string clienteId, CadastroViewModel input, CarrinhoCliente carrinho)
+        {
             var itens = carrinho.Itens.Select(i =>
                     new CheckoutEventItem(i.Id, i.ProdutoId, i.ProdutoNome, i.PrecoUnitario, i.Quantidade)).ToList();
 
@@ -226,7 +237,27 @@ namespace Carrinho.API.Controllers
             await _bus.Publish(checkoutEvent);
 
             _logger.LogInformation(eventId: EventId_Checkout, message: "Evento de check out foi enviado: {CheckoutEvent}", args: checkoutEvent);
+        }
 
+        private void SetupSignalRConnection()
+        {
+            Uri baseSignalRUri = new Uri(_configuration["SignalRServerUrl"]);
+            Uri userCounterDataHubUri = new Uri(baseSignalRUri, "usercounterdatahub");
+
+            this._connection = new HubConnectionBuilder()
+                .WithUrl(userCounterDataHubUri, HttpTransportType.WebSockets)
+                .Build();
+            this._connection.Closed += async (error) =>
+            {
+                await Task.Delay(new Random().Next(0, 5) * 1000);
+                await this._connection.StartAsync();
+            };
+
+            this._connection.StartAsync().GetAwaiter();
+        }
+
+        private async Task PublicarEventoAlteracaoDoCadastro(string clienteId, CadastroViewModel input)
+        {
             var cadastroEvent
                 = new CadastroEvent
                  (clienteId, input.Nome, input.Email, input.Telefone
@@ -236,21 +267,6 @@ namespace Carrinho.API.Controllers
             await _bus.Publish(cadastroEvent);
 
             _logger.LogInformation(eventId: EventId_Registry, message: "Evento de Cadastro foi enviado: {RegistryEvent}", args: cadastroEvent);
-
-            try
-            {
-                await _repository.DeleteCarrinhoAsync(clienteId);
-
-                await this._connection
-                    .InvokeAsync("UpdateUserBasketCount", $"{clienteId}", 0);
-
-                return Accepted(true);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                throw;
-            }
         }
     }
 }
