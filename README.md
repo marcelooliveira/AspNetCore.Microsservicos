@@ -1,8 +1,10 @@
 # AspNetCore.Microsservicos
 
+## _Instruções de Instalação_
+
 ![enter image description here](https://raw.githubusercontent.com/marcelooliveira/AspNetCore.Microsservicos/master/README/arquitetura.png)
 
-## Rodando com o Docker:
+### Rodando com o Docker:
 
  1. Instale o Erlang (linguagem para aplicações distribuídas)
     https://www.rabbitmq.com/which-erlang.html
@@ -18,7 +20,7 @@
 6. Defina o projeto de inicialização: `docker-compose.dcproj`
 7. Rode a aplicação
 
-## Rodando sem o Docker:
+### Rodando sem o Docker:
 
 Modifique os passos acima: 
 
